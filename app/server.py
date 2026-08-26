@@ -863,6 +863,116 @@ def state():
             "has_model": (WORK / "model.glb").exists()}
 
 
+# --- Études : sauver / lister / ouvrir / supprimer (par utilisateur) --------
+import shutil
+ETUDES_DIR = Path(os.environ.get("TCAD_ETUDES", "/data/etudes"))
+
+
+class EtudeSaveReq(BaseModel):
+    name: str
+    id: int | None = None            # si fourni : met a jour cette etude
+
+
+def _cur_user(request):
+    return auth.current_user(request.cookies.get(auth.COOKIE_NAME, ""))
+
+
+def _etude_snapshot(eid):
+    """Copie les sorties courantes dans le dossier persistant de l'etude
+    (permet de rouvrir un maillage, ou de retomber sur les fichiers si la
+    regeneration d'une etude parametrique echouait)."""
+    d = ETUDES_DIR / str(eid)
+    d.mkdir(parents=True, exist_ok=True)
+    for f in ("model.glb", "model.stl", "model.step", "_mesh.stl",
+              "generated_model.py", "faces.json"):
+        src = WORK / f
+        if src.exists():
+            shutil.copy2(src, d / f)
+
+
+@app.get("/etudes")
+def etudes_list(request: Request):
+    u = _cur_user(request)
+    if not u:
+        return JSONResponse({"error": "AUTH_REQUIRED"}, 401)
+    return {"etudes": auth.list_etudes(u["id"])}
+
+
+@app.post("/etudes")
+def etudes_save(req: EtudeSaveReq, request: Request):
+    u = _cur_user(request)
+    if not u:
+        return JSONResponse({"error": "AUTH_REQUIRED"}, 401)
+    if not (WORK / "model.glb").exists():
+        return JSONResponse({"error": "Aucune piece a enregistrer."}, 400)
+    code = _current_code()
+    brief = STATE.get("brief")
+    params = _params_from_code(code) if code else None
+    mesh = MESH.get("active", False)
+    stats = MESH.get("stats") if mesh else STATE.get("stats", {})
+    if req.id:
+        if not auth.get_etude(req.id, u["id"]):
+            return JSONResponse({"error": "introuvable"}, 404)
+        auth.update_etude(req.id, u["id"], name=req.name, brief=brief, code=code,
+                          params=params, mesh=mesh, stats=stats)
+        eid = req.id
+    else:
+        eid = auth.create_etude(u["id"], req.name, brief, code, params, mesh, stats)
+    _etude_snapshot(eid)
+    return {"ok": True, "id": eid, "etudes": auth.list_etudes(u["id"])}
+
+
+@app.post("/etudes/{eid}/open")
+def etudes_open(eid: int, request: Request):
+    u = _cur_user(request)
+    if not u:
+        return JSONResponse({"error": "AUTH_REQUIRED"}, 401)
+    e = auth.get_etude(eid, u["id"])
+    if not e:
+        return JSONResponse({"error": "introuvable"}, 404)
+    d = ETUDES_DIR / str(eid)
+    _clear_outputs()
+    if e.get("code"):
+        # Etude parametrique : on regenere depuis le code (cotes reglables).
+        (WORK / "generated_model.py").write_text(e["code"], encoding="utf-8")
+        ok, err, stats = WORKER.run(WORK / "generated_model.py", WORK, timeout=90)
+        if not ok:                       # repli : fichiers sauvegardes
+            for f in ("model.glb", "model.stl", "model.step", "faces.json"):
+                if (d / f).exists():
+                    shutil.copy2(d / f, WORK / f)
+            stats = e.get("stats") or {}
+        MESH["active"] = False
+        MESH["stats"] = {}
+        STATE["brief"] = e.get("brief")
+        STATE["stats"] = stats
+    else:
+        # Etude maillage : on restaure les fichiers sauvegardes.
+        for f in ("model.glb", "model.stl", "model.step", "_mesh.stl", "faces.json"):
+            if (d / f).exists():
+                shutil.copy2(d / f, WORK / f)
+        MESH["active"] = bool(e.get("mesh"))
+        MESH["stats"] = e.get("stats") or {}
+        STATE["brief"] = e.get("brief")
+        STATE["stats"] = {}
+    code = _current_code()
+    return {"ok": True, "code": code, "brief": STATE.get("brief"),
+            "stats": (MESH.get("stats") if MESH.get("active") else STATE.get("stats", {})),
+            "params": _params_from_code(code),
+            "mesh": MESH.get("active", False),
+            "has_model": (WORK / "model.glb").exists(),
+            "files": _files_ok()}
+
+
+@app.delete("/etudes/{eid}")
+def etudes_delete(eid: int, request: Request):
+    u = _cur_user(request)
+    if not u:
+        return JSONResponse({"error": "AUTH_REQUIRED"}, 401)
+    auth.delete_etude(eid, u["id"])
+    shutil.rmtree(ETUDES_DIR / str(eid), ignore_errors=True)
+    return {"ok": True, "etudes": auth.list_etudes(u["id"])}
+
+
 def _parse_gcode_stats(gpath: Path) -> dict:
     s = {}
     try:

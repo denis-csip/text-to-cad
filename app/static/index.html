@@ -80,6 +80,37 @@
   @media (max-width:820px) { #authGate .aggrid { grid-template-columns:1fr; } #authGate h1.hero { font-size:40px; } #authGate .loginwrap { position:static; } }
   #userBox { margin-left:auto; display:flex; align-items:center; gap:10px; font-size:13px; color:var(--mut); }
   #userBox b { color:var(--txt); }
+  #userBox button { padding:6px 12px; font-weight:500; }
+  /* --- Shell de gestion (onglets + accueil + études + admin), façon ARIZ Copilot --- */
+  #tabs { display:flex; align-items:center; gap:8px; max-width:1400px; margin:14px auto 0; padding:0 16px; flex-wrap:wrap; }
+  #tabs button { background:transparent; color:var(--mut); border:0; border-radius:9px; padding:8px 14px; font-weight:600; }
+  #tabs button:hover { background:#eceff3; color:var(--txt); }
+  #tabs button.on { background:#1f2937; color:#fff; }
+  #welcome { max-width:1400px; margin:14px auto 0; padding:0 16px; }
+  #welcome .wcard { border-radius:16px; padding:20px 22px; color:#fff; background:linear-gradient(120deg,#0f172a 0%,#1d4ed8 60%,#7c3aed 100%); }
+  #welcome .wcard h2 { margin:0; font-size:19px; }
+  #welcome .wcard p { margin:8px 0 0; font-size:14px; line-height:1.55; color:#dbe4ff; max-width:64ch; }
+  #welcome .wstats { margin-top:12px; font-size:12.5px; color:#bfd0ff; }
+  #welcome .wstats b { color:#fff; }
+  #welcome .resume { margin-top:12px; display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--mut); flex-wrap:wrap; }
+  #welcome .resume b { color:var(--txt); }
+  #welcome .resume button { background:var(--panel); border:1px solid var(--line); color:var(--acc); border-radius:999px; padding:6px 13px; font-weight:600; font-size:12.5px; }
+  #viewEtudes, #viewAdmin { max-width:1400px; margin:16px auto; padding:0 16px; }
+  .etudeCard { display:flex; align-items:center; gap:12px; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:10px; }
+  .etudeCard .en { flex:1; min-width:0; }
+  .etudeCard .en b { display:block; font-size:14px; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .etudeCard .en span { font-size:12px; color:var(--mut); }
+  .badge-mesh { font-size:11px; padding:2px 8px; border-radius:20px; background:#eef; color:#5b5bd6; border:1px solid #dcdcf7; }
+  table.admin { width:100%; border-collapse:collapse; font-size:13.5px; }
+  table.admin th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.03em; color:var(--mut); padding:8px 10px; border-bottom:1px solid var(--line); }
+  table.admin td { padding:9px 10px; border-bottom:1px solid var(--line); }
+  table.admin tr.pending { background:#fffbeb; }
+  table.admin tr.blocked { opacity:.5; }
+  .tag-a { font-size:11px; padding:2px 8px; border-radius:6px; font-weight:600; margin-right:4px; }
+  .tag-admin { background:#dbeafe; color:#1d4ed8; }
+  .tag-pending { background:#fef3c7; color:#b45309; }
+  .tag-blocked { background:#fee2e2; color:#b91c1c; }
+  .tag-active { background:#dcfce7; color:#15803d; }
 </style>
 </head>
 <body>
@@ -143,7 +174,26 @@
   <div id="userBox"></div>
 </header>
 
-<main>
+<nav id="tabs" style="display:none">
+  <button id="tabAtelier" class="on" data-view="atelier">🛠️ Atelier</button>
+  <button id="tabEtudes" data-view="etudes">📁 Mes études</button>
+  <button id="tabAdmin" data-view="admin" style="display:none">👥 Administration</button>
+</nav>
+
+<div id="welcome" style="display:none">
+  <div class="wcard">
+    <h2>✦ Bonjour <span id="wcName">…</span></h2>
+    <p>Décris une pièce en langage naturel : l'IA génère le modèle CAO paramétrique, tu ajustes les cotes, tu graves/creuses, et tu exportes le STL — prêt à imprimer. Sauvegarde tes pièces comme <b>études</b> pour les retrouver et les rouvrir.</p>
+    <div class="wstats"><b id="wcCount">0</b> étude(s) sauvegardée(s)</div>
+  </div>
+  <div class="resume">
+    <b>Reprendre :</b>
+    <button id="resumeEtudes">📁 Mes études</button>
+    <button id="saveEtude">💾 Enregistrer la pièce courante</button>
+  </div>
+</div>
+
+<main id="viewAtelier">
   <div class="card full">
     <div class="lbl">Décris la pièce (langage naturel)</div>
     <textarea id="brief" placeholder="Ex : un support mural pour une brosse à dents électrique de 28 mm de diamètre, avec deux trous de vis M4 espacés de 40 mm."></textarea>
@@ -244,6 +294,16 @@
     </div>
   </div>
 </main>
+
+<section id="viewEtudes" style="display:none">
+  <div class="lbl" style="margin-bottom:10px">Mes études — pièces CAD sauvegardées</div>
+  <div id="etudesList"><p class="muted">Chargement…</p></div>
+</section>
+
+<section id="viewAdmin" style="display:none">
+  <div class="lbl" style="margin-bottom:10px">Administration — utilisateurs</div>
+  <div id="adminList"><p class="muted">Chargement…</p></div>
+</section>
 
 <script type="importmap">
 { "imports": {
@@ -597,6 +657,111 @@ $('fapply').onclick = async () => {
       err(MSG[d.error]||d.error||"Échec de la connexion."); btn.disabled=false;
     }).catch(function(){ err("Erreur réseau."); btn.disabled=false; });
   });
+})();
+</script>
+<script>
+/* Shell de gestion : onglets Atelier / Mes études / Administration (façon ARIZ Copilot). */
+(function(){
+  var views={atelier:document.getElementById('viewAtelier'),
+             etudes:document.getElementById('viewEtudes'),
+             admin:document.getElementById('viewAdmin')};
+  var tabsBar=document.getElementById('tabs'), welcome=document.getElementById('welcome');
+  var tabBtns={atelier:document.getElementById('tabAtelier'),
+               etudes:document.getElementById('tabEtudes'),
+               admin:document.getElementById('tabAdmin')};
+
+  function show(view){
+    for(var k in views){ if(views[k]) views[k].style.display=(k===view?'':'none'); }
+    welcome.style.display=(view==='atelier'?'':'none');
+    for(var t in tabBtns){ if(tabBtns[t]) tabBtns[t].classList.toggle('on',t===view); }
+    if(view==='etudes') loadEtudes();
+    if(view==='admin') loadAdmin();
+  }
+  Object.keys(tabBtns).forEach(function(t){ if(tabBtns[t]) tabBtns[t].onclick=function(){ show(t); }; });
+
+  function fmtDate(ts){ try{ return new Date(ts*1000).toLocaleString('fr-FR',{dateStyle:'medium',timeStyle:'short'}); }catch(e){ return ''; } }
+
+  function loadEtudes(){
+    var box=document.getElementById('etudesList');
+    box.innerHTML='<p class="muted">Chargement…</p>';
+    fetch('/etudes').then(function(r){return r.json();}).then(function(d){
+      var list=d.etudes||[];
+      if(!list.length){ box.innerHTML='<p class="muted">Aucune étude enregistrée. Génère une pièce dans l\'Atelier, puis « Enregistrer la pièce courante ».</p>'; return; }
+      box.innerHTML='';
+      list.forEach(function(e){
+        var meta=fmtDate(e.updated_at);
+        if(e.stats && e.stats.bbox_mm) meta+=' · '+e.stats.bbox_mm.join('×')+' mm';
+        var card=document.createElement('div'); card.className='etudeCard';
+        card.innerHTML='<div class="en"><b></b><span></span></div>'+(e.mesh?'<span class="badge-mesh">maillage</span>':'')
+          +'<button class="op">Ouvrir</button><button class="sec del">Supprimer</button>';
+        card.querySelector('.en b').textContent=e.name;
+        card.querySelector('.en span').textContent=meta;
+        card.querySelector('.op').onclick=function(){
+          card.querySelector('.op').textContent='Ouverture…';
+          fetch('/etudes/'+e.id+'/open',{method:'POST'}).then(function(r){return r.json();}).then(function(res){
+            if(res.ok) location.reload(); else { alert(res.error||'Échec de l\'ouverture'); loadEtudes(); }
+          });
+        };
+        card.querySelector('.del').onclick=function(){
+          if(!confirm('Supprimer l\'étude « '+e.name+' » ?')) return;
+          fetch('/etudes/'+e.id,{method:'DELETE'}).then(function(r){return r.json();}).then(function(){ loadEtudes(); refreshCount(); });
+        };
+        box.appendChild(card);
+      });
+    }).catch(function(){ box.innerHTML='<p class="muted">Erreur de chargement.</p>'; });
+  }
+
+  function refreshCount(){
+    fetch('/etudes').then(function(r){return r.json();}).then(function(d){
+      document.getElementById('wcCount').textContent=(d.etudes||[]).length;
+    }).catch(function(){});
+  }
+
+  document.getElementById('saveEtude').onclick=function(){
+    var name=prompt('Nom de l\'étude :');
+    if(!name) return;
+    fetch('/etudes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name})})
+      .then(function(r){return r.json();}).then(function(res){
+        if(res.ok){ document.getElementById('wcCount').textContent=(res.etudes||[]).length; alert('Étude « '+name+' » enregistrée.'); }
+        else alert(res.error||'Génère d\'abord une pièce.');
+      }).catch(function(){ alert('Erreur réseau.'); });
+  };
+  document.getElementById('resumeEtudes').onclick=function(){ show('etudes'); };
+
+  function loadAdmin(){
+    var box=document.getElementById('adminList');
+    box.innerHTML='<p class="muted">Chargement…</p>';
+    fetch('/api/admin/users').then(function(r){return r.json();}).then(function(d){
+      if(d.error){ box.innerHTML='<p class="muted">'+d.error+'</p>'; return; }
+      var users=d.users||[], pending=users.filter(function(u){return u.status==='pending';}).length;
+      var h='<table class="admin"><thead><tr><th>E-mail</th><th>Nom</th><th>Inscrit</th><th>Dernière connexion</th><th>Statut</th><th></th></tr></thead><tbody>';
+      users.forEach(function(u){
+        var cls=u.status==='pending'?'pending':(u.status==='blocked'?'blocked':'');
+        var tags=(u.is_admin?'<span class="tag-a tag-admin">admin</span>':'')
+          +(u.status==='pending'?'<span class="tag-a tag-pending">en attente</span>':'')
+          +(u.status==='blocked'?'<span class="tag-a tag-blocked">bloqué</span>':'')
+          +(u.status==='active'&&!u.is_admin?'<span class="tag-a tag-active">actif</span>':'');
+        var acts=(u.status==='pending'?'<button class="val" data-e="'+u.email+'">Valider</button> ':'')
+          +((u.status==='blocked')?'<button class="sec unb" data-e="'+u.email+'">Débloquer</button>':'<button class="sec blk" data-e="'+u.email+'">Bloquer</button>');
+        h+='<tr class="'+cls+'"><td>'+u.email+'</td><td>'+(u.name||'')+'</td><td>'+fmtDate(u.created_at)+'</td><td>'+(u.last_login?fmtDate(u.last_login):'—')+'</td><td>'+tags+'</td><td style="text-align:right">'+acts+'</td></tr>';
+      });
+      h+='</tbody></table>';
+      if(pending) h='<p class="muted" style="margin:0 0 8px">'+pending+' compte(s) en attente de validation.</p>'+h;
+      box.innerHTML=h;
+      function setStatus(email,status){ fetch('/api/admin/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,status:status})}).then(function(){ loadAdmin(); }); }
+      box.querySelectorAll('.val').forEach(function(b){ b.onclick=function(){ setStatus(b.dataset.e,'active'); }; });
+      box.querySelectorAll('.blk').forEach(function(b){ b.onclick=function(){ setStatus(b.dataset.e,'blocked'); }; });
+      box.querySelectorAll('.unb').forEach(function(b){ b.onclick=function(){ setStatus(b.dataset.e,'active'); }; });
+    }).catch(function(){ box.innerHTML='<p class="muted">Erreur de chargement.</p>'; });
+  }
+
+  fetch('/api/me').then(function(r){return r.json();}).then(function(d){
+    if(!(d&&d.authenticated)) return;
+    document.getElementById('wcName').textContent=(d.user&&(d.user.name||d.user.email))||'';
+    tabsBar.style.display='flex'; welcome.style.display='';
+    if(d.user&&d.user.is_admin) tabBtns.admin.style.display='';
+    show('atelier'); refreshCount();
+  }).catch(function(){});
 })();
 </script>
 </body>
