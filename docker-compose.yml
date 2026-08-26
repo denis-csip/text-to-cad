@@ -1,13 +1,31 @@
-# Deploiement VPS (Hostinger KVM) : build de l'image + lancement permanent.
-# Les secrets (GEMINI_API_KEY, APP_PASSWORD) sont lus depuis un fichier .env
-# place a cote de ce fichier SUR LE VPS (jamais commite).
+# Deploiement VPS (Hostinger KVM) avec HTTPS automatique via Caddy.
+# - text-to-cad : l'appli (interne, non exposee directement).
+# - caddy       : reverse-proxy en façade, obtient/renouvelle le certificat
+#                 Let's Encrypt tout seul pour text-to-cad.fr.
 services:
   text-to-cad:
     build: .
-    ports:
-      - "80:8009"              # http://<IP_DU_VPS> -> l'appli
+    expose:
+      - "8009"                # interne au reseau docker (pas de port hote)
     environment:
       - GEMINI_MODEL=gemini-3.6-flash
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - APP_PASSWORD=${APP_PASSWORD}
-    restart: unless-stopped     # redemarre tout seul (reboot, crash)
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data      # stockage des certificats (persistant)
+      - caddy_config:/config
+    depends_on:
+      - text-to-cad
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:
