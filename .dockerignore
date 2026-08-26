@@ -1,0 +1,15 @@
+# Ne jamais copier dans l'image :
+.venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+.env
+.git/
+.claude/
+app/work/
+out/
+*.stl
+*.step
+*.3mf
+*.log
+slice_log.txt

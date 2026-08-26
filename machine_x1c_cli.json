@@ -1,0 +1,12 @@
+{
+    "type": "machine",
+    "name": "Bambu Lab X1 Carbon 0.4 nozzle",
+    "from": "system",
+    "instantiation": "true",
+    "inherits": "Bambu Lab X1 Carbon 0.4 nozzle",
+    "nozzle_volume_type": [
+        "Standard"
+    ],
+    "bed_exclude_area": [],
+    "head_wrap_detect_zone": []
+}

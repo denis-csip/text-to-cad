@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>text-to-CAD local</title>
+<style>
+  :root { --bg:#f4f6f9; --panel:#ffffff; --panel2:#f0f2f5; --line:#e3e6ea;
+          --txt:#1c2430; --mut:#6b7482; --acc:#2f6fed; --ok:#1a9e6b; --warn:#c07a00; --err:#d64545; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.5 system-ui,"Segoe UI",sans-serif; background:var(--bg); color:var(--txt); }
+  header { padding:14px 22px; background:var(--panel); border-bottom:1px solid var(--line); display:flex; align-items:baseline; gap:12px; }
+  header h1 { font-size:17px; margin:0; font-weight:600; }
+  header span { color:var(--mut); font-size:13px; }
+  main { display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:16px; max-width:1400px; margin:0 auto; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px; }
+  .full { grid-column:1 / -1; }
+  textarea, input[type=text], input[type=number] { background:var(--panel2); color:var(--txt);
+    border:1px solid var(--line); border-radius:8px; padding:9px 10px; font:inherit; }
+  textarea { width:100%; min-height:64px; resize:vertical; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:10px; }
+  button { background:var(--acc); color:#fff; border:0; border-radius:8px; padding:9px 15px; font:inherit; font-weight:600; cursor:pointer; }
+  button.sec { background:var(--panel); color:var(--txt); border:1px solid var(--line); font-weight:500; }
+  button:disabled { opacity:.45; cursor:not-allowed; }
+  a.dl { text-decoration:none; }
+  #view { width:100%; height:400px; background:#eaeef3; border-radius:8px; border:1px solid var(--line); }
+  pre { background:#fbfcfd; border:1px solid var(--line); border-radius:8px; padding:10px; margin:0; overflow:auto;
+        max-height:320px; font:12.5px/1.5 ui-monospace,Consolas,monospace; color:#2a3340; }
+  .lbl { color:var(--mut); font-size:12px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:8px; }
+  .stat { display:inline-block; background:var(--panel2); border:1px solid var(--line); border-radius:6px; padding:4px 9px; margin:3px 5px 0 0; font-size:13px; }
+  .stat b { color:var(--acc); }
+  .pill { font-size:12px; padding:2px 9px; border-radius:20px; border:1px solid var(--line); }
+  .pill.ok { color:var(--ok); border-color:#bfe6d3; background:#eafaf2; }
+  .pill.err { color:var(--err); border-color:#f2c9c9; background:#fdeeee; }
+  .muted { color:var(--mut); font-size:12.5px; }
+  label.chk { display:flex; align-items:center; gap:6px; }
+  .prow { display:grid; grid-template-columns:1fr 1.4fr auto; gap:10px; align-items:center; margin:9px 0; }
+  .prow label { font-size:13px; color:var(--txt); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .prow input[type=range] { width:100%; }
+  .prow input[type=number] { width:74px; }
+  input[type=range] { accent-color:var(--acc); }
+</style>
+</head>
+<body>
+<header>
+  <h1>text-to-CAD <span>local</span></h1>
+  <span>texte → Gemini → build123d — décris, ajuste les cotes, exporte le STL</span>
+</header>
+
+<main>
+  <div class="card full">
+    <div class="lbl">Décris la pièce (langage naturel)</div>
+    <textarea id="brief" placeholder="Ex : un support mural pour une brosse à dents électrique de 28 mm de diamètre, avec deux trous de vis M4 espacés de 40 mm."></textarea>
+    <div class="row">
+      <button id="gen">Générer la CAO</button>
+      <button id="newBtn" class="sec">Nouvelle pièce</button>
+      <span id="genStatus" class="muted"></span>
+      <label style="cursor:pointer; padding:9px 14px; border:1px solid var(--line); border-radius:8px; font-weight:500; margin-left:auto">Importer un STL<input id="importFile" type="file" accept=".stl" style="display:none"></label>
+      <span id="importStatus" class="muted"></span>
+    </div>
+    <div class="row" style="margin-top:12px; align-items:flex-start; border-top:1px solid var(--line); padding-top:12px">
+      <div style="flex:1; min-width:280px">
+        <div class="lbl" style="margin-bottom:6px">…ou crée une pièce depuis un SVG (silhouette : animal, logo, forme libre)</div>
+        <textarea id="svgPart" placeholder="Colle ici un SVG silhouette : <svg ...>...</svg>" style="width:100%; min-height:64px"></textarea>
+        <div class="row" style="margin-top:8px">
+          <label class="muted">hauteur&nbsp;<input id="svgHeight" type="number" value="100" min="5" step="5" style="width:70px"></label>
+          <label class="muted">épaisseur&nbsp;<input id="svgThick" type="number" value="2" min="0.5" step="0.5" style="width:64px"></label>
+          <label class="chk" style="font-size:13px; color:var(--mut)"><input type="checkbox" id="svgInvert"> inverser (si image)</label>
+          <button id="svgBtn" class="sec">Extruder le SVG / image</button>
+          <span id="svgStatus" class="muted"></span>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="refineRow" style="display:none; margin-top:10px">
+      <input id="refine" type="text" style="flex:1; min-width:300px"
+             placeholder="Itérer : ex. « rallonge les crochets de 8 mm et ajoute un trou d'évacuation en bas »">
+      <button id="refineBtn" class="sec">Affiner ↺</button>
+      <span id="refineStatus" class="muted"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Aperçu 3D</div>
+    <div id="view"></div>
+    <div id="stats" class="row"></div>
+    <div class="row">
+      <a id="dlStl" class="dl" href="#" download><button class="sec" disabled>Export STL</button></a>
+      <a id="dlStep" class="dl" href="#" download><button class="sec" disabled>Export STEP</button></a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="lbl" style="display:flex; justify-content:space-between; align-items:center">
+      <span>Cotes réglables</span><span id="paramWarn" class="pill err" style="display:none">combinaison impossible</span>
+    </div>
+    <div id="params"><div class="muted">Génère une pièce pour voir apparaître ses cotes ajustables.</div></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Édition par face — clique une face dans l'aperçu</div>
+    <div id="faceHint" class="muted">Clique une face pour l'éditer. <b>Ctrl</b> ou <b>Alt</b>+clic pour en sélectionner plusieurs (arrondi/chanfrein d'une arête = 2 faces).</div>
+    <div id="facePanel" style="display:none">
+      <div style="margin-bottom:8px; font-size:14px">Sélection : <b id="faceLabel" style="color:var(--acc)"></b></div>
+      <div class="row">
+        <select id="fop"><option value="extrude">Extruder</option><option value="percer">Percer</option><option value="fillet">Arrondir</option><option value="chamfer">Chanfrein</option></select>
+        <select id="fshape"><option value="hexagone">hexagone</option><option value="cercle">cercle</option><option value="rectangle">rectangle</option></select>
+      </div>
+      <div class="row">
+        <label class="muted">taille&nbsp;<input id="fsize" type="number" value="12" min="1" step="1" style="width:66px"></label>
+        <label class="muted" id="fdepthLbl">profondeur&nbsp;<input id="fdepth" type="number" value="8" min="1" step="1" style="width:66px"></label>
+        <button id="fapply">Appliquer</button>
+        <span id="fstatus" class="muted"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card full">
+    <div class="lbl">Code build123d généré</div>
+    <pre id="code">—</pre>
+  </div>
+
+  <div class="card full">
+    <div class="lbl">Journal</div>
+    <pre id="log">—</pre>
+  </div>
+  <div class="card full">
+    <div class="lbl">Coller un profil 2D sur la face sélectionnée (texte ou SVG)</div>
+    <div id="pasteHint" class="muted">Sélectionne une face dans l'aperçu pour activer le collage.</div>
+    <div id="pastePanel" style="display:none">
+      <div class="row">
+        <select id="psource"><option value="text">Texte</option><option value="svg">SVG</option></select>
+        <select id="pmode"><option value="relief">Relief</option><option value="gravure">Gravure</option><option value="through">À travers</option></select>
+        <label class="muted">taille&nbsp;<input id="psize" type="number" value="15" min="1" step="1" style="width:64px"></label>
+        <label class="muted" id="pdepthLbl">profondeur&nbsp;<input id="pdepth" type="number" value="2" min="0.2" step="0.2" style="width:64px"></label>
+        <button id="papply">Coller sur la face</button>
+        <span id="pstatus" class="muted"></span>
+      </div>
+      <div class="row" style="align-items:flex-start">
+        <div style="flex:1; min-width:240px">
+          <div id="ptextRow"><input id="ptext" type="text" value="INSA" placeholder="Texte à coller" style="width:100%"><label class="chk" style="margin-top:6px; font-size:13px; color:var(--mut)"><input type="checkbox" id="psolid"> remplir les centres (o, a, e…)</label></div>
+          <div id="psvgRow" style="display:none"><textarea id="psvg" placeholder="Colle ici le code SVG : <svg ...>...</svg>" style="width:100%; min-height:84px"></textarea></div>
+        </div>
+        <div>
+          <div class="muted" style="font-size:12px; margin-bottom:4px">Aperçu</div>
+          <div id="ppreview" style="width:130px; height:104px; border:1px solid var(--line); border-radius:8px; background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden; color:#111; font-weight:600; font-size:22px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const $ = id => document.getElementById(id);
+let renderer, scene, camera, controls, current;
+let faceMeshes = [], facesData = {}, selSet = [], selFace = null;
+const raycaster = new THREE.Raycaster();
+const BASE_COL = 0x3f7de0, SEL_COL = 0xff9500, HOVER_COL = 0x9cc0f5;
+let hoverMesh = null;
+let meshMode = false, modelOffset = null, meshPoint = null, meshNormal = null, clickMarker = null;
+
+function resizeView(){
+  const el = $('view'), w = el.clientWidth, h = el.clientHeight;
+  if (w>0 && h>0){ renderer.setSize(w, h); camera.aspect = w/h; camera.updateProjectionMatrix(); }
+}
+function initView() {
+  const el = $('view');
+  renderer = new THREE.WebGLRenderer({ antialias:true });
+  renderer.setPixelRatio(devicePixelRatio); el.appendChild(renderer.domElement);
+  scene = new THREE.Scene(); scene.background = new THREE.Color(0xeaeef3);
+  camera = new THREE.PerspectiveCamera(45, 1.6, 0.1, 5000); camera.position.set(80,60,90);
+  controls = new OrbitControls(camera, renderer.domElement); controls.enableDamping = true;
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xb8c2cf, 1.15));
+  const d = new THREE.DirectionalLight(0xffffff, 1.5); d.position.set(60,120,80); scene.add(d);
+  scene.add(new THREE.GridHelper(240, 24, 0xc2ccd6, 0xd8dee6));
+  resizeView();
+  window.addEventListener('resize', resizeView);
+  new ResizeObserver(resizeView).observe(el);
+  let down = null;
+  const dom = renderer.domElement;
+  dom.addEventListener('pointerdown', e => { down = [e.clientX, e.clientY]; });
+  dom.addEventListener('pointerup', e => {
+    if(!down) return;
+    const moved = Math.hypot(e.clientX-down[0], e.clientY-down[1]); down = null;
+    if(moved > 5 || !faceMeshes.length) return;
+    const rect = dom.getBoundingClientRect();
+    const ndc = new THREE.Vector2(((e.clientX-rect.left)/rect.width)*2-1, -((e.clientY-rect.top)/rect.height)*2+1);
+    raycaster.setFromCamera(ndc, camera);
+    const hits = raycaster.intersectObjects(faceMeshes, false);
+    if(!hits.length) return;
+    if(meshMode){ meshPick(hits[0]); return; }
+    selectFace(hits[0].object, e.ctrlKey || e.altKey || e.metaKey);
+  });
+  dom.addEventListener('pointermove', e => {
+    if(!faceMeshes.length || meshMode) return;
+    const rect = dom.getBoundingClientRect();
+    const ndc = new THREE.Vector2(((e.clientX-rect.left)/rect.width)*2-1, -((e.clientY-rect.top)/rect.height)*2+1);
+    raycaster.setFromCamera(ndc, camera);
+    const hits = raycaster.intersectObjects(faceMeshes, false);
+    const m = hits.length ? hits[0].object : null;
+    if(m === hoverMesh) return;
+    if(hoverMesh && !selSet.includes(hoverMesh.userData.faceIndex)) hoverMesh.material.color.setHex(BASE_COL);
+    hoverMesh = m;
+    if(hoverMesh && !selSet.includes(hoverMesh.userData.faceIndex)) hoverMesh.material.color.setHex(HOVER_COL);
+    dom.style.cursor = m ? 'pointer' : 'default';
+  });
+  (function loop(){ requestAnimationFrame(loop); controls.update(); renderer.render(scene,camera); })();
+}
+function meshPick(hit){
+  meshPoint = hit.point.clone().add(modelOffset);   // monde -> coords maillage (mm)
+  meshNormal = hit.face.normal.clone();             // pas de rotation en mode maillage
+  if(!clickMarker){ clickMarker = new THREE.Mesh(new THREE.SphereGeometry(1,16,16), new THREE.MeshBasicMaterial({color:0xff5a00})); clickMarker.renderOrder=999; scene.add(clickMarker); }
+  const r = current ? new THREE.Box3().setFromObject(current).getSize(new THREE.Vector3()).length()*0.012 : 2;
+  clickMarker.scale.setScalar(Math.max(r,0.5)); clickMarker.position.copy(hit.point); clickMarker.visible = true;
+  $('facePanel').style.display='none'; $('faceHint').style.display='none';
+  $('pasteHint').style.display='none'; $('pastePanel').style.display='block';
+  $('pstatus').textContent='point sélectionné';
+}
+function selectFace(mesh, additive){
+  const idx = mesh.userData.faceIndex;
+  if(additive){ const p = selSet.indexOf(idx); if(p>=0) selSet.splice(p,1); else selSet.push(idx); }
+  else { selSet = [idx]; }
+  selFace = selSet.length ? selSet[selSet.length-1] : null;
+  faceMeshes.forEach(m => m.material.color.setHex(selSet.includes(m.userData.faceIndex) ? SEL_COL : BASE_COL));
+  if(!selSet.length){ $('facePanel').style.display='none'; $('faceHint').style.display='block'; $('pastePanel').style.display='none'; $('pasteHint').style.display='block'; return; }
+  const f = facesData[selFace];
+  const base = f ? f.label : ('face ' + selFace);
+  $('faceLabel').textContent = selSet.length > 1 ? (selSet.length + ' faces (arête = intersection)') : base;
+  $('faceHint').style.display = 'none'; $('facePanel').style.display = 'block';
+  $('pasteHint').style.display = 'none'; $('pastePanel').style.display = 'block';
+}
+function loadGLB(url, keepView) {
+  new GLTFLoader().load(url + '?t=' + Date.now(), gltf => {
+    if (current) scene.remove(current);
+    const obj = gltf.scene;
+    faceMeshes = []; selSet = []; selFace = null; hoverMesh = null;
+    if(clickMarker) clickMarker.visible = false;
+    obj.traverse(o => { if (o.isMesh){
+      if(meshMode) o.geometry.computeVertexNormals();
+      o.material = new THREE.MeshStandardMaterial({ color:BASE_COL, metalness:.05, roughness:.55, side: meshMode ? THREE.DoubleSide : THREE.FrontSide });
+      o.userData.faceIndex = faceMeshes.length; faceMeshes.push(o);
+    } });
+    if(!meshMode) obj.scale.setScalar(1000);
+    const box = new THREE.Box3().setFromObject(obj), c = box.getCenter(new THREE.Vector3()), s = box.getSize(new THREE.Vector3());
+    obj.position.sub(c);
+    modelOffset = c.clone();
+    current = obj; scene.add(obj);
+    $('facePanel').style.display='none'; $('faceHint').style.display='block';
+    $('pastePanel').style.display='none'; $('pasteHint').style.display='block';
+    fetch('/work/faces.json?t='+Date.now()).then(r=>r.json()).then(d=>{ facesData={}; (d.faces||[]).forEach(f=>facesData[f.i]=f); }).catch(()=>{});
+    const r = Math.max(s.x,s.y,s.z) || 30; if(!keepView){ camera.position.set(r*1.6, r*1.3, r*1.8); controls.target.set(0,0,0); }
+    enableAfterModel();
+  }, undefined, e => setLog('Erreur aperçu GLB: ' + e));
+}
+function setLog(t){ $('log').textContent = t; }
+function chip(box, label, val){ if(val==null) return; box.insertAdjacentHTML('beforeend', `<span class="stat">${label} <b>${val}</b></span>`); }
+function showStats(s){ const box=$('stats'); box.innerHTML=''; if(!s) return;
+  chip(box,'Volume', s.volume_cm3 + ' cm³'); chip(box,'Encombrement', (s.bbox_mm||[]).join(' × ') + ' mm'); }
+function enableAfterModel(){
+  $('dlStl').href='/work/model.stl'; $('dlStl').querySelector('button').disabled=false;
+  $('dlStep').href='/work/model.step'; $('dlStep').querySelector('button').disabled=false;
+}
+
+// ---- Cotes reglables ----
+let curVals = {};
+let rbBusy=false, rbPending=false, rbTimer=null;
+function buildParams(params){
+  const host = $('params'); host.innerHTML=''; curVals={};
+  if(!params || !params.length){ host.innerHTML='<div class="muted">Aucune cote détectée dans ce script.</div>'; return; }
+  params.forEach(p => {
+    curVals[p.name] = p.value;
+    const row = document.createElement('div'); row.className='prow';
+    row.innerHTML = `<label title="${p.name}">${p.label}</label>
+      <input type="range" min="${p.min}" max="${p.max}" step="${p.step}" value="${p.value}" data-n="${p.name}" data-r="1">
+      <input type="number" min="${p.min}" max="${p.max}" step="${p.step}" value="${p.value}" data-n="${p.name}" data-r="0">`;
+    host.appendChild(row);
+    const [rg, nb] = row.querySelectorAll('input');
+    const onIn = (src, dst) => () => { dst.value = src.value; curVals[src.dataset.n] = parseFloat(src.value); scheduleRebuild(); };
+    rg.addEventListener('input', onIn(rg, nb));
+    nb.addEventListener('input', onIn(nb, rg));
+  });
+}
+function scheduleRebuild(){ clearTimeout(rbTimer); rbTimer = setTimeout(fireRebuild, 180); }
+async function fireRebuild(){
+  if(rbBusy){ rbPending=true; return; }
+  rbBusy=true;
+  try {
+    const r = await fetch('/rebuild', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({overrides:curVals})});
+    const d = await r.json();
+    if(d.ok){ $('paramWarn').style.display='none'; loadGLB(d.files.glb, true); showStats(d.stats); }
+    else { $('paramWarn').style.display='inline-block'; }
+  } catch(e){ setLog('Erreur rebuild: '+e); }
+  rbBusy=false;
+  if(rbPending){ rbPending=false; fireRebuild(); }
+}
+
+function showResult(d, statusEl, keepView){
+  $('code').textContent = d.code || '(pas de code)';
+  setLog(d.log || '');
+  if(d.ok){
+    statusEl.innerHTML = `<span class="pill ok">OK</span> ${d.attempts>1?'(corrigé en 2 essais)':''}`;
+    if(d.mesh) meshMode = true;
+    showStats(d.stats); loadGLB(d.files.glb, keepView);
+    $('refineRow').style.display='flex';
+    buildParams(d.params); $('paramWarn').style.display='none';
+  } else {
+    statusEl.innerHTML = `<span class="pill err">Échec</span>`;
+  }
+}
+
+initView();
+
+(function(){
+  function updatePastePreview(){
+    const box = $('ppreview');
+    if($('psource').value === 'svg'){
+      box.innerHTML = $('psvg').value || '';
+      const s = box.querySelector('svg'); if(s){ s.style.maxWidth='100%'; s.style.maxHeight='100%'; }
+    } else { box.textContent = $('ptext').value || 'Aa'; }
+  }
+  function updatePasteUI(){
+    const svg = $('psource').value === 'svg';
+    $('ptextRow').style.display = svg ? 'none' : '';
+    $('psvgRow').style.display = svg ? '' : 'none';
+    $('pdepthLbl').style.display = $('pmode').value === 'through' ? 'none' : '';
+    updatePastePreview();
+  }
+  $('psource').onchange = updatePasteUI;
+  $('pmode').onchange = updatePasteUI;
+  $('ptext').oninput = updatePastePreview;
+  $('psvg').oninput = updatePastePreview;
+  updatePasteUI();
+  $('papply').onclick = async () => {
+    if(meshMode ? !meshPoint : selFace==null) return;
+    const source = $('psource').value;
+    const content = source==='svg' ? $('psvg').value.trim() : $('ptext').value.trim();
+    if(!content){ $('pstatus').textContent='(vide)'; return; }
+    $('papply').disabled=true; $('pstatus').textContent='…';
+    try {
+      const common = { source, content, size:parseFloat($('psize').value), mode:$('pmode').value, depth:parseFloat($('pdepth').value), solid:$('psolid').checked };
+      const url = meshMode ? '/mesh_stamp' : '/paste_op';
+      const body = meshMode ? Object.assign({point:[meshPoint.x,meshPoint.y,meshPoint.z], normal:[meshNormal.x,meshNormal.y,meshNormal.z]}, common) : Object.assign({face_index:selFace}, common);
+      const r = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+      const d = await r.json();
+      if(d.ok){ $('pstatus').innerHTML='<span class="pill ok">collé</span>'; $('code').textContent=d.code||''; showStats(d.stats); loadGLB(d.files.glb, true); buildParams(d.params); }
+      else { $('pstatus').innerHTML='<span class="pill err">échec</span>'; setLog(d.error||''); }
+    } catch(e){ setLog('Erreur réseau: '+e); }
+    $('papply').disabled=false;
+  };
+})();
+
+fetch('/state').then(r=>r.json()).then(s => {
+  if(s.code){ $('code').textContent=s.code; $('refineRow').style.display='flex'; }
+  meshMode = !!s.mesh;
+  if(s.has_model) loadGLB('/work/model.glb');
+  if(meshMode) $('faceHint').textContent = 'Mode maillage : clique un point sur la surface pour coller un texte/SVG.';
+  if(s.stats && s.stats.volume_cm3) showStats(s.stats);
+  if(s.params) buildParams(s.params);
+}).catch(()=>{});
+
+$('svgBtn').onclick = async () => {
+  const content = $('svgPart').value.trim();
+  if(!content){ $('svgStatus').textContent = '(colle un SVG)'; return; }
+  meshMode = false;
+  $('svgBtn').disabled = true; $('svgStatus').textContent = 'extrusion…';
+  try {
+    const r = await fetch('/svg_part', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({content, height:parseFloat($('svgHeight').value), thickness:parseFloat($('svgThick').value), invert:$('svgInvert').checked})});
+    showResult(await r.json(), $('svgStatus'), false);
+  } catch(e){ setLog('Erreur réseau: ' + e); }
+  $('svgBtn').disabled = false;
+};
+
+$('newBtn').onclick = async () => {
+  try { await fetch('/reset', {method:'POST'}); } catch(e){}
+  meshMode = false; selSet = []; selFace = null; meshPoint = null; hoverMesh = null;
+  if(current){ scene.remove(current); current = null; }
+  if(clickMarker) clickMarker.visible = false;
+  faceMeshes = []; facesData = {};
+  $('stats').innerHTML = ''; $('code').textContent = '—'; setLog('—');
+  $('brief').value = ''; $('refine').value = '';
+  ['facePanel','pastePanel','refineRow'].forEach(id => $(id).style.display = 'none');
+  $('faceHint').style.display = 'block'; $('faceHint').textContent = "Génère ou importe une pièce, puis clique une face pour l'éditer.";
+  $('pasteHint').style.display = 'block';
+  $('params').innerHTML = '<div class="muted">Génère une pièce pour voir apparaître ses cotes ajustables.</div>';
+  $('dlStl').querySelector('button').disabled = true; $('dlStep').querySelector('button').disabled = true;
+  $('genStatus').innerHTML = ''; $('importStatus').innerHTML = ''; $('paramWarn').style.display = 'none';
+};
+
+$('importFile').onchange = async (e) => {
+  const f = e.target.files[0]; if(!f) return;
+  $('importStatus').textContent = 'import + analyse du maillage…';
+  const fd = new FormData(); fd.append('file', f);
+  try {
+    const r = await fetch('/import_mesh', {method:'POST', body:fd});
+    const d = await r.json();
+    if(d.ok){ meshMode = true; selSet = []; selFace = null; meshPoint = null;
+      $('importStatus').innerHTML = '<span class="pill ok">maillage importé</span> ' + d.stats.triangles.toLocaleString() + ' triangles' + (d.stats.watertight ? '' : ' ⚠ non étanche');
+      $('genStatus').innerHTML = ''; showStats(d.stats); loadGLB(d.files.glb, false);
+      $('faceHint').textContent = 'Mode maillage : clique un point sur la surface, puis colle un texte/SVG (relief · gravure · à travers).';
+    } else { $('importStatus').innerHTML = '<span class="pill err">échec</span>'; setLog(d.error || ''); }
+  } catch(err){ setLog('Erreur import: ' + err); }
+  e.target.value = '';
+};
+
+$('gen').onclick = async () => {
+  const brief = $('brief').value.trim(); if(!brief) return;
+  meshMode = false;
+  $('gen').disabled=true; $('genStatus').textContent='Gemini réfléchit…';
+  try { const r = await fetch('/generate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({brief})});
+        showResult(await r.json(), $('genStatus'), false); }
+  catch(e){ setLog('Erreur réseau: '+e); }
+  $('gen').disabled=false;
+};
+$('refineBtn').onclick = async () => {
+  const instruction = $('refine').value.trim(); if(!instruction) return;
+  $('refineBtn').disabled=true; $('refineStatus').textContent='⏳ Gemini modifie… (jusqu'+"'"+'à ~40 s sur un ordre complexe)';
+  const faces = selSet.map(i => ({ i, label:(facesData[i]||{}).label, c:(facesData[i]||{}).c }));
+  try { const r = await fetch('/refine', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({instruction, faces})});
+        const d = await r.json(); showResult(d, $('refineStatus'), true); if(d.ok) $('refine').value=''; }
+  catch(e){ setLog('Erreur réseau: '+e); }
+  $('refineBtn').disabled=false;
+};
+
+$('fop').onchange = () => {
+  const conge = ($('fop').value === 'fillet' || $('fop').value === 'chamfer');
+  $('fshape').style.display = conge ? 'none' : '';
+  $('fsize').parentElement.style.display = conge ? 'none' : '';
+  $('fdepthLbl').firstChild.textContent = conge ? 'rayon ' : 'profondeur ';
+};
+
+function isEdgeOp(){ const v=$('fop').value; return v==='fillet'||v==='chamfer'; }
+$('fapply').onclick = async () => {
+  if(!selSet.length) return;
+  $('fapply').disabled=true; $('fstatus').textContent='…';
+  try {
+    const body = isEdgeOp() ? { face_indices:selSet, op:$('fop').value, radius:parseFloat($('fdepth').value) } : { face_index:selFace, op:$('fop').value, shape:$('fshape').value,
+                   size:parseFloat($('fsize').value), depth:parseFloat($('fdepth').value) };
+    const r = await fetch(isEdgeOp() ? '/edge_op' : '/face_op', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+    const d = await r.json();
+    if(d.ok){ $('fstatus').innerHTML='<span class="pill ok">appliqué</span>';
+      $('code').textContent=d.code || ''; showStats(d.stats); loadGLB(d.files.glb, true); buildParams(d.params); }
+    else { $('fstatus').innerHTML='<span class="pill err">échec</span>'; setLog(d.error||''); }
+  } catch(e){ setLog('Erreur réseau: '+e); }
+  $('fapply').disabled=false;
+};
+</script>
+</body>
+</html>

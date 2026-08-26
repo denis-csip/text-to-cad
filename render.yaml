@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: text-to-cad
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    region: frankfurt          # au plus pres de la France
+    plan: standard             # 2 Go RAM / 1 vCPU : marge pour OpenCASCADE
+    healthCheckPath: /healthz
+    autoDeploy: true           # redeploie a chaque push git
+    envVars:
+      - key: GEMINI_MODEL
+        value: gemini-3.6-flash
+      - key: GEMINI_API_KEY
+        sync: false            # a saisir dans le dashboard Render (secret)
+      - key: APP_PASSWORD
+        sync: false            # mot de passe d'acces (secret)

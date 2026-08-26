@@ -1,0 +1,25 @@
+# Backend text-to-CAD — versions figees depuis le venv local qui fonctionne
+fastapi==0.139.2
+uvicorn==0.51.0
+starlette==1.3.1
+pydantic==2.13.4
+pydantic_core==2.46.4
+python-multipart==0.0.32
+python-dotenv==1.2.2
+google-genai==2.13.0
+
+# Noyau CAO + maillage
+build123d==0.11.1
+cadquery-ocp-novtk==7.9.3.1.1
+cadquery-ocp-proxy==7.9.3.1.1
+ocp_gordon==0.2.2
+ocpsvg==0.6.0
+trimesh==4.12.2
+manifold3d==3.5.2
+shapely==2.1.2
+networkx==3.6.1
+numpy==2.5.1
+
+# Vectorisation raster
+opencv-python-headless==5.0.0.93
+pillow==12.3.0
