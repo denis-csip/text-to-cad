@@ -22,6 +22,16 @@ CONTRAT DE SORTIE (strict) :
   * pour des ajustements/snap, prevois un jeu d'impression de 0.2 a 0.4 mm ;
   * evite les parois < 1.2 mm et les details < 0.8 mm.
 
+FONCTIONS DÉJÀ DÉFINIES (disponibles dans le scope — APPELLE-LES, ne les redéfinis pas) :
+- hollow_tray(part, wall, height, base) -> évide une pièce plate en bac à parois (robuste).
+- hook(width, arm, rise, thickness) -> CROCHET / PATÈRE standard en L (queue horizontale +
+  relevé vertical), profil propre déjà arrondi. Dos en X=0, queue vers +X, relevé vers +Z,
+  base à Z=0, largeur le long de Y. Positionne-le avec Pos(...) puis unis-le a la piece.
+RÈGLE IMPÉRATIVE : pour tout CROCHET / PATÈRE / porte-manteau / porte-clés, tu DOIS utiliser
+hook(...) et le POSITIONNER sur la piece. Il est INTERDIT de dessiner un crochet a main levee
+(Line / Polyline / Spline / sweep / courbe libre) : cela produit des formes aberrantes.
+Exemple d'usage complet dans RECETTES ROBUSTES ci-dessous.
+
 RAPPELS D'API build123d (mode builder) :
 - Squelette : `with BuildPart() as p:` puis a l'interieur
   `with BuildSketch(plane):` ... `extrude(amount=h)`.
@@ -61,6 +71,19 @@ part = hollow_tray(part, wall=2.0, height=40.0, base=2.0)
 # Il est ROBUSTE : il érode le contour avec shapely et gère les zones fines
 # (creux là où c'est possible, plein là où c'est trop fin) sans jamais planter.
 # wall = épaisseur de paroi, height = hauteur des parois, base = épaisseur du fond (mm).
+
+# CROCHET / PATÈRE (porte-manteau, porte-clés, support mural) : N'INVENTE JAMAIS la forme
+# du crochet à main levée (sweep/courbe libre) -> ça produit des formes aberrantes.
+# UTILISE LE HELPER FOURNI `hook(width, arm, rise, thickness)` -> profil de VRAI crochet en L
+# (queue horizontale + relevé vertical au bout), déjà propre et arrondi. Orientation canonique :
+# dos dans le plan X=0, queue vers +X, relevé vers +Z, base à Z=0, largeur le long de Y.
+# Positionne chaque crochet avec Pos(...) puis unis-le a la piece. Exemple (plaque + 3 crochets) :
+#   from build123d import Box, Pos, Align
+#   plate = Box(longueur, profondeur, ep_base, align=(Align.MIN, Align.CENTER, Align.MIN))
+#   part = plate
+#   for x in (30, 80, 130):
+#       part = part + (Pos(x, 0, ep_base) * hook(width=8, arm=18, rise=16, thickness=6))
+# hook() est la SEULE façon correcte de faire un crochet.
 
 # DÉPOUILLE / ÉVASEMENT d'une extrusion : extrude(amount=H, taper=deg)
 #   taper > 0 rétrécit vers le haut ; taper < 0 élargit (évase) vers le haut.

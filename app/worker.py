@@ -51,6 +51,27 @@ def hollow_tray(part, wall=2.0, height=40.0, base=2.0):
     return vp.part
 
 
+def hook(width=8.0, arm=20.0, rise=18.0, thickness=6.0, fillet_r=2.5):
+    """Crochet / patère STANDARD en L (profil de vrai crochet, pas une forme inventée).
+    Queue horizontale le long de +X + relevé vertical (+Z) au bout, aretes arrondies.
+    Orientation canonique : dos du crochet dans le plan X=0 (a coller sur la piece),
+    la queue s'etend vers +X, le relevé monte vers +Z, largeur `width` le long de Y,
+    base a Z=0. Le modele n'a plus qu'a POSITIONNER ce crochet (translate/rotate)
+    et l'unir a la piece. Retourne une Part (API algebre)."""
+    from build123d import Box, Pos, Axis, Align, fillet
+    tail = Pos(0, 0, 0) * Box(arm, width, thickness,
+                              align=(Align.MIN, Align.CENTER, Align.MIN))
+    lip = Pos(arm - thickness, 0, 0) * Box(thickness, width, rise + thickness,
+                                           align=(Align.MIN, Align.CENTER, Align.MIN))
+    part = tail + lip
+    try:                          # arrondit le coude et les aretes -> profil propre
+        r = min(fillet_r, thickness / 2.1, rise / 2.1, arm / 2.1)
+        part = fillet(part.edges().filter_by(Axis.Y), r)
+    except Exception:
+        pass
+    return part
+
+
 def _face_label(n):
     ax = max(range(3), key=lambda k: abs(n[k]))
     if abs(n[ax]) < 0.85:
@@ -204,7 +225,7 @@ def main():
             outdir = Path(job["outdir"])
             outdir.mkdir(parents=True, exist_ok=True)
 
-            ns = {"hollow_tray": hollow_tray}
+            ns = {"hollow_tray": hollow_tray, "hook": hook}
             exec(compile(code, "generated_model.py", "exec"), ns)
 
             part = ns.get("part") or ns.get("result") or ns.get("model")
