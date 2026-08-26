@@ -223,6 +223,11 @@ async def api_admin_validate(request: Request):
 
 class Brief(BaseModel):
     brief: str
+    spec: dict | None = None       # spec d'intention confirmee (optionnelle)
+
+
+class IntentReq(BaseModel):
+    brief: str
 
 
 class RefineReq(BaseModel):
@@ -407,11 +412,18 @@ def _best_of_n(gen_fn, context: str, n: int = BEST_OF_N) -> dict:
     return _run_with_retry(codes[0], context)   # aucun valide -> correction iterative
 
 
+@app.post("/intent")
+def intent(req: IntentReq):
+    """Capture d'intention : brief NL -> spec de conception structuree (sans code)."""
+    return {"spec": llm.capture_intent(req.brief)}
+
+
 @app.post("/generate")
 def generate(b: Brief):
     MESH["active"] = False
     _clear_outputs()
-    return _best_of_n(lambda t: llm.generate_code(b.brief, temperature=t), b.brief)
+    return _best_of_n(
+        lambda t: llm.generate_code(b.brief, temperature=t, spec=b.spec), b.brief)
 
 
 @app.post("/refine")

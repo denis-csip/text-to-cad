@@ -1,8 +1,8 @@
 """Appel a Gemini pour transformer un brief en code build123d."""
-import os, re, threading
+import os, re, json, threading
 from google import genai
 from google.genai import types
-from prompt import SYSTEM, FIX_TEMPLATE
+from prompt import SYSTEM, FIX_TEMPLATE, INTENT_SYSTEM
 
 MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
 # Gemini 3.x active le "thinking" par defaut (tres lent : ~70s). 'low' suffit
@@ -38,13 +38,55 @@ def _extract_code(text: str) -> str:
     return code.strip()
 
 
-def generate_code(brief: str, temperature: float = 0.2) -> str:
+def generate_code(brief: str, temperature: float = 0.2, spec=None) -> str:
+    if spec:
+        contents = (
+            "SPECIFICATION DE CONCEPTION VALIDEE (JSON) — respecte-la fidelement :\n"
+            + json.dumps(spec, ensure_ascii=False)
+            + "\n\nGenere le code build123d correspondant. Respecte EXACTEMENT les cotes "
+            "et features de la spec ; reprends les valeurs (dimensions et hypotheses) comme "
+            "cotes reglables en haut du script. Brief initial de l'utilisateur : " + brief)
+    else:
+        contents = brief
     resp = _get_client().models.generate_content(
         model=MODEL,
-        contents=brief,
+        contents=contents,
         config=_cfg(temperature),
     )
     return _extract_code(resp.text)
+
+
+def _intent_cfg(temperature: float = 0.2):
+    kwargs = dict(system_instruction=INTENT_SYSTEM, temperature=temperature,
+                  response_mime_type="application/json")
+    if "gemini-3" in MODEL:
+        kwargs["thinking_config"] = types.ThinkingConfig(thinking_level=THINKING)
+    return types.GenerateContentConfig(**kwargs)
+
+
+def _extract_json(text: str):
+    t = (text or "").strip()
+    m = re.search(r"```(?:json)?\s*(.*?)```", t, re.DOTALL)
+    if m:
+        t = m.group(1).strip()
+    try:
+        return json.loads(t)
+    except Exception:
+        m2 = re.search(r"\{.*\}", t, re.DOTALL)
+        if m2:
+            try:
+                return json.loads(m2.group(0))
+            except Exception:
+                pass
+    return {"resume": t[:200], "dimensions": [], "features": [],
+            "hypotheses": [], "questions": [], "confiance": 0.0}
+
+
+def capture_intent(brief: str):
+    """Interprete le brief NL en une spec de conception structuree (aucun code)."""
+    resp = _get_client().models.generate_content(
+        model=MODEL, contents=brief, config=_intent_cfg())
+    return _extract_json(resp.text)
 
 
 def refine_code(base_code: str, instruction: str, temperature: float = 0.2) -> str:

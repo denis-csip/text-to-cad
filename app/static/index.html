@@ -642,14 +642,55 @@ $('importFile').onchange = async (e) => {
   e.target.value = '';
 };
 
+function doGenerate(brief, spec){
+  meshMode = false;
+  $('gen').disabled=true; $('genStatus').textContent='Gemini génère la pièce…';
+  return fetch('/generate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({brief:brief, spec:spec})})
+    .then(r=>r.json()).then(d=>{ showResult(d, $('genStatus'), false); })
+    .catch(e=>{ setLog('Erreur réseau: '+e); })
+    .then(()=>{ $('gen').disabled=false; });
+}
+
+function showIntentPanel(brief, spec){
+  const old=document.getElementById('intentPanel'); if(old) old.remove();
+  const dims=spec.dimensions||[], feats=spec.features||[], hyps=spec.hypotheses||[], qs=spec.questions||[];
+  const esc=s=>String(s==null?'':s).replace(/</g,'&lt;');
+  const p=document.createElement('div'); p.id='intentPanel'; p.className='card full'; p.style.borderColor='#c7d2fe';
+  let h='<div class="lbl">Intention interprétée — vérifie et corrige avant de générer</div>';
+  h+='<p style="margin:2px 0 12px;font-weight:600">'+esc(spec.resume)+'</p>';
+  if(qs.length) h+='<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:10px 12px;margin-bottom:12px"><b>À préciser :</b><ul style="margin:6px 0 0;padding-left:18px">'+qs.map(q=>'<li>'+esc(q)+'</li>').join('')+'</ul></div>';
+  if(dims.length){
+    h+='<div class="lbl" style="margin-bottom:6px">Cotes (mm) — modifie les valeurs supposées si besoin</div>';
+    h+='<div id="intentDims" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin-bottom:12px">';
+    dims.forEach((d,i)=>{ h+='<label style="font-size:13px;color:var(--mut);display:flex;align-items:center;gap:6px">'+esc(d.nom)+' <input type="number" step="any" data-i="'+i+'" value="'+d.valeur_mm+'" style="width:82px">'+(d.supposee?'<span class="tag-a tag-pending" style="font-size:10px">supposé</span>':'')+'</label>'; });
+    h+='</div>';
+  }
+  if(feats.length) h+='<div class="lbl" style="margin-bottom:6px">Features</div><ul style="margin:0 0 12px;padding-left:18px;font-size:13px">'+feats.map(f=>'<li><b>'+esc(f.type)+'</b> — '+esc(f.details)+(f.placement?' <span class="muted">('+esc(f.placement)+')</span>':'')+'</li>').join('')+'</ul>';
+  if(hyps.length) h+='<div class="lbl" style="margin-bottom:6px">Hypothèses (valeurs supposées)</div><ul style="margin:0 0 12px;padding-left:18px;font-size:13px;color:#92400e">'+hyps.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
+  h+='<textarea id="intentCorr" placeholder="Corrections / précisions (optionnel) — ex : hauteur 60 mm, ajoute un chanfrein…" style="width:100%;min-height:52px"></textarea>';
+  h+='<div class="row"><button id="intentGo">Confirmer et générer</button><button id="intentCancel" class="sec">Annuler</button></div>';
+  p.innerHTML=h;
+  const firstCard=document.querySelector('#viewAtelier .card.full');
+  firstCard.insertAdjacentElement('afterend', p);
+  p.scrollIntoView({behavior:'smooth', block:'nearest'});
+  document.getElementById('intentCancel').onclick=()=>p.remove();
+  document.getElementById('intentGo').onclick=()=>{
+    p.querySelectorAll('#intentDims input').forEach(inp=>{ const i=+inp.dataset.i; if(spec.dimensions&&spec.dimensions[i]){ spec.dimensions[i].valeur_mm=parseFloat(inp.value); spec.dimensions[i].supposee=false; } });
+    const corr=(document.getElementById('intentCorr').value||'').trim();
+    p.remove();
+    doGenerate(corr ? (brief+'\nPrécisions: '+corr) : brief, spec);
+  };
+}
+
 $('gen').onclick = async () => {
   const brief = $('brief').value.trim(); if(!brief) return;
-  meshMode = false;
-  $('gen').disabled=true; $('genStatus').textContent='Gemini réfléchit…';
-  try { const r = await fetch('/generate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({brief})});
-        showResult(await r.json(), $('genStatus'), false); }
-  catch(e){ setLog('Erreur réseau: '+e); }
-  $('gen').disabled=false;
+  $('gen').disabled=true; $('genStatus').textContent='Analyse de l\'intention…';
+  try {
+    const r = await fetch('/intent', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({brief})});
+    const d = await r.json();
+    showIntentPanel(brief, d.spec||{});
+  } catch(e){ setLog('Erreur réseau: '+e); }
+  $('gen').disabled=false; $('genStatus').textContent='';
 };
 $('refineBtn').onclick = async () => {
   const instruction = $('refine').value.trim(); if(!instruction) return;
