@@ -10,7 +10,14 @@ services:
     environment:
       - GEMINI_MODEL=gemini-3.6-flash
       - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - APP_PASSWORD=${APP_PASSWORD}
+      # Auth fédérée IDEAS + session locale
+      - SESSION_SECRET=${SESSION_SECRET}
+      - ADMIN_EMAILS=${ADMIN_EMAILS}
+      - IDEAS_APP_NAME=text-to-cad
+      - TCAD_DB=/data/text-to-cad.db
+      - COOKIE_SECURE=1         # cookies Secure (on est derriere Caddy en https)
+    volumes:
+      - tcad_data:/data         # base SQLite persistante (comptes + etudes)
     restart: unless-stopped
 
   caddy:
@@ -29,3 +36,4 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+  tcad_data:

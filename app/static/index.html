@@ -39,12 +39,108 @@
   .prow input[type=range] { width:100%; }
   .prow input[type=number] { width:74px; }
   input[type=range] { accent-color:var(--acc); }
+  /* --- Écran de connexion IDEAS (façon ARIZ Copilot) --- */
+  #authGate { position:fixed; inset:0; z-index:1000; overflow:auto;
+    background:linear-gradient(to bottom,#f8fafc,#ffffff 42%,rgba(238,242,255,.5)); }
+  #authGate .orbz { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+  #authGate .orb { position:absolute; border-radius:50%; filter:blur(64px); }
+  #authGate .o1 { left:-6rem; top:-6rem; width:24rem; height:24rem; background:rgba(96,165,250,.28); }
+  #authGate .o2 { right:-4rem; top:6rem; width:26rem; height:26rem; background:rgba(167,139,250,.28); }
+  #authGate .o3 { bottom:0; left:33%; width:20rem; height:20rem; background:rgba(244,114,182,.2); }
+  #authGate .agwrap { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:22px 20px 60px; }
+  #authGate .aghead { display:flex; align-items:center; justify-content:space-between; padding:6px 2px 26px; }
+  #authGate .brand { font-weight:800; font-size:20px; letter-spacing:-.02em; color:#0f172a; }
+  #authGate .langsel { color:#64748b; font-size:13px; }
+  #authGate .aggrid { display:grid; grid-template-columns:1.1fr 380px; gap:38px; align-items:start; }
+  #authGate .badge { display:inline-flex; align-items:center; gap:7px; border:1px solid #bfdbfe; background:rgba(255,255,255,.7);
+    color:#1d4ed8; font-size:12px; font-weight:600; padding:6px 13px; border-radius:999px; }
+  #authGate h1.hero { font-size:52px; line-height:1.05; letter-spacing:-.02em; font-weight:800; color:#0f172a; margin:18px 0 0; }
+  #authGate .grad { background:linear-gradient(120deg,#2563eb,#7c3aed,#db2777); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  #authGate .tag { font-size:18px; line-height:1.6; color:#475569; max-width:36rem; margin:18px 0 0; }
+  #authGate .glass { background:rgba(255,255,255,.8); border:1px solid #e2e8f0; border-radius:18px; padding:18px; }
+  #authGate .cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px; }
+  #authGate .cards h3 { margin:10px 0 4px; font-size:15px; color:#1e293b; }
+  #authGate .cards p { margin:0; font-size:13.5px; line-height:1.55; color:#475569; }
+  #authGate .ic { width:36px; height:36px; border-radius:11px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; }
+  #authGate .loginwrap { position:sticky; top:24px; }
+  #authGate .loginborder { border-radius:18px; padding:1.5px; background:linear-gradient(140deg,#2563eb,#7c3aed,#db2777); box-shadow:0 20px 42px -18px rgba(124,58,237,.55); }
+  #authGate .logincard { background:#fff; border-radius:17px; padding:22px; }
+  #authGate .logincard h2 { display:flex; align-items:center; gap:9px; font-size:18px; margin:0 0 4px; color:#0f172a; }
+  #authGate .logincard .lk { width:30px; height:30px; border-radius:9px; background:linear-gradient(135deg,#3b82f6,#7c3aed); color:#fff; display:flex; align-items:center; justify-content:center; }
+  #authGate .logincard p.hint { font-size:12.5px; color:#64748b; margin:2px 0 14px; line-height:1.5; }
+  #authGate .logincard input { width:100%; border:1px solid #cbd5e1; border-radius:12px; padding:11px 13px; font:inherit; font-size:14px; margin-bottom:11px; background:#fff; color:#0f172a; }
+  #authGate .logincard input:focus { outline:none; border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,.3); }
+  #authGate .logincard button { width:100%; border:0; border-radius:12px; padding:12px; font:inherit; font-weight:700; color:#fff; cursor:pointer;
+    background:linear-gradient(90deg,#2563eb,#7c3aed); box-shadow:0 12px 24px -10px rgba(59,130,246,.7); }
+  #authGate .logincard button:disabled { opacity:.55; cursor:not-allowed; }
+  #authGate .agerr { background:#fff1f2; color:#be123c; font-size:12.5px; padding:9px 11px; border-radius:10px; margin-bottom:11px; }
+  #authGate .agok { background:#ecfdf5; color:#047857; font-size:13px; line-height:1.5; padding:11px 13px; border-radius:10px; }
+  #authGate .poc { display:flex; gap:9px; align-items:flex-start; border:1px solid #fde68a; background:#fffbeb; color:#92400e;
+    font-size:12.5px; line-height:1.55; border-radius:12px; padding:11px 13px; margin-top:16px; }
+  @media (max-width:820px) { #authGate .aggrid { grid-template-columns:1fr; } #authGate h1.hero { font-size:40px; } #authGate .loginwrap { position:static; } }
+  #userBox { margin-left:auto; display:flex; align-items:center; gap:10px; font-size:13px; color:var(--mut); }
+  #userBox b { color:var(--txt); }
 </style>
 </head>
 <body>
+<div id="authGate">
+  <div class="orbz"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+  <div class="agwrap">
+    <div class="aghead">
+      <div class="brand">text-to-CAD</div>
+      <div class="langsel">Chaire AIARD · INSA Strasbourg</div>
+    </div>
+    <div class="aggrid">
+      <div>
+        <div class="badge">✦ Démonstrateur de recherche · Chaire AIARD</div>
+        <h1 class="hero">Bienvenue sur<br><span class="grad">text-to-CAD</span></h1>
+        <p class="tag">Décris une pièce en langage naturel : l'IA génère le modèle CAO paramétrique, tu ajustes les cotes et exportes le STL — prêt à imprimer.</p>
+        <div class="glass" style="margin-top:26px">
+          <div style="display:flex; align-items:center; gap:8px; font-weight:600; font-size:14px; color:#334155">⚙︎ Du texte à la pièce imprimable</div>
+          <svg viewBox="0 0 520 92" style="width:100%; height:auto; margin-top:12px" role="img" aria-label="pipeline text-to-CAD">
+            <defs>
+              <linearGradient id="tcpl" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#2563eb"/><stop offset=".5" stop-color="#7c3aed"/><stop offset="1" stop-color="#db2777"/>
+              </linearGradient>
+            </defs>
+            <path d="M14 62 C 130 20, 220 20, 300 46 S 430 78, 506 34" fill="none" stroke="url(#tcpl)" stroke-width="2.5" stroke-linecap="round" opacity=".9"/>
+            <g font-size="11" font-weight="600" fill="#64748b" text-anchor="middle">
+              <circle cx="14" cy="62" r="5" fill="url(#tcpl)"/><text x="14" y="80">texte</text>
+              <circle cx="150" cy="30" r="5" fill="url(#tcpl)"/><text x="150" y="20">Gemini</text>
+              <circle cx="300" cy="46" r="5" fill="url(#tcpl)"/><text x="300" y="66">build123d</text>
+              <circle cx="420" cy="60" r="5" fill="url(#tcpl)"/><text x="420" y="80">STL/GLB</text>
+              <rect x="498" y="26" width="16" height="16" rx="2" fill="url(#tcpl)"/><text x="506" y="20">pièce</text>
+            </g>
+          </svg>
+          <p style="margin:8px 0 0; font-size:12.5px; color:#64748b">Texte → Gemini → build123d → STL/GLB → impression 3D.</p>
+        </div>
+        <div class="cards">
+          <div class="glass"><div class="ic" style="background:linear-gradient(135deg,#3b82f6,#2563eb)">▣</div>
+            <h3>La CAO par le langage</h3><p>Décris, importe un STL, grave un texte ou un logo, creuse un vide-poche — le tout piloté par des ordres en langage naturel, sans logiciel CAO à maîtriser.</p></div>
+          <div class="glass"><div class="ic" style="background:linear-gradient(135deg,#8b5cf6,#db2777)">🎓</div>
+            <h3>Fondements</h3><p>Prototype de recherche de la Chaire AIARD (INSA Strasbourg / laboratoire ICube), sous la direction du Pr Denis Cavallucci.</p></div>
+        </div>
+      </div>
+      <div class="loginwrap">
+        <div class="loginborder"><div class="logincard">
+          <h2><span class="lk">🔒</span> Connexion IDEAS</h2>
+          <p class="hint">Connecte-toi avec tes identifiants <b>IDEAS</b> (ideas.aiard.eu). L'accès est réservé aux membres de la Chaire AIARD.</p>
+          <form id="loginForm">
+            <div id="agMsg"></div>
+            <input id="agEmail" type="email" required autocomplete="username" placeholder="Adresse e-mail IDEAS">
+            <input id="agPass" type="password" required autocomplete="current-password" placeholder="Mot de passe IDEAS">
+            <button id="agBtn" type="submit">Se connecter</button>
+          </form>
+        </div></div>
+        <div class="poc">🔒 <span><b>Démonstrateur (POC) —</b> preuve de concept non commerciale, à usage exclusif des membres de la Chaire AIARD.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
 <header>
   <h1>text-to-CAD <span>local</span></h1>
   <span>texte → Gemini → build123d — décris, ajuste les cotes, exporte le STL</span>
+  <div id="userBox"></div>
 </header>
 
 <main>
@@ -452,6 +548,56 @@ $('fapply').onclick = async () => {
   } catch(e){ setLog('Erreur réseau: '+e); }
   $('fapply').disabled=false;
 };
+</script>
+<script>
+/* Auth IDEAS — indépendant du module app : gère l'écran de connexion. */
+(function(){
+  var gate=document.getElementById('authGate'),
+      form=document.getElementById('loginForm'),
+      msg=document.getElementById('agMsg'),
+      btn=document.getElementById('agBtn'),
+      userBox=document.getElementById('userBox');
+  var MSG={
+    IDEAS_AUTH_FAILED:"Identifiants IDEAS incorrects.",
+    IDEAS_UNAVAILABLE:"Le serveur IDEAS est momentanément injoignable. Réessaie dans un instant.",
+    BLOCKED:"Ce compte a été bloqué par un administrateur.",
+    AUTH_REQUIRED:"Session expirée, reconnecte-toi."
+  };
+  function showGate(){ gate.style.display='block'; }
+  function enterApp(u){
+    gate.style.display='none';
+    if(!userBox) return;
+    userBox.innerHTML='';
+    var who=document.createElement('span');
+    who.innerHTML='Connecté : <b>'+((u&&(u.name||u.email))||'')+'</b>';
+    var out=document.createElement('button');
+    out.className='sec'; out.textContent='Déconnexion';
+    out.style.padding='6px 12px'; out.style.fontWeight='500';
+    out.onclick=function(){ fetch('/api/logout',{method:'POST'}).then(function(){ location.reload(); }); };
+    userBox.appendChild(who); userBox.appendChild(out);
+  }
+  function err(t){ msg.innerHTML='<div class="agerr">'+t+'</div>'; }
+  function ok(t){ msg.innerHTML='<div class="agok">'+t+'</div>'; }
+
+  fetch('/api/me').then(function(r){return r.json();}).then(function(d){
+    if(d&&d.authenticated){ enterApp(d.user); } else { showGate(); }
+  }).catch(showGate);
+
+  if(form) form.addEventListener('submit',function(e){
+    e.preventDefault(); btn.disabled=true; msg.innerHTML='';
+    fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:document.getElementById('agEmail').value,
+                           password:document.getElementById('agPass').value})})
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d.ok){ location.reload(); return; }
+      if(d.pending){ form.style.display='none';
+        ok("Bonjour "+(d.name||'')+" — ta demande d'accès est enregistrée. Un administrateur de la Chaire AIARD doit valider ton compte ; tu pourras te connecter dès l'activation.");
+        return; }
+      err(MSG[d.error]||d.error||"Échec de la connexion."); btn.disabled=false;
+    }).catch(function(){ err("Erreur réseau."); btn.disabled=false; });
+  });
+})();
 </script>
 </body>
 </html>

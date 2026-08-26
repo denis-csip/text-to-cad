@@ -118,9 +118,14 @@ threading.Thread(target=WORKER.warmup, daemon=True).start()
 
 app = FastAPI(title="text-to-CAD local")
 
-# --- Protection par mot de passe (active uniquement si APP_PASSWORD est defini) ---
-import base64, secrets
-APP_PASSWORD = os.environ.get("APP_PASSWORD", "")
+# --- Authentification fédérée IDEAS (portée de ARIZ-Copilot) ----------------
+import auth
+from fastapi import Request
+from starlette.concurrency import run_in_threadpool
+auth.init_db()
+
+COOKIE_SECURE = os.environ.get("COOKIE_SECURE", "1") != "0"   # False en dev http
+_OPEN_PATHS = {"/", "/healthz", "/api/login", "/api/me", "/api/logout"}
 
 
 @app.get("/healthz")
@@ -129,22 +134,91 @@ def healthz():
 
 
 @app.middleware("http")
-async def _auth(request, call_next):
-    if APP_PASSWORD and request.url.path != "/healthz":
-        hdr = request.headers.get("authorization", "")
-        ok = False
-        if hdr.startswith("Basic "):
-            try:
-                _, _, pw = base64.b64decode(
-                    hdr[6:]).decode("utf-8", "ignore").partition(":")
-                ok = secrets.compare_digest(pw, APP_PASSWORD)
-            except Exception:
-                ok = False
-        if not ok:
-            return JSONResponse(
-                {"detail": "authentification requise"}, status_code=401,
-                headers={"WWW-Authenticate": 'Basic realm="text-to-CAD"'})
+async def _gate(request, call_next):
+    """Tout ce qui n'est pas public exige une session IDEAS active."""
+    p = request.url.path
+    if p in _OPEN_PATHS or p.startswith("/static") or p.startswith("/favicon"):
+        return await call_next(request)
+    user = await run_in_threadpool(
+        auth.current_user, request.cookies.get(auth.COOKIE_NAME, ""))
+    if user is None:
+        return JSONResponse({"error": "AUTH_REQUIRED"}, status_code=401)
     return await call_next(request)
+
+
+@app.post("/api/login")
+async def api_login(request: Request):
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+    email = (body.get("email") or "").strip()
+    password = body.get("password") or ""
+    if not email or not password:
+        return JSONResponse({"error": "Email et mot de passe requis."}, 400)
+    res = await run_in_threadpool(auth.signin_ideas, email, password)
+    if res.get("error") or not res.get("user"):
+        if res.get("unreachable"):
+            return JSONResponse({"error": "IDEAS_UNAVAILABLE"}, 503)
+        return JSONResponse({"error": "IDEAS_AUTH_FAILED"}, 401)
+    u = res["user"]
+    user, _is_new = await run_in_threadpool(
+        auth.upsert_user, u["email"], u.get("name"), u.get("id"))
+    if user["status"] == "blocked":
+        return JSONResponse({"error": "BLOCKED"}, 403)
+    if user["status"] == "pending":       # nouvel utilisateur : attend validation admin
+        return JSONResponse({"pending": True, "name": user["name"]})
+    resp = JSONResponse({"ok": True, "user": {
+        "email": user["email"], "name": user["name"],
+        "is_admin": bool(user["is_admin"])}})
+    resp.set_cookie(auth.COOKIE_NAME, auth.make_session(user), httponly=True,
+                    samesite="lax", secure=COOKIE_SECURE,
+                    max_age=auth.SESSION_TTL, path="/")
+    return resp
+
+
+@app.get("/api/me")
+async def api_me(request: Request):
+    user = await run_in_threadpool(
+        auth.current_user, request.cookies.get(auth.COOKIE_NAME, ""))
+    if not user:
+        return JSONResponse({"authenticated": False})
+    return JSONResponse({"authenticated": True, "user": {
+        "email": user["email"], "name": user["name"],
+        "is_admin": bool(user["is_admin"])}})
+
+
+@app.post("/api/logout")
+async def api_logout():
+    resp = JSONResponse({"ok": True})
+    resp.delete_cookie(auth.COOKIE_NAME, path="/")
+    return resp
+
+
+async def _admin(request):
+    user = await run_in_threadpool(
+        auth.current_user, request.cookies.get(auth.COOKIE_NAME, ""))
+    return user if (user and user["is_admin"]) else None
+
+
+@app.get("/api/admin/users")
+async def api_admin_users(request: Request):
+    if not await _admin(request):
+        return JSONResponse({"error": "forbidden"}, 403)
+    return JSONResponse({"users": await run_in_threadpool(auth.list_users)})
+
+
+@app.post("/api/admin/validate")
+async def api_admin_validate(request: Request):
+    if not await _admin(request):
+        return JSONResponse({"error": "forbidden"}, 403)
+    try:
+        body = await request.json()
+        await run_in_threadpool(auth.set_status,
+                                (body.get("email") or "").strip(), body.get("status") or "")
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, 400)
+    return JSONResponse({"ok": True})
 
 
 class Brief(BaseModel):
