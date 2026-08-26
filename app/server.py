@@ -224,10 +224,22 @@ async def api_admin_validate(request: Request):
 class Brief(BaseModel):
     brief: str
     spec: dict | None = None       # spec d'intention confirmee (optionnelle)
+    sketch: str | None = None      # croquis (data URL PNG) optionnel
 
 
 class IntentReq(BaseModel):
     brief: str
+    sketch: str | None = None      # croquis (data URL PNG) optionnel
+
+
+def _dataurl_bytes(s):
+    if not s:
+        return None
+    import base64 as _b
+    try:
+        return _b.b64decode(s.split(",", 1)[-1])
+    except Exception:
+        return None
 
 
 class RefineReq(BaseModel):
@@ -414,8 +426,8 @@ def _best_of_n(gen_fn, context: str, n: int = BEST_OF_N) -> dict:
 
 @app.post("/intent")
 def intent(req: IntentReq):
-    """Capture d'intention : brief NL -> spec de conception structuree (sans code)."""
-    return {"spec": llm.capture_intent(req.brief)}
+    """Capture d'intention : brief NL (+ croquis) -> spec de conception structuree."""
+    return {"spec": llm.capture_intent(req.brief, _dataurl_bytes(req.sketch))}
 
 
 class VisualReq(BaseModel):
@@ -440,8 +452,10 @@ def visual_check(req: VisualReq):
 def generate(b: Brief):
     MESH["active"] = False
     _clear_outputs()
+    _sketch = _dataurl_bytes(b.sketch)
     return _best_of_n(
-        lambda t: llm.generate_code(b.brief, temperature=t, spec=b.spec), b.brief)
+        lambda t: llm.generate_code(b.brief, temperature=t, spec=b.spec,
+                                    sketch_bytes=_sketch), b.brief)
 
 
 @app.post("/refine")

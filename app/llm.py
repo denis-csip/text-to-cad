@@ -38,16 +38,24 @@ def _extract_code(text: str) -> str:
     return code.strip()
 
 
-def generate_code(brief: str, temperature: float = 0.2, spec=None) -> str:
+def generate_code(brief: str, temperature: float = 0.2, spec=None,
+                  sketch_bytes: bytes = None) -> str:
     if spec:
-        contents = (
+        text = (
             "SPECIFICATION DE CONCEPTION VALIDEE (JSON) — respecte-la fidelement :\n"
             + json.dumps(spec, ensure_ascii=False)
             + "\n\nGenere le code build123d correspondant. Respecte EXACTEMENT les cotes "
             "et features de la spec ; reprends les valeurs (dimensions et hypotheses) comme "
             "cotes reglables en haut du script. Brief initial de l'utilisateur : " + brief)
     else:
-        contents = brief
+        text = brief
+    if sketch_bytes:
+        text = ("Un CROQUIS de la forme approximative visee par l'utilisateur est fourni : "
+                "inspire-t'en pour la silhouette globale et la disposition des features "
+                "(en gardant les cotes chiffrees de la spec/du brief).\n\n" + text)
+        contents = [types.Part.from_bytes(data=sketch_bytes, mime_type="image/png"), text]
+    else:
+        contents = text
     resp = _get_client().models.generate_content(
         model=MODEL,
         contents=contents,
@@ -82,10 +90,16 @@ def _extract_json(text: str):
             "hypotheses": [], "questions": [], "confiance": 0.0}
 
 
-def capture_intent(brief: str):
-    """Interprete le brief NL en une spec de conception structuree (aucun code)."""
+def capture_intent(brief: str, sketch_bytes: bytes = None):
+    """Interprete le brief NL (+ croquis optionnel) en une spec de conception structuree."""
+    if sketch_bytes:
+        contents = [types.Part.from_bytes(data=sketch_bytes, mime_type="image/png"),
+                    "Croquis fourni par l'utilisateur (forme approximative visee).\n"
+                    "Brief : " + (brief or "")]
+    else:
+        contents = brief
     resp = _get_client().models.generate_content(
-        model=MODEL, contents=brief, config=_intent_cfg())
+        model=MODEL, contents=contents, config=_intent_cfg())
     return _extract_json(resp.text)
 
 

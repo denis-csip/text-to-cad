@@ -272,6 +272,13 @@
   <div class="card full">
     <div class="lbl">Décris la pièce (langage naturel)</div>
     <textarea id="brief" placeholder="Ex : un support mural pour une brosse à dents électrique de 28 mm de diamètre, avec deux trous de vis M4 espacés de 40 mm."></textarea>
+    <div class="row" style="align-items:flex-start; margin-top:10px">
+      <div>
+        <div class="lbl" style="margin-bottom:6px">Croquis au doigt (optionnel) — esquisse la forme voulue, le modèle s'en sert</div>
+        <canvas id="sketch" width="360" height="200" style="background:#fff; border:1px solid var(--line); border-radius:8px; touch-action:none; cursor:crosshair; display:block; max-width:100%"></canvas>
+        <button id="sketchClear" class="sec" style="padding:5px 10px; font-size:12px; margin-top:6px">Effacer le croquis</button>
+      </div>
+    </div>
     <div class="row">
       <button id="gen">Générer la CAO</button>
       <button id="newBtn" class="sec">Nouvelle pièce</button>
@@ -643,6 +650,27 @@ $('importFile').onchange = async (e) => {
   e.target.value = '';
 };
 
+// --- Croquis au doigt (optionnel) ---
+let sketchDirty=false;
+(function setupSketch(){
+  const cv=$('sketch'); if(!cv) return;
+  const ctx=cv.getContext('2d'); ctx.lineWidth=3; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.strokeStyle='#1c2430';
+  let drawing=false, lx=0, ly=0;
+  const pos=e=>{ const r=cv.getBoundingClientRect(); return [ (e.clientX-r.left)*(cv.width/r.width), (e.clientY-r.top)*(cv.height/r.height) ]; };
+  cv.addEventListener('pointerdown', e=>{ drawing=true; [lx,ly]=pos(e); try{cv.setPointerCapture(e.pointerId);}catch(_){}} );
+  cv.addEventListener('pointermove', e=>{ if(!drawing) return; const [x,y]=pos(e); ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(x,y); ctx.stroke(); lx=x; ly=y; sketchDirty=true; });
+  cv.addEventListener('pointerup', ()=>{ drawing=false; });
+  cv.addEventListener('pointerleave', ()=>{ drawing=false; });
+  $('sketchClear').onclick=()=>{ ctx.clearRect(0,0,cv.width,cv.height); sketchDirty=false; };
+})();
+function getSketch(){
+  if(!sketchDirty) return null;
+  const cv=$('sketch'); if(!cv) return null;
+  const out=document.createElement('canvas'); out.width=cv.width; out.height=cv.height;
+  const o=out.getContext('2d'); o.fillStyle='#fff'; o.fillRect(0,0,out.width,out.height); o.drawImage(cv,0,0);
+  return out.toDataURL('image/png');
+}
+
 function captureView(){
   try{ renderer.render(scene,camera); return renderer.domElement.toDataURL('image/png'); }
   catch(e){ return null; }
@@ -670,16 +698,16 @@ async function runVisualCheck(brief, spec){
   }catch(e){ /* silencieux : la vérif ne doit jamais casser la génération */ }
 }
 
-function doGenerate(brief, spec){
+function doGenerate(brief, spec, sketch){
   meshMode = false;
   $('gen').disabled=true; $('genStatus').textContent='Gemini génère la pièce…';
-  return fetch('/generate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({brief:brief, spec:spec})})
+  return fetch('/generate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({brief:brief, spec:spec, sketch:sketch})})
     .then(r=>r.json()).then(d=>{ showResult(d, $('genStatus'), false); if(d && d.ok) return runVisualCheck(brief, spec); })
     .catch(e=>{ setLog('Erreur réseau: '+e); })
     .then(()=>{ $('gen').disabled=false; });
 }
 
-function showIntentPanel(brief, spec){
+function showIntentPanel(brief, spec, sketch){
   const old=document.getElementById('intentPanel'); if(old) old.remove();
   const dims=spec.dimensions||[], feats=spec.features||[], hyps=spec.hypotheses||[], qs=spec.questions||[];
   const esc=s=>String(s==null?'':s).replace(/</g,'&lt;');
@@ -706,17 +734,18 @@ function showIntentPanel(brief, spec){
     p.querySelectorAll('#intentDims input').forEach(inp=>{ const i=+inp.dataset.i; if(spec.dimensions&&spec.dimensions[i]){ spec.dimensions[i].valeur_mm=parseFloat(inp.value); spec.dimensions[i].supposee=false; } });
     const corr=(document.getElementById('intentCorr').value||'').trim();
     p.remove();
-    doGenerate(corr ? (brief+'\nPrécisions: '+corr) : brief, spec);
+    doGenerate(corr ? (brief+'\nPrécisions: '+corr) : brief, spec, sketch);
   };
 }
 
 $('gen').onclick = async () => {
   const brief = $('brief').value.trim(); if(!brief) return;
-  $('gen').disabled=true; $('genStatus').textContent='Analyse de l\'intention…';
+  const sketch = getSketch();
+  $('gen').disabled=true; $('genStatus').textContent = sketch ? 'Analyse (texte + croquis)…' : 'Analyse de l\'intention…';
   try {
-    const r = await fetch('/intent', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({brief})});
+    const r = await fetch('/intent', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({brief, sketch})});
     const d = await r.json();
-    showIntentPanel(brief, d.spec||{});
+    showIntentPanel(brief, d.spec||{}, sketch);
   } catch(e){ setLog('Erreur réseau: '+e); }
   $('gen').disabled=false; $('genStatus').textContent='';
 };

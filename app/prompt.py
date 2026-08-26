@@ -177,6 +177,9 @@ REGLES :
 - "questions" : vide [] dans la majorite des cas. N'en pose une que si, SANS elle, la piece
   serait probablement fausse (dimension principale absente et non deductible). Jamais plus de 2.
 - Fidelite : n'ajoute AUCUNE feature non demandee, ne retire rien de demande.
+- Si un CROQUIS (image) est fourni : sers-t'en pour la FORME (silhouette globale, nombre et
+  disposition des features, proportions). Le texte prime pour les cotes chiffrees ; le croquis
+  prime pour la forme approximative. Traduis ce que tu vois en features/dimensions concretes.
 """
 
 
