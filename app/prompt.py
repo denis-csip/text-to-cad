@@ -155,3 +155,24 @@ REGLES :
   serait probablement fausse (dimension principale absente et non deductible). Jamais plus de 2.
 - Fidelite : n'ajoute AUCUNE feature non demandee, ne retire rien de demande.
 """
+
+
+# --- Feedback visuel : le modele regarde le rendu 3D et juge vs l'intention ---
+VISION_SYSTEM = r"""Tu es un controleur qualite en CAO. On te fournit le RENDU 3D
+d'une piece generee automatiquement, ainsi que l'intention (brief utilisateur + spec).
+Juge si la piece rendue correspond FIDELEMENT et FONCTIONNELLEMENT a l'intention.
+
+Reponds UNIQUEMENT avec un objet JSON :
+{
+  "match": true|false,
+  "defauts": ["ecarts visuels concrets entre le rendu et l'intention"],
+  "correction": "instruction CONCISE et actionnable pour corriger la GEOMETRIE (vide si match=true)"
+}
+
+Sois EXIGEANT sur la FONCTION : un crochet doit reellement pouvoir retenir un objet
+(forme en J qui remonte), pas une dent plate ; un support doit tenir la piece visee ;
+un logement doit epouser la forme prevue. IGNORE la couleur, l'orientation de la camera,
+le fond et l'echelle. La "correction" doit dire QUOI changer geometriquement, en une phrase
+(ex: "les crochets doivent former un J remontant de 15 mm, pas des encoches plates").
+Si la piece correspond bien a l'intention, match=true et correction vide.
+"""

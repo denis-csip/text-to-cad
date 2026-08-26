@@ -2,7 +2,7 @@
 import os, re, json, threading
 from google import genai
 from google.genai import types
-from prompt import SYSTEM, FIX_TEMPLATE, INTENT_SYSTEM
+from prompt import SYSTEM, FIX_TEMPLATE, INTENT_SYSTEM, VISION_SYSTEM
 
 MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
 # Gemini 3.x active le "thinking" par defaut (tres lent : ~70s). 'low' suffit
@@ -86,6 +86,27 @@ def capture_intent(brief: str):
     """Interprete le brief NL en une spec de conception structuree (aucun code)."""
     resp = _get_client().models.generate_content(
         model=MODEL, contents=brief, config=_intent_cfg())
+    return _extract_json(resp.text)
+
+
+def _vision_cfg(temperature: float = 0.2):
+    kwargs = dict(system_instruction=VISION_SYSTEM, temperature=temperature,
+                  response_mime_type="application/json")
+    if "gemini-3" in MODEL:
+        kwargs["thinking_config"] = types.ThinkingConfig(thinking_level=THINKING)
+    return types.GenerateContentConfig(**kwargs)
+
+
+def visual_check(image_bytes: bytes, brief: str, spec=None):
+    """Le modele regarde le rendu 3D et juge la fidelite vs l'intention.
+    Renvoie {match, defauts, correction}."""
+    ctx = "Brief utilisateur : " + (brief or "")
+    if spec:
+        ctx += "\nSpec de conception : " + json.dumps(spec, ensure_ascii=False)
+    resp = _get_client().models.generate_content(
+        model=MODEL,
+        contents=[types.Part.from_bytes(data=image_bytes, mime_type="image/png"), ctx],
+        config=_vision_cfg())
     return _extract_json(resp.text)
 
 

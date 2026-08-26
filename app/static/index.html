@@ -275,6 +275,7 @@
     <div class="row">
       <button id="gen">Générer la CAO</button>
       <button id="newBtn" class="sec">Nouvelle pièce</button>
+      <label class="chk" style="font-size:13px; color:var(--mut)" title="Le modèle regarde le rendu 3D et corrige les écarts avec l'intention"><input type="checkbox" id="visCheck" checked> 🔍 vérif visuelle</label>
       <span id="genStatus" class="muted"></span>
       <label style="cursor:pointer; padding:9px 14px; border:1px solid var(--line); border-radius:8px; font-weight:500; margin-left:auto">Importer un STL<input id="importFile" type="file" accept=".stl" style="display:none"></label>
       <span id="importStatus" class="muted"></span>
@@ -405,7 +406,7 @@ function resizeView(){
 }
 function initView() {
   const el = $('view');
-  renderer = new THREE.WebGLRenderer({ antialias:true });
+  renderer = new THREE.WebGLRenderer({ antialias:true, preserveDrawingBuffer:true });
   renderer.setPixelRatio(devicePixelRatio); el.appendChild(renderer.domElement);
   scene = new THREE.Scene(); scene.background = new THREE.Color(0xeaeef3);
   camera = new THREE.PerspectiveCamera(45, 1.6, 0.1, 5000); camera.position.set(80,60,90);
@@ -642,11 +643,38 @@ $('importFile').onchange = async (e) => {
   e.target.value = '';
 };
 
+function captureView(){
+  try{ renderer.render(scene,camera); return renderer.domElement.toDataURL('image/png'); }
+  catch(e){ return null; }
+}
+
+async function runVisualCheck(brief, spec){
+  const vc=$('visCheck'); if(vc && !vc.checked) return;
+  if(meshMode) return;                       // pas de vérif sur imports/maillages
+  const st=$('genStatus');
+  st.innerHTML='🔍 Vérification visuelle…';
+  await new Promise(r=>setTimeout(r,900));    // laisse le GLB se charger + rendre
+  const img=captureView(); if(!img) return;
+  try{
+    const r=await fetch('/visual_check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:img, brief:brief, spec:spec})});
+    const v=((await r.json()).verdict)||{};
+    if(v.match){ st.innerHTML='<span class="pill ok">✓ conforme à l\'intention</span>'; return; }
+    const def=(v.defauts||[]).join(' ; ');
+    if(v.correction){
+      st.innerHTML='🔍 Écart : '+def+' — correction en cours…';
+      const r2=await fetch('/refine',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({instruction:v.correction})});
+      const d2=await r2.json();
+      showResult(d2, st, true);
+      if(d2.ok) st.innerHTML='<span class="pill ok">✓ corrigé visuellement</span> <span class="muted">'+def+'</span>';
+    } else { st.innerHTML='<span class="pill ok">✓</span>'; }
+  }catch(e){ /* silencieux : la vérif ne doit jamais casser la génération */ }
+}
+
 function doGenerate(brief, spec){
   meshMode = false;
   $('gen').disabled=true; $('genStatus').textContent='Gemini génère la pièce…';
   return fetch('/generate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({brief:brief, spec:spec})})
-    .then(r=>r.json()).then(d=>{ showResult(d, $('genStatus'), false); })
+    .then(r=>r.json()).then(d=>{ showResult(d, $('genStatus'), false); if(d && d.ok) return runVisualCheck(brief, spec); })
     .catch(e=>{ setLog('Erreur réseau: '+e); })
     .then(()=>{ $('gen').disabled=false; });
 }

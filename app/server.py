@@ -418,6 +418,24 @@ def intent(req: IntentReq):
     return {"spec": llm.capture_intent(req.brief)}
 
 
+class VisualReq(BaseModel):
+    image: str                     # data URL PNG (base64) du rendu 3D
+    brief: str = ""
+    spec: dict | None = None
+
+
+@app.post("/visual_check")
+def visual_check(req: VisualReq):
+    """Feedback visuel : le modele regarde le rendu et juge la fidelite vs l'intention."""
+    import base64 as _b64
+    data = req.image.split(",", 1)[-1]          # enleve l'entete data:image/png;base64,
+    try:
+        img = _b64.b64decode(data)
+    except Exception:
+        return {"verdict": {"match": True, "defauts": [], "correction": ""}}
+    return {"verdict": llm.visual_check(img, req.brief, req.spec)}
+
+
 @app.post("/generate")
 def generate(b: Brief):
     MESH["active"] = False
