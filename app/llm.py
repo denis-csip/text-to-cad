@@ -111,6 +111,23 @@ def _vision_cfg(temperature: float = 0.2):
     return types.GenerateContentConfig(**kwargs)
 
 
+def transcribe(audio_bytes: bytes, mime: str = "audio/webm") -> str:
+    """Transcription audio -> texte (français) via Gemini multimodal.
+    Repli universel quand le navigateur n'a pas la reconnaissance Web Speech."""
+    cfg = types.GenerateContentConfig(
+        system_instruction=("Transcris fidèlement cet audio en français. Réponds "
+                            "UNIQUEMENT avec le texte transcrit, sans commentaire."),
+        temperature=0.0,
+        **({"thinking_config": types.ThinkingConfig(thinking_level=THINKING)}
+           if "gemini-3" in MODEL else {}))
+    resp = _get_client().models.generate_content(
+        model=MODEL,
+        contents=[types.Part.from_bytes(data=audio_bytes, mime_type=mime),
+                  "Transcris cet audio."],
+        config=cfg)
+    return (resp.text or "").strip()
+
+
 def visual_check(image_bytes: bytes, brief: str, spec=None):
     """Le modele regarde le rendu 3D et juge la fidelite vs l'intention.
     Renvoie {match, defauts, correction}."""

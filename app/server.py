@@ -457,6 +457,23 @@ def fea_check(req: FeaReq):
                            "stl_path": str(stl) if stl.exists() else None}, timeout=180)
 
 
+class TranscribeReq(BaseModel):
+    audio: str                     # data URL (base64) de l'enregistrement
+    mime: str = "audio/webm"
+
+
+@app.post("/transcribe")
+def transcribe(req: TranscribeReq):
+    """Repli vocal universel : audio -> texte via Gemini (si Web Speech absent)."""
+    data = _dataurl_bytes(req.audio)
+    if not data:
+        return {"ok": False, "error": "audio vide"}
+    try:
+        return {"ok": True, "text": llm.transcribe(data, req.mime)}
+    except Exception as e:
+        return {"ok": False, "error": str(e)[:200]}
+
+
 @app.post("/visual_check")
 def visual_check(req: VisualReq):
     """Feedback visuel : le modele regarde le rendu et juge la fidelite vs l'intention."""

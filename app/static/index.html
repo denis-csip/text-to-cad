@@ -801,25 +801,56 @@ function addIter(txt){
   ul.appendChild(li);
 }
 
-/* Dictée vocale (Web Speech API, fr-FR, transcription en direct). */
+/* Dictée vocale — universelle : Web Speech (transcription en direct) si dispo,
+   sinon enregistrement MediaRecorder -> /transcribe (Gemini). Toujours visible. */
 function makeMic(btnId, target){
   const btn=$(btnId); if(!btn) return;
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){ btn.style.display='none'; return; }   // navigateur sans reconnaissance (Firefox)
-  let rec=null, active=false, base='';
-  btn.onclick=()=>{
-    if(active){ try{ rec.stop(); }catch(_){} return; }
-    rec=new SR(); rec.lang='fr-FR'; rec.continuous=true; rec.interimResults=true;
-    base=target.value ? target.value.replace(/\s+$/,'')+' ' : '';
-    rec.onresult=e=>{
-      let fin='', inter='';
-      for(let i=0;i<e.results.length;i++){ const r=e.results[i];
-        if(r.isFinal) fin+=r[0].transcript; else inter+=r[0].transcript; }
-      target.value=base+fin+inter;
-    };
-    const off=()=>{ active=false; btn.classList.remove('rec'); btn.textContent='🎙️'; };
-    rec.onend=off; rec.onerror=off;
-    try{ rec.start(); active=true; btn.classList.add('rec'); btn.textContent='⏹'; }catch(_){ off(); }
+  let active=false, rec=null, media=null, chunks=[];
+  const off=()=>{ active=false; btn.classList.remove('rec'); btn.textContent='🎙️'; };
+  const on=()=>{ active=true; btn.classList.add('rec'); btn.textContent='⏹'; };
+  btn.onclick=async ()=>{
+    if(active){ try{ rec ? rec.stop() : media.stop(); }catch(_){ off(); } return; }
+    if(SR){
+      rec=new SR(); rec.lang='fr-FR'; rec.continuous=true; rec.interimResults=true;
+      const base=target.value ? target.value.replace(/\s+$/,'')+' ' : '';
+      rec.onresult=e=>{
+        let fin='', inter='';
+        for(let i=0;i<e.results.length;i++){ const r=e.results[i];
+          if(r.isFinal) fin+=r[0].transcript; else inter+=r[0].transcript; }
+        target.value=base+fin+inter;
+      };
+      rec.onend=off; rec.onerror=off;
+      try{ rec.start(); on(); }catch(_){ off(); }
+      return;
+    }
+    // Repli universel : on enregistre, puis Gemini transcrit côté serveur.
+    rec=null;
+    try{
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      const mime=(window.MediaRecorder && MediaRecorder.isTypeSupported('audio/webm')) ? 'audio/webm' : '';
+      media=new MediaRecorder(stream, mime?{mimeType:mime}:undefined);
+      chunks=[];
+      media.ondataavailable=e=>{ if(e.data.size) chunks.push(e.data); };
+      media.onstop=async ()=>{
+        off(); stream.getTracks().forEach(t=>t.stop());
+        const blob=new Blob(chunks, {type: media.mimeType||'audio/webm'});
+        const fr=new FileReader();
+        fr.onload=async ()=>{
+          const ph=target.placeholder; target.placeholder='⏳ transcription en cours…';
+          try{
+            const r=await fetch('/transcribe',{method:'POST',headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({audio:fr.result, mime:blob.type||'audio/webm'})});
+            const d=await r.json();
+            if(d.ok && d.text) target.value=(target.value?target.value.replace(/\s+$/,'')+' ':'')+d.text;
+            else alert(d.error||'Transcription impossible.');
+          }catch(_){ alert('Erreur réseau pendant la transcription.'); }
+          target.placeholder=ph;
+        };
+        fr.readAsDataURL(blob);
+      };
+      media.start(); on();
+    }catch(_){ alert("Micro inaccessible : autorise l'accès au micro dans le navigateur."); off(); }
   };
 }
 makeMic('micBrief', $('brief'));
