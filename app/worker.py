@@ -51,45 +51,26 @@ def hollow_tray(part, wall=2.0, height=40.0, base=2.0):
     return vp.part
 
 
-def hook(width=8.0, arm=25.0, rise=30.0, thickness=8.0, fillet_r=2.5):
-    """Crochet / patère COURBE (profil de patère en J), robuste.
-    Une barre ronde est BALAYÉE le long d'une courbe : elle monte, s'avance en
-    s'incurvant, puis se relève en pointe (retient un manteau/objet).
-    Orientation canonique : dos dans le plan X=0 (a coller sur la piece), la patère
-    s'etend vers +X et se relève vers +Z, base a Z=0. Le modele n'a qu'a POSITIONNER
-    (translate/rotate) puis unir a la piece. Repli sur un crochet en L si le balayage
-    echoue. Retourne une Part."""
-    r = max(thickness / 2.0, 1.5)
-    try:
-        from build123d import (BuildPart, BuildLine, BuildSketch, Spline,
-                               Circle, sweep, Plane)
-        with BuildPart() as h:
-            with BuildLine():
-                Spline((0, 0, 0),
-                       (0, 0, rise * 0.30),
-                       (arm * 0.50, 0, rise * 0.62),
-                       (arm, 0, rise * 0.85),
-                       (arm * 0.78, 0, rise))
-            with BuildSketch(Plane.YZ):        # profil circulaire ⟂ au depart (+X)
-                Circle(r)
-            sweep()
-        p = h.part
-        if getattr(p, "volume", 0) > 0:
-            return p
-    except Exception:
-        pass
-    # Repli : crochet en L (boites + conge)
+def hook(width=8.0, arm=25.0, rise=28.0, thickness=8.0, fillet_r=None):
+    """Crochet / patère en L ARRONDI (queue horizontale + relevé vertical), avec de
+    GROS congés au coude et aux arêtes -> aspect courbe, ET géométrie PROPRE qui se
+    maille toujours (un crochet balayé continu s'auto-intersecte et est ingérable en
+    calcul de structure). Dos dans le plan X=0, queue vers +X, relevé vers +Z, base a
+    Z=0, largeur `width` le long de Y. Le modele n'a qu'a POSITIONNER (Pos) puis unir.
+    Retourne une Part."""
     from build123d import Box, Pos, Axis, Align, fillet
     tail = Pos(0, 0, 0) * Box(arm, width, thickness,
                               align=(Align.MIN, Align.CENTER, Align.MIN))
     lip = Pos(arm - thickness, 0, 0) * Box(thickness, width, rise + thickness,
                                            align=(Align.MIN, Align.CENTER, Align.MIN))
     part = tail + lip
-    try:
-        rr = min(fillet_r, thickness / 2.1, rise / 2.1, arm / 2.1)
-        part = fillet(part.edges().filter_by(Axis.Y), rr)
-    except Exception:
-        pass
+    r = fillet_r or min(thickness * 0.45, rise * 0.4, arm * 0.4)
+    for rr in (r, r * 0.5):                    # congé généreux -> aspect courbe ; repli si trop grand
+        try:
+            part = fillet(part.edges().filter_by(Axis.Y), rr)
+            break
+        except Exception:
+            continue
     return part
 
 

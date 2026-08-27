@@ -25,32 +25,62 @@ MATERIALS = {
 }
 
 
+def _extract_tets(gmsh):
+    tags, coords, _ = gmsh.model.mesh.getNodes()
+    if len(tags) < 4:
+        return None, None
+    coords = np.array(coords, dtype=float).reshape(-1, 3)
+    tag2idx = {int(t): i for i, t in enumerate(tags)}
+    etypes, etags, enodes = gmsh.model.mesh.getElements(3)
+    tets = []
+    for et, en in zip(etypes, enodes):
+        if et == 4:                           # 4 = tétraèdre linéaire (C3D4)
+            conn = np.array(en, dtype=int).reshape(-1, 4)
+            tets.append(np.vectorize(tag2idx.get)(conn))
+    tets = np.vstack(tets) if tets else np.zeros((0, 4), int)
+    return coords, tets
+
+
 def _mesh_step(step_path, mesh_size=None):
-    """STEP -> (coords Nx3 en mm, tets Mx4 indices 0-based)."""
+    """STEP -> (coords Nx3 en mm, tets Mx4). ROBUSTE : réparation OCC + plusieurs
+    algorithmes 3D et tailles (les géométries générées provoquent souvent des erreurs
+    PLC en maillage 3D ; HXT est le plus tolérant, sinon on grossit la maille)."""
     import gmsh
     gmsh.initialize()
     try:
         gmsh.option.setNumber("General.Terminal", 0)
+        # Réparation de la géométrie importée AVANT l'import (petits bords/faces, couture).
+        for opt in ("Geometry.OCCFixDegenerated", "Geometry.OCCFixSmallEdges",
+                    "Geometry.OCCFixSmallFaces", "Geometry.OCCSewFaces",
+                    "Geometry.OCCMakeSolids"):
+            try:
+                gmsh.option.setNumber(opt, 1)
+            except Exception:
+                pass
+        gmsh.option.setNumber("Geometry.Tolerance", 1e-3)      # fusionne les points proches
         gmsh.open(str(step_path))
         gmsh.model.occ.synchronize()
-        # Taille de maille : ~ 6 % de la diagonale de la boîte englobante (grossier mais suffisant).
         xmin, ymin, zmin, xmax, ymax, zmax = gmsh.model.getBoundingBox(-1, -1)
         diag = ((xmax - xmin) ** 2 + (ymax - ymin) ** 2 + (zmax - zmin) ** 2) ** 0.5
-        h = mesh_size or max(diag * 0.06, 0.8)
-        gmsh.option.setNumber("Mesh.MeshSizeMax", h)
-        gmsh.option.setNumber("Mesh.MeshSizeMin", h * 0.3)
-        gmsh.model.mesh.generate(3)
-        tags, coords, _ = gmsh.model.mesh.getNodes()
-        coords = np.array(coords, dtype=float).reshape(-1, 3)
-        tag2idx = {int(t): i for i, t in enumerate(tags)}
-        etypes, etags, enodes = gmsh.model.mesh.getElements(3)
-        tets = []
-        for et, en in zip(etypes, enodes):
-            if et == 4:                       # 4 = tétraèdre linéaire (C3D4)
-                conn = np.array(en, dtype=int).reshape(-1, 4)
-                tets.append(np.vectorize(tag2idx.get)(conn))
-        tets = np.vstack(tets) if tets else np.zeros((0, 4), int)
-        return coords, tets
+        base = mesh_size or max(diag * 0.06, 0.8)
+        # (algo3D, algo2D, facteur de taille) : 10=HXT/1=Delaunay/4=Frontal (3D) ;
+        # 6=Frontal-Delaunay/5=Delaunay/1=MeshAdapt (2D, la surface = cause des PLC).
+        last = None
+        for a3, a2, k in ((10, 6, 1.0), (1, 5, 1.4), (1, 6, 1.9), (4, 1, 2.6), (1, 1, 3.4)):
+            try:
+                gmsh.model.mesh.clear()
+                gmsh.option.setNumber("Mesh.Algorithm", a2)
+                gmsh.option.setNumber("Mesh.Algorithm3D", a3)
+                gmsh.option.setNumber("Mesh.MeshSizeMax", base * k)
+                gmsh.option.setNumber("Mesh.MeshSizeMin", base * k * 0.3)
+                gmsh.model.mesh.generate(3)
+                coords, tets = _extract_tets(gmsh)
+                if tets is not None and len(tets) > 0:
+                    return coords, tets
+            except Exception as e:
+                last = e
+        raise RuntimeError("maillage 3D impossible (%s)"
+                           % (str(last)[:80] if last else "aucun tétra"))
     finally:
         gmsh.finalize()
 

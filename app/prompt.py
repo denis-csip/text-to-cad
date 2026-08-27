@@ -24,8 +24,8 @@ CONTRAT DE SORTIE (strict) :
 
 FONCTIONS DÉJÀ DÉFINIES (disponibles dans le scope — APPELLE-LES, ne les redéfinis pas) :
 - hollow_tray(part, wall, height, base) -> évide une pièce plate en bac à parois (robuste).
-- hook(arm, rise, thickness) -> CROCHET / PATÈRE COURBE en J (barre ronde incurvée qui monte,
-  s'avance et se relève en pointe, façon patère). LA COURBURE EST DÉJÀ INTÉGRÉE. Dos en X=0,
+- hook(arm, rise, thickness) -> CROCHET / PATÈRE en L ARRONDI (queue horizontale + relevé
+  vertical, gros congés = aspect courbe), géométrie propre et toujours maillable. Dos en X=0,
   s'étend vers +X et se relève vers +Z, base à Z=0. Positionne-le avec Pos(...) puis unis-le.
 RÈGLE IMPÉRATIVE : pour tout CROCHET / PATÈRE / porte-manteau / porte-clés, tu DOIS appeler
 hook(...) et le POSITIONNER sur la piece. hook() GÈRE DÉJÀ la forme courbe -> ne modélise JAMAIS
