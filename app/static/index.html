@@ -801,6 +801,27 @@ function addIter(txt){
   ul.appendChild(li);
 }
 
+/* Ré-encode un enregistrement en WAV PCM16 mono 16 kHz (format sûr pour Gemini). */
+async function blobToWav(blob){
+  const buf=await blob.arrayBuffer();
+  const ac=new (window.AudioContext||window.webkitAudioContext)();
+  const audio=await ac.decodeAudioData(buf); ac.close();
+  const rate=16000, len=Math.max(1, Math.ceil(audio.duration*rate));
+  const oc=new OfflineAudioContext(1, len, rate);
+  const src=oc.createBufferSource(); src.buffer=audio; src.connect(oc.destination); src.start();
+  const rendered=await oc.startRendering();
+  const pcm=rendered.getChannelData(0);
+  const out=new DataView(new ArrayBuffer(44+pcm.length*2));
+  const w=(o,s)=>{ for(let i=0;i<s.length;i++) out.setUint8(o+i, s.charCodeAt(i)); };
+  w(0,'RIFF'); out.setUint32(4,36+pcm.length*2,true); w(8,'WAVEfmt '); out.setUint32(16,16,true);
+  out.setUint16(20,1,true); out.setUint16(22,1,true); out.setUint32(24,rate,true);
+  out.setUint32(28,rate*2,true); out.setUint16(32,2,true); out.setUint16(34,16,true);
+  w(36,'data'); out.setUint32(40,pcm.length*2,true);
+  for(let i=0;i<pcm.length;i++){ const s=Math.max(-1,Math.min(1,pcm[i]));
+    out.setInt16(44+i*2, s<0 ? s*0x8000 : s*0x7FFF, true); }
+  return new Blob([out.buffer], {type:'audio/wav'});
+}
+
 /* Dictée vocale — universelle : Web Speech (transcription en direct) si dispo,
    sinon enregistrement MediaRecorder -> /transcribe (Gemini). Toujours visible. */
 function makeMic(btnId, target){
@@ -834,16 +855,19 @@ function makeMic(btnId, target){
       media.ondataavailable=e=>{ if(e.data.size) chunks.push(e.data); };
       media.onstop=async ()=>{
         off(); stream.getTracks().forEach(t=>t.stop());
-        const blob=new Blob(chunks, {type: media.mimeType||'audio/webm'});
+        let blob=new Blob(chunks, {type: media.mimeType||'audio/webm'});
+        // Conversion WAV 16 kHz mono : Gemini transcrit le WAV de façon fiable quelle
+        // que soit la durée (le WebM/Opus long donnait des transcriptions vides).
+        try{ blob=await blobToWav(blob); }catch(_){ /* on envoie l'original en repli */ }
         const fr=new FileReader();
         fr.onload=async ()=>{
           const ph=target.placeholder; target.placeholder='⏳ transcription en cours…';
           try{
             const r=await fetch('/transcribe',{method:'POST',headers:{'Content-Type':'application/json'},
-              body:JSON.stringify({audio:fr.result, mime:blob.type||'audio/webm'})});
+              body:JSON.stringify({audio:fr.result, mime:(blob.type||'audio/webm').split(';')[0]})});
             const d=await r.json();
             if(d.ok && d.text) target.value=(target.value?target.value.replace(/\s+$/,'')+' ':'')+d.text;
-            else alert(d.error||'Transcription impossible.');
+            else alert(d.error||'Transcription vide — réessaie en articulant près du micro.');
           }catch(_){ alert('Erreur réseau pendant la transcription.'); }
           target.placeholder=ph;
         };

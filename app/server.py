@@ -469,7 +469,10 @@ def transcribe(req: TranscribeReq):
     if not data:
         return {"ok": False, "error": "audio vide"}
     try:
-        return {"ok": True, "text": llm.transcribe(data, req.mime)}
+        t = llm.transcribe(data, (req.mime or "audio/wav").split(";")[0].strip())
+        if not t:
+            return {"ok": False, "error": "Transcription vide (audio inaudible ou trop court)."}
+        return {"ok": True, "text": t}
     except Exception as e:
         return {"ok": False, "error": str(e)[:200]}
 
