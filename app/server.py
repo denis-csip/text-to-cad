@@ -468,10 +468,13 @@ def transcribe(req: TranscribeReq):
     data = _dataurl_bytes(req.audio)
     if not data:
         return {"ok": False, "error": "audio vide"}
+    mime = (req.mime or "audio/wav").split(";")[0].strip()
+    print(f"transcribe: {mime}, {len(data)//1024} Ko", flush=True)
     try:
-        t = llm.transcribe(data, (req.mime or "audio/wav").split(";")[0].strip())
+        t = llm.transcribe(data, mime)
         if not t:
-            return {"ok": False, "error": "Transcription vide (audio inaudible ou trop court)."}
+            return {"ok": False,
+                    "error": f"Transcription vide ({mime}, {len(data)//1024} Ko recus)."}
         return {"ok": True, "text": t}
     except Exception as e:
         return {"ok": False, "error": str(e)[:200]}
@@ -1118,4 +1121,6 @@ app.mount("/static", StaticFiles(directory=str(APP / "static")), name="static")
 
 @app.get("/")
 def index():
-    return FileResponse(str(APP / "static" / "index.html"))
+    # no-store : les navigateurs gardaient l'ancien JS en cache malgre les deploiements
+    return FileResponse(str(APP / "static" / "index.html"),
+                        headers={"Cache-Control": "no-store, must-revalidate"})
