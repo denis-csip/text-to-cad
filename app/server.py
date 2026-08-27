@@ -442,20 +442,17 @@ class FeaReq(BaseModel):
     direction: list | None = None      # [x,y,z] optionnel (defaut : -Z)
 
 
-_fea_lock = threading.Lock()
-
-
 @app.post("/fea")
 def fea_check(req: FeaReq):
-    """Garde-fou de structure minimaliste : STEP courant -> coefficient de securite."""
+    """Garde-fou de structure minimaliste : STEP courant -> coefficient de securite.
+    Execute dans le worker (son thread principal) car Gmsh installe un handler de
+    signal invalide hors du thread principal."""
     step = WORK / "model.step"
     if not step.exists():
         return {"ok": False, "error": "Aucune piece parametrique (genere d'abord une piece)."}
-    import fea as _fea
-    d = tuple(req.direction) if req.direction else (0, 0, -1)
-    with _fea_lock:                        # gmsh a un etat global -> serialise
-        return _fea.analyze_step(str(step), force_N=req.force_N,
-                                 direction=d, material=req.material)
+    d = list(req.direction) if req.direction else [0, 0, -1]
+    return WORKER.run_raw({"cmd": "fea", "step_path": str(step), "force_N": req.force_N,
+                           "material": req.material, "direction": d}, timeout=120)
 
 
 @app.post("/visual_check")

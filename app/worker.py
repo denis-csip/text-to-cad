@@ -198,6 +198,16 @@ def _svg_perf(job):
     return {"ok": True, "mesh": True, "stats": _mesh_stats(res)}
 
 
+def _fea_job(job):
+    """Calcul de structure minimaliste, exécuté ICI (thread principal du worker) :
+    Gmsh installe un handler de signal qui n'est valide que dans le thread principal."""
+    import fea
+    return fea.analyze_step(
+        job["step_path"], force_N=job.get("force_N", 20.0),
+        direction=tuple(job.get("direction", (0, 0, -1))),
+        material=job.get("material", "PLA"))
+
+
 def main():
     import build123d as b
     from build123d import export_step, export_stl, export_gltf
@@ -220,6 +230,9 @@ def main():
                 sys.stdout.write(json.dumps(resp) + "\n"); sys.stdout.flush(); continue
             if cmd == "svg_perf":
                 resp = _svg_perf(job)
+                sys.stdout.write(json.dumps(resp) + "\n"); sys.stdout.flush(); continue
+            if cmd == "fea":
+                resp = _fea_job(job)
                 sys.stdout.write(json.dumps(resp) + "\n"); sys.stdout.flush(); continue
             code = Path(job["code_file"]).read_text(encoding="utf-8")
             outdir = Path(job["outdir"])
