@@ -837,6 +837,7 @@ $('feaBtn').onclick = async () => {
       if(d.max_displacement_mm!=null) s+=' · flèche '+d.max_displacement_mm+' mm';
       if(d.weakest_point_mm) s+=' · point faible ['+d.weakest_point_mm.join(', ')+'] mm';
       s+='</span>';
+      if(d.approx_geometry) s+=' <span class="muted">(géométrie simplifiée : détails décoratifs lissés)</span>';
       if(!d.load_case_wellposed) s+=' <span class="muted">(cas de charge approximatif — encastrement bas / charge haut)</span>';
       st.innerHTML=s;
       if(d.mesh) showFea(d);

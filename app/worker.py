@@ -207,7 +207,8 @@ def _fea_job(job):
     return fea.analyze_step(
         job["step_path"], force_N=job.get("force_N", 20.0),
         direction=tuple(job.get("direction", (0, 0, -1))),
-        material=job.get("material", "PLA"))
+        material=job.get("material", "PLA"),
+        stl_path=job.get("stl_path"))
 
 
 def main():

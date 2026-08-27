@@ -85,6 +85,79 @@ def _mesh_step(step_path, mesh_size=None):
         gmsh.finalize()
 
 
+def _mesh_from_stl(stl_path, target_faces=6000):
+    """REPLI pour les géométries que le maillage B-rep refuse (texte en relief, lofts
+    vrillés…) : on tétraédrise le STL SIMPLIFIÉ. La décimation fait disparaître les
+    détails décoratifs fins — sans effet notable sur la raideur globale, ce qui est
+    exactement le niveau d'un garde-fou."""
+    import math, os, tempfile
+    import trimesh
+    import gmsh
+    m = trimesh.load(str(stl_path), force="mesh")
+    if len(m.faces) > target_faces:
+        try:
+            m = m.simplify_quadric_decimation(face_count=target_faces)
+        except TypeError:                           # anciennes versions : positionnel
+            try:
+                m = m.simplify_quadric_decimation(target_faces)
+            except Exception:
+                pass
+        except Exception:
+            pass                                    # sans simplif : on tente quand même
+    # Réparation MeshFix : supprime auto-intersections et trous (la décimation en crée,
+    # et c'est précisément ce qui fait échouer le mailleur volumique).
+    try:
+        import pymeshfix
+        mf = pymeshfix.MeshFix(m.vertices, m.faces)
+        mf.repair()
+        m = trimesh.Trimesh(mf.points, mf.faces)
+    except Exception:
+        try:
+            m.process(validate=True)
+            trimesh.repair.fix_normals(m)
+            trimesh.repair.fill_holes(m)
+        except Exception:
+            pass
+    tmp = tempfile.mktemp(suffix=".stl")
+    m.export(tmp)
+    gmsh.initialize()
+    try:
+        gmsh.option.setNumber("General.Terminal", 0)
+        gmsh.merge(tmp)
+        # Reconstruire une géométrie maillable depuis le maillage discret.
+        gmsh.model.mesh.classifySurfaces(40 * math.pi / 180, True, False,
+                                         math.pi)
+        gmsh.model.mesh.createGeometry()
+        surfs = gmsh.model.getEntities(2)
+        if not surfs:
+            raise RuntimeError("surface STL inexploitable")
+        sl = gmsh.model.geo.addSurfaceLoop([s[1] for s in surfs])
+        gmsh.model.geo.addVolume([sl])
+        gmsh.model.geo.synchronize()
+        xmin, ymin, zmin, xmax, ymax, zmax = gmsh.model.getBoundingBox(-1, -1)
+        diag = ((xmax - xmin) ** 2 + (ymax - ymin) ** 2 + (zmax - zmin) ** 2) ** 0.5
+        h = max(diag * 0.06, 0.8)
+        gmsh.option.setNumber("Mesh.MeshSizeMax", h)
+        gmsh.option.setNumber("Mesh.MeshSizeMin", h * 0.3)
+        gmsh.option.setNumber("Mesh.Algorithm3D", 10)          # HXT
+        try:
+            gmsh.model.mesh.generate(3)
+        except Exception:
+            gmsh.model.mesh.clear()
+            gmsh.option.setNumber("Mesh.Algorithm3D", 1)       # Delaunay en secours
+            gmsh.model.mesh.generate(3)
+        coords, tets = _extract_tets(gmsh)
+        if tets is None or len(tets) == 0:
+            raise RuntimeError("aucun tétra depuis le STL")
+        return coords, tets
+    finally:
+        gmsh.finalize()
+        try:
+            os.unlink(tmp)
+        except Exception:
+            pass
+
+
 def _elasticity_D(E, nu):
     lam = E * nu / ((1 + nu) * (1 - 2 * nu))
     mu = E / (2 * (1 + nu))
@@ -117,15 +190,26 @@ def _tet_B_V(p):
 
 
 def analyze_step(step_path, force_N=20.0, direction=(0, 0, -1),
-                 material="PLA", mesh_size=None, include_mesh=True):
+                 material="PLA", mesh_size=None, include_mesh=True, stl_path=None):
     """Renvoie un dict : coefficient de sécurité, von Mises max (MPa), zone la plus
-    sollicitée, déplacement max (mm), et infos maillage. Jamais d'exception -> {ok:False}."""
+    sollicitée, déplacement max (mm), et infos maillage. Jamais d'exception -> {ok:False}.
+    Si le maillage B-rep échoue et qu'un `stl_path` est fourni, repli sur le STL
+    simplifié (détails décoratifs lissés -> résultat 'approché')."""
     mat = MATERIALS.get(material, MATERIALS["PLA"])
     E, nu, ylimit = mat["E"], mat["nu"], mat["yield"]
+    approx = False
     try:
         coords, tets = _mesh_step(step_path, mesh_size)
     except Exception as e:
-        return {"ok": False, "error": f"maillage échoué : {e}"}
+        if stl_path:
+            try:
+                coords, tets = _mesh_from_stl(stl_path)
+                approx = True
+            except Exception as e2:
+                return {"ok": False,
+                        "error": f"maillage échoué (B-rep : {e} ; repli STL : {e2})"}
+        else:
+            return {"ok": False, "error": f"maillage échoué : {e}"}
     n = len(coords)
     if n == 0 or len(tets) == 0:
         return {"ok": False, "error": "maillage vide"}
@@ -241,5 +325,6 @@ def analyze_step(step_path, force_N=20.0, direction=(0, 0, -1),
         "nodes": int(n),
         "tets": int(len(tets)),
         "verdict": ("solide" if sf >= 2 else "limite" if sf >= 1 else "trop fragile"),
+        "approx_geometry": bool(approx),   # calculé sur STL simplifié (détails lissés)
         "mesh": viz,
     }

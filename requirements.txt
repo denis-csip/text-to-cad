@@ -27,3 +27,6 @@ pillow==12.3.0
 # Garde-fou de structure (RDM/FEA minimaliste) : maillage + solveur numpy/scipy
 gmsh==4.15.2
 scipy==1.18.0
+# Repli STL pour geometries non maillables en B-rep (texte en relief, lofts vrilles) :
+fast-simplification
+pymeshfix

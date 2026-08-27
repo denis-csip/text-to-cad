@@ -451,8 +451,10 @@ def fea_check(req: FeaReq):
     if not step.exists():
         return {"ok": False, "error": "Aucune piece parametrique (genere d'abord une piece)."}
     d = list(req.direction) if req.direction else [0, 0, -1]
+    stl = WORK / "model.stl"
     return WORKER.run_raw({"cmd": "fea", "step_path": str(step), "force_N": req.force_N,
-                           "material": req.material, "direction": d}, timeout=120)
+                           "material": req.material, "direction": d,
+                           "stl_path": str(stl) if stl.exists() else None}, timeout=180)
 
 
 @app.post("/visual_check")
