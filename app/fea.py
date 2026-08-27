@@ -87,7 +87,7 @@ def _tet_B_V(p):
 
 
 def analyze_step(step_path, force_N=20.0, direction=(0, 0, -1),
-                 material="PLA", mesh_size=None):
+                 material="PLA", mesh_size=None, include_mesh=True):
     """Renvoie un dict : coefficient de sécurité, von Mises max (MPa), zone la plus
     sollicitée, déplacement max (mm), et infos maillage. Jamais d'exception -> {ok:False}."""
     mat = MATERIALS.get(material, MATERIALS["PLA"])
@@ -142,24 +142,60 @@ def analyze_step(step_path, force_N=20.0, direction=(0, 0, -1),
     except Exception as e:
         return {"ok": False, "error": f"résolution échouée : {e}"}
 
-    # --- Contrainte de von Mises par élément ---
+    # --- Contrainte de von Mises par élément + accumulation nodale (pour la visu) ---
+    elem_vm = np.zeros(len(tets))
+    nodal_sum = np.zeros(n)
+    nodal_cnt = np.zeros(n)
     max_vm, worst = 0.0, None
-    for t, B, V, g in zip(tets, Bs, Vs, good):
+    for k, (t, B, g) in enumerate(zip(tets, Bs, good)):
         if not g:
             continue
         dofs = np.array([[3 * ni, 3 * ni + 1, 3 * ni + 2] for ni in t]).ravel()
         s = D @ (B @ u[dofs])                          # [sxx,syy,szz,sxy,syz,szx]
-        vm = ((0.5 * ((s[0] - s[1]) ** 2 + (s[1] - s[2]) ** 2 + (s[2] - s[0]) ** 2)
-               + 3 * (s[3] ** 2 + s[4] ** 2 + s[5] ** 2))) ** 0.5
+        vm = float((0.5 * ((s[0] - s[1]) ** 2 + (s[1] - s[2]) ** 2 + (s[2] - s[0]) ** 2)
+                    + 3 * (s[3] ** 2 + s[4] ** 2 + s[5] ** 2)) ** 0.5)
+        elem_vm[k] = vm
+        for ni in t:
+            nodal_sum[ni] += vm
+            nodal_cnt[ni] += 1
         if vm > max_vm:
             max_vm = vm
             worst = coords[t].mean(axis=0)
-    umax = float(np.abs(u.reshape(-1, 3)).sum(axis=1).max())
+    nodal_vm = nodal_sum / np.maximum(nodal_cnt, 1)
+    disp = u.reshape(-1, 3)
+    umax = float(np.abs(disp).sum(axis=1).max())
     sf = float(ylimit / max_vm) if max_vm > 1e-9 else 999.0
     # Sanity : un déplacement absurde signale un cas de charge mal posé (modes parasites,
     # ex. forme organique sans face d'encastrement franche) -> on le signale.
     diag = float(np.linalg.norm(coords.max(0) - coords.min(0)))
     wellposed = umax < 5.0 * diag
+
+    # --- Maillage de surface (faces frontières) coloré par la contrainte, pour la visu ---
+    viz = None
+    if include_mesh:
+        from collections import defaultdict
+        FACES = ((1, 2, 3), (0, 2, 3), (0, 1, 3), (0, 1, 2))
+        cnt = defaultdict(int)
+        rep = {}
+        for t, g in zip(tets, good):
+            if not g:
+                continue
+            for a, b, c in FACES:
+                tri = (int(t[a]), int(t[b]), int(t[c]))
+                key = tuple(sorted(tri))
+                cnt[key] += 1
+                rep.setdefault(key, tri)
+        surf = [rep[k] for k, v in cnt.items() if v == 1]     # faces vues une seule fois = surface
+        used = sorted({i for tri in surf for i in tri})
+        remap = {o: j for j, o in enumerate(used)}
+        viz = {
+            "nodes": [[round(float(x), 2) for x in coords[i]] for i in used],
+            "tris": [[remap[a], remap[b], remap[c]] for (a, b, c) in surf],
+            "vm": [round(float(nodal_vm[i]), 3) for i in used],
+            "disp": [[round(float(x), 4) for x in disp[i]] for i in used],
+            "vm_max": round(float(max_vm), 3),
+        }
+
     return {
         "ok": True,
         "material": material,
@@ -173,4 +209,5 @@ def analyze_step(step_path, force_N=20.0, direction=(0, 0, -1),
         "nodes": int(n),
         "tets": int(len(tets)),
         "verdict": ("solide" if sf >= 2 else "limite" if sf >= 1 else "trop fragile"),
+        "mesh": viz,
     }
