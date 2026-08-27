@@ -1093,6 +1093,7 @@ def send(r: SendReq):
 
 
 app.mount("/work", StaticFiles(directory=str(WORK)), name="work")
+app.mount("/static", StaticFiles(directory=str(APP / "static")), name="static")
 
 
 @app.get("/")
