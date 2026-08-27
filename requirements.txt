@@ -6,7 +6,7 @@ pydantic==2.13.4
 pydantic_core==2.46.4
 python-multipart==0.0.32
 python-dotenv==1.2.2
-google-genai==2.13.0
+google-genai==2.20.0
 
 # Noyau CAO + maillage
 build123d==0.11.1

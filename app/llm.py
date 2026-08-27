@@ -111,16 +111,46 @@ def _vision_cfg(temperature: float = 0.2):
     return types.GenerateContentConfig(**kwargs)
 
 
+TRANSCRIBE_MODEL = os.environ.get("TRANSCRIBE_MODEL", "gemini-3.5-transcribe")
+
+
 def transcribe(audio_bytes: bytes, mime: str = "audio/webm") -> str:
-    """Transcription audio -> texte (français) via Gemini multimodal.
-    Repli universel quand le navigateur n'a pas la reconnaissance Web Speech."""
+    """Transcription audio -> texte via le modèle DÉDIÉ gemini-3.5-transcribe
+    (API interactions : robuste au bruit réel, nettoie les hésitations).
+    Repli sur le Gemini flash générique si indisponible."""
+    mime = (mime or "audio/wav").split(";")[0].strip()
+    client = _get_client()
+    # 1) Modèle dédié (voie principale)
+    try:
+        import tempfile
+        ext = {"audio/wav": ".wav", "audio/webm": ".webm", "audio/ogg": ".ogg",
+               "audio/mpeg": ".mp3", "audio/mp3": ".mp3"}.get(mime, ".bin")
+        tmp = tempfile.mktemp(suffix=ext)
+        with open(tmp, "wb") as fh:
+            fh.write(audio_bytes)
+        try:
+            f = client.files.upload(file=tmp)
+            it = client.interactions.create(
+                model=TRANSCRIBE_MODEL,
+                input=[{"type": "audio", "uri": f.uri, "mime_type": f.mime_type}])
+            t = (it.output_text or "").strip()
+            if t:
+                return t
+        finally:
+            try:
+                os.unlink(tmp)
+            except Exception:
+                pass
+    except Exception as e:
+        print("transcribe dédié KO, repli flash:", str(e)[:120], flush=True)
+    # 2) Repli : Gemini flash générique (multimodal)
     cfg = types.GenerateContentConfig(
         system_instruction=("Transcris fidèlement cet audio en français. Réponds "
                             "UNIQUEMENT avec le texte transcrit, sans commentaire."),
         temperature=0.0,
         **({"thinking_config": types.ThinkingConfig(thinking_level=THINKING)}
            if "gemini-3" in MODEL else {}))
-    resp = _get_client().models.generate_content(
+    resp = client.models.generate_content(
         model=MODEL,
         contents=[types.Part.from_bytes(data=audio_bytes, mime_type=mime),
                   "Transcris cet audio."],
