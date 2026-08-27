@@ -51,22 +51,43 @@ def hollow_tray(part, wall=2.0, height=40.0, base=2.0):
     return vp.part
 
 
-def hook(width=8.0, arm=20.0, rise=18.0, thickness=6.0, fillet_r=2.5):
-    """Crochet / patère STANDARD en L (profil de vrai crochet, pas une forme inventée).
-    Queue horizontale le long de +X + relevé vertical (+Z) au bout, aretes arrondies.
-    Orientation canonique : dos du crochet dans le plan X=0 (a coller sur la piece),
-    la queue s'etend vers +X, le relevé monte vers +Z, largeur `width` le long de Y,
-    base a Z=0. Le modele n'a plus qu'a POSITIONNER ce crochet (translate/rotate)
-    et l'unir a la piece. Retourne une Part (API algebre)."""
+def hook(width=8.0, arm=25.0, rise=30.0, thickness=8.0, fillet_r=2.5):
+    """Crochet / patère COURBE (profil de patère en J), robuste.
+    Une barre ronde est BALAYÉE le long d'une courbe : elle monte, s'avance en
+    s'incurvant, puis se relève en pointe (retient un manteau/objet).
+    Orientation canonique : dos dans le plan X=0 (a coller sur la piece), la patère
+    s'etend vers +X et se relève vers +Z, base a Z=0. Le modele n'a qu'a POSITIONNER
+    (translate/rotate) puis unir a la piece. Repli sur un crochet en L si le balayage
+    echoue. Retourne une Part."""
+    r = max(thickness / 2.0, 1.5)
+    try:
+        from build123d import (BuildPart, BuildLine, BuildSketch, Spline,
+                               Circle, sweep, Plane)
+        with BuildPart() as h:
+            with BuildLine():
+                Spline((0, 0, 0),
+                       (0, 0, rise * 0.30),
+                       (arm * 0.50, 0, rise * 0.62),
+                       (arm, 0, rise * 0.85),
+                       (arm * 0.78, 0, rise))
+            with BuildSketch(Plane.YZ):        # profil circulaire ⟂ au depart (+X)
+                Circle(r)
+            sweep()
+        p = h.part
+        if getattr(p, "volume", 0) > 0:
+            return p
+    except Exception:
+        pass
+    # Repli : crochet en L (boites + conge)
     from build123d import Box, Pos, Axis, Align, fillet
     tail = Pos(0, 0, 0) * Box(arm, width, thickness,
                               align=(Align.MIN, Align.CENTER, Align.MIN))
     lip = Pos(arm - thickness, 0, 0) * Box(thickness, width, rise + thickness,
                                            align=(Align.MIN, Align.CENTER, Align.MIN))
     part = tail + lip
-    try:                          # arrondit le coude et les aretes -> profil propre
-        r = min(fillet_r, thickness / 2.1, rise / 2.1, arm / 2.1)
-        part = fillet(part.edges().filter_by(Axis.Y), r)
+    try:
+        rr = min(fillet_r, thickness / 2.1, rise / 2.1, arm / 2.1)
+        part = fillet(part.edges().filter_by(Axis.Y), rr)
     except Exception:
         pass
     return part

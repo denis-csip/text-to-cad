@@ -547,9 +547,16 @@ function showFea(d){
   feaGroup=new THREE.Group(); feaGroup.rotation.x=-Math.PI/2;
   feaGroup.add(new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors:true, metalness:0, roughness:.75, side:THREE.DoubleSide, flatShading:true })));
   feaGroup.add(new THREE.LineSegments(new THREE.WireframeGeometry(geo), new THREE.LineBasicMaterial({ color:0x1c2430, transparent:true, opacity:.12 })));
-  if(d.weakest_point_mm){ const w=d.weakest_point_mm;
-    const s=new THREE.Mesh(new THREE.SphereGeometry(Math.max(diag*0.03,1.2),16,16), new THREE.MeshBasicMaterial({ color:0xff2d2d }));
-    s.position.set(w[0]-cx,w[1]-cy,w[2]-cz); feaGroup.add(s); }
+  const nearestDef=(tp)=>{ let bi=0,bd=1e18; for(let i=0;i<N;i++){ const p=m.nodes[i],dx=p[0]-tp[0],dy=p[1]-tp[1],dz=p[2]-tp[2],dd=dx*dx+dy*dy+dz*dz; if(dd<bd){bd=dd;bi=i;} } return [pos[3*bi],pos[3*bi+1],pos[3*bi+2]]; };
+  if(d.weakest_point_mm){ const w=nearestDef(d.weakest_point_mm);   // posé sur le maillage DÉFORMÉ
+    const s=new THREE.Mesh(new THREE.SphereGeometry(Math.max(diag*0.026,1.1),16,16), new THREE.MeshBasicMaterial({ color:0xff2d2d }));
+    s.position.set(w[0],w[1],w[2]); feaGroup.add(s); }
+  if(d.load_point_mm && d.load_dir){                                 // flèche de charge (poids/effort)
+    const lp=nearestDef(d.load_point_mm), ld=d.load_dir;
+    const dir=new THREE.Vector3(ld[0],ld[1],ld[2]); if(dir.length()<1e-6) dir.set(0,0,-1); dir.normalize();
+    const len=Math.max(diag*0.42,8), tail=new THREE.Vector3(lp[0],lp[1],lp[2]).addScaledVector(dir,-len);
+    feaGroup.add(new THREE.ArrowHelper(dir, tail, len, 0xf97316, len*0.26, len*0.16));
+  }
   if(current) current.visible=false;
   scene.add(feaGroup);
   const view=$('view'); view.style.position='relative';
@@ -559,7 +566,7 @@ function showFea(d){
     +'<div style="display:flex;gap:6px"><div style="width:14px;height:90px;border-radius:3px;background:linear-gradient(to top,#2563eb,#06b6d4,#22c55e,#eab308,#ef4444)"></div>'
     +'<div style="display:flex;flex-direction:column;justify-content:space-between"><span>'+vmax.toFixed(1)+'</span><span>'+(vmax/2).toFixed(1)+'</span><span>0</span></div></div>'
     +'<div style="margin-top:6px;font-weight:600">Coeff. sécu <span style="color:'+(d.safety_factor>=2?'#15803d':'#b91c1c')+'">'+d.safety_factor+'</span></div>'
-    +'<div style="color:var(--mut)">déformée ×'+Math.round(amp)+' · point rouge = max contrainte</div>';
+    +'<div style="color:var(--mut)">déformée ×'+Math.round(amp)+' · <span style="color:#f97316">flèche = charge</span> · <span style="color:#ef4444">point = contrainte max</span></div>';
   view.appendChild(lg);
   const bk=document.createElement('button'); bk.id='feaBack'; bk.className='sec'; bk.textContent='↩ Retour au modèle';
   bk.style.cssText='position:absolute;right:10px;top:10px;padding:6px 10px;font-size:12px'; bk.onclick=clearFea;

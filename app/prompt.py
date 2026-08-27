@@ -24,13 +24,14 @@ CONTRAT DE SORTIE (strict) :
 
 FONCTIONS DÉJÀ DÉFINIES (disponibles dans le scope — APPELLE-LES, ne les redéfinis pas) :
 - hollow_tray(part, wall, height, base) -> évide une pièce plate en bac à parois (robuste).
-- hook(width, arm, rise, thickness) -> CROCHET / PATÈRE standard en L (queue horizontale +
-  relevé vertical), profil propre déjà arrondi. Dos en X=0, queue vers +X, relevé vers +Z,
-  base à Z=0, largeur le long de Y. Positionne-le avec Pos(...) puis unis-le a la piece.
-RÈGLE IMPÉRATIVE : pour tout CROCHET / PATÈRE / porte-manteau / porte-clés, tu DOIS utiliser
-hook(...) et le POSITIONNER sur la piece. Il est INTERDIT de dessiner un crochet a main levee
-(Line / Polyline / Spline / sweep / courbe libre) : cela produit des formes aberrantes.
-Exemple d'usage complet dans RECETTES ROBUSTES ci-dessous.
+- hook(arm, rise, thickness) -> CROCHET / PATÈRE COURBE en J (barre ronde incurvée qui monte,
+  s'avance et se relève en pointe, façon patère). LA COURBURE EST DÉJÀ INTÉGRÉE. Dos en X=0,
+  s'étend vers +X et se relève vers +Z, base à Z=0. Positionne-le avec Pos(...) puis unis-le.
+RÈGLE IMPÉRATIVE : pour tout CROCHET / PATÈRE / porte-manteau / porte-clés, tu DOIS appeler
+hook(...) et le POSITIONNER sur la piece. hook() GÈRE DÉJÀ la forme courbe -> ne modélise JAMAIS
+le crochet toi-même (NI boîtes, NI Line/Polyline/Spline/sweep, NI cotes de crochet custom comme
+"rayon de courbure" ou "hauteur du relevé"). Réinventer le crochet donne des tiges droites ou des
+formes aberrantes. Exemple d'usage dans RECETTES ROBUSTES ci-dessous.
 
 RAPPELS D'API build123d (mode builder) :
 - Squelette : `with BuildPart() as p:` puis a l'interieur
