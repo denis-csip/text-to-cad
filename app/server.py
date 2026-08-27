@@ -470,8 +470,16 @@ def transcribe(req: TranscribeReq):
         return {"ok": False, "error": "audio vide"}
     mime = (req.mime or "audio/wav").split(";")[0].strip()
     print(f"transcribe: {mime}, {len(data)//1024} Ko", flush=True)
+    try:  # copie de diagnostic : dernier audio recu (ecrase a chaque fois)
+        dbg = Path("/data") if Path("/data").exists() else WORK
+        (dbg / "last_audio.bin").write_bytes(data)
+        (dbg / "last_audio.txt").write_text(mime, encoding="utf-8")
+    except Exception:
+        pass
     try:
         t = llm.transcribe(data, mime)
+        if not t:                     # les reponses vides sont parfois transitoires
+            t = llm.transcribe(data, mime)
         if not t:
             return {"ok": False,
                     "error": f"Transcription vide ({mime}, {len(data)//1024} Ko recus)."}
