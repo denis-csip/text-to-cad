@@ -111,6 +111,14 @@
   .tag-pending { background:#fef3c7; color:#b45309; }
   .tag-blocked { background:#fee2e2; color:#b91c1c; }
   .tag-active { background:#dcfce7; color:#15803d; }
+  /* --- Dictée vocale + boucle d'itération --- */
+  .micBtn { background:var(--panel); border:1px solid var(--line); border-radius:50%; width:38px; height:38px;
+    padding:0; font-size:17px; line-height:1; color:var(--txt); flex:0 0 auto; }
+  .micBtn:hover { background:#eef2f7; }
+  .micBtn.abs { position:absolute; right:10px; bottom:10px; }
+  .micBtn.rec { background:#fee2e2; border-color:#fca5a5; animation:micpulse 1.2s infinite; }
+  @keyframes micpulse { 0%{box-shadow:0 0 0 0 rgba(239,68,68,.45)} 100%{box-shadow:0 0 0 12px rgba(239,68,68,0)} }
+  #iterLog li { margin:3px 0; }
 </style>
 </head>
 <body>
@@ -190,7 +198,10 @@
 <main id="viewAtelier">
   <div class="card full">
     <div class="lbl">Décris la pièce (langage naturel)</div>
-    <textarea id="brief" placeholder="Ex : un support mural pour une brosse à dents électrique de 28 mm de diamètre, avec deux trous de vis M4 espacés de 40 mm."></textarea>
+    <div style="position:relative">
+      <textarea id="brief" placeholder="Ex : un support mural pour une brosse à dents électrique de 28 mm de diamètre, avec deux trous de vis M4 espacés de 40 mm."></textarea>
+      <button id="micBrief" class="micBtn abs" title="Dicter la pièce à la voix">🎙️</button>
+    </div>
     <div class="row" style="align-items:flex-start; margin-top:10px">
       <div>
         <div class="lbl" style="margin-bottom:6px">Croquis au doigt (optionnel) — esquisse la forme voulue, le modèle s'en sert</div>
@@ -219,11 +230,16 @@
         </div>
       </div>
     </div>
-    <div class="row" id="refineRow" style="display:none; margin-top:10px">
-      <input id="refine" type="text" style="flex:1; min-width:300px"
-             placeholder="Itérer : ex. « rallonge les crochets de 8 mm et ajoute un trou d'évacuation en bas »">
-      <button id="refineBtn" class="sec">Affiner ↺</button>
-      <span id="refineStatus" class="muted"></span>
+    <div id="refineRow" style="display:none; margin-top:12px; border-top:1px dashed var(--line); padding-top:12px">
+      <div class="lbl" style="margin-bottom:6px">💬 Itère sur la forme — modifie autant que nécessaire, puis seulement valide (calcul de structure, export)</div>
+      <div class="row" style="margin-top:0">
+        <button id="micRefine" class="micBtn" title="Dicter la modification à la voix">🎙️</button>
+        <input id="refine" type="text" style="flex:1; min-width:280px"
+               placeholder="ex. « ajoute 4 trous de 5 mm aux coins » · « chanfreine les arêtes » · « épaissis la base à 6 mm »">
+        <button id="refineBtn">Appliquer ↺</button>
+        <span id="refineStatus" class="muted"></span>
+      </div>
+      <ul id="iterLog" style="margin:8px 0 0; padding-left:20px; font-size:12.5px; color:var(--mut)"></ul>
     </div>
   </div>
 
@@ -541,7 +557,8 @@ function showResult(d, statusEl, keepView){
     statusEl.innerHTML = `<span class="pill ok">OK</span> ${d.attempts>1?'(corrigé en 2 essais)':''}`;
     if(d.mesh) meshMode = true;
     showStats(d.stats); loadGLB(d.files.glb, keepView);
-    $('refineRow').style.display='flex';
+    $('refineRow').style.display='block';
+    if(!keepView && $('iterLog')) $('iterLog').innerHTML='';   // nouvelle pièce = nouveau fil
     buildParams(d.params); $('paramWarn').style.display='none';
   } else {
     statusEl.innerHTML = `<span class="pill err">Échec</span>`;
@@ -590,7 +607,7 @@ initView();
 })();
 
 fetch('/state').then(r=>r.json()).then(s => {
-  if(s.code){ $('code').textContent=s.code; $('refineRow').style.display='flex'; }
+  if(s.code){ $('code').textContent=s.code; $('refineRow').style.display='block'; }
   meshMode = !!s.mesh;
   if(s.has_model) loadGLB('/work/model.glb');
   if(meshMode) $('faceHint').textContent = 'Mode maillage : clique un point sur la surface pour coller un texte/SVG.';
@@ -769,10 +786,44 @@ $('refineBtn').onclick = async () => {
   $('refineBtn').disabled=true; $('refineStatus').textContent='⏳ Gemini modifie… (jusqu'+"'"+'à ~40 s sur un ordre complexe)';
   const faces = selSet.map(i => ({ i, label:(facesData[i]||{}).label, c:(facesData[i]||{}).c }));
   try { const r = await fetch('/refine', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({instruction, faces})});
-        const d = await r.json(); showResult(d, $('refineStatus'), true); if(d.ok) $('refine').value=''; }
+        const d = await r.json(); showResult(d, $('refineStatus'), true);
+        if(d.ok){ addIter(instruction); $('refine').value=''; } }
   catch(e){ setLog('Erreur réseau: '+e); }
   $('refineBtn').disabled=false;
 };
+$('refine').addEventListener('keydown', e => { if(e.key==='Enter') $('refineBtn').click(); });
+
+/* Journal des itérations appliquées à la forme (avant validation/calcul). */
+function addIter(txt){
+  const ul=$('iterLog'); if(!ul) return;
+  const li=document.createElement('li');
+  li.textContent='✅ '+txt;
+  ul.appendChild(li);
+}
+
+/* Dictée vocale (Web Speech API, fr-FR, transcription en direct). */
+function makeMic(btnId, target){
+  const btn=$(btnId); if(!btn) return;
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){ btn.style.display='none'; return; }   // navigateur sans reconnaissance (Firefox)
+  let rec=null, active=false, base='';
+  btn.onclick=()=>{
+    if(active){ try{ rec.stop(); }catch(_){} return; }
+    rec=new SR(); rec.lang='fr-FR'; rec.continuous=true; rec.interimResults=true;
+    base=target.value ? target.value.replace(/\s+$/,'')+' ' : '';
+    rec.onresult=e=>{
+      let fin='', inter='';
+      for(let i=0;i<e.results.length;i++){ const r=e.results[i];
+        if(r.isFinal) fin+=r[0].transcript; else inter+=r[0].transcript; }
+      target.value=base+fin+inter;
+    };
+    const off=()=>{ active=false; btn.classList.remove('rec'); btn.textContent='🎙️'; };
+    rec.onend=off; rec.onerror=off;
+    try{ rec.start(); active=true; btn.classList.add('rec'); btn.textContent='⏹'; }catch(_){ off(); }
+  };
+}
+makeMic('micBrief', $('brief'));
+makeMic('micRefine', $('refine'));
 
 $('fop').onchange = () => {
   const conge = ($('fop').value === 'fillet' || $('fop').value === 'chamfer');
