@@ -23,3 +23,7 @@ numpy==2.5.1
 # Vectorisation raster
 opencv-python-headless==5.0.0.93
 pillow==12.3.0
+
+# Garde-fou de structure (RDM/FEA minimaliste) : maillage + solveur numpy/scipy
+gmsh==4.15.2
+scipy==1.18.0

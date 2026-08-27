@@ -1,7 +1,7 @@
 FROM python:3.12-slim
 
-# Librairies systeme exigees par OpenCASCADE (OCP), opencv-headless et le rendu
-# de texte build123d (fontconfig + une police reelle pour Text()).
+# Librairies systeme exigees par OpenCASCADE (OCP), opencv-headless, le rendu de
+# texte build123d (fontconfig + police), et Gmsh (maillage FEA : libX* supplementaires).
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libgl1 \
         libglu1-mesa \
@@ -10,6 +10,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libxi6 \
         libsm6 \
         libgomp1 \
+        libxcursor1 \
+        libxinerama1 \
+        libxft2 \
+        libxfixes3 \
         fontconfig \
         fonts-dejavu-core \
     && rm -rf /var/lib/apt/lists/*

@@ -436,6 +436,28 @@ class VisualReq(BaseModel):
     spec: dict | None = None
 
 
+class FeaReq(BaseModel):
+    force_N: float = 20.0
+    material: str = "PLA"
+    direction: list | None = None      # [x,y,z] optionnel (defaut : -Z)
+
+
+_fea_lock = threading.Lock()
+
+
+@app.post("/fea")
+def fea_check(req: FeaReq):
+    """Garde-fou de structure minimaliste : STEP courant -> coefficient de securite."""
+    step = WORK / "model.step"
+    if not step.exists():
+        return {"ok": False, "error": "Aucune piece parametrique (genere d'abord une piece)."}
+    import fea as _fea
+    d = tuple(req.direction) if req.direction else (0, 0, -1)
+    with _fea_lock:                        # gmsh a un etat global -> serialise
+        return _fea.analyze_step(str(step), force_N=req.force_N,
+                                 direction=d, material=req.material)
+
+
 @app.post("/visual_check")
 def visual_check(req: VisualReq):
     """Feedback visuel : le modele regarde le rendu et juge la fidelite vs l'intention."""

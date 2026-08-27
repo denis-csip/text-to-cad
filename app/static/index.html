@@ -316,6 +316,13 @@
       <a id="dlStl" class="dl" href="#" download><button class="sec" disabled>Export STL</button></a>
       <a id="dlStep" class="dl" href="#" download><button class="sec" disabled>Export STEP</button></a>
     </div>
+    <div class="row" style="margin-top:10px; border-top:1px solid var(--line); padding-top:10px; align-items:center; flex-wrap:wrap">
+      <span class="lbl" style="margin:0">Calcul de structure (RDM)</span>
+      <label class="muted">force&nbsp;<input id="feaForce" type="number" value="20" min="1" step="5" style="width:64px"> N</label>
+      <label class="muted">matériau&nbsp;<select id="feaMat" style="background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:8px"><option>PLA</option><option>PETG</option><option>ABS</option><option>TPU</option></select></label>
+      <button id="feaBtn" class="sec">Vérifier la résistance</button>
+      <span id="feaStatus" class="muted"></span>
+    </div>
   </div>
 
   <div class="card">
@@ -748,6 +755,27 @@ $('gen').onclick = async () => {
     showIntentPanel(brief, d.spec||{}, sketch);
   } catch(e){ setLog('Erreur réseau: '+e); }
   $('gen').disabled=false; $('genStatus').textContent='';
+};
+
+$('feaBtn').onclick = async () => {
+  const st=$('feaStatus'); st.innerHTML='Maillage + calcul…'; $('feaBtn').disabled=true;
+  try{
+    const r=await fetch('/fea',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({force_N:parseFloat($('feaForce').value)||20, material:$('feaMat').value})});
+    const d=await r.json();
+    if(!d.ok){ st.innerHTML='<span class="pill err">'+(d.error||'échec')+'</span>'; }
+    else{
+      const cls = d.safety_factor>=2 ? 'ok' : 'err';
+      let s='<span class="pill '+cls+'">Coeff. sécurité '+d.safety_factor+' — '+d.verdict+'</span> ';
+      s+='<span class="muted">σ von Mises max '+d.max_von_mises_MPa+' MPa';
+      if(d.max_displacement_mm!=null) s+=' · flèche '+d.max_displacement_mm+' mm';
+      if(d.weakest_point_mm) s+=' · point faible ['+d.weakest_point_mm.join(', ')+'] mm';
+      s+='</span>';
+      if(!d.load_case_wellposed) s+=' <span class="muted">(cas de charge approximatif — encastrement bas / charge haut)</span>';
+      st.innerHTML=s;
+    }
+  }catch(e){ st.innerHTML='<span class="pill err">Erreur réseau</span>'; }
+  $('feaBtn').disabled=false;
 };
 $('refineBtn').onclick = async () => {
   const instruction = $('refine').value.trim(); if(!instruction) return;
