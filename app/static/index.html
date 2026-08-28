@@ -262,7 +262,13 @@
       <button id="invGo">Consulter la matrice</button>
       <span id="invStatus" class="muted"></span>
     </div>
+    <details id="geoMatrixBox" style="margin-top:8px">
+      <summary style="cursor:pointer; font-size:13px; color:var(--acc); font-weight:600">🗺️ Matrice 39×39 — taux de remplissage géométrique (clique une cellule)</summary>
+      <div id="geoMatrix" style="margin-top:10px; overflow-x:auto"><span class="muted">chargement…</span></div>
+      <div class="muted" style="font-size:11.5px; margin-top:6px">Lignes = paramètre à améliorer · colonnes = paramètre à ne pas dégrader · couleur = nombre de solutions géométriques de la cellule (survole pour les noms, clique pour consulter).</div>
+    </details>
     <div id="invPrinciples" class="row" style="display:none; gap:8px"></div>
+    <div id="invSolDetails" style="display:none; margin-top:8px"></div>
     <div class="row" style="margin-top:8px; border-top:1px dashed var(--line); padding-top:10px; align-items:center">
       <span class="muted" style="font-size:12.5px">🕸 <b>Lattice gyroïde</b> (P31 Porosité / P40 Composites) — remplace l'âme par un treillis :</span>
       <label class="muted">cellule&nbsp;<input id="latCell" type="number" value="8" min="3" step="1" style="width:56px"> mm</label>
@@ -1229,6 +1235,17 @@ $('invGo').onclick = async () => {
       b.onclick=()=>genVariant(p.number, p.label);
       box.appendChild(b);
     });
+    // Détail : desc + sources cliquables de chaque solution de la cellule
+    const det=$('invSolDetails'); det.innerHTML=''; det.style.display='block';
+    (pr.solutions||[]).forEach(s=>{
+      const esc=t=>String(t==null?'':t).replace(/</g,'&lt;');
+      const srcs=(s.sources||[]).map(x=> x && x.url
+        ? '<a href="'+esc(x.url)+'" target="_blank" rel="noopener" style="color:var(--acc)">'+esc(x.title||x.url)+(x.year?' ('+x.year+')':'')+'</a>'
+        : esc((x&&x.title)||x)).join(' · ');
+      det.insertAdjacentHTML('beforeend',
+        '<div style="font-size:12.5px; color:var(--mut); margin:3px 0"><b style="color:var(--txt)">'+esc(s.name)+'</b> — '+esc(s.desc)
+        +(srcs?'<br>📚 '+srcs:'')+'</div>');
+    });
     // MATRICE GÉOMÉTRIQUE : les solutions CAO concrètes de cette cellule
     (pr.solutions||[]).forEach(s=>{
       const b=document.createElement('button');
@@ -1365,6 +1382,44 @@ $('latGo').onclick = async () => {
   }catch(e){ card.innerHTML='<b>🕸 Lattice gyroïde</b><div class="muted" style="color:var(--err)">erreur réseau</div>'; }
 };
 
+/* Heatmap 39x39 du remplissage géométrique (façon matrice Inventioneering). */
+let geoMatrixBuilt=false;
+$('geoMatrixBox').addEventListener('toggle', async function(){
+  if(!this.open || geoMatrixBuilt) return;
+  geoMatrixBuilt=true;
+  try{
+    const d=await fetch('/invent/matrix_stats').then(r=>r.json());
+    const PN={}; (d.parameters||[]).forEach(p=>PN[p.number]=p.fr);
+    const M={}; let maxN=1;
+    (d.cells||[]).forEach(([i,j,n,np])=>{ M[i+'_'+j]={n,np}; if(n>maxN) maxN=n; });
+    const cellCol=n=>{
+      if(!n) return 'var(--panel2)';
+      const t=Math.min(n/Math.max(maxN,1),1);
+      const h=230-40*t, l=88-46*t;                 // bleu clair -> violet dense
+      return 'hsl('+h+', 78%, '+l+'%)';
+    };
+    let h='<div style="display:grid; grid-template-columns:26px repeat(39, 15px); gap:1px; width:max-content; font-size:9px">';
+    h+='<div></div>';
+    for(let j=1;j<=39;j++) h+='<div style="text-align:center; color:var(--mut)" title="Sans dégrader №'+j+' : '+(PN[j]||'')+'">'+j+'</div>';
+    for(let i=1;i<=39;i++){
+      h+='<div style="color:var(--mut); text-align:right; padding-right:3px; line-height:15px" title="Améliorer №'+i+' : '+(PN[i]||'')+'">'+i+'</div>';
+      for(let j=1;j<=39;j++){
+        if(i===j){ h+='<div style="width:15px;height:15px;background:var(--line)"></div>'; continue; }
+        const c=M[i+'_'+j]||{n:0,np:0};
+        h+='<div class="gmc" data-i="'+i+'" data-j="'+j+'" style="width:15px;height:15px;cursor:pointer;background:'+cellCol(c.n)+';border-radius:2px"'
+          +' title="Améliorer №'+i+' ('+(PN[i]||'')+') × sans dégrader №'+j+' ('+(PN[j]||'')+') — '+c.n+' solution(s), '+c.np+' principe(s)"></div>';
+      }
+    }
+    h+='</div>';
+    $('geoMatrix').innerHTML=h;
+    $('geoMatrix').querySelectorAll('.gmc').forEach(el=>{
+      el.onclick=()=>{ $('invImp').value=el.dataset.i; $('invDeg').value=el.dataset.j;
+        $('invGo').click();
+        $('invPrinciples').scrollIntoView({behavior:'smooth', block:'center'}); };
+    });
+  }catch(e){ $('geoMatrix').innerHTML='<span class="muted">erreur de chargement</span>'; }
+});
+
 $('veilleGo').onclick = async () => {
   const st=$('veilleStatus'), box=$('veilleList');
   st.textContent='🔭 Elicit + extraction Gemini… (~1-2 min)'; $('veilleGo').disabled=true;
@@ -1383,7 +1438,9 @@ $('veilleGo').onclick = async () => {
         +'<div style="font-size:12px; color:var(--mut)">P '+(c.principles||[]).join(', ')
         +' · améliore № '+(c.improves||[]).join(', ')
         +((c.degrades||[]).length?' · risque № '+c.degrades.join(', '):'')
-        +((c.sources||[]).length?'<br>📚 '+esc((c.sources||[]).slice(0,2).join(' ; ')):'')+'</div>'
+        +((c.sources||[]).length?'<br>📚 '+(c.sources||[]).slice(0,3).map(x=> (x&&x.url)
+            ? '<a href="'+esc(x.url)+'" target="_blank" rel="noopener" style="color:var(--acc)">'+esc(x.title||x.url)+(x.year?' ('+x.year+')':'')+'</a>'
+            : esc((x&&x.title)||x)).join(' · '):'')+'</div>'
         +'<button class="vadd" style="margin-top:8px; padding:5px 12px; font-size:12.5px">➕ Adopter au catalogue</button>';
       el.querySelector('.vadd').onclick=async ()=>{
         const b=el.querySelector('.vadd'); b.disabled=true; b.textContent='⏳';

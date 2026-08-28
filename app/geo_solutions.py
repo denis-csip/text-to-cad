@@ -255,5 +255,5 @@ def cell_solutions(improve, degrade, cell_principles, limit=6):
     ranked.sort(key=lambda x: -x[0])
     return [{"id": s["id"], "name": s["name"], "kind": s["kind"],
              "desc": s["desc"], "principles": s["principles"], "score": sc,
-             "lattice": s.get("lattice")}
+             "lattice": s.get("lattice"), "sources": s.get("sources", [])}
             for sc, s in ranked[:limit]]

@@ -1140,11 +1140,31 @@ class VeilleAdoptReq(BaseModel):
     candidate: dict
 
 
+class VeilleReq(BaseModel):
+    per_query: int = 10           # articles par requete (8 requetes -> ~80 papiers)
+
+
 @app.post("/invent/veille")
-def invent_veille():
+def invent_veille(req: VeilleReq = VeilleReq()):
     """Veille géométrique : Elicit -> extraction Gemini -> candidats étiquetés TRIZ."""
     import veille as _veille
-    return _veille.harvest()
+    return _veille.harvest(per_query=max(3, min(req.per_query, 20)))
+
+
+@app.get("/invent/matrix_stats")
+def invent_matrix_stats():
+    """Taux de remplissage géométrique des 39x39 cellules (pour la heatmap)."""
+    cells = []
+    for i in range(1, 40):
+        for j in range(1, 40):
+            if i == j:
+                continue
+            prn = [p["number"] for p in _invent.principles_for(i, j)]
+            nsol = len(_geo.cell_solutions(i, j, prn))
+            if prn or nsol:
+                cells.append([i, j, nsol, len(prn)])
+    return {"cells": cells, "parameters": _invent.PARAMETERS,
+            "total_solutions": len(_geo.SOLUTIONS)}
 
 
 @app.post("/invent/veille/adopt")

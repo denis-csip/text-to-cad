@@ -38,8 +38,10 @@ def elicit_search(query: str, max_results: int = 8):
         data = json.loads(r.read().decode())
     out = []
     for p in (data.get("papers") or data.get("results") or []):
-        out.append({"title": p.get("title"), "year": p.get("year"),
-                    "doi": p.get("doi"), "abstract": (p.get("abstract") or "")[:1200]})
+        doi = p.get("doi")
+        out.append({"title": p.get("title"), "year": p.get("year"), "doi": doi,
+                    "url": p.get("url") or (f"https://doi.org/{doi}" if doi else None),
+                    "abstract": (p.get("abstract") or "")[:1200]})
     return out
 
 
@@ -57,7 +59,7 @@ Réponds UNIQUEMENT en JSON : {"candidates": [
   "principles": [n° parmi les 40 principes TRIZ que la solution incarne],
   "improves": [n° parmi les 39 paramètres d'Altshuller améliorés],
   "degrades": [n° des paramètres risqués],
-  "sources": ["Titre (année)"] }]}
+  "sources": [numéros [n] des papiers du corpus dont la solution est tirée] }]}
 
 Rappels : 39 paramètres (1 poids mobile, 2 poids fixe, 9 vitesse, 10 force,
 11 contrainte/pression, 12 forme, 13 stabilité, 14 résistance, 17 température,
@@ -72,7 +74,8 @@ ignore ce qui n'est pas géométrique."""
 
 
 def extract_candidates(papers):
-    """Gemini transforme un lot de résumés en solutions candidates étiquetées TRIZ."""
+    """Gemini transforme un lot de résumés en solutions candidates étiquetées TRIZ.
+    Les sources sont référencées par NUMÉRO puis résolues (titre + lien DOI)."""
     import llm
     from google.genai import types
     corpus = "\n\n".join(
@@ -86,10 +89,22 @@ def extract_candidates(papers):
     resp = llm._get_client().models.generate_content(
         model=llm.MODEL, contents=corpus[:60000], config=cfg)
     data = llm._extract_json(resp.text)
-    return data.get("candidates", []) if isinstance(data, dict) else []
+    cands = data.get("candidates", []) if isinstance(data, dict) else []
+    for c in cands:                        # résolution n° -> {titre, année, lien}
+        src = []
+        for s in (c.get("sources") or []):
+            try:
+                p = papers[int(s) - 1]
+                src.append({"title": p.get("title"), "year": p.get("year"),
+                            "url": p.get("url")})
+            except Exception:
+                if isinstance(s, str):
+                    src.append({"title": s, "year": None, "url": None})
+        c["sources"] = src
+    return cands
 
 
-def harvest(queries=None, per_query=6):
+def harvest(queries=None, per_query=10):
     """Balayage complet : requêtes Elicit -> dédoublonnage -> extraction Gemini."""
     if not ELICIT_KEY:
         return {"ok": False, "error": "ELICIT_API_KEY non configurée."}
