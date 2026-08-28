@@ -353,16 +353,33 @@ def _lattice(job):
     it = max(1, int(round(shell / pitch)))
     inner = ndimage.binary_erosion(M, iterations=it)
     shell_mask = M & ~inner
-    # gyroïde : sin(x)cos(y) + sin(y)cos(z) + sin(z)cos(x), période = cell
+    # Champ TPMS (période = cell) : gyroïde / Schwarz-P / diamant
+    kind = str(job.get("kind", "gyroid"))
     k = 2.0 * np.pi / cell
     nx, ny, nz = M.shape
     ax = (np.arange(nx) * pitch + origin[0]) * k
     ay = (np.arange(ny) * pitch + origin[1]) * k
     az = (np.arange(nz) * pitch + origin[2]) * k
-    G = (np.sin(ax)[:, None, None] * np.cos(ay)[None, :, None]
-         + np.sin(ay)[None, :, None] * np.cos(az)[None, None, :]
-         + np.sin(az)[None, None, :] * np.cos(ax)[:, None, None]).astype(np.float32)
-    t = np.pi * wall / cell                    # seuil ~ épaisseur de paroi voulue
+    sx, cx = np.sin(ax)[:, None, None], np.cos(ax)[:, None, None]
+    sy, cy = np.sin(ay)[None, :, None], np.cos(ay)[None, :, None]
+    sz, cz = np.sin(az)[None, None, :], np.cos(az)[None, None, :]
+    if kind == "schwarz":
+        G = (cx + cy + cz).astype(np.float32)
+    elif kind == "diamond":
+        G = (sx * sy * sz + sx * cy * cz + cx * sy * cz + cx * cy * sz).astype(np.float32)
+    else:
+        G = (sx * cy + sy * cz + sz * cx).astype(np.float32)
+    # Épaisseur de paroi : uniforme, ou GRADIENT de densité (Qualité locale, P3) :
+    # brins pleins du côté "dense" (bas par défaut), affinés de 55% à l'opposé.
+    grad = job.get("gradient")                 # None | 'z' (dense en bas) | 'z-top'
+    if grad in ("z", "z-top"):
+        frac = np.linspace(0.0, 1.0, nz, dtype=np.float32)
+        if grad == "z-top":
+            frac = 1.0 - frac
+        wall_z = wall * (1.0 - 0.55 * frac)    # wall -> 0.45*wall
+        t = (np.pi * wall_z / cell)[None, None, :]
+    else:
+        t = np.pi * wall / cell
     final = shell_mask | (inner & (np.abs(G) < t))
     mesh = matrix_to_marching_cubes(final, pitch=pitch)
     mesh.apply_translation(origin)

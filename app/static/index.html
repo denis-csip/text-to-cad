@@ -268,6 +268,8 @@
       <label class="muted">cellule&nbsp;<input id="latCell" type="number" value="8" min="3" step="1" style="width:56px"> mm</label>
       <label class="muted">brin&nbsp;<input id="latWall" type="number" value="1.6" min="0.8" step="0.2" style="width:56px"> mm</label>
       <label class="muted">peau&nbsp;<input id="latShell" type="number" value="1.6" min="0.8" step="0.2" style="width:56px"> mm</label>
+      <label class="muted">type&nbsp;<select id="latKind" style="background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:7px"><option value="gyroid">gyroïde</option><option value="schwarz">Schwarz-P</option><option value="diamond">diamant</option></select></label>
+      <label class="chk muted" style="font-size:12px" title="Qualité locale (P3) : brins pleins en bas, affinés en haut"><input type="checkbox" id="latGrad"> gradient (dense en bas)</label>
       <button id="latGo" class="sec">Générer la variante lattice</button>
     </div>
     <div id="invVariants" style="display:none; margin-top:12px">
@@ -1221,6 +1223,22 @@ $('invGo').onclick = async () => {
       b.onclick=()=>genVariant(p.number, p.label);
       box.appendChild(b);
     });
+    // MATRICE GÉOMÉTRIQUE : les solutions CAO concrètes de cette cellule
+    (pr.solutions||[]).forEach(s=>{
+      const b=document.createElement('button');
+      b.style.cssText='padding:7px 12px; font-size:13px; background:#eef2ff; color:#4338ca; border:1px solid #c7d2fe; border-radius:8px; font-weight:600';
+      b.textContent='🧩 '+s.name;
+      b.title=s.desc+' (principes '+s.principles.join(', ')+')';
+      if(s.kind==='lattice'){
+        b.onclick=()=>{ const L=s.lattice||{};
+          $('latKind').value=L.kind||'gyroid';
+          $('latGrad').checked=!!L.gradient;
+          $('latGo').click(); };
+      } else {
+        b.onclick=()=>genVariantSol(s.id, s.name);
+      }
+      box.appendChild(b);
+    });
     if(bl.ok){ invBaseline=bl;
       $('invBase').textContent='Pièce de départ : SF '+(bl.sf!=null?bl.sf:'?')+' · '+(bl.masse_g||'?')+' g · idéalité '+(bl.ideality!=null?bl.ideality:'?');
       $('invVariants').style.display='block';
@@ -1265,6 +1283,43 @@ async function genVariant(n, label){
     };
   }catch(e){ card.innerHTML='<b>'+n+'. '+label+'</b><div class="muted" style="color:var(--err)">erreur réseau</div>'; }
 }
+async function genVariantSol(id, label){
+  $('invVariants').style.display='block';
+  const grid=$('invGrid');
+  let card=document.getElementById('invVs_'+id);
+  if(!card){ card=document.createElement('div'); card.id='invVs_'+id;
+    card.style.cssText='background:var(--panel2); border:1px solid var(--line); border-radius:12px; padding:12px'; grid.appendChild(card); }
+  card.innerHTML='<b>🧩 '+label+'</b><div class="muted" style="margin-top:6px">⏳ transformation + validation + calcul…</div>';
+  try{
+    const r=await fetch('/invent/variant',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({solution:id, contradiction:contradictionText()})});
+    const d=await r.json();
+    if(!d.ok){ card.innerHTML='<b>🧩 '+label+'</b><div class="muted" style="margin-top:6px; color:var(--err)">échec : '+String(d.error||'').slice(0,90)+'</div>'; return; }
+    const dSF=(invBaseline&&invBaseline.sf!=null&&d.sf!=null)?(d.sf-invBaseline.sf):null;
+    const dM=(invBaseline&&invBaseline.masse_g&&d.masse_g)?(d.masse_g-invBaseline.masse_g):null;
+    const dI=(invBaseline&&invBaseline.ideality!=null&&d.ideality!=null)?(d.ideality-invBaseline.ideality):null;
+    const fmt=(v,u)=>v==null?'':' <span style="color:'+(v>0?'#15803d':'#b91c1c')+'">('+(v>0?'+':'')+(Math.round(v*10)/10)+u+')</span>';
+    card.innerHTML='<b>🧩 '+label+'</b>'
+      +'<div style="font-size:13px; margin-top:6px">SF <b>'+(d.sf!=null?d.sf:'?')+'</b>'+fmt(dSF,'')+'</div>'
+      +'<div style="font-size:13px">masse <b>'+(d.masse_g||'?')+' g</b>'+fmt(dM,' g')+'</div>'
+      +'<div style="font-size:13px">idéalité <b>'+(d.ideality!=null?d.ideality:'?')+'</b>'+fmt(dI,'')+'</div>'
+      +'<div class="row" style="margin-top:8px"><button class="sec vprev" style="padding:5px 10px; font-size:12px">👁 Voir</button>'
+      +'<button class="vadopt" style="padding:5px 10px; font-size:12px">✔ Adopter</button></div>';
+    card.querySelector('.vprev').onclick=()=>{ loadGLB(d.glb, true);
+      $('invStatus').textContent='👁 aperçu : '+label+' — non adoptée'; };
+    card.querySelector('.vadopt').onclick=async ()=>{
+      const btn=card.querySelector('.vadopt'); btn.textContent='⏳'; btn.disabled=true;
+      try{
+        const ra=await fetch('/invent/adopt',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({principle:id})});
+        const da=await ra.json();
+        showResult(da, $('invStatus'), false);
+        if(da.ok){ addIter('adopté : '+label); btn.textContent='✔ adoptée'; }
+        else { btn.textContent='✔ Adopter'; btn.disabled=false; }
+      }catch(e){ btn.textContent='✔ Adopter'; btn.disabled=false; }
+    };
+  }catch(e){ card.innerHTML='<b>🧩 '+label+'</b><div class="muted" style="color:var(--err)">erreur réseau</div>'; }
+}
+
 $('latGo').onclick = async () => {
   $('invVariants').style.display='block';
   const grid=$('invGrid');
@@ -1276,6 +1331,7 @@ $('latGo').onclick = async () => {
     const r=await fetch('/invent/lattice',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({cell_mm:+$('latCell').value||8, wall_mm:+$('latWall').value||1.6,
                            shell_mm:+$('latShell').value||1.6,
+                           kind:$('latKind').value, gradient:$('latGrad').checked?'z':null,
                            baseline_sf:(invBaseline&&invBaseline.sf!=null)?invBaseline.sf:null})});
     const d=await r.json();
     if(!d.ok){ card.innerHTML='<b>🕸 Lattice gyroïde</b><div class="muted" style="margin-top:6px; color:var(--err)">échec : '+String(d.error||'').slice(0,90)+'</div>'; return; }

@@ -1033,7 +1033,8 @@ class InventPrinciplesReq(BaseModel):
 
 
 class InventVariantReq(BaseModel):
-    principle: int
+    principle: int = 0
+    solution: str | None = None    # id d'une solution geometrique (matrice geometrique)
     contradiction: str = ""
 
 
@@ -1060,9 +1061,15 @@ def invent_params():
     return {"parameters": _invent.PARAMETERS}
 
 
+import geo_solutions as _geo
+
+
 @app.post("/invent/principles")
 def invent_principles(req: InventPrinciplesReq):
-    return {"principles": _invent.principles_for(req.improve, req.degrade)}
+    prins = _invent.principles_for(req.improve, req.degrade)
+    sols = _geo.cell_solutions(req.improve, req.degrade,
+                               [p["number"] for p in prins])
+    return {"principles": prins, "solutions": sols}
 
 
 @app.post("/invent/baseline")
@@ -1085,10 +1092,28 @@ def invent_variant(req: InventVariantReq):
     base = _current_code()
     if not base:
         return {"ok": False, "error": "Aucune piece de depart."}
-    instruction = _invent.operator_instruction(req.principle, req.contradiction)
-    outdir = VAR_DIR / f"p{req.principle}"
+    if req.solution:                          # solution de la MATRICE GEOMETRIQUE
+        sol = _geo.get(req.solution)
+        if not sol or sol.get("kind") != "llm":
+            return {"ok": False, "error": "Solution inconnue."}
+        instruction = (
+            f"TRANSFORMATION GEOMETRIQUE « {sol['name']} » "
+            f"(principes TRIZ {sol['principles']}).\n"
+            f"CONTRADICTION A RESOUDRE : {req.contradiction}\n"
+            f"CONSIGNE : {sol['instruction']}\n"
+            "CONTRAINTES : conserve la FONCTION et les interfaces (trous, appuis, "
+            "logements aux memes positions/cotes) ; UN SEUL solide connexe, "
+            "imprimable FDM (parois >= 1.2 mm) ; parametres nommes en tete ; "
+            "l'effet doit etre NETTEMENT VISIBLE dans la silhouette 3D.")
+        outdir = VAR_DIR / f"s_{req.solution}"
+        label = sol["name"]
+        key = req.solution
+    else:
+        instruction = _invent.operator_instruction(req.principle, req.contradiction)
+        outdir = VAR_DIR / f"p{req.principle}"
+        label = _invent.PRINCIPLES.get(req.principle, {}).get("label", str(req.principle))
+        key = req.principle
     outdir.mkdir(parents=True, exist_ok=True)
-    label = _invent.PRINCIPLES.get(req.principle, {}).get("label", str(req.principle))
     last_err = ""
     for attempt in range(2):                      # 1 essai + 1 correction
         try:
@@ -1102,12 +1127,12 @@ def invent_variant(req: InventVariantReq):
         if ok and stats:
             sf, _ = _fea_quick(outdir)
             masse = round(stats.get("volume_cm3", 0) * 1.24, 1)
-            return {"ok": True, "principle": req.principle, "label": label,
+            return {"ok": True, "principle": key, "label": label,
                     "stats": stats, "sf": sf, "masse_g": masse,
                     "ideality": _invent.ideality(sf, masse),
-                    "glb": f"/work/variants/p{req.principle}/model.glb"}
+                    "glb": f"/work/variants/{outdir.name}/model.glb"}
         last_err = err
-    return {"ok": False, "principle": req.principle, "label": label,
+    return {"ok": False, "principle": key, "label": label,
             "error": (last_err or "generation echouee")[:300]}
 
 
@@ -1115,6 +1140,8 @@ class LatticeReq(BaseModel):
     cell_mm: float = 8.0      # taille de cellule (densite du maillage)
     wall_mm: float = 1.6      # epaisseur des parois du gyroide (~diametre de brin)
     shell_mm: float = 1.6     # peau exterieure conservee
+    kind: str = "gyroid"      # gyroid | schwarz | diamond
+    gradient: str | None = None   # None | 'z' (dense en bas) | 'z-top'
     baseline_sf: float | None = None
 
 
@@ -1128,7 +1155,8 @@ def invent_lattice(req: LatticeReq):
     outdir = VAR_DIR / "lattice"
     r = WORKER.run_raw({"cmd": "lattice", "src_stl": str(src), "outdir": str(outdir),
                         "cell_mm": req.cell_mm, "wall_mm": req.wall_mm,
-                        "shell_mm": req.shell_mm}, timeout=300)
+                        "shell_mm": req.shell_mm, "kind": req.kind,
+                        "gradient": req.gradient}, timeout=300)
     if not r.get("ok"):
         return {"ok": False, "error": str(r.get("error", "lattice echoue"))[:200]}
     st = r["stats"]
@@ -1165,7 +1193,8 @@ def invent_adopt(req: InventAdoptReq):
         MESH["stats"] = stats
         return {"ok": True, "mesh": True, "stats": stats, "files": _files_ok(),
                 "params": None, "code": None}
-    outdir = VAR_DIR / f"p{req.principle}"
+    outdir = VAR_DIR / (f"p{req.principle}" if isinstance(req.principle, int)
+                        else f"s_{req.principle}")
     vf = outdir / "variant.py"
     if not vf.exists():
         return {"ok": False, "error": "Variante introuvable."}
