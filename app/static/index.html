@@ -119,6 +119,15 @@
   .micBtn.rec { background:#fee2e2; border-color:#fca5a5; animation:micpulse 1.2s infinite; }
   @keyframes micpulse { 0%{box-shadow:0 0 0 0 rgba(239,68,68,.45)} 100%{box-shadow:0 0 0 12px rgba(239,68,68,0)} }
   #iterLog li { margin:3px 0; }
+  /* --- Mode plein écran CAO : visu maximale + bandeau d'outils à droite --- */
+  #fsBar { display:none; }
+  body.fs { overflow:hidden; }
+  body.fs #view { position:fixed !important; left:0; top:0; bottom:0; right:390px; height:auto !important; z-index:900; border-radius:0; border:0; }
+  body.fs #fsBar { display:block; position:fixed; top:0; right:0; bottom:0; width:390px; z-index:901;
+    background:var(--bg); border-left:1px solid var(--line); overflow-y:auto; padding:14px; }
+  body.fs #fsBar .card, body.fs #fsBar > #fsBarContent > * { margin-bottom:12px; }
+  body.fs #fsBarContent .card { padding:12px; }
+  body.fs #feaLegend { z-index:902; }
 </style>
 </head>
 <body>
@@ -244,14 +253,17 @@
   </div>
 
   <div class="card">
-    <div class="lbl">Aperçu 3D</div>
+    <div class="lbl" style="display:flex; justify-content:space-between; align-items:center">
+      <span>Aperçu 3D</span>
+      <button id="fsBtn" class="sec" style="padding:4px 12px; font-size:12.5px" title="Mode plein écran avec bandeau d'outils">⛶ Plein écran</button>
+    </div>
     <div id="view"></div>
     <div id="stats" class="row"></div>
-    <div class="row">
+    <div class="row" id="exportRow">
       <a id="dlStl" class="dl" href="#" download><button class="sec" disabled>Export STL</button></a>
       <a id="dlStep" class="dl" href="#" download><button class="sec" disabled>Export STEP</button></a>
     </div>
-    <div class="row" style="margin-top:10px; border-top:1px solid var(--line); padding-top:10px; align-items:center; flex-wrap:wrap">
+    <div class="row" id="feaRow" style="margin-top:10px; border-top:1px solid var(--line); padding-top:10px; align-items:center; flex-wrap:wrap">
       <span class="lbl" style="margin:0">Calcul de structure (RDM)</span>
       <label class="muted">force&nbsp;<input id="feaForce" type="number" value="20" min="1" step="5" style="width:64px"> N</label>
       <label class="muted">matériau&nbsp;<select id="feaMat" style="background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:8px"><option>PLA</option><option>PETG</option><option>ABS</option><option>TPU</option></select></label>
@@ -260,14 +272,22 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" id="paramsCard">
     <div class="lbl" style="display:flex; justify-content:space-between; align-items:center">
       <span>Cotes réglables</span><span id="paramWarn" class="pill err" style="display:none">combinaison impossible</span>
     </div>
     <div id="params"><div class="muted">Génère une pièce pour voir apparaître ses cotes ajustables.</div></div>
   </div>
 
-  <div class="card">
+  <aside id="fsBar">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px">
+      <b style="font-size:15px">🛠️ Atelier CAO</b>
+      <button id="fsExit" class="sec" style="padding:5px 12px">✕ Quitter le plein écran</button>
+    </div>
+    <div id="fsBarContent"></div>
+  </aside>
+
+  <div class="card" id="editCard">
     <div class="lbl">Édition au clic — face ou arête, directement dans l'aperçu</div>
     <div id="faceHint" class="muted">Clique une <b>face</b> pour l'éditer, ou survole une <b>arête</b> (elle s'illumine) et clique-la pour un arrondi/chanfrein ciblé. <b>Ctrl</b>+clic = sélection multiple.</div>
     <div id="edgePanel" style="display:none; background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:10px 12px; margin-bottom:10px">
@@ -411,9 +431,9 @@ function initView() {
       eHit = ehits.length ? ehits[0].object : null;
     }
     if(eHit !== hoverEdge){
-      if(hoverEdge && !selEdges.includes(hoverEdge)) hoverEdge.material.color.setHex(EDGE_COL);
-      hoverEdge = eHit;
-      if(hoverEdge && !selEdges.includes(hoverEdge)) hoverEdge.material.color.setHex(EDGE_HOVER);
+      const old = hoverEdge; hoverEdge = eHit;
+      if(old) edgeState(old);
+      if(hoverEdge) edgeState(hoverEdge);
     }
     const hits = eHit ? [] : raycaster.intersectObjects(faceMeshes, false);
     const m = hits.length ? hits[0].object : null;
@@ -455,9 +475,8 @@ function deselectAll(){
   if(hoverMesh){ hoverMesh=null; }
   const ids=[['facePanel','faceHint'],['pastePanel','pasteHint']];
   ids.forEach(([p,h])=>{ const a=$(p),b=$(h); if(a) a.style.display='none'; if(b) b.style.display='block'; });
-  selEdges.forEach(l=>{ l.material.color.setHex(EDGE_COL); l.material.opacity=.5; });
   selEdges=[]; hoverEdge=null;
-  edgeLines.forEach(l=>{ l.material.color.setHex(EDGE_COL); l.material.opacity=.5; });
+  edgeLines.forEach(edgeState);
   const ep=$('edgePanel'); if(ep) ep.style.display='none';
 }
 function clearEdges(){
@@ -471,20 +490,35 @@ function buildEdgeLayer(edges, basePos, size){
   edgeGroup=new THREE.Group();
   edgeGroup.rotation.x=-Math.PI/2;          // Z-up build123d -> Y-up three.js
   edgeGroup.position.copy(basePos);
+  const tubeR=Math.max(size*0.007, 0.3);       // rayon des tubes de surbrillance (mm)
   edges.forEach(ed=>{
-    const g=new THREE.BufferGeometry().setFromPoints(ed.pts.map(p=>new THREE.Vector3(p[0],p[1],p[2])));
+    const vecs=ed.pts.map(p=>new THREE.Vector3(p[0],p[1],p[2]));
+    const g=new THREE.BufferGeometry().setFromPoints(vecs);
     const l=new THREE.Line(g,new THREE.LineBasicMaterial({color:EDGE_COL, transparent:true, opacity:.5}));
     l.userData.edge=ed; edgeGroup.add(l); edgeLines.push(l);
+    // Les lignes WebGL font 1px : la surbrillance passe par un TUBE épais, bien visible.
+    try{
+      const curve=new THREE.CatmullRomCurve3(vecs);
+      const tube=new THREE.Mesh(new THREE.TubeGeometry(curve, Math.max(vecs.length*2,4), tubeR, 6, false),
+                                new THREE.MeshBasicMaterial({color:EDGE_SEL}));
+      tube.visible=false; l.userData.tube=tube; edgeGroup.add(tube);
+    }catch(_){}
   });
   scene.add(edgeGroup);
   raycaster.params.Line.threshold=Math.max(size*0.012, 0.6);   // tolérance de visée (mm)
 }
+function edgeState(l){
+  const t=l.userData.tube;
+  const sel=selEdges.includes(l), hov=(l===hoverEdge);
+  l.material.color.setHex(sel?EDGE_SEL:(hov?EDGE_HOVER:EDGE_COL));
+  l.material.opacity=(sel||hov)?1:.5;
+  if(t){ t.visible=sel||hov; if(t.visible) t.material.color.setHex(sel?EDGE_SEL:EDGE_HOVER); }
+}
 function selectEdge(line, additive){
   const p=selEdges.indexOf(line);
   if(additive){ if(p>=0) selEdges.splice(p,1); else selEdges.push(line); }
-  else { selEdges.forEach(l=>l.material.color.setHex(EDGE_COL)); selEdges = p>=0 ? [] : [line]; }
-  edgeLines.forEach(l=>{ l.material.color.setHex(selEdges.includes(l)?EDGE_SEL:EDGE_COL);
-                         l.material.opacity = selEdges.includes(l)?1:.5; });
+  else { selEdges = p>=0 ? [] : [line]; }
+  edgeLines.forEach(edgeState);
   const panel=$('edgePanel');
   if(selEdges.length){ $('edgeCount').textContent=selEdges.length; panel.style.display='block'; $('estatus').textContent=''; }
   else panel.style.display='none';
@@ -971,6 +1005,23 @@ $('eapply').onclick = async () => {
   $('eapply').disabled=false;
 };
 $('eclear').onclick = () => deselectAll();
+
+/* Mode plein écran CAO : visu maximale, outils déplacés dans le bandeau droit. */
+const fsPlace = new Map();
+function fsMove(el, dest){ if(!el || fsPlace.has(el)) return; fsPlace.set(el, {p:el.parentNode, n:el.nextSibling}); dest.appendChild(el); }
+function setFS(on){
+  document.body.classList.toggle('fs', on);
+  if(on){
+    const c=$('fsBarContent');
+    ['stats','exportRow','feaRow','refineRow','paramsCard','editCard'].forEach(id=>fsMove($(id), c));
+  } else {
+    [...fsPlace.entries()].reverse().forEach(([el,pos])=>{ pos.p.insertBefore(el, pos.n); });
+    fsPlace.clear();
+  }
+  setTimeout(resizeView, 60);
+}
+$('fsBtn').onclick = () => setFS(true);
+$('fsExit').onclick = () => setFS(false);
 
 $('fop').onchange = () => {
   const conge = ($('fop').value === 'fillet' || $('fop').value === 'chamfer');
