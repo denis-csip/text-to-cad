@@ -1564,8 +1564,12 @@ async function gmSolModal(sid){
     }).join('');
     const attrib=(d.sources&&d.sources.length)?'veille Elicit — text-to-CAD':'catalogue text-to-CAD';
     const m=bg.querySelector('.gmmodal');
-    m.innerHTML='<div class="img"><div class="ph muted" style="text-align:center; padding:20px">🎨 illustration en cours de génération…<br><span style="font-size:11px">(~10 s à la première consultation, puis en cache)</span></div>'
-      +'<img alt="" style="display:none"><div class="cap" style="display:none">Illustration générée — text-to-CAD</div></div>'
+    m.innerHTML='<div class="img"><div class="ph" style="text-align:center; padding:20px">'
+      +(d.image_ready
+        ? '<span class="muted">⏳ chargement de la vignette…</span>'
+        : '<button class="sec genimg" style="padding:8px 14px; font-size:13px">🎨 Générer la vignette (~0,03 $)</button>'
+          +'<div class="muted" style="font-size:11px; margin-top:6px">une seule fois — ensuite gratuite (cache serveur)</div>')
+      +'</div><img alt="" style="display:none"><div class="cap" style="display:none">Illustration générée — text-to-CAD</div></div>'
       +'<div class="det"><span class="gmbadge">'+(d.kind==='lattice'?'🕸 LATTICE':'SOLUTION GÉOMÉTRIQUE')+'</span>'
       +'<div style="font-size:20px; font-weight:700; line-height:1.3; margin:10px 24px 8px 0">'+gmEsc(d.name)+'</div>'
       +'<div style="font-size:13.5px; color:#374151">'+gmEsc(d.desc)+'</div>'
@@ -1584,7 +1588,11 @@ async function gmSolModal(sid){
     const im=m.querySelector('.img img'), ph=m.querySelector('.img .ph'), cap=m.querySelector('.img .cap');
     im.onload=()=>{ ph.style.display='none'; im.style.display='block'; cap.style.display='block'; };
     im.onerror=()=>{ ph.innerHTML='<span class="muted">vignette indisponible pour le moment — réessaie dans un instant</span>'; };
-    im.src=d.image;
+    if(d.image_ready){ im.src=d.image; }          // déjà en cache : gratuit, on l'affiche
+    else {                                        // sinon : JAMAIS sans clic explicite (coût annoncé)
+      const gb=m.querySelector('.genimg');
+      gb.onclick=()=>{ ph.innerHTML='<span class="muted">🎨 génération en cours… (~10 s)</span>'; im.src=d.image; };
+    }
   }catch(e){ bg.querySelector('.det').innerHTML='<div class="muted" style="color:var(--err); margin-top:20px">fiche indisponible</div>'; }
 }
 

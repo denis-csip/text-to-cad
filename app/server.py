@@ -1179,7 +1179,8 @@ def invent_solution(sid: str):
             "desc": s.get("desc", ""), "instruction": s.get("instruction", ""),
             "principles": labels, "sources": s.get("sources", []),
             "lattice": s.get("lattice"),
-            "image": f"/invent/solution_image/{s['id']}"}
+            "image": f"/invent/solution_image/{s['id']}",
+            "image_ready": (SOLIMG_DIR / f"{s['id']}.png").exists()}
 
 
 SOLIMG_DIR = Path(os.environ.get("TCAD_SOLIMG", "/data/solution_img"))
