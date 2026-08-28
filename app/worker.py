@@ -298,6 +298,18 @@ def main():
     import build123d as b
     from build123d import export_step, export_stl, export_gltf
 
+    # Bibliothèque de formes paramétriques (garde-fou systémique)
+    import shapes as _shapes
+    SHAPE_FNS = {n: getattr(_shapes, n) for n, _, _ in _shapes.CATALOG
+                 if hasattr(_shapes, n)}
+    try:
+        from bd_warehouse.gear import SpurGear
+        from bd_warehouse.thread import IsoThread
+        SHAPE_FNS["SpurGear"] = SpurGear
+        SHAPE_FNS["IsoThread"] = IsoThread
+    except Exception:
+        pass
+
     sys.stdout.write(json.dumps({"ready": True}) + "\n")
     sys.stdout.flush()
 
@@ -326,6 +338,7 @@ def main():
 
             ns = {"hollow_tray": hollow_tray, "hook": hook,
                   "hook_curved": hook_curved, "contour_edges": contour_edges}
+            ns.update(SHAPE_FNS)
             exec(compile(code, "generated_model.py", "exec"), ns)
 
             part = ns.get("part") or ns.get("result") or ns.get("model")

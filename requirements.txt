@@ -30,3 +30,4 @@ scipy==1.18.0
 # Repli STL pour geometries non maillables en B-rep (texte en relief, lofts vrilles) :
 fast-simplification
 pymeshfix
+bd_warehouse==0.3.0

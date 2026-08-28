@@ -25,24 +25,19 @@ CONTRAT DE SORTIE (strict) :
   * pour des ajustements/snap, prevois un jeu d'impression de 0.2 a 0.4 mm ;
   * evite les parois < 1.2 mm et les details < 0.8 mm.
 
-FONCTIONS DÉJÀ DÉFINIES (disponibles dans le scope — APPELLE-LES, ne les redéfinis pas) :
-- hollow_tray(part, wall, height, base) -> évide une pièce plate en bac à parois (robuste).
-- hook(arm, rise, thickness) -> CROCHET / PATÈRE en L ARRONDI (angulaire : queue + relevé).
-  Dos en X=0, s'étend vers +X, relevé vers +Z, base à Z=0. Positionne avec Pos(...) puis unis.
-- hook_curved(radius, thickness, opening_deg, width, tab_len) -> CROCHET COURBE en
-  « VIRGULE / J » : anneau ouvert + queue de fixation au dos, profil 2D extrudé (robuste,
-  maillable). Ouverture vers le haut-avant, queue en X=-radius montant vers +Z, origine au
-  centre de l'anneau, largeur le long de Y. Positionne avec Pos/Rot puis unis à la plaque.
+BIBLIOTHÈQUE DE FORMES (déjà définies dans le scope — APPELLE-LES, ne les redéfinis pas).
+RÈGLE PRIORITAIRE : COMPOSE ta pièce à partir de ces briques (positionne avec Pos/Rot,
+unis avec + en te souvenant du chevauchement >= 1 mm) plutôt que d'improviser la géométrie.
+{{CATALOG}}
+- SpurGear(module=2, tooth_count=20, pressure_angle=20, thickness=8) -> engrenage droit reel
+- IsoThread(major_diameter=8, pitch=1.25, length=12, external=True) -> filetage ISO reel
 - contour_edges(part, (x, y, z)) -> TOUTES les arêtes du contour (wire) contenant l'arête la
-  plus proche du point donné. À utiliser dès qu'on parle du « contour », « pourtour », « tout
-  le tour » d'une arête : `_edges = contour_edges(part, (10, 20, 5))` puis fillet/chamfer sur
-  `_edges` (dans un try/except avec repli de rayon). Ne reconstruis JAMAIS un contour à la main.
-RÈGLE CROCHETS : choisis le helper selon la FORME DEMANDÉE — hook() pour un crochet
-ANGULAIRE (L, équerre) ; hook_curved() pour un crochet COURBE (virgule, J, arrondi, ou si
-le CROQUIS de l'utilisateur montre une courbe : respecte sa forme !). Si aucun helper ne
-convient, dessine un PROFIL 2D FERMÉ (arcs, cercles, polygones dans BuildSketch) puis
-EXTRUDE-le : un profil extrudé est toujours robuste. INTERDIT en revanche : balayer (sweep)
-une section le long d'une courbe 3D — auto-intersections, immaillable.
+  plus proche du point donné (pour « le contour / le pourtour / tout le tour » d'une arête).
+RÈGLE CROCHETS : hook() = angulaire ; hook_curved() = courbe/virgule/J (ou si le CROQUIS
+montre une courbe : respecte sa forme !).
+Si aucune brique ne convient : dessine un PROFIL 2D FERMÉ (arcs, cercles, polygones dans
+BuildSketch) puis EXTRUDE-le — toujours robuste. INTERDIT : balayer (sweep) une section le
+long d'une courbe 3D (auto-intersections, immaillable).
 
 RAPPELS D'API build123d (mode builder) :
 - Squelette : `with BuildPart() as p:` puis a l'interieur
@@ -84,18 +79,13 @@ part = hollow_tray(part, wall=2.0, height=40.0, base=2.0)
 # (creux là où c'est possible, plein là où c'est trop fin) sans jamais planter.
 # wall = épaisseur de paroi, height = hauteur des parois, base = épaisseur du fond (mm).
 
-# CROCHET / PATÈRE (porte-manteau, porte-clés, support mural) : N'INVENTE JAMAIS la forme
-# du crochet à main levée (sweep/courbe libre) -> ça produit des formes aberrantes.
-# UTILISE LE HELPER FOURNI `hook(width, arm, rise, thickness)` -> profil de VRAI crochet en L
-# (queue horizontale + relevé vertical au bout), déjà propre et arrondi. Orientation canonique :
-# dos dans le plan X=0, queue vers +X, relevé vers +Z, base à Z=0, largeur le long de Y.
-# Positionne chaque crochet avec Pos(...) puis unis-le a la piece. Exemple (plaque + 3 crochets) :
-#   from build123d import Box, Pos, Align
-#   plate = Box(longueur, profondeur, ep_base, align=(Align.MIN, Align.CENTER, Align.MIN))
+# COMPOSER avec la bibliothèque : positionner chaque brique avec Pos/Rot puis unir (+),
+# avec chevauchement >= 1 mm. Exemple (plaque murale + 3 crochets) :
+#   plate = plate_holes(l=160, w=40, t=5)
 #   part = plate
-#   for x in (30, 80, 130):
-#       part = part + (Pos(x, 0, ep_base) * hook(width=8, arm=18, rise=16, thickness=6))
-# hook() est la SEULE façon correcte de faire un crochet.
+#   for x in (-50, 0, 50):
+#       part = part + (Pos(x, 0, 5) * hook(width=8, arm=18, rise=16, thickness=6))
+# Crochet courbe (virgule) : hook_curved(...) puis Rot/Pos pour l'adosser à la plaque.
 
 # DÉPOUILLE / ÉVASEMENT d'une extrusion : extrude(amount=H, taper=deg)
 #   taper > 0 rétrécit vers le haut ; taper < 0 élargit (évase) vers le haut.
@@ -214,3 +204,12 @@ le fond et l'echelle. La "correction" doit dire QUOI changer geometriquement, en
 (ex: "les crochets doivent former un J remontant de 15 mm, pas des encoches plates").
 Si la piece correspond bien a l'intention, match=true et correction vide.
 """
+
+
+# --- Catalogue de formes injecté automatiquement (source unique : shapes.CATALOG) ---
+try:
+    import shapes as _shapes
+    _CAT = "\n".join(f"- {sig} -> {desc}" for _, sig, desc in _shapes.CATALOG)
+except Exception:
+    _CAT = "(catalogue indisponible)"
+SYSTEM = SYSTEM.replace("{{CATALOG}}", _CAT)
