@@ -245,6 +245,7 @@ def _dataurl_bytes(s):
 class RefineReq(BaseModel):
     instruction: str
     faces: list = []   # faces sélectionnées : [{i, label, c:[x,y,z]}, ...]
+    edges: list = []   # arêtes sélectionnées : centres [x,y,z] (mm)
 
 
 class RebuildReq(BaseModel):
@@ -532,6 +533,20 @@ def refine(r: RefineReq):
             "coïncide avec une arête de l'autre, et applique `fillet`/`chamfer` UNIQUEMENT sur ces "
             "arêtes-là (n'arrondis/ne chanfreine JAMAIS toutes les arêtes de la pièce). "
             f"DEMANDE DE L'UTILISATEUR : {r.instruction}")
+    if r.edges:
+        elist = " ; ".join(str([round(float(x), 2) for x in m]) for m in r.edges)
+        instruction = (
+            f"CONTEXTE SPATIAL — l'utilisateur a sélectionné à la souris {len(r.edges)} arête(s) "
+            f"précise(s), de centres (mm) : {elist}. "
+            "L'opération demandée porte sur CES arêtes (ou sur leur voisinage explicitement "
+            "demandé), PAS sur le reste de la pièce. Récupère une arête par proximité : "
+            "`_e = min(part.edges(), key=lambda e: (e.center() - Vector(x, y, z)).length)`. "
+            "Si l'utilisateur parle du CONTOUR (tout le tour, le pourtour, la boucle) d'une arête "
+            "sélectionnée, utilise le helper FOURNI `contour_edges(part, (x, y, z))` qui renvoie "
+            "TOUTES les arêtes du contour contenant l'arête la plus proche du point — ne devine "
+            "jamais le contour toi-même. Encadre fillet/chamfer d'un try/except avec repli de "
+            "rayon (r, r/2, r/4). "
+            f"DEMANDE DE L'UTILISATEUR : {instruction if r.faces else r.instruction}")
     ctx = f"{STATE.get('brief') or ''} | modification: {r.instruction}"
     return _best_of_n(lambda t: llm.refine_code(base, instruction, temperature=t), ctx)
 

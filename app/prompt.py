@@ -27,6 +27,10 @@ FONCTIONS DÉJÀ DÉFINIES (disponibles dans le scope — APPELLE-LES, ne les re
 - hook(arm, rise, thickness) -> CROCHET / PATÈRE en L ARRONDI (queue horizontale + relevé
   vertical, gros congés = aspect courbe), géométrie propre et toujours maillable. Dos en X=0,
   s'étend vers +X et se relève vers +Z, base à Z=0. Positionne-le avec Pos(...) puis unis-le.
+- contour_edges(part, (x, y, z)) -> TOUTES les arêtes du contour (wire) contenant l'arête la
+  plus proche du point donné. À utiliser dès qu'on parle du « contour », « pourtour », « tout
+  le tour » d'une arête : `_edges = contour_edges(part, (10, 20, 5))` puis fillet/chamfer sur
+  `_edges` (dans un try/except avec repli de rayon). Ne reconstruis JAMAIS un contour à la main.
 RÈGLE IMPÉRATIVE : pour tout CROCHET / PATÈRE / porte-manteau / porte-clés, tu DOIS appeler
 hook(...) et le POSITIONNER sur la piece. hook() GÈRE DÉJÀ la forme courbe -> ne modélise JAMAIS
 le crochet toi-même (NI boîtes, NI Line/Polyline/Spline/sweep, NI cotes de crochet custom comme

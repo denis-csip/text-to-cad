@@ -74,6 +74,26 @@ def hook(width=8.0, arm=25.0, rise=28.0, thickness=8.0, fillet_r=None):
     return part
 
 
+def contour_edges(part, center):
+    """Toutes les arêtes du CONTOUR (wire) contenant l'arête la plus proche de `center`.
+    Permet « sélectionne une arête → saisis tout son contour » de façon déterministe :
+    le LLM n'a pas à deviner la topologie. center = (x, y, z) en mm."""
+    from build123d import Vector
+    t = Vector(*center)
+    e0 = min(part.edges(), key=lambda e: (e.center() - t).length)
+    best = None
+    for f in part.faces():
+        wires = [f.outer_wire()] + list(f.inner_wires())
+        for w in wires:
+            try:
+                if any((e.center() - e0.center()).length < 1e-6 for e in w.edges()):
+                    if best is None or len(w.edges()) > len(best.edges()):
+                        best = w
+            except Exception:
+                continue
+    return list(best.edges()) if best is not None else [e0]
+
+
 def _face_label(n):
     ax = max(range(3), key=lambda k: abs(n[k]))
     if abs(n[ax]) < 0.85:
@@ -265,7 +285,8 @@ def main():
             outdir = Path(job["outdir"])
             outdir.mkdir(parents=True, exist_ok=True)
 
-            ns = {"hollow_tray": hollow_tray, "hook": hook}
+            ns = {"hollow_tray": hollow_tray, "hook": hook,
+                  "contour_edges": contour_edges}
             exec(compile(code, "generated_model.py", "exec"), ns)
 
             part = ns.get("part") or ns.get("result") or ns.get("model")
