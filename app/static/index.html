@@ -583,9 +583,10 @@ function loadGLB(url, keepView) {
     current = obj; scene.add(obj);
     $('facePanel').style.display='none'; $('faceHint').style.display='block';
     $('pastePanel').style.display='none'; $('pasteHint').style.display='block';
-    fetch('/work/faces.json?t='+Date.now()).then(r=>r.json()).then(d=>{ facesData={}; (d.faces||[]).forEach(f=>facesData[f.i]=f); }).catch(()=>{});
+    const dir = url.substring(0, url.lastIndexOf('/'));   // faces/edges DU MEME dossier que le GLB
+    fetch(dir+'/faces.json?t='+Date.now()).then(r=>r.json()).then(d=>{ facesData={}; (d.faces||[]).forEach(f=>facesData[f.i]=f); }).catch(()=>{});
     const r = Math.max(s.x,s.y,s.z) || 30;
-    if(!meshMode) fetch('/work/edges.json?t='+Date.now()).then(rr=>rr.json())
+    if(!meshMode) fetch(dir+'/edges.json?t='+Date.now()).then(rr=>rr.json())
       .then(d=>{ if(seq===loadSeq) buildEdgeLayer(d.edges, obj.position, r); }).catch(()=>{});
     lastBasePos = obj.position.clone(); lastSize = r;
     if(typeof updateLoadPreview==='function') updateLoadPreview();
@@ -1243,13 +1244,17 @@ async function genVariant(n, label){
       +'<div style="font-size:13px">idéalité <b>'+(d.ideality!=null?d.ideality:'?')+'</b>'+fmt(dI,'')+'</div>'
       +'<div class="row" style="margin-top:8px"><button class="sec vprev" style="padding:5px 10px; font-size:12px">👁 Voir</button>'
       +'<button class="vadopt" style="padding:5px 10px; font-size:12px">✔ Adopter</button></div>';
-    card.querySelector('.vprev').onclick=()=>{ loadGLB(d.glb, true); };
+    card.querySelector('.vprev').onclick=()=>{ loadGLB(d.glb, true);
+      $('invStatus').textContent='👁 aperçu : variante '+n+' ('+label+') — non adoptée'; };
     card.querySelector('.vadopt').onclick=async ()=>{
-      card.querySelector('.vadopt').textContent='⏳';
-      const ra=await fetch('/invent/adopt',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({principle:n})});
-      const da=await ra.json();
-      showResult(da, $('invStatus'), false);
-      if(da.ok){ addIter('adopté : principe '+n+' ('+label+')'); }
+      const btn=card.querySelector('.vadopt'); btn.textContent='⏳'; btn.disabled=true;
+      try{
+        const ra=await fetch('/invent/adopt',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({principle:n})});
+        const da=await ra.json();
+        showResult(da, $('invStatus'), false);
+        if(da.ok){ addIter('adopté : principe '+n+' ('+label+')'); btn.textContent='✔ adoptée'; }
+        else { btn.textContent='✔ Adopter'; btn.disabled=false; }
+      }catch(e){ btn.textContent='✔ Adopter'; btn.disabled=false; }
     };
   }catch(e){ card.innerHTML='<b>'+n+'. '+label+'</b><div class="muted" style="color:var(--err)">erreur réseau</div>'; }
 }

@@ -102,7 +102,10 @@ def operator_instruction(principle: int, contradiction: str) -> str:
         "la pièce reste UN SEUL solide connexe, imprimable FDM (parois >= 1.2 mm) ; "
         "garde les paramètres nommés en tête de script et AJOUTE en commentaire "
         f"en première ligne : # PRINCIPE {principle}: {name}. "
-        "Modifie la géométrie de façon FRANCHE (l'effet doit être mesurable).")
+        "EXIGENCE D'EFFET : la transformation doit être NETTEMENT VISIBLE dans la "
+        "silhouette 3D (volumes ajoutés/retirés apparents, forme modifiée, motifs "
+        "d'ajourage visibles) ET changer la masse d'AU MOINS 10%. Un simple "
+        "ajustement interne ou cosmétique est un ÉCHEC de la transformation.")
 
 
 def ideality(sf, masse_g):
