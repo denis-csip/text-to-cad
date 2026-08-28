@@ -42,6 +42,27 @@
   .gmcard { border:1px solid #e5e7eb; border-radius:12px; background:#fff; padding:11px 12px;
     transition:transform .15s, box-shadow .15s; }
   .gmcard:hover { transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.10); }
+  /* Fiche-détail d'une solution (modale façon fiche enabler Inventioneering) */
+  .gmmodalbg { position:fixed; inset:0; background:rgba(15,23,42,.45); z-index:90;
+    display:flex; align-items:center; justify-content:center; padding:20px; }
+  .gmmodal { background:#fff; color:#1c2430; border-radius:16px; position:relative;
+    box-shadow:0 25px 60px rgba(0,0,0,.35); max-width:920px; width:100%; max-height:88vh;
+    display:flex; overflow:hidden; }
+  .gmmodal .img { flex:1.1; min-width:260px; min-height:300px; background:#f8fafc;
+    display:flex; align-items:center; justify-content:center; position:relative; }
+  .gmmodal .img img { width:100%; height:100%; object-fit:contain; display:block; }
+  .gmmodal .img .cap { position:absolute; left:0; right:0; bottom:0; padding:3px 10px;
+    background:rgba(100,116,139,.75); color:#fff; font-size:11px; }
+  .gmmodal .det { flex:1; padding:22px 24px; overflow:auto; }
+  .gmmodal button.x { position:absolute; top:12px; right:12px; width:34px; height:34px;
+    border-radius:50%; background:#fff; border:1px solid #e5e7eb; color:#475569;
+    font-size:15px; padding:0; box-shadow:0 2px 8px rgba(0,0,0,.15); }
+  .gmbadge { display:inline-block; background:#cffafe; color:#0e7490; font-size:11px;
+    font-weight:700; letter-spacing:.05em; padding:3px 10px; border-radius:6px; }
+  .gmpchip { display:inline-block; background:#e0f2fe; border:1px solid #bae6fd;
+    color:#075985; font-size:12px; padding:4px 10px; border-radius:8px; margin:0 6px 6px 0; }
+  @media (max-width:760px){ .gmmodal { flex-direction:column; overflow:auto; }
+    .gmmodal .img { min-height:220px; } }
   label.chk { display:flex; align-items:center; gap:6px; }
   .prow { display:grid; grid-template-columns:1fr 1.4fr auto; gap:10px; align-items:center; margin:9px 0; }
   .prow label { font-size:13px; color:var(--txt); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -1499,6 +1520,7 @@ async function gmSelect(i, j, rectEl){
         $('invStatus').textContent='variante « '+pc.label+' » en cours — voir la grille des variantes'; };
       document.getElementById('gmChips').appendChild(b); });
     sols.forEach(so=>{ const c=document.createElement('div'); c.className='gmcard';
+      c.style.cursor='pointer'; c.title='Clique pour ouvrir la fiche détaillée (vignette + sources)';
       const srcs=(so.sources||[]).map(x=> x && x.url
         ? '<a href="'+gmEsc(x.url)+'" target="_blank" rel="noopener" style="color:var(--acc)">'+gmEsc(x.title||x.url)+(x.year?' ('+x.year+')':'')+'</a>'
         : gmEsc((x&&x.title)||x)).join(' · ');
@@ -1506,18 +1528,64 @@ async function gmSelect(i, j, rectEl){
         +' <span style="font-size:11px; color:#9ca3af">P'+(so.principles||[]).join(', P')+'</span></div>'
         +'<div class="muted" style="margin-top:3px">'+gmEsc(so.desc)+'</div>'
         +(srcs?'<div style="font-size:11.5px; margin-top:4px">📚 '+srcs+'</div>':'')
-        +'<button class="gmgen" style="margin-top:8px; padding:5px 11px; font-size:12px">▶ Générer la variante</button>';
-      c.querySelector('.gmgen').onclick=()=>{
+        +'<div class="row" style="margin-top:8px; gap:6px"><button class="gmgen" style="padding:5px 11px; font-size:12px">▶ Générer la variante</button>'
+        +'<button class="sec gmdet" style="padding:5px 11px; font-size:12px">🔍 Fiche</button></div>';
+      c.querySelector('.gmgen').onclick=ev=>{ ev.stopPropagation();
         if(so.kind==='lattice'){ const Lt=so.lattice||{};
           $('latKind').value=Lt.kind||'gyroid'; $('latGrad').checked=!!Lt.gradient; $('latGo').click();
           $('invStatus').textContent='variante lattice en cours — voir la grille des variantes';
         } else { genVariantSol(so.id, so.name); }
       };
+      c.querySelector('.gmdet').onclick=ev=>{ ev.stopPropagation(); gmSolModal(so.id); };
+      c.onclick=ev=>{ if(ev.target.closest('a,button')) return; gmSolModal(so.id); };
       document.getElementById('gmCards').appendChild(c); });
   }catch(e){
     p.innerHTML=gmHeader(i,j)+'<div class="muted" style="margin-top:12px; color:var(--err)">erreur réseau</div>';
     document.getElementById('gmClose').onclick=gmClose;
   }
+}
+
+/* Fiche-détail d'une solution : vignette générée + consigne + principes + sources,
+   à la manière de la fiche enabler d'Inventioneering. */
+async function gmSolModal(sid){
+  let bg=document.getElementById('gmModalBg'); if(bg) bg.remove();
+  bg=document.createElement('div'); bg.className='gmmodalbg'; bg.id='gmModalBg';
+  bg.innerHTML='<div class="gmmodal"><div class="det"><div class="muted" style="margin-top:20px">⏳ chargement de la fiche…</div></div></div>';
+  bg.onclick=e=>{ if(e.target===bg) bg.remove(); };
+  document.body.appendChild(bg);
+  try{
+    const d=await fetch('/invent/solution/'+encodeURIComponent(sid)).then(r=>r.json());
+    if(!d.ok) throw 0;
+    const chips=(d.principles||[]).map(p=>'<span class="gmpchip"><b>'+p.number+'.</b> '+gmEsc(p.label)+'</span>').join('');
+    const srcs=(d.sources||[]).map(x=>{
+      const t=gmEsc((x&&x.title)||x)+((x&&x.year)?' ('+x.year+')':'');
+      return '<div style="font-size:12px; color:#475569; margin:4px 0">📄 '+t
+        +(x&&x.url?' — <a href="'+gmEsc(x.url)+'" target="_blank" rel="noopener" style="color:var(--acc); white-space:nowrap">En savoir plus ↗</a>':'')+'</div>';
+    }).join('');
+    const attrib=(d.sources&&d.sources.length)?'veille Elicit — text-to-CAD':'catalogue text-to-CAD';
+    const m=bg.querySelector('.gmmodal');
+    m.innerHTML='<div class="img"><div class="ph muted" style="text-align:center; padding:20px">🎨 illustration en cours de génération…<br><span style="font-size:11px">(~10 s à la première consultation, puis en cache)</span></div>'
+      +'<img alt="" style="display:none"><div class="cap" style="display:none">Illustration générée — text-to-CAD</div></div>'
+      +'<div class="det"><span class="gmbadge">'+(d.kind==='lattice'?'🕸 LATTICE':'SOLUTION GÉOMÉTRIQUE')+'</span>'
+      +'<div style="font-size:20px; font-weight:700; line-height:1.3; margin:10px 24px 8px 0">'+gmEsc(d.name)+'</div>'
+      +'<div style="font-size:13.5px; color:#374151">'+gmEsc(d.desc)+'</div>'
+      +(d.instruction?'<div style="font-size:12px; color:#64748b; background:#f8fafc; border:1px solid #e5e7eb; border-radius:8px; padding:8px 10px; margin-top:10px"><b>Consigne CAO :</b> '+gmEsc(d.instruction)+'</div>':'')
+      +'<div class="lbl" style="margin:14px 0 6px">Principes incarnés</div><div>'+chips+'</div>'
+      +(srcs?'<div class="lbl" style="margin:12px 0 4px">Sources</div>'+srcs:'')
+      +'<button class="gmgen" style="margin-top:14px; padding:8px 16px">▶ Générer la variante</button>'
+      +'<div style="font-size:11px; color:#9ca3af; margin-top:12px">'+attrib+'</div></div>'
+      +'<button class="x">✕</button>';
+    m.querySelector('.x').onclick=()=>bg.remove();
+    m.querySelector('.gmgen').onclick=()=>{ bg.remove();
+      if(d.kind==='lattice'){ const Lt=d.lattice||{};
+        $('latKind').value=Lt.kind||'gyroid'; $('latGrad').checked=!!Lt.gradient; $('latGo').click();
+        $('invStatus').textContent='variante lattice en cours — voir la grille des variantes';
+      } else { genVariantSol(d.id, d.name); } };
+    const im=m.querySelector('.img img'), ph=m.querySelector('.img .ph'), cap=m.querySelector('.img .cap');
+    im.onload=()=>{ ph.style.display='none'; im.style.display='block'; cap.style.display='block'; };
+    im.onerror=()=>{ ph.innerHTML='<span class="muted">vignette indisponible pour le moment — réessaie dans un instant</span>'; };
+    im.src=d.image;
+  }catch(e){ bg.querySelector('.det').innerHTML='<div class="muted" style="color:var(--err); margin-top:20px">fiche indisponible</div>'; }
 }
 
 $('veilleGo').onclick = async () => {

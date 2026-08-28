@@ -1167,6 +1167,52 @@ def invent_matrix_stats():
             "total_solutions": len(_geo.SOLUTIONS)}
 
 
+@app.get("/invent/solution/{sid}")
+def invent_solution(sid: str):
+    """Fiche complète d'une solution géométrique (pour la modale de détail)."""
+    s = _geo.get(sid)
+    if not s:
+        return JSONResponse({"ok": False, "error": "solution inconnue"}, status_code=404)
+    labels = [{"number": n, "label": _invent.PRINCIPLES.get(n, {}).get("label", "")}
+              for n in s.get("principles", [])]
+    return {"ok": True, "id": s["id"], "name": s["name"], "kind": s["kind"],
+            "desc": s.get("desc", ""), "instruction": s.get("instruction", ""),
+            "principles": labels, "sources": s.get("sources", []),
+            "lattice": s.get("lattice"),
+            "image": f"/invent/solution_image/{s['id']}"}
+
+
+SOLIMG_DIR = Path(os.environ.get("TCAD_SOLIMG", "/data/solution_img"))
+_solimg_lock = threading.Lock()
+
+
+@app.get("/invent/solution_image/{sid}")
+def invent_solution_image(sid: str):
+    """Vignette de la géométrie inventive — générée à la 1re demande puis mise en
+    cache disque (même moteur d'illustration qu'Inventioneering)."""
+    if not re.fullmatch(r"[a-z0-9_]{1,60}", sid):
+        return JSONResponse({"ok": False, "error": "id invalide"}, status_code=400)
+    s = _geo.get(sid)
+    if not s:
+        return JSONResponse({"ok": False, "error": "solution inconnue"}, status_code=404)
+    SOLIMG_DIR.mkdir(parents=True, exist_ok=True)
+    png = SOLIMG_DIR / f"{sid}.png"
+    if not png.exists():
+        with _solimg_lock:                      # une seule génération à la fois
+            if not png.exists():
+                subject = s["name"] + " — " + s.get("desc", "")
+                if s.get("instruction"):
+                    subject += " Géométrie : " + s["instruction"][:400]
+                try:
+                    data = llm.illustrate(subject)
+                    png.write_bytes(data)
+                except Exception as e:
+                    return JSONResponse({"ok": False, "error": str(e)[:200]},
+                                        status_code=502)
+    return FileResponse(png, media_type="image/png",
+                        headers={"Cache-Control": "public, max-age=86400"})
+
+
 @app.post("/invent/veille/adopt")
 def invent_veille_adopt(req: VeilleAdoptReq):
     """Adopte un candidat de la veille dans le catalogue (re-propagation matrice)."""

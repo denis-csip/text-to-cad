@@ -158,6 +158,29 @@ def transcribe(audio_bytes: bytes, mime: str = "audio/webm") -> str:
     return (resp.text or "").strip()
 
 
+IMAGE_MODEL = os.environ.get("IMAGE_MODEL", "gemini-3.1-flash-lite-image")
+
+
+def illustrate(subject: str) -> bytes:
+    """Vignette technique d'une solution géométrique (même moteur qu'Inventioneering).
+    Renvoie les octets PNG, ou lève une exception si le modèle ne produit pas d'image."""
+    prompt = (
+        "Illustration technique style manuel d'ingénierie : croquis isométrique propre, "
+        "fond blanc, traits fins, léger ombrage, un encart grossi montrant le MÉCANISME "
+        "géométrique. Sujet : " + subject + ". "
+        "INTERDICTION ABSOLUE d'écrire du texte, des mots ou des lettres dans l'image ; "
+        "pour désigner, utilise uniquement des flèches et des chiffres 1/2/3.")
+    resp = _get_client().models.generate_content(
+        model=IMAGE_MODEL, contents=prompt,
+        config=types.GenerateContentConfig(response_modalities=["TEXT", "IMAGE"]))
+    for cand in (resp.candidates or []):
+        for part in (cand.content.parts or []):
+            data = getattr(getattr(part, "inline_data", None), "data", None)
+            if data:
+                return data
+    raise RuntimeError("le modèle n'a pas renvoyé d'image")
+
+
 def visual_check(image_bytes: bytes, brief: str, spec=None):
     """Le modele regarde le rendu 3D et juge la fidelite vs l'intention.
     Renvoie {match, defauts, correction}."""
