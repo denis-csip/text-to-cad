@@ -34,6 +34,14 @@
   .pill.ok { color:var(--ok); border-color:#bfe6d3; background:#eafaf2; }
   .pill.err { color:var(--err); border-color:#f2c9c9; background:#fdeeee; }
   .muted { color:var(--mut); font-size:12.5px; }
+  /* Matrice géométrique — reprise du langage visuel de la matrice Inventioneering */
+  button.gmchip { background:#fffbeb; color:#92400e; border:1px solid #fde68a; border-radius:10px;
+    padding:6px 12px; font-size:12.5px; font-weight:500; }
+  button.gmchip:hover { background:#fef3c7; }
+  button.gmchip b { font-weight:700; }
+  .gmcard { border:1px solid #e5e7eb; border-radius:12px; background:#fff; padding:11px 12px;
+    transition:transform .15s, box-shadow .15s; }
+  .gmcard:hover { transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.10); }
   label.chk { display:flex; align-items:center; gap:6px; }
   .prow { display:grid; grid-template-columns:1fr 1.4fr auto; gap:10px; align-items:center; margin:9px 0; }
   .prow label { font-size:13px; color:var(--txt); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -265,7 +273,7 @@
     <details id="geoMatrixBox" style="margin-top:8px">
       <summary style="cursor:pointer; font-size:13px; color:var(--acc); font-weight:600">🗺️ Matrice 39×39 — taux de remplissage géométrique (clique une cellule)</summary>
       <div id="geoMatrix" style="margin-top:10px; overflow-x:auto"><span class="muted">chargement…</span></div>
-      <div class="muted" style="font-size:11.5px; margin-top:6px">Lignes = paramètre à améliorer · colonnes = paramètre à ne pas dégrader · couleur = nombre de solutions géométriques de la cellule (survole pour les noms, clique pour consulter).</div>
+      <div class="muted" style="font-size:11.5px; margin-top:6px">Case bleu pâle = la matrice d'Altshuller recommande des principes · pastille sarcelle = 1-2 solutions géométriques prêtes · pastille violette = 3 et plus. Clique une cellule pour ouvrir sa fiche (principes + solutions + sources).</div>
     </details>
     <div id="invPrinciples" class="row" style="display:none; gap:8px"></div>
     <div id="invSolDetails" style="display:none; margin-top:8px"></div>
@@ -1382,43 +1390,135 @@ $('latGo').onclick = async () => {
   }catch(e){ card.innerHTML='<b>🕸 Lattice gyroïde</b><div class="muted" style="color:var(--err)">erreur réseau</div>'; }
 };
 
-/* Heatmap 39x39 du remplissage géométrique (façon matrice Inventioneering). */
-let geoMatrixBuilt=false;
+/* Matrice géométrique 39x39 — même langage visuel que la matrice d'Inventioneering :
+   grille SVG blanche, libellés complets inclinés à 45°, axes bleu/rouge, pastilles de
+   couverture en coin de case, et fiche latérale (principes ambre + solutions + sources). */
+let geoMatrixBuilt=false, gmPN={}, gmM={}, gmSelEl=null;
+const gmEsc=t=>String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 $('geoMatrixBox').addEventListener('toggle', async function(){
-  if(!this.open || geoMatrixBuilt) return;
+  if(!this.open){ gmClose(); return; }
+  if(geoMatrixBuilt) return;
   geoMatrixBuilt=true;
   try{
     const d=await fetch('/invent/matrix_stats').then(r=>r.json());
-    const PN={}; (d.parameters||[]).forEach(p=>PN[p.number]=p.fr);
-    const M={}; let maxN=1;
-    (d.cells||[]).forEach(([i,j,n,np])=>{ M[i+'_'+j]={n,np}; if(n>maxN) maxN=n; });
-    const cellCol=n=>{
-      if(!n) return 'var(--panel2)';
-      const t=Math.min(n/Math.max(maxN,1),1);
-      const h=230-40*t, l=88-46*t;                 // bleu clair -> violet dense
-      return 'hsl('+h+', 78%, '+l+'%)';
-    };
-    let h='<div style="display:grid; grid-template-columns:26px repeat(39, 15px); gap:1px; width:max-content; font-size:9px">';
-    h+='<div></div>';
-    for(let j=1;j<=39;j++) h+='<div style="text-align:center; color:var(--mut)" title="Sans dégrader №'+j+' : '+(PN[j]||'')+'">'+j+'</div>';
-    for(let i=1;i<=39;i++){
-      h+='<div style="color:var(--mut); text-align:right; padding-right:3px; line-height:15px" title="Améliorer №'+i+' : '+(PN[i]||'')+'">'+i+'</div>';
-      for(let j=1;j<=39;j++){
-        if(i===j){ h+='<div style="width:15px;height:15px;background:var(--line)"></div>'; continue; }
-        const c=M[i+'_'+j]||{n:0,np:0};
-        h+='<div class="gmc" data-i="'+i+'" data-j="'+j+'" style="width:15px;height:15px;cursor:pointer;background:'+cellCol(c.n)+';border-radius:2px"'
-          +' title="Améliorer №'+i+' ('+(PN[i]||'')+') × sans dégrader №'+j+' ('+(PN[j]||'')+') — '+c.n+' solution(s), '+c.np+' principe(s)"></div>';
-      }
+    (d.parameters||[]).forEach(p=>gmPN[p.number]=p.fr);
+    (d.cells||[]).forEach(([i,j,n,np])=>{ gmM[i+'_'+j]={n:n,np:np}; });
+    const S=16, L=238, T=156, W=L+39*S+150, H=T+39*S;
+    let s='<svg width="'+W+'" height="'+H+'" style="display:block; user-select:none" role="grid">';
+    s+='<text x="'+(L-8)+'" y="'+(T-22)+'" text-anchor="end" font-size="9" font-weight="bold" fill="#e11d48">Se dégrade ↑ (colonnes)</text>'
+     +'<text x="'+(L-8)+'" y="'+(T-8)+'" text-anchor="end" font-size="9" font-weight="bold" fill="#2563eb">S&#39;améliore ↓ (lignes)</text>';
+    for(let j=1;j<=39;j++){ const cx=L+(j-1)*S+S/2, ty=T-4;
+      s+='<text x="'+cx+'" y="'+ty+'" transform="rotate(-45 '+cx+' '+ty+')" text-anchor="start" dominant-baseline="middle" font-size="9" fill="#4b5563">'+j+'. '+gmEsc(gmPN[j])+'</text>'; }
+    for(let i=1;i<=39;i++)
+      s+='<text x="'+(L-6)+'" y="'+(T+(i-1)*S+S/2+3)+'" text-anchor="end" font-size="9" fill="#4b5563">'+i+'. '+gmEsc(gmPN[i])+'</text>';
+    let dots='';
+    for(let i=1;i<=39;i++) for(let j=1;j<=39;j++){
+      const x=L+(j-1)*S, y=T+(i-1)*S, diag=(i===j);
+      const c=gmM[i+'_'+j]||{n:0,np:0};
+      const base=diag?'#f3f4f6':((c.n||c.np)?'#eff6ff':'#ffffff');
+      s+='<rect '+(diag?'':'class="gmc" data-i="'+i+'" data-j="'+j+'" data-f="'+base+'" ')
+        +'x="'+x+'" y="'+y+'" width="'+S+'" height="'+S+'" fill="'+base+'" stroke="#eef2f7" stroke-width="1"'
+        +(diag?'':' style="cursor:pointer"')+'>'
+        +(diag?'':'<title>Améliorer №'+i+' ('+gmEsc(gmPN[i])+')  ×  sans dégrader №'+j+' ('+gmEsc(gmPN[j])+') — '+c.n+' solution(s) géométrique(s), '+c.np+' principe(s)</title>')
+        +'</rect>';
+      if(!diag && c.n>0)
+        dots+='<rect x="'+(x+S-5.5)+'" y="'+(y+S-5.5)+'" width="4" height="4" rx="1" pointer-events="none" fill="'+(c.n>=3?'#7c3aed':'#0891b2')+'"/>';
     }
-    h+='</div>';
-    $('geoMatrix').innerHTML=h;
-    $('geoMatrix').querySelectorAll('.gmc').forEach(el=>{
-      el.onclick=()=>{ $('invImp').value=el.dataset.i; $('invDeg').value=el.dataset.j;
-        $('invGo').click();
-        $('invPrinciples').scrollIntoView({behavior:'smooth', block:'center'}); };
-    });
+    s+=dots+'</svg>';
+    const leg='<div class="row" style="margin-top:8px; gap:8px; font-size:12px; align-items:center">'
+      +'<span style="padding:4px 10px; border-radius:8px; background:#eff6ff; border:1px solid #dbeafe; color:#2563eb; font-weight:600">S&#39;améliore (lignes)</span>'
+      +'<span style="padding:4px 10px; border-radius:8px; background:#fff1f2; border:1px solid #ffe4e6; color:#e11d48; font-weight:600">Se dégrade (colonnes)</span>'
+      +'<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:#0891b2;display:inline-block"></span>1-2 solutions géométriques</span>'
+      +'<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:#7c3aed;display:inline-block"></span>3 et +</span>'
+      +'<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:#eff6ff;border:1px solid #dbeafe;display:inline-block"></span>principes sans solution dédiée</span></div>';
+    $('geoMatrix').innerHTML='<div style="overflow:auto; border:1px solid #e5e7eb; border-radius:10px; background:#fff; max-width:100%">'+s+'</div>'+leg;
+    const svg=$('geoMatrix').querySelector('svg');
+    svg.addEventListener('mouseover', e=>{ const t=e.target;
+      if(t.classList && t.classList.contains('gmc') && t!==gmSelEl) t.setAttribute('fill','#dbeafe'); });
+    svg.addEventListener('mouseout', e=>{ const t=e.target;
+      if(t.classList && t.classList.contains('gmc') && t!==gmSelEl) t.setAttribute('fill',t.dataset.f); });
+    svg.addEventListener('click', e=>{ const t=e.target.closest ? e.target.closest('.gmc') : null;
+      if(t) gmSelect(+t.dataset.i, +t.dataset.j, t); });
   }catch(e){ $('geoMatrix').innerHTML='<span class="muted">erreur de chargement</span>'; }
 });
+
+function gmPanel(){
+  let p=document.getElementById('gmPanel');
+  if(!p){ p=document.createElement('div'); p.id='gmPanel';
+    p.style.cssText='display:none; position:fixed; top:80px; right:18px; width:390px; max-width:92vw;'
+      +' max-height:calc(100vh - 110px); overflow:auto; background:rgba(255,255,255,.97);'
+      +' backdrop-filter:blur(6px); border:1px solid #e5e7eb; border-radius:18px;'
+      +' box-shadow:0 25px 50px -12px rgba(0,0,0,.25); padding:16px; z-index:80; color:#1c2430';
+    document.body.appendChild(p); }
+  return p;
+}
+function gmClose(){
+  const p=document.getElementById('gmPanel'); if(p) p.style.display='none';
+  if(gmSelEl){ gmSelEl.setAttribute('fill',gmSelEl.dataset.f);
+    gmSelEl.setAttribute('stroke','#eef2f7'); gmSelEl.setAttribute('stroke-width','1'); gmSelEl=null; }
+}
+function gmHeader(i,j){
+  return '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px">'
+    +'<div style="font-size:14.5px; line-height:1.35"><b style="color:#2563eb">№'+i+' '+gmEsc(gmPN[i])+'</b>'
+    +' <span style="color:#9ca3af">⇄</span> <b style="color:#e11d48">№'+j+' '+gmEsc(gmPN[j])+'</b>'
+    +'<div style="font-size:11px; color:#9ca3af; font-weight:400">s&#39;améliore ⇄ se dégrade</div></div>'
+    +'<button id="gmClose" style="background:#fff; color:#6b7280; border:1px solid #e5e7eb; border-radius:8px; padding:3px 9px; font-size:13px; font-weight:500">✕</button></div>';
+}
+async function gmSelect(i, j, rectEl){
+  if(gmSelEl){ gmSelEl.setAttribute('fill',gmSelEl.dataset.f);
+    gmSelEl.setAttribute('stroke','#eef2f7'); gmSelEl.setAttribute('stroke-width','1'); }
+  gmSelEl=rectEl;
+  rectEl.setAttribute('fill','#bfdbfe'); rectEl.setAttribute('stroke','#2563eb'); rectEl.setAttribute('stroke-width','2');
+  $('invImp').value=String(i); $('invDeg').value=String(j);
+  const p=gmPanel(); p.style.display='block';
+  p.innerHTML=gmHeader(i,j)+'<div class="muted" style="margin-top:12px">⏳ consultation de la cellule + mesure de la pièce…</div>';
+  document.getElementById('gmClose').onclick=gmClose;
+  try{
+    const [pr, bl]=await Promise.all([
+      fetch('/invent/principles',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({improve:i, degrade:j})}).then(r=>r.json()),
+      fetch('/invent/baseline',{method:'POST'}).then(r=>r.json())
+    ]);
+    if(bl && bl.ok){ invBaseline=bl;
+      $('invBase').textContent='Pièce de départ : SF '+(bl.sf!=null?bl.sf:'?')+' · '+(bl.masse_g||'?')+' g · idéalité '+(bl.ideality!=null?bl.ideality:'?');
+      $('invVariants').style.display='block';
+    } else { invBaseline=null; }
+    const prn=pr.principles||[], sols=pr.solutions||[];
+    let h=gmHeader(i,j);
+    if(prn.length) h+='<div class="lbl" style="margin:12px 0 6px">Principes inventifs suggérés</div>'
+      +'<div id="gmChips" style="display:flex; flex-wrap:wrap; gap:6px"></div>';
+    if(sols.length) h+='<div class="lbl" style="margin:14px 0 6px">Solutions géométriques ('+sols.length+')</div>'
+      +'<div id="gmCards" style="display:grid; gap:8px"></div>';
+    if(!prn.length && !sols.length)
+      h+='<div class="muted" style="margin-top:12px">La matrice ne recommande rien pour ce couple — essaie une cellule voisine.</div>';
+    p.innerHTML=h;
+    document.getElementById('gmClose').onclick=gmClose;
+    prn.forEach(pc=>{ const b=document.createElement('button'); b.className='gmchip';
+      b.innerHTML='▶ <b>'+pc.number+'</b> '+gmEsc(pc.label); b.title=pc.description||'';
+      b.onclick=()=>{ genVariant(pc.number, pc.label);
+        $('invStatus').textContent='variante « '+pc.label+' » en cours — voir la grille des variantes'; };
+      document.getElementById('gmChips').appendChild(b); });
+    sols.forEach(so=>{ const c=document.createElement('div'); c.className='gmcard';
+      const srcs=(so.sources||[]).map(x=> x && x.url
+        ? '<a href="'+gmEsc(x.url)+'" target="_blank" rel="noopener" style="color:var(--acc)">'+gmEsc(x.title||x.url)+(x.year?' ('+x.year+')':'')+'</a>'
+        : gmEsc((x&&x.title)||x)).join(' · ');
+      c.innerHTML='<div style="font-size:13.5px"><b>'+(so.kind==='lattice'?'🕸':'🧩')+' '+gmEsc(so.name)+'</b>'
+        +' <span style="font-size:11px; color:#9ca3af">P'+(so.principles||[]).join(', P')+'</span></div>'
+        +'<div class="muted" style="margin-top:3px">'+gmEsc(so.desc)+'</div>'
+        +(srcs?'<div style="font-size:11.5px; margin-top:4px">📚 '+srcs+'</div>':'')
+        +'<button class="gmgen" style="margin-top:8px; padding:5px 11px; font-size:12px">▶ Générer la variante</button>';
+      c.querySelector('.gmgen').onclick=()=>{
+        if(so.kind==='lattice'){ const Lt=so.lattice||{};
+          $('latKind').value=Lt.kind||'gyroid'; $('latGrad').checked=!!Lt.gradient; $('latGo').click();
+          $('invStatus').textContent='variante lattice en cours — voir la grille des variantes';
+        } else { genVariantSol(so.id, so.name); }
+      };
+      document.getElementById('gmCards').appendChild(c); });
+  }catch(e){
+    p.innerHTML=gmHeader(i,j)+'<div class="muted" style="margin-top:12px; color:var(--err)">erreur réseau</div>';
+    document.getElementById('gmClose').onclick=gmClose;
+  }
+}
 
 $('veilleGo').onclick = async () => {
   const st=$('veilleStatus'), box=$('veilleList');
