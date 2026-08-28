@@ -263,6 +263,13 @@
       <span id="invStatus" class="muted"></span>
     </div>
     <div id="invPrinciples" class="row" style="display:none; gap:8px"></div>
+    <div class="row" style="margin-top:8px; border-top:1px dashed var(--line); padding-top:10px; align-items:center">
+      <span class="muted" style="font-size:12.5px">🕸 <b>Lattice gyroïde</b> (P31 Porosité / P40 Composites) — remplace l'âme par un treillis :</span>
+      <label class="muted">cellule&nbsp;<input id="latCell" type="number" value="8" min="3" step="1" style="width:56px"> mm</label>
+      <label class="muted">brin&nbsp;<input id="latWall" type="number" value="1.6" min="0.8" step="0.2" style="width:56px"> mm</label>
+      <label class="muted">peau&nbsp;<input id="latShell" type="number" value="1.6" min="0.8" step="0.2" style="width:56px"> mm</label>
+      <button id="latGo" class="sec">Générer la variante lattice</button>
+    </div>
     <div id="invVariants" style="display:none; margin-top:12px">
       <div class="lbl" style="margin-bottom:4px">Variantes — idéalité = tenue (SF) / masse : plus haut = plus proche de l'idéal</div>
       <div id="invBase" class="muted" style="font-size:12.5px; margin-bottom:8px"></div>
@@ -715,7 +722,7 @@ function showResult(d, statusEl, keepView){
     showStats(d.stats); loadGLB(d.files.glb, keepView);
     $('refineRow').style.display='block';
     if(!keepView && $('iterLog')) $('iterLog').innerHTML='';   // nouvelle pièce = nouveau fil
-    buildParams(d.params); $('paramWarn').style.display='none';
+    buildParams(d.params||[]); $('paramWarn').style.display='none';
   } else {
     statusEl.innerHTML = `<span class="pill err">Échec</span>`;
   }
@@ -1258,6 +1265,44 @@ async function genVariant(n, label){
     };
   }catch(e){ card.innerHTML='<b>'+n+'. '+label+'</b><div class="muted" style="color:var(--err)">erreur réseau</div>'; }
 }
+$('latGo').onclick = async () => {
+  $('invVariants').style.display='block';
+  const grid=$('invGrid');
+  let card=document.getElementById('invVlat');
+  if(!card){ card=document.createElement('div'); card.id='invVlat';
+    card.style.cssText='background:var(--panel2); border:1px solid var(--line); border-radius:12px; padding:12px'; grid.appendChild(card); }
+  card.innerHTML='<b>🕸 Lattice gyroïde</b><div class="muted" style="margin-top:6px">⏳ voxels + gyroïde + marching cubes…</div>';
+  try{
+    const r=await fetch('/invent/lattice',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({cell_mm:+$('latCell').value||8, wall_mm:+$('latWall').value||1.6,
+                           shell_mm:+$('latShell').value||1.6,
+                           baseline_sf:(invBaseline&&invBaseline.sf!=null)?invBaseline.sf:null})});
+    const d=await r.json();
+    if(!d.ok){ card.innerHTML='<b>🕸 Lattice gyroïde</b><div class="muted" style="margin-top:6px; color:var(--err)">échec : '+String(d.error||'').slice(0,90)+'</div>'; return; }
+    const dM=(invBaseline&&invBaseline.masse_g&&d.masse_g)?(d.masse_g-invBaseline.masse_g):null;
+    const fm=(v)=>v==null?'':' <span style="color:'+(v<0?'#15803d':'#b91c1c')+'">('+(v>0?'+':'')+(Math.round(v*10)/10)+' g)</span>';
+    card.innerHTML='<b>🕸 Lattice gyroïde</b>'
+      +'<div style="font-size:13px; margin-top:6px">densité <b>'+Math.round((d.rel_density||0)*100)+'%</b> du plein</div>'
+      +'<div style="font-size:13px">masse <b>'+(d.masse_g||'?')+' g</b>'+fm(dM)+'</div>'
+      +'<div style="font-size:13px">SF estimé <b>'+(d.sf!=null?d.sf:'?')+'</b> <span class="muted" style="font-size:10.5px">(Gibson-Ashby ρ²)</span></div>'
+      +'<div style="font-size:13px">idéalité <b>'+(d.ideality!=null?d.ideality:'?')+'</b></div>'
+      +'<div class="row" style="margin-top:8px"><button class="sec vprev" style="padding:5px 10px; font-size:12px">👁 Voir</button>'
+      +'<button class="vadopt" style="padding:5px 10px; font-size:12px">✔ Adopter</button></div>';
+    card.querySelector('.vprev').onclick=()=>{ meshMode=true; loadGLB(d.glb, true);
+      $('invStatus').textContent='👁 aperçu lattice (non adopté)'; };
+    card.querySelector('.vadopt').onclick=async ()=>{
+      const btn=card.querySelector('.vadopt'); btn.textContent='⏳'; btn.disabled=true;
+      try{
+        const ra=await fetch('/invent/adopt',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({principle:'lattice'})});
+        const da=await ra.json();
+        showResult(da, $('invStatus'), false);
+        if(da.ok){ addIter('adopté : lattice gyroïde ('+Math.round((d.rel_density||0)*100)+'% de densité)'); btn.textContent='✔ adoptée'; }
+        else { btn.textContent='✔ Adopter'; btn.disabled=false; }
+      }catch(e){ btn.textContent='✔ Adopter'; btn.disabled=false; }
+    };
+  }catch(e){ card.innerHTML='<b>🕸 Lattice gyroïde</b><div class="muted" style="color:var(--err)">erreur réseau</div>'; }
+};
+
 function contradictionText(){
   const imp=$('invImp').selectedOptions[0], deg=$('invDeg').selectedOptions[0];
   return 'ameliorer « '+(imp?imp.textContent:'')+' » SANS degrader « '+(deg?deg.textContent:'')+' »'

@@ -281,6 +281,105 @@ def _svg_perf(job):
     return {"ok": True, "mesh": True, "stats": _mesh_stats(res)}
 
 
+def _voxel_fill(m, pitch):
+    """Voxelisation PLEINE rapide : rasterisation des triangles colonne par
+    colonne (Z) puis remplissage par parité. ~100x plus rapide que
+    trimesh.voxelized().fill() qui dominait le temps de calcul."""
+    import numpy as np
+    (x0, y0, z0), (x1, y1, z1) = m.bounds
+    nx = int(np.ceil((x1 - x0) / pitch)) + 2
+    ny = int(np.ceil((y1 - y0) / pitch)) + 2
+    nz = int(np.ceil((z1 - z0) / pitch)) + 2
+    cross = [[[] for _ in range(ny)] for _ in range(nx)]
+    for a, b, c in m.triangles:
+        i0 = max(int((min(a[0], b[0], c[0]) - x0) / pitch) - 1, 0)
+        i1 = min(int((max(a[0], b[0], c[0]) - x0) / pitch) + 1, nx - 1)
+        j0 = max(int((min(a[1], b[1], c[1]) - y0) / pitch) - 1, 0)
+        j1 = min(int((max(a[1], b[1], c[1]) - y0) / pitch) + 1, ny - 1)
+        if i1 < i0 or j1 < j0:
+            continue
+        den = (b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1])
+        if abs(den) < 1e-12:
+            continue                       # triangle vertical : colonnes couvertes ailleurs
+        px = x0 + np.arange(i0, i1 + 1) * pitch
+        py = y0 + np.arange(j0, j1 + 1) * pitch
+        PX, PY = np.meshgrid(px, py, indexing="ij")
+        wx, wy = PX - a[0], PY - a[1]
+        u = (wx * (c[1] - a[1]) - (c[0] - a[0]) * wy) / den
+        v = ((b[0] - a[0]) * wy - wx * (b[1] - a[1])) / den
+        inside = (u >= -1e-9) & (v >= -1e-9) & (u + v <= 1 + 1e-9)
+        if not inside.any():
+            continue
+        z = a[2] + u * (b[2] - a[2]) + v * (c[2] - a[2])
+        ii, jj = np.nonzero(inside)
+        zz = z[inside]
+        for k in range(len(ii)):
+            cross[i0 + ii[k]][j0 + jj[k]].append(zz[k])
+    M = np.zeros((nx, ny, nz), bool)
+    zg = z0 + np.arange(nz) * pitch
+    for i in range(nx):
+        ci = cross[i]
+        for j in range(ny):
+            zs = ci[j]
+            if len(zs) < 2:
+                continue
+            zs = sorted(zs)
+            for k in range(0, len(zs) - 1, 2):
+                M[i, j, (zg >= zs[k] - 1e-9) & (zg <= zs[k + 1] + 1e-9)] = True
+    return M, np.array([x0, y0, z0])
+
+
+def _lattice(job):
+    """LATTIFIE la pièce : peau extérieure conservée + âme remplacée par un
+    gyroïde TPMS (auto-supporté en FDM). Réglages : cell_mm = taille de cellule
+    (densité du maillage), wall_mm = épaisseur des parois du gyroïde (~diamètre
+    de brin), shell_mm = épaisseur de la peau. Pipeline voxels (B-rep ingérable
+    pour des milliers de brins) : voxelisation -> érosion (peau) -> champ
+    implicite gyroïde -> marching cubes."""
+    import numpy as np
+    import trimesh
+    from scipy import ndimage
+    from trimesh.voxel.ops import matrix_to_marching_cubes
+    outdir = Path(job["outdir"])
+    outdir.mkdir(parents=True, exist_ok=True)
+    cell = max(3.0, float(job.get("cell_mm", 8.0)))
+    wall = max(0.8, float(job.get("wall_mm", 1.6)))
+    shell = max(0.8, float(job.get("shell_mm", 1.6)))
+    m = trimesh.load(str(job["src_stl"]), force="mesh")
+    ext = m.extents
+    # résolution voxel : fine assez pour les parois, bornée pour la mémoire
+    pitch = max(min(wall / 2.2, cell / 8.0), float(max(ext)) / 180.0)
+    M, origin = _voxel_fill(m, pitch)
+    it = max(1, int(round(shell / pitch)))
+    inner = ndimage.binary_erosion(M, iterations=it)
+    shell_mask = M & ~inner
+    # gyroïde : sin(x)cos(y) + sin(y)cos(z) + sin(z)cos(x), période = cell
+    k = 2.0 * np.pi / cell
+    nx, ny, nz = M.shape
+    ax = (np.arange(nx) * pitch + origin[0]) * k
+    ay = (np.arange(ny) * pitch + origin[1]) * k
+    az = (np.arange(nz) * pitch + origin[2]) * k
+    G = (np.sin(ax)[:, None, None] * np.cos(ay)[None, :, None]
+         + np.sin(ay)[None, :, None] * np.cos(az)[None, None, :]
+         + np.sin(az)[None, None, :] * np.cos(ax)[:, None, None]).astype(np.float32)
+    t = np.pi * wall / cell                    # seuil ~ épaisseur de paroi voulue
+    final = shell_mask | (inner & (np.abs(G) < t))
+    mesh = matrix_to_marching_cubes(final, pitch=pitch)
+    mesh.apply_translation(origin)
+    try:
+        mesh.update_faces(mesh.nondegenerate_faces())
+        mesh.remove_unreferenced_vertices()
+    except Exception:
+        pass
+    rel = float(mesh.volume / m.volume) if m.volume else 1.0
+    mesh.export(str(outdir / "_mesh.stl"))
+    mesh.export(str(outdir / "model.stl"))
+    mesh.export(str(outdir / "model.glb"))
+    st = _mesh_stats(mesh)
+    st["rel_density"] = round(rel, 3)
+    return {"ok": True, "mesh": True, "stats": st, "rel_density": round(rel, 3)}
+
+
 def _fea_job(job):
     """Calcul de structure minimaliste, exécuté ICI (thread principal du worker) :
     Gmsh installe un handler de signal qui n'est valide que dans le thread principal."""
@@ -331,6 +430,9 @@ def main():
                 sys.stdout.write(json.dumps(resp) + "\n"); sys.stdout.flush(); continue
             if cmd == "fea":
                 resp = _fea_job(job)
+                sys.stdout.write(json.dumps(resp) + "\n"); sys.stdout.flush(); continue
+            if cmd == "lattice":
+                resp = _lattice(job)
                 sys.stdout.write(json.dumps(resp) + "\n"); sys.stdout.flush(); continue
             code = Path(job["code_file"]).read_text(encoding="utf-8")
             outdir = Path(job["outdir"])

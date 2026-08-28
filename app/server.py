@@ -1038,7 +1038,7 @@ class InventVariantReq(BaseModel):
 
 
 class InventAdoptReq(BaseModel):
-    principle: int
+    principle: int | str      # numero de principe, ou "lattice"
 
 
 def _fea_quick(outdir):
@@ -1111,9 +1111,60 @@ def invent_variant(req: InventVariantReq):
             "error": (last_err or "generation echouee")[:300]}
 
 
+class LatticeReq(BaseModel):
+    cell_mm: float = 8.0      # taille de cellule (densite du maillage)
+    wall_mm: float = 1.6      # epaisseur des parois du gyroide (~diametre de brin)
+    shell_mm: float = 1.6     # peau exterieure conservee
+    baseline_sf: float | None = None
+
+
+@app.post("/invent/lattice")
+def invent_lattice(req: LatticeReq):
+    """Variante LATTICE (principes 31 Porosite / 40 Composites) : ame gyroide.
+    SF estime par homogeneisation de Gibson-Ashby : SF ~ SF_plein x densite^2."""
+    src = WORK / "model.stl"
+    if not src.exists():
+        return {"ok": False, "error": "Aucune piece de depart."}
+    outdir = VAR_DIR / "lattice"
+    r = WORKER.run_raw({"cmd": "lattice", "src_stl": str(src), "outdir": str(outdir),
+                        "cell_mm": req.cell_mm, "wall_mm": req.wall_mm,
+                        "shell_mm": req.shell_mm}, timeout=300)
+    if not r.get("ok"):
+        return {"ok": False, "error": str(r.get("error", "lattice echoue"))[:200]}
+    st = r["stats"]
+    rel = r.get("rel_density")
+    masse = round(st.get("volume_cm3", 0) * 1.24, 1)
+    sf_est = round(req.baseline_sf * rel * rel, 1) if (req.baseline_sf and rel) else None
+    return {"ok": True, "principle": "lattice", "label": "Lattice gyroïde (P31/P40)",
+            "stats": st, "rel_density": rel, "masse_g": masse,
+            "sf": sf_est, "sf_estime": True,
+            "ideality": _invent.ideality(sf_est, masse),
+            "glb": "/work/variants/lattice/model.glb"}
+
+
 @app.post("/invent/adopt")
 def invent_adopt(req: InventAdoptReq):
     """Adopte une variante : elle devient la piece courante de l'atelier."""
+    if str(req.principle) == "lattice" or req.principle == -1:
+        # variante MAILLAGE : bascule l'atelier en mode mesh
+        outdir = VAR_DIR / "lattice"
+        if not (outdir / "model.glb").exists():
+            return {"ok": False, "error": "Variante lattice introuvable."}
+        _clear_outputs()
+        for f in ("model.glb", "model.stl", "_mesh.stl"):
+            if (outdir / f).exists():
+                shutil.copy2(outdir / f, WORK / f)
+        for f in ("generated_model.py", "model.step", "faces.json", "edges.json"):
+            (WORK / f).unlink(missing_ok=True)
+        import trimesh as _tm
+        m = _tm.load(str(WORK / "model.stl"), force="mesh")
+        stats = {"triangles": int(len(m.faces)), "watertight": bool(m.is_watertight),
+                 "volume_cm3": round(float(m.volume) / 1000.0, 1),
+                 "bbox_mm": [round(float(x), 1) for x in m.extents]}
+        MESH["active"] = True
+        MESH["stats"] = stats
+        return {"ok": True, "mesh": True, "stats": stats, "files": _files_ok(),
+                "params": None, "code": None}
     outdir = VAR_DIR / f"p{req.principle}"
     vf = outdir / "variant.py"
     if not vf.exists():

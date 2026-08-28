@@ -31,3 +31,6 @@ scipy==1.18.0
 fast-simplification
 pymeshfix
 bd_warehouse==0.3.0
+
+# Lattices gyroide (voxels + marching cubes)
+scikit-image
