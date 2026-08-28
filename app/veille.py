@@ -8,6 +8,8 @@ automatiquement sur les 1248 cellules de la matrice géométrique.
 """
 import json
 import os
+import re
+import urllib.parse
 import urllib.request
 
 ELICIT_KEY = os.environ.get("ELICIT_API_KEY", "")
@@ -43,6 +45,41 @@ def elicit_search(query: str, max_results: int = 8):
                     "url": p.get("url") or (f"https://doi.org/{doi}" if doi else None),
                     "abstract": (p.get("abstract") or "")[:1200]})
     return out
+
+
+def crossref_lookup(title: str, year=None):
+    """Résout un titre d'article en DOI via l'API Crossref (publique, GRATUITE).
+    Renvoie {url, year} si un match fiable est trouvé, sinon None."""
+    if not title:
+        return None
+    q = urllib.parse.quote(title[:250])
+    req = urllib.request.Request(
+        f"https://api.crossref.org/works?query.bibliographic={q}&rows=3",
+        headers={"User-Agent": "text-to-cad/1.0"})
+    with urllib.request.urlopen(req, timeout=12) as r:
+        items = json.loads(r.read().decode()).get("message", {}).get("items", [])
+    want = set(re.findall(r"[a-z0-9]+", title.lower()))
+    for it in items:
+        cand = " ".join(it.get("title") or [])
+        have = set(re.findall(r"[a-z0-9]+", cand.lower()))
+        if not want or not have:
+            continue
+        if len(want & have) / max(len(want), 1) < 0.6:   # match trop lointain
+            continue
+        doi = it.get("DOI")
+        y = None
+        try:
+            y = (it.get("issued", {}).get("date-parts") or [[None]])[0][0]
+        except Exception:
+            pass
+        return {"url": f"https://doi.org/{doi}" if doi else it.get("URL"),
+                "year": y}
+    return None
+
+
+def scholar_url(title: str) -> str:
+    """Repli quand Crossref ne trouve pas : recherche Google Scholar sur le titre."""
+    return "https://scholar.google.com/scholar?q=" + urllib.parse.quote(title[:200])
 
 
 EXTRACT_SYSTEM = """Tu es un expert TRIZ et conception pour fabrication additive.

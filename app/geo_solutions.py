@@ -198,14 +198,53 @@ EXT_PATH = _os.environ.get("TCAD_GEOEXT",
                            if _os.path.isdir("/data") else
                            _os.path.join(_os.path.dirname(__file__), "work",
                                          "geo_solutions_ext.json"))
+import re as _re
+
+
+def _norm_source(x):
+    """Uniformise une source en {title, year, url} — les premières adoptions de la
+    veille avaient stocké des chaînes brutes « Titre (année) »."""
+    if isinstance(x, dict):
+        return {"title": x.get("title"), "year": x.get("year"), "url": x.get("url")}
+    t = str(x).strip()
+    m = _re.match(r"^(.*?)\s*\((\d{4}|None|\?)\)\.?$", t)
+    if m:
+        return {"title": m.group(1).strip(),
+                "year": int(m.group(2)) if m.group(2).isdigit() else None,
+                "url": None}
+    return {"title": t, "year": None, "url": None}
+
+
 try:
     for _s in _json.load(open(EXT_PATH, encoding="utf-8")):
         if _s.get("id") and all(_s["id"] != x["id"] for x in SOLUTIONS):
+            _s["sources"] = [_norm_source(x) for x in _s.get("sources", [])]
             SOLUTIONS.append(_s)
 except Exception:
     pass
 
 _BY_ID = {s["id"]: s for s in SOLUTIONS}
+
+
+def save_sources(sol_id, sources):
+    """Persiste des sources enrichies (ex. DOI résolus) dans le catalogue + ext.json."""
+    s = _BY_ID.get(sol_id)
+    if not s:
+        return False
+    s["sources"] = sources
+    try:
+        ext = _json.load(open(EXT_PATH, encoding="utf-8"))
+        changed = False
+        for e in ext:
+            if e.get("id") == sol_id:
+                e["sources"] = sources
+                changed = True
+        if changed:
+            _json.dump(ext, open(EXT_PATH, "w", encoding="utf-8"),
+                       ensure_ascii=False)
+    except Exception:
+        pass
+    return True
 
 
 def add_solution(s):
@@ -217,7 +256,7 @@ def add_solution(s):
              "principles": s.get("principles", []),
              "improves": s.get("improves", []),
              "degrades": s.get("degrades", []),
-             "sources": s.get("sources", [])}
+             "sources": [_norm_source(x) for x in s.get("sources", [])]}
     SOLUTIONS.append(entry)
     _BY_ID[entry["id"]] = entry
     try:

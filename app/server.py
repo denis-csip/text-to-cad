@@ -1175,9 +1175,27 @@ def invent_solution(sid: str):
         return JSONResponse({"ok": False, "error": "solution inconnue"}, status_code=404)
     labels = [{"number": n, "label": _invent.PRINCIPLES.get(n, {}).get("label", "")}
               for n in s.get("principles", [])]
+    # Sources sans lien (vieilles adoptions) : résolution DOI Crossref (gratuite),
+    # une seule fois, puis persistée ; repli = recherche Google Scholar sur le titre.
+    srcs = [x if isinstance(x, dict) else {"title": str(x), "year": None, "url": None}
+            for x in s.get("sources", [])]
+    resolved = False
+    for x in srcs:
+        if not x.get("url") and x.get("title"):
+            try:
+                import veille as _veille
+                hit = _veille.crossref_lookup(x["title"], x.get("year"))
+                x["url"] = (hit or {}).get("url") or _veille.scholar_url(x["title"])
+                if hit and hit.get("year") and not x.get("year"):
+                    x["year"] = hit["year"]
+                resolved = True
+            except Exception:
+                pass                        # réseau KO -> on retentera à l'ouverture suivante
+    if resolved:
+        _geo.save_sources(sid, srcs)
     return {"ok": True, "id": s["id"], "name": s["name"], "kind": s["kind"],
             "desc": s.get("desc", ""), "instruction": s.get("instruction", ""),
-            "principles": labels, "sources": s.get("sources", []),
+            "principles": labels, "sources": srcs,
             "lattice": s.get("lattice"),
             "image": f"/invent/solution_image/{s['id']}",
             "image_ready": (SOLIMG_DIR / f"{s['id']}.png").exists()}
