@@ -933,25 +933,33 @@ async function blobToWav(blob){
 }
 
 /* Dictée vocale — universelle : Web Speech (transcription en direct) si dispo,
-   sinon enregistrement MediaRecorder -> /transcribe (Gemini). Toujours visible. */
-function makeMic(btnId, target){
+   sinon enregistrement MediaRecorder -> /transcribe (Gemini). Toujours visible.
+   3 s de SILENCE après avoir parlé = stop automatique + enchaînement (onAuto). */
+function makeMic(btnId, target, onAuto){
   const btn=$(btnId); if(!btn) return;
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  let active=false, rec=null, media=null, chunks=[];
+  let active=false, rec=null, media=null, chunks=[], autoStopped=false;
   const off=()=>{ active=false; btn.classList.remove('rec'); btn.textContent='🎙️'; };
   const on=()=>{ active=true; btn.classList.add('rec'); btn.textContent='⏹'; };
   btn.onclick=async ()=>{
-    if(active){ try{ rec ? rec.stop() : media.stop(); }catch(_){ off(); } return; }
+    if(active){ autoStopped=false; try{ rec ? rec.stop() : media.stop(); }catch(_){ off(); } return; }
+    autoStopped=false;
     if(SR){
       rec=new SR(); rec.lang='fr-FR'; rec.continuous=true; rec.interimResults=true;
       const base=target.value ? target.value.replace(/\s+$/,'')+' ' : '';
+      let silenceT=null, spoke=false;
+      const armSilence=()=>{ clearTimeout(silenceT);
+        silenceT=setTimeout(()=>{ autoStopped=true; try{ rec.stop(); }catch(_){}} , 3000); };
       rec.onresult=e=>{
         let fin='', inter='';
         for(let i=0;i<e.results.length;i++){ const r=e.results[i];
           if(r.isFinal) fin+=r[0].transcript; else inter+=r[0].transcript; }
         target.value=base+fin+inter;
+        if((fin+inter).trim()){ spoke=true; armSilence(); }
       };
-      rec.onend=off; rec.onerror=off;
+      rec.onend=()=>{ clearTimeout(silenceT); off();
+        if(autoStopped && spoke && onAuto) setTimeout(onAuto, 150); };
+      rec.onerror=()=>{ clearTimeout(silenceT); off(); };
       try{ rec.start(); on(); }catch(_){ off(); }
       return;
     }
@@ -963,8 +971,26 @@ function makeMic(btnId, target){
       media=new MediaRecorder(stream, mime?{mimeType:mime}:undefined);
       chunks=[];
       media.ondataavailable=e=>{ if(e.data.size) chunks.push(e.data); };
+      // Détection de silence sur le flux : RMS bas pendant 3 s après avoir parlé -> stop auto.
+      let vadCtx=null, vadIv=null;
+      try{
+        vadCtx=new (window.AudioContext||window.webkitAudioContext)();
+        const an=vadCtx.createAnalyser(); an.fftSize=512;
+        vadCtx.createMediaStreamSource(stream).connect(an);
+        const vb=new Float32Array(an.fftSize);
+        let spoke=false, lastVoice=Date.now();
+        vadIv=setInterval(()=>{
+          an.getFloatTimeDomainData(vb);
+          let s=0; for(let i=0;i<vb.length;i++) s+=vb[i]*vb[i];
+          const rms=Math.sqrt(s/vb.length);
+          if(rms>0.012){ spoke=true; lastVoice=Date.now(); }
+          else if(spoke && Date.now()-lastVoice>3000){ autoStopped=true; try{ media.stop(); }catch(_){}}
+        }, 200);
+      }catch(_){}
       media.onstop=async ()=>{
         off(); stream.getTracks().forEach(t=>t.stop());
+        if(vadIv) clearInterval(vadIv);
+        if(vadCtx){ try{ vadCtx.close(); }catch(_){}}
         let blob=new Blob(chunks, {type: media.mimeType||'audio/webm'});
         // Conversion WAV 16 kHz mono : Gemini transcrit le WAV de façon fiable quelle
         // que soit la durée (le WebM/Opus long donnait des transcriptions vides).
@@ -976,7 +1002,10 @@ function makeMic(btnId, target){
             const r=await fetch('/transcribe',{method:'POST',headers:{'Content-Type':'application/json'},
               body:JSON.stringify({audio:fr.result, mime:(blob.type||'audio/webm').split(';')[0]})});
             const d=await r.json();
-            if(d.ok && d.text) target.value=(target.value?target.value.replace(/\s+$/,'')+' ':'')+d.text;
+            if(d.ok && d.text){
+              target.value=(target.value?target.value.replace(/\s+$/,'')+' ':'')+d.text;
+              if(autoStopped && onAuto) setTimeout(onAuto, 150);
+            }
             else alert(d.error||'Transcription vide — réessaie en articulant près du micro.');
           }catch(_){ alert('Erreur réseau pendant la transcription.'); }
           target.placeholder=ph;
@@ -987,8 +1016,10 @@ function makeMic(btnId, target){
     }catch(_){ alert("Micro inaccessible : autorise l'accès au micro dans le navigateur."); off(); }
   };
 }
-makeMic('micBrief', $('brief'));
-makeMic('micRefine', $('refine'));
+/* 3 s de silence -> stop auto -> enchaînement : le brief lance l'analyse d'intention,
+   l'itération applique directement la modification. */
+makeMic('micBrief', $('brief'), () => { if($('brief').value.trim()) $('gen').click(); });
+makeMic('micRefine', $('refine'), () => { if($('refine').value.trim()) $('refineBtn').click(); });
 
 /* Opération sur arête(s) cliquée(s) : arrondi / chanfrein ciblé (sans LLM). */
 $('eapply').onclick = async () => {
