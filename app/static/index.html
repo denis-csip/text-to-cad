@@ -954,6 +954,7 @@ $('eapply').onclick = async () => {
     const d = await r.json();
     if(d.ok){ addIter(($('eop').value==='fillet'?'arrondi':'chanfrein')+' '+($('erad').value)+' mm sur '+mids.length+' arête(s)'); }
     showResult(d, $('estatus'), true);
+    if(!d.ok && d.error) $('estatus').innerHTML='<span class="pill err">Échec</span> <span class="muted">'+String(d.error).replace(/</g,'&lt;').slice(0,160)+'</span>';
   }catch(e){ setLog('Erreur réseau: '+e); }
   $('eapply').disabled=false;
 };
