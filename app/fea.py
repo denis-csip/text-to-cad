@@ -28,7 +28,7 @@ MATERIALS = {
 def _extract_tets(gmsh):
     tags, coords, _ = gmsh.model.mesh.getNodes()
     if len(tags) < 4:
-        return None, None
+        return None, None, None
     coords = np.array(coords, dtype=float).reshape(-1, 3)
     tag2idx = {int(t): i for i, t in enumerate(tags)}
     etypes, etags, enodes = gmsh.model.mesh.getElements(3)
@@ -38,7 +38,24 @@ def _extract_tets(gmsh):
             conn = np.array(en, dtype=int).reshape(-1, 4)
             tets.append(np.vectorize(tag2idx.get)(conn))
     tets = np.vstack(tets) if tets else np.zeros((0, 4), int)
-    return coords, tets
+    # Nœuds par FACE géométrique : permet les charges/encastrements par face choisie.
+    surfaces = []
+    try:
+        for dim, tag in gmsh.model.getEntities(2):
+            ntags, ncoords, _ = gmsh.model.mesh.getNodes(2, tag, includeBoundary=True)
+            idxs = [tag2idx[int(t)] for t in ntags if int(t) in tag2idx]
+            if not idxs:
+                continue
+            try:
+                cx, cy, cz = gmsh.model.occ.getCenterOfMass(2, tag)
+            except Exception:
+                pts = coords[idxs]
+                cx, cy, cz = pts.mean(axis=0)
+            surfaces.append({"center": [float(cx), float(cy), float(cz)],
+                             "nodes": idxs})
+    except Exception:
+        surfaces = []
+    return coords, tets, surfaces
 
 
 def _mesh_step(step_path, mesh_size=None):
@@ -74,9 +91,9 @@ def _mesh_step(step_path, mesh_size=None):
                 gmsh.option.setNumber("Mesh.MeshSizeMax", base * k)
                 gmsh.option.setNumber("Mesh.MeshSizeMin", base * k * 0.3)
                 gmsh.model.mesh.generate(3)
-                coords, tets = _extract_tets(gmsh)
+                coords, tets, surfaces = _extract_tets(gmsh)
                 if tets is not None and len(tets) > 0:
-                    return coords, tets
+                    return coords, tets, surfaces
             except Exception as e:
                 last = e
         raise RuntimeError("maillage 3D impossible (%s)"
@@ -146,10 +163,10 @@ def _mesh_from_stl(stl_path, target_faces=6000):
             gmsh.model.mesh.clear()
             gmsh.option.setNumber("Mesh.Algorithm3D", 1)       # Delaunay en secours
             gmsh.model.mesh.generate(3)
-        coords, tets = _extract_tets(gmsh)
+        coords, tets, surfaces = _extract_tets(gmsh)
         if tets is None or len(tets) == 0:
             raise RuntimeError("aucun tétra depuis le STL")
-        return coords, tets
+        return coords, tets, surfaces
     finally:
         gmsh.finalize()
         try:
@@ -189,8 +206,22 @@ def _tet_B_V(p):
     return B, V
 
 
+def _face_nodes(coords, surfaces, center, diag):
+    """Nœuds de la face géométrique la plus proche de `center` ; à défaut (repli STL
+    sans faces propres), zone de nœuds de surface autour du point (rayon 12% diag)."""
+    c = np.array(center, float)
+    if surfaces:
+        best = min(surfaces, key=lambda s: np.linalg.norm(np.array(s["center"]) - c))
+        if best["nodes"]:
+            return list(best["nodes"])
+    d = np.linalg.norm(coords - c, axis=1)
+    idx = np.where(d < 0.12 * diag)[0]
+    return list(idx) if len(idx) else [int(d.argmin())]
+
+
 def analyze_step(step_path, force_N=20.0, direction=(0, 0, -1),
-                 material="PLA", mesh_size=None, include_mesh=True, stl_path=None):
+                 material="PLA", mesh_size=None, include_mesh=True, stl_path=None,
+                 loads=None, fixed=None):
     """Renvoie un dict : coefficient de sécurité, von Mises max (MPa), zone la plus
     sollicitée, déplacement max (mm), et infos maillage. Jamais d'exception -> {ok:False}.
     Si le maillage B-rep échoue et qu'un `stl_path` est fourni, repli sur le STL
@@ -199,11 +230,11 @@ def analyze_step(step_path, force_N=20.0, direction=(0, 0, -1),
     E, nu, ylimit = mat["E"], mat["nu"], mat["yield"]
     approx = False
     try:
-        coords, tets = _mesh_step(step_path, mesh_size)
+        coords, tets, surfaces = _mesh_step(step_path, mesh_size)
     except Exception as e:
         if stl_path:
             try:
-                coords, tets = _mesh_from_stl(stl_path)
+                coords, tets, surfaces = _mesh_from_stl(stl_path)
                 approx = True
             except Exception as e2:
                 return {"ok": False,
@@ -230,25 +261,59 @@ def analyze_step(step_path, force_N=20.0, direction=(0, 0, -1),
         Bs.append(B); Vs.append(V); good.append(True)
     K = sparse.coo_matrix((vals, (rows, cols)), shape=(ndof, ndof)).tocsr()
 
-    # --- Conditions aux limites : encastrement face du bas, charge face du haut ---
+    # --- Conditions aux limites -------------------------------------------------
+    # Par défaut : encastrement face du bas + charge répartie face du haut.
+    # Personnalisable : `fixed` = {c:[x,y,z]} (face d'encastrement choisie) et
+    # `loads` = [{c, force_N, direction}] (efforts SURFACIQUES multiples, chaque
+    # effort réparti uniformément sur les nœuds de la face la plus proche de c).
     z = coords[:, 2]
     zmin, zmax = z.min(), z.max()
     span = max(zmax - zmin, 1e-6)
     tol = span * 0.03 + 1e-6
-    fixed_nodes = np.where(z <= zmin + tol)[0]
-    load_nodes = np.where(z >= zmax - tol)[0]
-    if len(fixed_nodes) < 3 or len(load_nodes) == 0:
-        return {"ok": False, "error": "cas de charge indéterminé (géométrie plate ?)"}
+    diag0 = float(np.linalg.norm(coords.max(0) - coords.min(0))) or 1.0
+
+    if fixed and fixed.get("c"):
+        fixed_nodes = np.array(_face_nodes(coords, surfaces, fixed["c"], diag0), int)
+    else:
+        fixed_nodes = np.where(z <= zmin + tol)[0]
+    if len(fixed_nodes) < 3:
+        return {"ok": False, "error": "encastrement indéterminé (face trop petite ?)"}
 
     fixed_dofs = np.concatenate([[3 * i, 3 * i + 1, 3 * i + 2] for i in fixed_nodes])
     fixed_mask = np.zeros(ndof, bool); fixed_mask[fixed_dofs] = True
     free = np.where(~fixed_mask)[0]
 
     f = np.zeros(ndof)
-    d = np.array(direction, float); d = d / (np.linalg.norm(d) or 1.0)
-    per = force_N / len(load_nodes)
-    for ni in load_nodes:
-        f[3 * ni:3 * ni + 3] += per * d
+    applied = []
+    if loads:
+        for ld in loads:
+            nodes = [n for n in _face_nodes(coords, surfaces, ld.get("c", [0, 0, zmax]), diag0)
+                     if not fixed_mask[3 * n]]
+            if not nodes:
+                continue
+            dv = np.array(ld.get("direction") or (0, 0, -1), float)
+            dv = dv / (np.linalg.norm(dv) or 1.0)
+            F = float(ld.get("force_N", force_N))
+            per = F / len(nodes)
+            for ni in nodes:
+                f[3 * ni:3 * ni + 3] += per * dv
+            applied.append({"point": [round(float(x), 1) for x in coords[nodes].mean(0)],
+                            "dir": [round(float(x), 3) for x in dv],
+                            "force_N": F, "nodes": len(nodes)})
+    else:
+        load_nodes = np.where(z >= zmax - tol)[0]
+        load_nodes = load_nodes[~fixed_mask[3 * load_nodes]] if len(load_nodes) else load_nodes
+        if len(load_nodes) == 0:
+            return {"ok": False, "error": "cas de charge indéterminé (géométrie plate ?)"}
+        d = np.array(direction, float); d = d / (np.linalg.norm(d) or 1.0)
+        per = force_N / len(load_nodes)
+        for ni in load_nodes:
+            f[3 * ni:3 * ni + 3] += per * d
+        applied.append({"point": [round(float(x), 1) for x in coords[load_nodes].mean(0)],
+                        "dir": [round(float(x), 3) for x in d],
+                        "force_N": float(force_N), "nodes": int(len(load_nodes))})
+    if not applied:
+        return {"ok": False, "error": "aucun effort applicable (faces confondues avec l'encastrement ?)"}
 
     try:
         u = np.zeros(ndof)
@@ -320,8 +385,10 @@ def analyze_step(step_path, force_N=20.0, direction=(0, 0, -1),
         "max_displacement_mm": round(umax, 3) if wellposed else None,
         "load_case_wellposed": bool(wellposed),
         "weakest_point_mm": [round(float(x), 1) for x in worst] if worst is not None else None,
-        "load_point_mm": [round(float(x), 1) for x in coords[load_nodes].mean(0)],
-        "load_dir": [round(float(x), 3) for x in d],
+        "load_point_mm": applied[0]["point"],
+        "load_dir": applied[0]["dir"],
+        "loads_applied": applied,
+        "fixed_nodes": int(len(fixed_nodes)),
         "nodes": int(n),
         "tets": int(len(tets)),
         "verdict": ("solide" if sf >= 2 else "limite" if sf >= 1 else "trop fragile"),

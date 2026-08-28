@@ -268,8 +268,20 @@
       <span class="lbl" style="margin:0">Calcul de structure (RDM)</span>
       <label class="muted">force&nbsp;<input id="feaForce" type="number" value="20" min="1" step="5" style="width:64px"> N</label>
       <label class="muted">matériau&nbsp;<select id="feaMat" style="background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:8px"><option>PLA</option><option>PETG</option><option>ABS</option><option>TPU</option></select></label>
+      <label class="muted">direction&nbsp;<select id="feaDir" style="background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:8px">
+        <option value="0,0,-1">↓ poids (−Z)</option><option value="0,0,1">↑ (+Z)</option>
+        <option value="1,0,0">+X</option><option value="-1,0,0">−X</option>
+        <option value="0,1,0">+Y</option><option value="0,-1,0">−Y</option>
+        <option value="normal">⊥ face (pression)</option></select></label>
       <button id="feaBtn" class="sec">Vérifier la résistance</button>
       <span id="feaStatus" class="muted"></span>
+    </div>
+    <div class="row" style="margin-top:6px; align-items:center; flex-wrap:wrap">
+      <span class="muted" style="font-size:12px">Cas de charge : sélectionne une/des <b>faces</b> puis</span>
+      <button id="feaAddLoad" class="sec" style="padding:6px 10px; font-size:12.5px">➕ Effort sur la sélection</button>
+      <button id="feaSetFixed" class="sec" style="padding:6px 10px; font-size:12.5px">⚓ Encastrer la sélection</button>
+      <span id="loadChips" style="display:flex; gap:6px; flex-wrap:wrap"></span>
+      <span class="muted" style="font-size:11.5px">(sans rien définir : encastré en bas, chargé en haut)</span>
     </div>
   </div>
 
@@ -596,12 +608,15 @@ function showFea(d){
   if(d.weakest_point_mm){ const w=nearestDef(d.weakest_point_mm);   // posé sur le maillage DÉFORMÉ
     const s=new THREE.Mesh(new THREE.SphereGeometry(Math.max(diag*0.026,1.1),16,16), new THREE.MeshBasicMaterial({ color:0xff2d2d }));
     s.position.set(w[0],w[1],w[2]); feaGroup.add(s); }
-  if(d.load_point_mm && d.load_dir){                                 // flèche de charge (poids/effort)
-    const lp=nearestDef(d.load_point_mm), ld=d.load_dir;
-    const dir=new THREE.Vector3(ld[0],ld[1],ld[2]); if(dir.length()<1e-6) dir.set(0,0,-1); dir.normalize();
+  const arrows = (d.loads_applied && d.loads_applied.length)
+    ? d.loads_applied.map(a=>({p:a.point, v:a.dir}))
+    : (d.load_point_mm && d.load_dir ? [{p:d.load_point_mm, v:d.load_dir}] : []);
+  arrows.forEach(a=>{                                                // flèche(s) de charge
+    const lp=nearestDef(a.p);
+    const dir=new THREE.Vector3(a.v[0],a.v[1],a.v[2]); if(dir.length()<1e-6) dir.set(0,0,-1); dir.normalize();
     const len=Math.max(diag*0.42,8), tail=new THREE.Vector3(lp[0],lp[1],lp[2]).addScaledVector(dir,-len);
     feaGroup.add(new THREE.ArrowHelper(dir, tail, len, 0xf97316, len*0.26, len*0.16));
-  }
+  });
   if(current) current.visible=false;
   scene.add(feaGroup);
   const view=$('view'); view.style.position='relative';
@@ -869,11 +884,51 @@ $('gen').onclick = async () => {
   $('gen').disabled=false; $('genStatus').textContent='';
 };
 
+/* Cas de charge personnalisé : efforts surfaciques multiples + encastrement choisi. */
+let feaLoads = [], feaFixed = null;
+function renderLoadChips(){
+  const box=$('loadChips'); if(!box) return;
+  box.innerHTML='';
+  const chip=(txt, cls, onDel)=>{
+    const s=document.createElement('span');
+    s.className='tag-a '+cls; s.style.cssText='display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:4px 8px';
+    s.textContent=txt;
+    const x=document.createElement('b'); x.textContent='✕'; x.style.cursor='pointer';
+    x.onclick=onDel; s.appendChild(x); box.appendChild(s);
+  };
+  feaLoads.forEach((L,i)=>chip('🔶 '+L.label,'tag-pending',()=>{ feaLoads.splice(i,1); renderLoadChips(); }));
+  if(feaFixed) chip('⚓ encastré : '+feaFixed.label,'tag-admin',()=>{ feaFixed=null; renderLoadChips(); });
+}
+$('feaAddLoad').onclick = () => {
+  if(!selSet.length){ alert('Sélectionne d\'abord une ou plusieurs faces dans l\'aperçu.'); return; }
+  const F=parseFloat($('feaForce').value)||20, dirV=$('feaDir').value;
+  const per=F/selSet.length;
+  const loads=selSet.map(i=>{
+    const fd=facesData[i]||{};
+    let dir;
+    if(dirV==='normal'){ const n=fd.n||[0,0,1]; dir=[-n[0],-n[1],-n[2]]; }
+    else dir=dirV.split(',').map(Number);
+    return {c:fd.c||[0,0,0], force_N:per, direction:dir};
+  });
+  const dLabel = dirV==='normal' ? '⊥' : $('feaDir').selectedOptions[0].textContent.trim();
+  feaLoads.push({label:F+' N '+dLabel+' ('+selSet.length+' face'+(selSet.length>1?'s':'')+')', loads});
+  renderLoadChips(); deselectAll();
+};
+$('feaSetFixed').onclick = () => {
+  if(!selSet.length){ alert('Sélectionne d\'abord la face d\'encastrement.'); return; }
+  const fd=facesData[selSet[0]]||{};
+  feaFixed={c:fd.c||[0,0,0], label:fd.label||('face '+selSet[0])};
+  renderLoadChips(); deselectAll();
+};
 $('feaBtn').onclick = async () => {
   const st=$('feaStatus'); st.innerHTML='Maillage + calcul…'; $('feaBtn').disabled=true;
   try{
+    const body={force_N:parseFloat($('feaForce').value)||20, material:$('feaMat').value};
+    if(feaLoads.length) body.loads=feaLoads.flatMap(L=>L.loads);
+    else { const dv=$('feaDir').value; if(dv!=='normal') body.direction=dv.split(',').map(Number); }
+    if(feaFixed) body.fixed={c:feaFixed.c};
     const r=await fetch('/fea',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({force_N:parseFloat($('feaForce').value)||20, material:$('feaMat').value})});
+      body:JSON.stringify(body)});
     const d=await r.json();
     if(!d.ok){ st.innerHTML='<span class="pill err">'+(d.error||'échec')+'</span>'; }
     else{
