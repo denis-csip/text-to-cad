@@ -27,18 +27,22 @@ CONTRAT DE SORTIE (strict) :
 
 FONCTIONS DÉJÀ DÉFINIES (disponibles dans le scope — APPELLE-LES, ne les redéfinis pas) :
 - hollow_tray(part, wall, height, base) -> évide une pièce plate en bac à parois (robuste).
-- hook(arm, rise, thickness) -> CROCHET / PATÈRE en L ARRONDI (queue horizontale + relevé
-  vertical, gros congés = aspect courbe), géométrie propre et toujours maillable. Dos en X=0,
-  s'étend vers +X et se relève vers +Z, base à Z=0. Positionne-le avec Pos(...) puis unis-le.
+- hook(arm, rise, thickness) -> CROCHET / PATÈRE en L ARRONDI (angulaire : queue + relevé).
+  Dos en X=0, s'étend vers +X, relevé vers +Z, base à Z=0. Positionne avec Pos(...) puis unis.
+- hook_curved(radius, thickness, opening_deg, width, tab_len) -> CROCHET COURBE en
+  « VIRGULE / J » : anneau ouvert + queue de fixation au dos, profil 2D extrudé (robuste,
+  maillable). Ouverture vers le haut-avant, queue en X=-radius montant vers +Z, origine au
+  centre de l'anneau, largeur le long de Y. Positionne avec Pos/Rot puis unis à la plaque.
 - contour_edges(part, (x, y, z)) -> TOUTES les arêtes du contour (wire) contenant l'arête la
   plus proche du point donné. À utiliser dès qu'on parle du « contour », « pourtour », « tout
   le tour » d'une arête : `_edges = contour_edges(part, (10, 20, 5))` puis fillet/chamfer sur
   `_edges` (dans un try/except avec repli de rayon). Ne reconstruis JAMAIS un contour à la main.
-RÈGLE IMPÉRATIVE : pour tout CROCHET / PATÈRE / porte-manteau / porte-clés, tu DOIS appeler
-hook(...) et le POSITIONNER sur la piece. hook() GÈRE DÉJÀ la forme courbe -> ne modélise JAMAIS
-le crochet toi-même (NI boîtes, NI Line/Polyline/Spline/sweep, NI cotes de crochet custom comme
-"rayon de courbure" ou "hauteur du relevé"). Réinventer le crochet donne des tiges droites ou des
-formes aberrantes. Exemple d'usage dans RECETTES ROBUSTES ci-dessous.
+RÈGLE CROCHETS : choisis le helper selon la FORME DEMANDÉE — hook() pour un crochet
+ANGULAIRE (L, équerre) ; hook_curved() pour un crochet COURBE (virgule, J, arrondi, ou si
+le CROQUIS de l'utilisateur montre une courbe : respecte sa forme !). Si aucun helper ne
+convient, dessine un PROFIL 2D FERMÉ (arcs, cercles, polygones dans BuildSketch) puis
+EXTRUDE-le : un profil extrudé est toujours robuste. INTERDIT en revanche : balayer (sweep)
+une section le long d'une courbe 3D — auto-intersections, immaillable.
 
 RAPPELS D'API build123d (mode builder) :
 - Squelette : `with BuildPart() as p:` puis a l'interieur

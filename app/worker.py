@@ -74,6 +74,43 @@ def hook(width=8.0, arm=25.0, rise=28.0, thickness=8.0, fillet_r=None):
     return part
 
 
+def hook_curved(radius=16.0, thickness=6.0, opening_deg=80.0, width=12.0,
+                tab_len=20.0):
+    """Crochet COURBE en « virgule / J » : anneau ouvert (profil 2D) + queue droite
+    de fixation, EXTRUDÉ en largeur -> prismatique, robuste, toujours maillable
+    (contrairement à un balayage 3D de section ronde qui s'auto-intersecte).
+    Profil dans le plan XZ, extrudé le long de Y (largeur `width`, centrée).
+    L'ouverture de l'anneau regarde vers le HAUT-AVANT (+X/+Z) : on y suspend
+    l'objet. La queue monte vers +Z depuis l'arrière (X=-radius) pour être unie
+    à une plaque murale. Origine au centre de l'anneau. Retourne une Part."""
+    import math
+    from build123d import (BuildPart, BuildSketch, Plane, Circle, Polygon,
+                           Mode, extrude, fillet, Axis)
+    R = float(radius)
+    r = max(R - float(thickness), 1.0)
+    with BuildPart() as hp:
+        with BuildSketch(Plane.XZ):
+            Circle(R)
+            Circle(r, mode=Mode.SUBTRACT)
+            # ouverture en coin (vers le haut-avant) pour former la virgule
+            a0 = math.radians(35.0)
+            a1 = math.radians(35.0 + max(20.0, min(float(opening_deg), 160.0)))
+            big = 3.0 * R
+            Polygon((0, 0), (big * math.cos(a0), big * math.sin(a0)),
+                    (big * math.cos(a1), big * math.sin(a1)), align=None,
+                    mode=Mode.SUBTRACT)
+            # queue de fixation : montant droit colle au dos de l'anneau
+            Polygon((-R, 0), (-r, 0), (-r, R + float(tab_len)),
+                    (-R, R + float(tab_len)), align=None)
+        extrude(amount=float(width) / 2.0, both=True)
+    part = hp.part
+    try:
+        part = fillet(part.edges().filter_by(Axis.Y), min(1.5, thickness * 0.2))
+    except Exception:
+        pass
+    return part
+
+
 def contour_edges(part, center):
     """Toutes les arêtes du CONTOUR (wire) contenant l'arête la plus proche de `center`.
     Permet « sélectionne une arête → saisis tout son contour » de façon déterministe :
@@ -288,7 +325,7 @@ def main():
             outdir.mkdir(parents=True, exist_ok=True)
 
             ns = {"hollow_tray": hollow_tray, "hook": hook,
-                  "contour_edges": contour_edges}
+                  "hook_curved": hook_curved, "contour_edges": contour_edges}
             exec(compile(code, "generated_model.py", "exec"), ns)
 
             part = ns.get("part") or ns.get("result") or ns.get("model")
