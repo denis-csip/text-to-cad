@@ -356,7 +356,7 @@ let renderer, scene, camera, controls, current;
 let faceMeshes = [], facesData = {}, selSet = [], selFace = null;
 const raycaster = new THREE.Raycaster();
 const BASE_COL = 0x3f7de0, SEL_COL = 0xff9500, HOVER_COL = 0x9cc0f5;
-const EDGE_COL = 0x22304a, EDGE_HOVER = 0xff9500, EDGE_SEL = 0xe11d48;
+const EDGE_COL = 0x22304a, EDGE_HOVER = 0x38bdf8, EDGE_SEL = 0xe11d48;
 let hoverMesh = null;
 let edgeGroup = null, edgeLines = [], hoverEdge = null, selEdges = [];
 let meshMode = false, modelOffset = null, meshPoint = null, meshNormal = null, clickMarker = null;
@@ -394,10 +394,11 @@ function initView() {
       if(ehits.length){ selectEdge(ehits[0].object, e.ctrlKey || e.altKey || e.metaKey); return; }
     }
     const hits = raycaster.intersectObjects(faceMeshes, false);
-    if(!hits.length) return;
+    if(!hits.length){ if(!meshMode) deselectAll(); return; }   // clic dans le vide = tout désélectionner
     if(meshMode){ meshPick(hits[0]); return; }
     selectFace(hits[0].object, e.ctrlKey || e.altKey || e.metaKey);
   });
+  window.addEventListener('keydown', e => { if(e.key==='Escape' && !meshMode) deselectAll(); });
   dom.addEventListener('pointermove', e => {
     if(!faceMeshes.length || meshMode) return;
     const rect = dom.getBoundingClientRect();
@@ -447,6 +448,17 @@ function selectFace(mesh, additive){
   $('faceLabel').textContent = selSet.length > 1 ? (selSet.length + ' faces (arête = intersection)') : base;
   $('faceHint').style.display = 'none'; $('facePanel').style.display = 'block';
   $('pasteHint').style.display = 'none'; $('pastePanel').style.display = 'block';
+}
+function deselectAll(){
+  selSet=[]; selFace=null;
+  faceMeshes.forEach(m=>m.material.color.setHex(BASE_COL));
+  if(hoverMesh){ hoverMesh=null; }
+  const ids=[['facePanel','faceHint'],['pastePanel','pasteHint']];
+  ids.forEach(([p,h])=>{ const a=$(p),b=$(h); if(a) a.style.display='none'; if(b) b.style.display='block'; });
+  selEdges.forEach(l=>{ l.material.color.setHex(EDGE_COL); l.material.opacity=.5; });
+  selEdges=[]; hoverEdge=null;
+  edgeLines.forEach(l=>{ l.material.color.setHex(EDGE_COL); l.material.opacity=.5; });
+  const ep=$('edgePanel'); if(ep) ep.style.display='none';
 }
 function clearEdges(){
   if(edgeGroup){ scene.remove(edgeGroup); edgeGroup=null; }
@@ -958,7 +970,7 @@ $('eapply').onclick = async () => {
   }catch(e){ setLog('Erreur réseau: '+e); }
   $('eapply').disabled=false;
 };
-$('eclear').onclick = () => { selEdges.forEach(l=>{ l.material.color.setHex(EDGE_COL); l.material.opacity=.5; }); selEdges=[]; $('edgePanel').style.display='none'; };
+$('eclear').onclick = () => deselectAll();
 
 $('fop').onchange = () => {
   const conge = ($('fop').value === 'fillet' || $('fop').value === 'chamfer');
