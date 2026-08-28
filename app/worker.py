@@ -253,7 +253,8 @@ def _fea_job(job):
         direction=tuple(job.get("direction", (0, 0, -1))),
         material=job.get("material", "PLA"),
         stl_path=job.get("stl_path"),
-        loads=job.get("loads"), fixed=job.get("fixed"))
+        loads=job.get("loads"), fixed=job.get("fixed"),
+        self_weight=bool(job.get("self_weight")))
 
 
 def main():

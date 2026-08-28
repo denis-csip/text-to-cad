@@ -16,12 +16,12 @@ import numpy as np
 from scipy import sparse
 from scipy.sparse.linalg import spsolve
 
-# --- Matériaux (E en MPa, limite en MPa) -------------------------------------
+# --- Matériaux (E en MPa, limite en MPa, densité en kg/mm³) ------------------
 MATERIALS = {
-    "PLA":  {"E": 3500.0, "nu": 0.36, "yield": 50.0},
-    "PETG": {"E": 2100.0, "nu": 0.40, "yield": 45.0},
-    "ABS":  {"E": 2200.0, "nu": 0.35, "yield": 40.0},
-    "TPU":  {"E":  50.0,  "nu": 0.45, "yield": 8.0},
+    "PLA":  {"E": 3500.0, "nu": 0.36, "yield": 50.0, "rho": 1.24e-6},
+    "PETG": {"E": 2100.0, "nu": 0.40, "yield": 45.0, "rho": 1.27e-6},
+    "ABS":  {"E": 2200.0, "nu": 0.35, "yield": 40.0, "rho": 1.05e-6},
+    "TPU":  {"E":  50.0,  "nu": 0.45, "yield": 8.0,  "rho": 1.21e-6},
 }
 
 
@@ -221,7 +221,7 @@ def _face_nodes(coords, surfaces, center, diag):
 
 def analyze_step(step_path, force_N=20.0, direction=(0, 0, -1),
                  material="PLA", mesh_size=None, include_mesh=True, stl_path=None,
-                 loads=None, fixed=None):
+                 loads=None, fixed=None, self_weight=False):
     """Renvoie un dict : coefficient de sécurité, von Mises max (MPa), zone la plus
     sollicitée, déplacement max (mm), et infos maillage. Jamais d'exception -> {ok:False}.
     Si le maillage B-rep échoue et qu'un `stl_path` est fourni, repli sur le STL
@@ -291,16 +291,43 @@ def analyze_step(step_path, force_N=20.0, direction=(0, 0, -1),
                      if not fixed_mask[3 * n]]
             if not nodes:
                 continue
-            dv = np.array(ld.get("direction") or (0, 0, -1), float)
-            dv = dv / (np.linalg.norm(dv) or 1.0)
-            F = float(ld.get("force_N", force_N))
-            per = F / len(nodes)
-            for ni in nodes:
-                f[3 * ni:3 * ni + 3] += per * dv
-            applied.append({"point": [round(float(x), 1) for x in coords[nodes].mean(0)],
-                            "dir": [round(float(x), 3) for x in dv],
-                            "force_N": F, "nodes": len(nodes)})
-    else:
+            if ld.get("type") == "torsion":
+                # COUPLE autour de l'axe de la face : champ de forces TANGENTIEL
+                # (chaque nœud poussé perpendiculairement à son rayon).
+                axis = np.array(ld.get("axis") or (0, 0, 1), float)
+                axis = axis / (np.linalg.norm(axis) or 1.0)
+                c0 = np.array(ld.get("c"), float)
+                M = float(ld.get("moment_Nmm", 1000.0))       # N·mm
+                tans, radii = [], []
+                for ni in nodes:
+                    r = coords[ni] - c0
+                    r_p = r - axis * np.dot(r, axis)
+                    t = np.cross(axis, r_p)
+                    nt = np.linalg.norm(t)
+                    tans.append(t / nt if nt > 1e-9 else None)
+                    radii.append(float(np.linalg.norm(r_p)))
+                S = sum(radii)
+                if S < 1e-9:
+                    continue
+                fmag = M / S                                   # force uniforme -> moment M
+                for ni, t in zip(nodes, tans):
+                    if t is not None:
+                        f[3 * ni:3 * ni + 3] += fmag * t
+                applied.append({"point": [round(float(x), 1) for x in coords[nodes].mean(0)],
+                                "dir": [round(float(x), 3) for x in axis],
+                                "force_N": round(M / 1000.0, 2), "nodes": len(nodes),
+                                "type": "torsion"})
+            else:
+                dv = np.array(ld.get("direction") or (0, 0, -1), float)
+                dv = dv / (np.linalg.norm(dv) or 1.0)
+                F = float(ld.get("force_N", force_N))
+                per = F / len(nodes)
+                for ni in nodes:
+                    f[3 * ni:3 * ni + 3] += per * dv
+                applied.append({"point": [round(float(x), 1) for x in coords[nodes].mean(0)],
+                                "dir": [round(float(x), 3) for x in dv],
+                                "force_N": F, "nodes": len(nodes)})
+    elif not self_weight:      # canonique seulement si RIEN d'autre n'est defini
         load_nodes = np.where(z >= zmax - tol)[0]
         load_nodes = load_nodes[~fixed_mask[3 * load_nodes]] if len(load_nodes) else load_nodes
         if len(load_nodes) == 0:
@@ -312,6 +339,20 @@ def analyze_step(step_path, force_N=20.0, direction=(0, 0, -1),
         applied.append({"point": [round(float(x), 1) for x in coords[load_nodes].mean(0)],
                         "dir": [round(float(x), 3) for x in d],
                         "force_N": float(force_N), "nodes": int(len(load_nodes))})
+    if self_weight:
+        # Poids propre : force volumique répartie (V/4 du tétra sur chacun de ses nœuds).
+        rho = mat.get("rho", 1.24e-6)                 # kg/mm³
+        Wtot = 0.0
+        for t, V, g in zip(tets, Vs, good):
+            if not g:
+                continue
+            w = V * rho * 9.81                        # N
+            Wtot += w
+            for ni in t:
+                f[3 * ni + 2] -= w / 4.0
+        applied.append({"point": [round(float(x), 1) for x in coords.mean(0)],
+                        "dir": [0, 0, -1.0], "force_N": round(Wtot, 2),
+                        "nodes": int(n), "type": "poids"})
     if not applied:
         return {"ok": False, "error": "aucun effort applicable (faces confondues avec l'encastrement ?)"}
 

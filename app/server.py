@@ -444,6 +444,7 @@ class FeaReq(BaseModel):
     direction: list | None = None      # [x,y,z] optionnel (defaut : -Z)
     loads: list | None = None          # efforts surfaciques : [{c:[x,y,z], force_N, direction:[x,y,z]}]
     fixed: dict | None = None          # encastrement choisi : {c:[x,y,z]}
+    self_weight: bool = False          # ajouter le poids propre de la piece
 
 
 @app.post("/fea")
@@ -458,7 +459,7 @@ def fea_check(req: FeaReq):
     stl = WORK / "model.stl"
     return WORKER.run_raw({"cmd": "fea", "step_path": str(step), "force_N": req.force_N,
                            "material": req.material, "direction": d,
-                           "loads": req.loads, "fixed": req.fixed,
+                           "loads": req.loads, "fixed": req.fixed, "self_weight": req.self_weight,
                            "stl_path": str(stl) if stl.exists() else None}, timeout=180)
 
 

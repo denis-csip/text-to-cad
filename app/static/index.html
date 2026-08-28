@@ -266,7 +266,11 @@
     </div>
     <div class="row" id="feaRow" style="margin-top:10px; border-top:1px solid var(--line); padding-top:10px; align-items:center; flex-wrap:wrap">
       <span class="lbl" style="margin:0">Calcul de structure (RDM)</span>
-      <label class="muted">force&nbsp;<input id="feaForce" type="number" value="20" min="1" step="5" style="width:64px"> N</label>
+      <label class="muted">essai&nbsp;<select id="feaType" style="background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:8px">
+        <option value="force">Force dirigée</option><option value="traction">Traction ⊥</option>
+        <option value="pression">Pression ⊥</option><option value="torsion">Torsion (couple)</option>
+        <option value="cisaillement">Cisaillement (2 faces)</option></select></label>
+      <label class="muted"><span id="feaLbl">force</span>&nbsp;<input id="feaForce" type="number" value="20" min="0.1" step="5" style="width:64px"> <span id="feaUnit">N</span></label>
       <label class="muted">matériau&nbsp;<select id="feaMat" style="background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:8px"><option>PLA</option><option>PETG</option><option>ABS</option><option>TPU</option></select></label>
       <label class="muted">direction&nbsp;<select id="feaDir" style="background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:8px">
         <option value="0,0,-1">↓ poids (−Z)</option><option value="0,0,1">↑ (+Z)</option>
@@ -280,6 +284,7 @@
       <span class="muted" style="font-size:12px">Cas de charge : sélectionne une/des <b>faces</b> puis</span>
       <button id="feaAddLoad" class="sec" style="padding:6px 10px; font-size:12.5px">➕ Effort sur la sélection</button>
       <button id="feaSetFixed" class="sec" style="padding:6px 10px; font-size:12.5px">⚓ Encastrer la sélection</button>
+      <label class="chk muted" style="font-size:12px"><input type="checkbox" id="feaWeight"> poids propre</label>
       <span id="loadChips" style="display:flex; gap:6px; flex-wrap:wrap"></span>
       <span class="muted" style="font-size:11.5px">(sans rien définir : encastré en bas, chargé en haut)</span>
     </div>
@@ -392,6 +397,7 @@ const BASE_COL = 0x3f7de0, SEL_COL = 0xff9500, HOVER_COL = 0x9cc0f5;
 const EDGE_COL = 0x22304a, EDGE_HOVER = 0x38bdf8, EDGE_SEL = 0xe11d48;
 let hoverMesh = null;
 let edgeGroup = null, edgeLines = [], hoverEdge = null, selEdges = [];
+let previewGroup = null, lastBasePos = null, lastSize = 30;
 let meshMode = false, modelOffset = null, meshPoint = null, meshNormal = null, clickMarker = null;
 
 function resizeView(){
@@ -561,6 +567,8 @@ function loadGLB(url, keepView) {
     const r = Math.max(s.x,s.y,s.z) || 30;
     if(!meshMode) fetch('/work/edges.json?t='+Date.now()).then(rr=>rr.json())
       .then(d=>buildEdgeLayer(d.edges, obj.position, r)).catch(()=>{});
+    lastBasePos = obj.position.clone(); lastSize = r;
+    if(typeof updateLoadPreview==='function') updateLoadPreview();
     if(!keepView){ camera.position.set(r*1.6, r*1.3, r*1.8); controls.target.set(0,0,0); }
     enableAfterModel();
   }, undefined, e => setLog('Erreur aperçu GLB: ' + e));
@@ -579,6 +587,7 @@ function clearFea(){
   const lg=$('feaLegend'); if(lg) lg.remove();
   const bk=$('feaBack'); if(bk) bk.remove();
   if(current) current.visible=true;
+  if(previewGroup) previewGroup.visible=true;
 }
 function showFea(d){
   clearFea();
@@ -618,6 +627,7 @@ function showFea(d){
     feaGroup.add(new THREE.ArrowHelper(dir, tail, len, 0xf97316, len*0.26, len*0.16));
   });
   if(current) current.visible=false;
+  if(previewGroup) previewGroup.visible=false;   // les flèches du résultat prennent le relais
   scene.add(feaGroup);
   const view=$('view'); view.style.position='relative';
   const lg=document.createElement('div'); lg.id='feaLegend';
@@ -898,20 +908,82 @@ function renderLoadChips(){
   };
   feaLoads.forEach((L,i)=>chip('🔶 '+L.label,'tag-pending',()=>{ feaLoads.splice(i,1); renderLoadChips(); }));
   if(feaFixed) chip('⚓ encastré : '+feaFixed.label,'tag-admin',()=>{ feaFixed=null; renderLoadChips(); });
+  updateLoadPreview();
 }
+
+/* Aperçu AVANT calcul : flèches d'efforts + symbole de couple + ancre d'encastrement. */
+function updateLoadPreview(){
+  if(previewGroup){ scene.remove(previewGroup); previewGroup=null; }
+  if(meshMode || !lastBasePos) return;
+  if(!feaLoads.length && !feaFixed) return;
+  previewGroup=new THREE.Group();
+  previewGroup.rotation.x=-Math.PI/2; previewGroup.position.copy(lastBasePos);
+  const len=Math.max(lastSize*0.28, 6);
+  feaLoads.forEach(L=>L.loads.forEach(ld=>{
+    const c=new THREE.Vector3(...(ld.c||[0,0,0]));
+    if(ld.type==='torsion'){
+      const ax=new THREE.Vector3(...(ld.axis||[0,0,1])).normalize();
+      const torus=new THREE.Mesh(new THREE.TorusGeometry(Math.max(lastSize*0.09,3), Math.max(lastSize*0.012,0.5), 8, 40),
+                                 new THREE.MeshBasicMaterial({color:0x8b5cf6}));
+      torus.position.copy(c);
+      torus.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1), ax);
+      previewGroup.add(torus);
+      previewGroup.add(new THREE.ArrowHelper(ax, c, len*0.8, 0x8b5cf6, len*0.22, len*0.13));
+    } else {
+      const dir=new THREE.Vector3(...(ld.direction||[0,0,-1])).normalize();
+      const tail=c.clone().addScaledVector(dir,-len);
+      previewGroup.add(new THREE.ArrowHelper(dir, tail, len, 0xf97316, len*0.24, len*0.14));
+    }
+  }));
+  if(feaFixed && feaFixed.c){
+    const a=new THREE.Mesh(new THREE.OctahedronGeometry(Math.max(lastSize*0.035,1.6)),
+                           new THREE.MeshBasicMaterial({color:0x059669}));
+    a.position.set(feaFixed.c[0], feaFixed.c[1], feaFixed.c[2]);
+    previewGroup.add(a);
+  }
+  scene.add(previewGroup);
+}
+/* Types d'essai : le même solveur 3D, des champs d'efforts différents. */
+const FEA_TYPES={ force:{lbl:'force',unit:'N'}, traction:{lbl:'force',unit:'N'},
+                  pression:{lbl:'pression',unit:'MPa'}, torsion:{lbl:'couple',unit:'N·m'},
+                  cisaillement:{lbl:'force',unit:'N'} };
+$('feaType').onchange=()=>{ const t=FEA_TYPES[$('feaType').value];
+  $('feaLbl').textContent=t.lbl; $('feaUnit').textContent=t.unit; };
 $('feaAddLoad').onclick = () => {
   if(!selSet.length){ alert('Sélectionne d\'abord une ou plusieurs faces dans l\'aperçu.'); return; }
-  const F=parseFloat($('feaForce').value)||20, dirV=$('feaDir').value;
-  const per=F/selSet.length;
-  const loads=selSet.map(i=>{
-    const fd=facesData[i]||{};
-    let dir;
-    if(dirV==='normal'){ const n=fd.n||[0,0,1]; dir=[-n[0],-n[1],-n[2]]; }
-    else dir=dirV.split(',').map(Number);
-    return {c:fd.c||[0,0,0], force_N:per, direction:dir};
-  });
-  const dLabel = dirV==='normal' ? '⊥' : $('feaDir').selectedOptions[0].textContent.trim();
-  feaLoads.push({label:F+' N '+dLabel+' ('+selSet.length+' face'+(selSet.length>1?'s':'')+')', loads});
+  const typ=$('feaType').value, V=parseFloat($('feaForce').value)||20, dirV=$('feaDir').value;
+  let loads=[], label='';
+  const fd=i=>facesData[i]||{};
+  if(typ==='force'){
+    const per=V/selSet.length;
+    loads=selSet.map(i=>{ let dir;
+      if(dirV==='normal'){ const n=fd(i).n||[0,0,1]; dir=[-n[0],-n[1],-n[2]]; }
+      else dir=dirV.split(',').map(Number);
+      return {c:fd(i).c||[0,0,0], force_N:per, direction:dir}; });
+    label=V+' N '+(dirV==='normal'?'⊥':$('feaDir').selectedOptions[0].textContent.trim());
+  } else if(typ==='traction'){
+    const per=V/selSet.length;
+    loads=selSet.map(i=>{ const n=fd(i).n||[0,0,1];
+      return {c:fd(i).c||[0,0,0], force_N:per, direction:[n[0],n[1],n[2]]}; });
+    label='traction '+V+' N';
+  } else if(typ==='pression'){
+    loads=selSet.map(i=>{ const n=fd(i).n||[0,0,1], A=fd(i).area||100;
+      return {c:fd(i).c||[0,0,0], force_N:V*A, direction:[-n[0],-n[1],-n[2]]}; });
+    label='pression '+V+' MPa';
+  } else if(typ==='torsion'){
+    if(selSet.length>1){ alert('Torsion : sélectionne UNE seule face (l\'axe = sa normale).'); return; }
+    const n=fd(selSet[0]).n||[0,0,1];
+    loads=[{type:'torsion', c:fd(selSet[0]).c||[0,0,0], axis:[n[0],n[1],n[2]], moment_Nmm:V*1000}];
+    label='torsion '+V+' N·m';
+  } else if(typ==='cisaillement'){
+    if(selSet.length!==2){ alert('Cisaillement : sélectionne exactement 2 faces (Ctrl+clic).'); return; }
+    if(dirV==='normal'){ alert('Cisaillement : choisis une direction (pas ⊥ face).'); return; }
+    const dir=dirV.split(',').map(Number), neg=dir.map(x=>-x);
+    loads=[{c:fd(selSet[0]).c, force_N:V, direction:dir},
+           {c:fd(selSet[1]).c, force_N:V, direction:neg}];
+    label='cisaillement '+V+' N';
+  }
+  feaLoads.push({label:label+' ('+selSet.length+' face'+(selSet.length>1?'s':'')+')', loads});
   renderLoadChips(); deselectAll();
 };
 $('feaSetFixed').onclick = () => {
@@ -927,6 +999,7 @@ $('feaBtn').onclick = async () => {
     if(feaLoads.length) body.loads=feaLoads.flatMap(L=>L.loads);
     else { const dv=$('feaDir').value; if(dv!=='normal') body.direction=dv.split(',').map(Number); }
     if(feaFixed) body.fixed={c:feaFixed.c};
+    if($('feaWeight').checked) body.self_weight=true;
     const r=await fetch('/fea',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify(body)});
     const d=await r.json();
