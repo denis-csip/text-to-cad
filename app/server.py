@@ -260,8 +260,9 @@ class FaceOpReq(BaseModel):
 
 
 class EdgeOpReq(BaseModel):
-    face_indices: list     # 1 face = toutes ses arêtes ; 2+ = arêtes d'intersection
-    op: str = "chamfer"    # "fillet" | "chamfer"
+    face_indices: list = []   # 1 face = toutes ses arêtes ; 2+ = arêtes d'intersection
+    mids: list | None = None  # centres d'arêtes cliquées (sélection directe d'arêtes)
+    op: str = "chamfer"       # "fillet" | "chamfer"
     radius: float = 3.0
 
 
@@ -886,21 +887,55 @@ def _edge_op_code(targets, op, radius):
             "part = _op.part\n")
 
 
+def _direct_edge_code(mids, op, radius):
+    """Arêtes cliquées directement : sélection par proximité du centre d'arête.
+    OCCT échoue si le rayon est trop grand pour l'arête -> repli automatique r/2, r/4."""
+    verb = ("fillet(_edges, radius=_try)" if op == "fillet"
+            else "chamfer(_edges, length=_try)")
+    tlist = ", ".join(f"Vector({m[0]}, {m[1]}, {m[2]})" for m in mids)
+    return ("\n\n# --- operation arete (selection directe) ---\n"
+            f"_targets = [{tlist}]\n"
+            "with BuildPart() as _op:\n"
+            "    add(part)\n"
+            "    _edges = [min(_op.edges(), key=lambda _e: (_e.center() - _t).length)\n"
+            "              for _t in _targets]\n"
+            "    _uniq = []\n"
+            "    for _e in _edges:\n"
+            "        if not any((_e.center() - _u.center()).length < 1e-4 for _u in _uniq):\n"
+            "            _uniq.append(_e)\n"
+            "    _edges = _uniq\n"
+            "    _done = False\n"
+            f"    for _try in ({radius}, {radius} * 0.5, {radius} * 0.25):\n"
+            "        try:\n"
+            f"            {verb}\n"
+            "            _done = True\n"
+            "            break\n"
+            "        except Exception:\n"
+            "            pass\n"
+            "    if not _done:\n"
+            "        raise RuntimeError('operation impossible sur cette arete, meme avec "
+            "un rayon reduit — choisis une valeur plus petite ou une autre arete')\n"
+            "part = _op.part\n")
+
+
 @app.post("/edge_op")
 def edge_op(r: EdgeOpReq):
-    """Arrondi/chanfrein sur les arêtes des faces sélectionnées (sans LLM)."""
+    """Arrondi/chanfrein : arêtes cliquées directement (mids), ou via faces (sans LLM)."""
     code = _current_code()
     if not code:
         return {"ok": False, "error": "Aucune piece."}
-    targets = []
-    for idx in r.face_indices:
-        c = _face_centroid(idx)
-        if c is None:
-            return {"ok": False, "error": f"Face {idx} inconnue — régénère."}
-        targets.append(c)
-    if not targets:
-        return {"ok": False, "error": "Aucune face sélectionnée."}
-    new_code = code + _edge_op_code(targets, r.op, r.radius)
+    if r.mids:
+        new_code = code + _direct_edge_code(r.mids, r.op, r.radius)
+    else:
+        targets = []
+        for idx in r.face_indices:
+            c = _face_centroid(idx)
+            if c is None:
+                return {"ok": False, "error": f"Face {idx} inconnue — régénère."}
+            targets.append(c)
+        if not targets:
+            return {"ok": False, "error": "Aucune sélection."}
+        new_code = code + _edge_op_code(targets, r.op, r.radius)
     trial = WORK / "_trial.py"
     trial.write_text(new_code, encoding="utf-8")
     ok, err, stats = WORKER.run(trial, WORK, timeout=60)

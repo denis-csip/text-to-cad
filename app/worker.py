@@ -107,6 +107,30 @@ def _export_faces(part, outdir):
         json.dumps({"faces": faces, "unit": "mm"}), encoding="utf-8")
 
 
+def _export_edges(part, outdir):
+    """Arêtes cliquables : polylignes échantillonnées + centre, indexées.
+    Le front les rend en surcouche three.js et les raycast au survol/clic."""
+    edges = []
+    for i, e in enumerate(part.edges()):
+        if i >= 400:                      # garde-fou pièces pathologiques
+            break
+        try:
+            gt = str(getattr(e, "geom_type", "")).upper()
+            n = 1 if "LINE" in gt else 12
+            pts = []
+            for k in range(n + 1):
+                p = e @ (k / n)
+                pts.append([round(p.X, 3), round(p.Y, 3), round(p.Z, 3)])
+            c = e.center()
+            edges.append({"i": i,
+                          "mid": [round(c.X, 3), round(c.Y, 3), round(c.Z, 3)],
+                          "pts": pts})
+        except Exception:
+            continue
+    (outdir / "edges.json").write_text(
+        json.dumps({"edges": edges, "unit": "mm"}), encoding="utf-8")
+
+
 def _mesh_stats(m):
     return {"triangles": int(len(m.faces)),
             "watertight": bool(m.is_watertight),
@@ -263,6 +287,10 @@ def main():
                 _export_faces(part, outdir)
             except Exception:
                 (outdir / "faces.json").write_text('{"faces":[]}', encoding="utf-8")
+            try:
+                _export_edges(part, outdir)
+            except Exception:
+                (outdir / "edges.json").write_text('{"edges":[]}', encoding="utf-8")
 
             bb = part.bounding_box()
             stats = {

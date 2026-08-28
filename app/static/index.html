@@ -268,8 +268,18 @@
   </div>
 
   <div class="card">
-    <div class="lbl">Édition par face — clique une face dans l'aperçu</div>
-    <div id="faceHint" class="muted">Clique une face pour l'éditer. <b>Ctrl</b> ou <b>Alt</b>+clic pour en sélectionner plusieurs (arrondi/chanfrein d'une arête = 2 faces).</div>
+    <div class="lbl">Édition au clic — face ou arête, directement dans l'aperçu</div>
+    <div id="faceHint" class="muted">Clique une <b>face</b> pour l'éditer, ou survole une <b>arête</b> (elle s'illumine) et clique-la pour un arrondi/chanfrein ciblé. <b>Ctrl</b>+clic = sélection multiple.</div>
+    <div id="edgePanel" style="display:none; background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:10px 12px; margin-bottom:10px">
+      <div style="margin-bottom:8px; font-size:14px">⌒ Arête(s) sélectionnée(s) : <b id="edgeCount" style="color:#c2410c">1</b></div>
+      <div class="row" style="margin-top:0">
+        <select id="eop"><option value="fillet">Arrondir (congé)</option><option value="chamfer">Chanfrein</option></select>
+        <label class="muted">rayon/long.&nbsp;<input id="erad" type="number" value="2" min="0.2" step="0.5" style="width:64px"> mm</label>
+        <button id="eapply">Appliquer</button>
+        <button id="eclear" class="sec">Désélectionner</button>
+        <span id="estatus" class="muted"></span>
+      </div>
+    </div>
     <div id="facePanel" style="display:none">
       <div style="margin-bottom:8px; font-size:14px">Sélection : <b id="faceLabel" style="color:var(--acc)"></b></div>
       <div class="row">
@@ -346,7 +356,9 @@ let renderer, scene, camera, controls, current;
 let faceMeshes = [], facesData = {}, selSet = [], selFace = null;
 const raycaster = new THREE.Raycaster();
 const BASE_COL = 0x3f7de0, SEL_COL = 0xff9500, HOVER_COL = 0x9cc0f5;
+const EDGE_COL = 0x22304a, EDGE_HOVER = 0xff9500, EDGE_SEL = 0xe11d48;
 let hoverMesh = null;
+let edgeGroup = null, edgeLines = [], hoverEdge = null, selEdges = [];
 let meshMode = false, modelOffset = null, meshPoint = null, meshNormal = null, clickMarker = null;
 
 function resizeView(){
@@ -376,6 +388,11 @@ function initView() {
     const rect = dom.getBoundingClientRect();
     const ndc = new THREE.Vector2(((e.clientX-rect.left)/rect.width)*2-1, -((e.clientY-rect.top)/rect.height)*2+1);
     raycaster.setFromCamera(ndc, camera);
+    // priorité aux ARÊTES (sélection fine), puis aux faces
+    if(!meshMode && edgeLines.length){
+      const ehits = raycaster.intersectObjects(edgeLines, false);
+      if(ehits.length){ selectEdge(ehits[0].object, e.ctrlKey || e.altKey || e.metaKey); return; }
+    }
     const hits = raycaster.intersectObjects(faceMeshes, false);
     if(!hits.length) return;
     if(meshMode){ meshPick(hits[0]); return; }
@@ -386,13 +403,25 @@ function initView() {
     const rect = dom.getBoundingClientRect();
     const ndc = new THREE.Vector2(((e.clientX-rect.left)/rect.width)*2-1, -((e.clientY-rect.top)/rect.height)*2+1);
     raycaster.setFromCamera(ndc, camera);
-    const hits = raycaster.intersectObjects(faceMeshes, false);
+    // survol d'arête (prioritaire)
+    let eHit = null;
+    if(edgeLines.length){
+      const ehits = raycaster.intersectObjects(edgeLines, false);
+      eHit = ehits.length ? ehits[0].object : null;
+    }
+    if(eHit !== hoverEdge){
+      if(hoverEdge && !selEdges.includes(hoverEdge)) hoverEdge.material.color.setHex(EDGE_COL);
+      hoverEdge = eHit;
+      if(hoverEdge && !selEdges.includes(hoverEdge)) hoverEdge.material.color.setHex(EDGE_HOVER);
+    }
+    const hits = eHit ? [] : raycaster.intersectObjects(faceMeshes, false);
     const m = hits.length ? hits[0].object : null;
-    if(m === hoverMesh) return;
-    if(hoverMesh && !selSet.includes(hoverMesh.userData.faceIndex)) hoverMesh.material.color.setHex(BASE_COL);
-    hoverMesh = m;
-    if(hoverMesh && !selSet.includes(hoverMesh.userData.faceIndex)) hoverMesh.material.color.setHex(HOVER_COL);
-    dom.style.cursor = m ? 'pointer' : 'default';
+    if(m !== hoverMesh){
+      if(hoverMesh && !selSet.includes(hoverMesh.userData.faceIndex)) hoverMesh.material.color.setHex(BASE_COL);
+      hoverMesh = m;
+      if(hoverMesh && !selSet.includes(hoverMesh.userData.faceIndex)) hoverMesh.material.color.setHex(HOVER_COL);
+    }
+    dom.style.cursor = (eHit || m) ? 'pointer' : 'default';
   });
   (function loop(){ requestAnimationFrame(loop); controls.update(); renderer.render(scene,camera); })();
 }
@@ -419,8 +448,39 @@ function selectFace(mesh, additive){
   $('faceHint').style.display = 'none'; $('facePanel').style.display = 'block';
   $('pasteHint').style.display = 'none'; $('pastePanel').style.display = 'block';
 }
+function clearEdges(){
+  if(edgeGroup){ scene.remove(edgeGroup); edgeGroup=null; }
+  edgeLines=[]; hoverEdge=null; selEdges=[];
+  const p=$('edgePanel'); if(p) p.style.display='none';
+}
+function buildEdgeLayer(edges, basePos, size){
+  clearEdges();
+  if(!edges || !edges.length) return;
+  edgeGroup=new THREE.Group();
+  edgeGroup.rotation.x=-Math.PI/2;          // Z-up build123d -> Y-up three.js
+  edgeGroup.position.copy(basePos);
+  edges.forEach(ed=>{
+    const g=new THREE.BufferGeometry().setFromPoints(ed.pts.map(p=>new THREE.Vector3(p[0],p[1],p[2])));
+    const l=new THREE.Line(g,new THREE.LineBasicMaterial({color:EDGE_COL, transparent:true, opacity:.5}));
+    l.userData.edge=ed; edgeGroup.add(l); edgeLines.push(l);
+  });
+  scene.add(edgeGroup);
+  raycaster.params.Line.threshold=Math.max(size*0.012, 0.6);   // tolérance de visée (mm)
+}
+function selectEdge(line, additive){
+  const p=selEdges.indexOf(line);
+  if(additive){ if(p>=0) selEdges.splice(p,1); else selEdges.push(line); }
+  else { selEdges.forEach(l=>l.material.color.setHex(EDGE_COL)); selEdges = p>=0 ? [] : [line]; }
+  edgeLines.forEach(l=>{ l.material.color.setHex(selEdges.includes(l)?EDGE_SEL:EDGE_COL);
+                         l.material.opacity = selEdges.includes(l)?1:.5; });
+  const panel=$('edgePanel');
+  if(selEdges.length){ $('edgeCount').textContent=selEdges.length; panel.style.display='block'; $('estatus').textContent=''; }
+  else panel.style.display='none';
+}
+
 function loadGLB(url, keepView) {
   if(typeof clearFea==='function') clearFea();
+  clearEdges();
   new GLTFLoader().load(url + '?t=' + Date.now(), gltf => {
     if (current) scene.remove(current);
     const obj = gltf.scene;
@@ -439,7 +499,10 @@ function loadGLB(url, keepView) {
     $('facePanel').style.display='none'; $('faceHint').style.display='block';
     $('pastePanel').style.display='none'; $('pasteHint').style.display='block';
     fetch('/work/faces.json?t='+Date.now()).then(r=>r.json()).then(d=>{ facesData={}; (d.faces||[]).forEach(f=>facesData[f.i]=f); }).catch(()=>{});
-    const r = Math.max(s.x,s.y,s.z) || 30; if(!keepView){ camera.position.set(r*1.6, r*1.3, r*1.8); controls.target.set(0,0,0); }
+    const r = Math.max(s.x,s.y,s.z) || 30;
+    if(!meshMode) fetch('/work/edges.json?t='+Date.now()).then(rr=>rr.json())
+      .then(d=>buildEdgeLayer(d.edges, obj.position, r)).catch(()=>{});
+    if(!keepView){ camera.position.set(r*1.6, r*1.3, r*1.8); controls.target.set(0,0,0); }
     enableAfterModel();
   }, undefined, e => setLog('Erreur aperçu GLB: ' + e));
 }
@@ -879,6 +942,22 @@ function makeMic(btnId, target){
 }
 makeMic('micBrief', $('brief'));
 makeMic('micRefine', $('refine'));
+
+/* Opération sur arête(s) cliquée(s) : arrondi / chanfrein ciblé (sans LLM). */
+$('eapply').onclick = async () => {
+  if(!selEdges.length) return;
+  const mids = selEdges.map(l => l.userData.edge.mid);
+  $('eapply').disabled=true; $('estatus').textContent='⏳ application…';
+  try{
+    const r = await fetch('/edge_op', {method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({mids, op:$('eop').value, radius:parseFloat($('erad').value)||2})});
+    const d = await r.json();
+    if(d.ok){ addIter(($('eop').value==='fillet'?'arrondi':'chanfrein')+' '+($('erad').value)+' mm sur '+mids.length+' arête(s)'); }
+    showResult(d, $('estatus'), true);
+  }catch(e){ setLog('Erreur réseau: '+e); }
+  $('eapply').disabled=false;
+};
+$('eclear').onclick = () => { selEdges.forEach(l=>{ l.material.color.setHex(EDGE_COL); l.material.opacity=.5; }); selEdges=[]; $('edgePanel').style.display='none'; };
 
 $('fop').onchange = () => {
   const conge = ($('fop').value === 'fillet' || $('fop').value === 'chamfer');
