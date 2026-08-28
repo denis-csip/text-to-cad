@@ -217,9 +217,14 @@ def _norm_source(x):
 
 try:
     for _s in _json.load(open(EXT_PATH, encoding="utf-8")):
-        if _s.get("id") and all(_s["id"] != x["id"] for x in SOLUTIONS):
+        if not _s.get("id"):
+            continue
+        _cur = next((x for x in SOLUTIONS if x["id"] == _s["id"]), None)
+        if _cur is None:                       # solution adoptée par la veille
             _s["sources"] = [_norm_source(x) for x in _s.get("sources", [])]
             SOLUTIONS.append(_s)
+        elif _s.get("sources"):                # overlay : sources d'une fiche du catalogue
+            _cur["sources"] = [_norm_source(x) for x in _s["sources"]]
 except Exception:
     pass
 
@@ -227,21 +232,25 @@ _BY_ID = {s["id"]: s for s in SOLUTIONS}
 
 
 def save_sources(sol_id, sources):
-    """Persiste des sources enrichies (ex. DOI résolus) dans le catalogue + ext.json."""
+    """Persiste des sources (DOI résolus, adossements) : catalogue vivant + ext.json.
+    Pour une fiche du catalogue en dur, une entrée-overlay {id, sources} est ajoutée."""
     s = _BY_ID.get(sol_id)
     if not s:
         return False
     s["sources"] = sources
     try:
-        ext = _json.load(open(EXT_PATH, encoding="utf-8"))
-        changed = False
+        ext = []
+        try:
+            ext = _json.load(open(EXT_PATH, encoding="utf-8"))
+        except Exception:
+            pass
         for e in ext:
             if e.get("id") == sol_id:
                 e["sources"] = sources
-                changed = True
-        if changed:
-            _json.dump(ext, open(EXT_PATH, "w", encoding="utf-8"),
-                       ensure_ascii=False)
+                break
+        else:
+            ext.append({"id": sol_id, "sources": sources})
+        _json.dump(ext, open(EXT_PATH, "w", encoding="utf-8"), ensure_ascii=False)
     except Exception:
         pass
     return True

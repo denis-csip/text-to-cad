@@ -1,0 +1,152 @@
+[
+ {
+  "id": "lattice_gyroid",
+  "sources": [
+   {
+    "title": "Mechanical properties and energy–absorption capabilities of thermoplastic sheet gyroid structures",
+    "year": 2021,
+    "url": "https://doi.org/10.1080/15376494.2021.1919803"
+   },
+   {
+    "title": "Bio-Inspired 3D Infill Patterns for Additive Manufacturing and Structural Applications",
+    "year": 2019,
+    "url": "https://doi.org/10.3390/ma12030499"
+   }
+  ]
+ },
+ {
+  "id": "lattice_gradient",
+  "sources": [
+   {
+    "title": "Strategies for functionally graded lattice structures derived using topology optimisation for Additive Manufacturing",
+    "year": 2017,
+    "url": "https://doi.org/10.1016/j.addma.2017.11.008"
+   },
+   {
+    "title": "An investigation into reinforced and functionally graded lattice structures",
+    "year": 2016,
+    "url": "https://doi.org/10.1177/0021955x16639035"
+   }
+  ]
+ },
+ {
+  "id": "lattice_schwarz",
+  "sources": [
+   {
+    "title": "Investigation of functionally graded TPMS structures fabricated by additive manufacturing",
+    "year": 2019,
+    "url": "https://doi.org/10.1016/j.matdes.2019.108021"
+   },
+   {
+    "title": "Compression Performance and Failure Analysis of 3D-Printed Carbon Fiber/PLA Composite TPMS Lattice Structures",
+    "year": 2022,
+    "url": "https://doi.org/10.3390/polym14214595"
+   }
+  ]
+ },
+ {
+  "id": "lattice_diamond",
+  "sources": [
+   {
+    "title": "Insights into the mechanical properties of several triply periodic minimal surface lattice structures made by polymer additive manufacturing",
+    "year": 2017,
+    "url": "https://doi.org/10.1016/j.polymer.2017.11.049"
+   }
+  ]
+ },
+ {
+  "id": "tubular",
+  "sources": [
+   {
+    "title": "An End-to-End Framework for the Additive Manufacture of Optimized Tubular Structures",
+    "year": 2021,
+    "url": "https://doi.org/10.1109/access.2021.3132797"
+   }
+  ]
+ },
+ {
+  "id": "fillets_stress",
+  "sources": [
+   {
+    "title": "Optimization of graded filleted lattice structures subject to yield and buckling constraints",
+    "year": 2021,
+    "url": "https://doi.org/10.1016/j.matdes.2021.109746"
+   }
+  ]
+ },
+ {
+  "id": "fold_3d",
+  "sources": [
+   {
+    "title": "Origami tubes assembled into stiff, yet reconfigurable structures and metamaterials",
+    "year": 2015,
+    "url": "https://doi.org/10.1073/pnas.1509465112"
+   },
+   {
+    "title": "An origami-inspired structure with graded stiffness",
+    "year": 2017,
+    "url": "https://doi.org/10.1016/j.ijmecsci.2017.12.026"
+   }
+  ]
+ },
+ {
+  "id": "living_hinge",
+  "sources": [
+   {
+    "title": "Investigation of Traditional and Alternate Living Hinge Designs for Fused Deposition Modeling Additive Manufacturing Process",
+    "year": 2014,
+    "url": "https://commons.erau.edu/edt/213"
+   },
+   {
+    "title": "Investigation of Discharge Characteristics of Hinges Produced with 3D Printing for Prosthetic Fingers",
+    "year": 2020,
+    "url": "https://doi.org/10.2339/politeknik.698316"
+   }
+  ]
+ },
+ {
+  "id": "snapfit",
+  "sources": [
+   {
+    "title": "Design Guidelines for Additive Manufactured Snap-Fit Joints",
+    "year": 2016,
+    "url": "https://doi.org/10.1016/j.procir.2016.04.130"
+   },
+   {
+    "title": "Analyzing Insertion and Retention Forces in Cantilever Snap-Fits: A Combined Simulation and Experimental Approach",
+    "year": 2025,
+    "url": "https://doi.org/10.15282/ijame.22.3.2025.3.0960"
+   }
+  ]
+ },
+ {
+  "id": "compliant",
+  "sources": [
+   {
+    "title": "Effect of flexure hinge type on a 3D printed fully compliant prosthetic finger",
+    "year": 2015,
+    "url": "https://doi.org/10.1109/aim.2015.7222634"
+   },
+   {
+    "title": "A practical 3D-printed soft robotic prosthetic hand with multi-articulating capabilities",
+    "year": 2020,
+    "url": "https://doi.org/10.1371/journal.pone.0232766"
+   }
+  ]
+ },
+ {
+  "id": "capillary_pores",
+  "sources": [
+   {
+    "title": "Rough capillary rise",
+    "year": 2023,
+    "url": "https://doi.org/10.1038/s42005-023-01160-w"
+   },
+   {
+    "title": "Capillary microfluidics in microchannels: from microfluidic networks to capillaric circuits",
+    "year": 2018,
+    "url": "https://doi.org/10.1039/c8lc00458g"
+   }
+  ]
+ }
+]
