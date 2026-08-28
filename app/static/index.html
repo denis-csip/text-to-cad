@@ -23,7 +23,8 @@
   button.sec { background:var(--panel); color:var(--txt); border:1px solid var(--line); font-weight:500; }
   button:disabled { opacity:.45; cursor:not-allowed; }
   a.dl { text-decoration:none; }
-  #view { width:100%; height:400px; background:#eaeef3; border-radius:8px; border:1px solid var(--line); }
+  #view { width:100%; height:400px; background:#eaeef3; border-radius:8px; border:1px solid var(--line); overflow:hidden; }
+  #view canvas { width:100% !important; height:100% !important; display:block; }
   pre { background:#fbfcfd; border:1px solid var(--line); border-radius:8px; padding:10px; margin:0; overflow:auto;
         max-height:320px; font:12.5px/1.5 ui-monospace,Consolas,monospace; color:#2a3340; }
   .lbl { color:var(--mut); font-size:12px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:8px; }
@@ -1038,22 +1039,37 @@ $('eapply').onclick = async () => {
 };
 $('eclear').onclick = () => deselectAll();
 
-/* Mode plein écran CAO : visu maximale, outils déplacés dans le bandeau droit. */
+/* Mode plein écran CAO : visu maximale, outils déplacés dans le bandeau droit.
+   Restauration par JALONS (un nœud repère laissé à la place de chaque bloc) :
+   insensible à l'ordre et aux voisins eux-mêmes déplacés. */
 const fsPlace = new Map();
-function fsMove(el, dest){ if(!el || fsPlace.has(el)) return; fsPlace.set(el, {p:el.parentNode, n:el.nextSibling}); dest.appendChild(el); }
+function fsMove(el, dest){
+  if(!el || fsPlace.has(el)) return;
+  const ph=document.createElement('div'); ph.style.display='none';
+  el.parentNode.insertBefore(ph, el);
+  fsPlace.set(el, ph);
+  dest.appendChild(el);
+}
 function setFS(on){
   document.body.classList.toggle('fs', on);
   if(on){
     const c=$('fsBarContent');
     ['stats','exportRow','feaRow','refineRow','paramsCard','editCard'].forEach(id=>fsMove($(id), c));
   } else {
-    [...fsPlace.entries()].reverse().forEach(([el,pos])=>{ pos.p.insertBefore(el, pos.n); });
+    fsPlace.forEach((ph, el)=>{
+      try{ ph.parentNode.replaceChild(el, ph); }
+      catch(_){ try{ ph.remove(); }catch(__){} }
+    });
     fsPlace.clear();
   }
-  setTimeout(resizeView, 60);
+  requestAnimationFrame(()=>{ resizeView(); requestAnimationFrame(resizeView); });
+  setTimeout(resizeView, 200);
 }
 $('fsBtn').onclick = () => setFS(true);
 $('fsExit').onclick = () => setFS(false);
+window.addEventListener('keydown', e => {
+  if(e.key==='Escape' && document.body.classList.contains('fs')) setFS(false);
+});
 
 $('fop').onchange = () => {
   const conge = ($('fop').value === 'fillet' || $('fop').value === 'chamfer');
