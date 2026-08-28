@@ -1021,6 +1021,115 @@ def mesh_stamp(r: MeshStampReq):
     return {"ok": False, "error": resp.get("error", "")}
 
 
+# --- VOIE INVENTIVE : contradiction -> principes (matrice) -> variantes mesurées ---
+import invent as _invent
+
+VAR_DIR = WORK / "variants"
+
+
+class InventPrinciplesReq(BaseModel):
+    improve: int
+    degrade: int
+
+
+class InventVariantReq(BaseModel):
+    principle: int
+    contradiction: str = ""
+
+
+class InventAdoptReq(BaseModel):
+    principle: int
+
+
+def _fea_quick(outdir):
+    """FEA canonique rapide sur une piece (SF + masse), tolerante a l'echec."""
+    step = outdir / "model.step"
+    if not step.exists():
+        return None, None
+    stl = outdir / "model.stl"
+    r = WORKER.run_raw({"cmd": "fea", "step_path": str(step), "force_N": 20.0,
+                        "material": "PLA", "direction": [0, 0, -1],
+                        "stl_path": str(stl) if stl.exists() else None}, timeout=180)
+    if not r.get("ok"):
+        return None, None
+    return r.get("safety_factor"), r
+
+
+@app.get("/invent/params")
+def invent_params():
+    return {"parameters": _invent.PARAMETERS}
+
+
+@app.post("/invent/principles")
+def invent_principles(req: InventPrinciplesReq):
+    return {"principles": _invent.principles_for(req.improve, req.degrade)}
+
+
+@app.post("/invent/baseline")
+def invent_baseline():
+    """Mesure la piece courante (reference de comparaison)."""
+    if not (WORK / "model.step").exists():
+        return {"ok": False, "error": "Aucune piece de depart : genere d'abord une piece."}
+    sf, _ = _fea_quick(WORK)
+    vol = (STATE.get("stats") or {}).get("volume_cm3")
+    masse = round(vol * 1.24, 1) if vol else None
+    return {"ok": True, "sf": sf, "masse_g": masse,
+            "ideality": _invent.ideality(sf, masse), "volume_cm3": vol}
+
+
+@app.post("/invent/variant")
+def invent_variant(req: InventVariantReq):
+    """Genere UNE variante : principe -> operateur geometrique -> portes de
+    validite -> FEA -> idealite. Ecrit dans work/variants/p{N}/ (l'atelier
+    courant n'est PAS touche)."""
+    base = _current_code()
+    if not base:
+        return {"ok": False, "error": "Aucune piece de depart."}
+    instruction = _invent.operator_instruction(req.principle, req.contradiction)
+    outdir = VAR_DIR / f"p{req.principle}"
+    outdir.mkdir(parents=True, exist_ok=True)
+    label = _invent.PRINCIPLES.get(req.principle, {}).get("label", str(req.principle))
+    last_err = ""
+    for attempt in range(2):                      # 1 essai + 1 correction
+        try:
+            code = (llm.refine_code(base, instruction) if attempt == 0
+                    else llm.fix_code(instruction, code, last_err))
+        except Exception as e:
+            return {"ok": False, "error": f"LLM: {e}", "principle": req.principle}
+        trial = outdir / "variant.py"
+        trial.write_text(code, encoding="utf-8")
+        ok, err, stats = WORKER.run(trial, outdir, timeout=90)
+        if ok and stats:
+            sf, _ = _fea_quick(outdir)
+            masse = round(stats.get("volume_cm3", 0) * 1.24, 1)
+            return {"ok": True, "principle": req.principle, "label": label,
+                    "stats": stats, "sf": sf, "masse_g": masse,
+                    "ideality": _invent.ideality(sf, masse),
+                    "glb": f"/work/variants/p{req.principle}/model.glb"}
+        last_err = err
+    return {"ok": False, "principle": req.principle, "label": label,
+            "error": (last_err or "generation echouee")[:300]}
+
+
+@app.post("/invent/adopt")
+def invent_adopt(req: InventAdoptReq):
+    """Adopte une variante : elle devient la piece courante de l'atelier."""
+    outdir = VAR_DIR / f"p{req.principle}"
+    vf = outdir / "variant.py"
+    if not vf.exists():
+        return {"ok": False, "error": "Variante introuvable."}
+    code = vf.read_text(encoding="utf-8")
+    _clear_outputs()
+    (WORK / "generated_model.py").write_text(code, encoding="utf-8")
+    ok, err, stats = WORKER.run(WORK / "generated_model.py", WORK, timeout=90)
+    if not ok:
+        return {"ok": False, "error": err}
+    MESH["active"] = False
+    STATE.update(stats=stats)
+    return {"ok": True, "code": code, "stats": stats,
+            "files": _files_ok(), "params": _params_from_code(code)}
+
+
 @app.get("/state")
 def state():
     return {"code": _current_code(), "brief": STATE.get("brief"),
