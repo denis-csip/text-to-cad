@@ -1136,6 +1136,24 @@ def invent_variant(req: InventVariantReq):
             "error": (last_err or "generation echouee")[:300]}
 
 
+class VeilleAdoptReq(BaseModel):
+    candidate: dict
+
+
+@app.post("/invent/veille")
+def invent_veille():
+    """Veille géométrique : Elicit -> extraction Gemini -> candidats étiquetés TRIZ."""
+    import veille as _veille
+    return _veille.harvest()
+
+
+@app.post("/invent/veille/adopt")
+def invent_veille_adopt(req: VeilleAdoptReq):
+    """Adopte un candidat de la veille dans le catalogue (re-propagation matrice)."""
+    ok = _geo.add_solution(req.candidate)
+    return {"ok": ok, "total": len(_geo.SOLUTIONS)}
+
+
 class LatticeReq(BaseModel):
     cell_mm: float = 8.0      # taille de cellule (densite du maillage)
     wall_mm: float = 1.6      # epaisseur des parois du gyroide (~diametre de brin)

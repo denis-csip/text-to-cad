@@ -10,6 +10,7 @@ services:
     environment:
       - GEMINI_MODEL=gemini-3.6-flash
       - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - ELICIT_API_KEY=${ELICIT_API_KEY}
       # Auth fédérée IDEAS + session locale
       - SESSION_SECRET=${SESSION_SECRET}
       - ADMIN_EMAILS=${ADMIN_EMAILS}

@@ -169,6 +169,18 @@ SOLUTIONS = [
          instruction="STABILISE par la géométrie : élargis et alourdis la BASE "
                      "(semelle étalée), allège le HAUT (évidements), pour abaisser "
                      "le centre de gravité — sans masse ajoutée inutile."),
+    dict(id="capillary_pores", kind="llm", name="Canaux capillaires dimensionnés",
+         principles=[31, 29, 3], improves=[10, 33, 36], degrades=MANUF,
+         desc="Réseau de micro-canaux dont le diamètre est dimensionné pour faire "
+              "monter un liquide par capillarité (h = 2γcosθ/ρgr) — transport "
+              "passif, sans pompe (mèche, drainage, auto-arrosage).",
+         instruction="INTRODUIS un RÉSEAU DE CANAUX CAPILLAIRES verticaux ou "
+                     "inclinés dans la zone utile : diamètre 0.8-2 mm (imprimable "
+                     "FDM ; plus fin = montée plus haute, loi de Jurin "
+                     "h=2γcosθ/(ρgr) — expose le diamètre en paramètre nommé "
+                     "`diametre_canal`), espacés de 2-4 mm, ouverts aux deux "
+                     "extrémités, reliés à un réservoir ou à la surface à "
+                     "alimenter."),
     dict(id="conformal", kind="llm", name="Épouser la forme (contact conforme)",
          principles=[14, 3], improves=FORCE + RELIAB + EASE, degrades=COMPLEX_,
          desc="Faire épouser à la pièce la forme de l'objet qu'elle tient "
@@ -178,7 +190,47 @@ SOLUTIONS = [
                      "d'un appui plan), avec jeu de 0.3 mm."),
 ]
 
+# Extensions issues de la VEILLE, validées par l'expert (persistées sur /data)
+import os as _os
+import json as _json
+EXT_PATH = _os.environ.get("TCAD_GEOEXT",
+                           "/data/geo_solutions_ext.json"
+                           if _os.path.isdir("/data") else
+                           _os.path.join(_os.path.dirname(__file__), "work",
+                                         "geo_solutions_ext.json"))
+try:
+    for _s in _json.load(open(EXT_PATH, encoding="utf-8")):
+        if _s.get("id") and all(_s["id"] != x["id"] for x in SOLUTIONS):
+            SOLUTIONS.append(_s)
+except Exception:
+    pass
+
 _BY_ID = {s["id"]: s for s in SOLUTIONS}
+
+
+def add_solution(s):
+    """Adopte un candidat de la veille : catalogue vivant + persistance."""
+    if not s.get("id") or s["id"] in _BY_ID:
+        return False
+    entry = {"id": s["id"], "kind": "llm", "name": s.get("name", s["id"]),
+             "desc": s.get("desc", ""), "instruction": s.get("instruction", ""),
+             "principles": s.get("principles", []),
+             "improves": s.get("improves", []),
+             "degrades": s.get("degrades", []),
+             "sources": s.get("sources", [])}
+    SOLUTIONS.append(entry)
+    _BY_ID[entry["id"]] = entry
+    try:
+        ext = []
+        try:
+            ext = _json.load(open(EXT_PATH, encoding="utf-8"))
+        except Exception:
+            pass
+        ext.append(entry)
+        _json.dump(ext, open(EXT_PATH, "w", encoding="utf-8"), ensure_ascii=False)
+    except Exception:
+        pass
+    return True
 
 
 def get(sol_id):

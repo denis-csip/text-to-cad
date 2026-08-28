@@ -272,6 +272,12 @@
       <label class="chk muted" style="font-size:12px" title="Qualité locale (P3) : brins pleins en bas, affinés en haut"><input type="checkbox" id="latGrad"> gradient (dense en bas)</label>
       <button id="latGo" class="sec">Générer la variante lattice</button>
     </div>
+    <div class="row" style="margin-top:8px; border-top:1px dashed var(--line); padding-top:10px; align-items:center">
+      <span class="muted" style="font-size:12.5px">🔭 <b>Veille géométrique</b> — balaye la littérature (Elicit) et propose de nouvelles solutions au catalogue :</span>
+      <button id="veilleGo" class="sec">Lancer la veille (~1-2 min)</button>
+      <span id="veilleStatus" class="muted"></span>
+    </div>
+    <div id="veilleList" style="display:none; margin-top:10px; display:none"></div>
     <div id="invVariants" style="display:none; margin-top:12px">
       <div class="lbl" style="margin-bottom:4px">Variantes — idéalité = tenue (SF) / masse : plus haut = plus proche de l'idéal</div>
       <div id="invBase" class="muted" style="font-size:12.5px; margin-bottom:8px"></div>
@@ -1357,6 +1363,38 @@ $('latGo').onclick = async () => {
       }catch(e){ btn.textContent='✔ Adopter'; btn.disabled=false; }
     };
   }catch(e){ card.innerHTML='<b>🕸 Lattice gyroïde</b><div class="muted" style="color:var(--err)">erreur réseau</div>'; }
+};
+
+$('veilleGo').onclick = async () => {
+  const st=$('veilleStatus'), box=$('veilleList');
+  st.textContent='🔭 Elicit + extraction Gemini… (~1-2 min)'; $('veilleGo').disabled=true;
+  try{
+    const r=await fetch('/invent/veille',{method:'POST'});
+    const d=await r.json();
+    if(!d.ok){ st.textContent='échec : '+(d.error||''); $('veilleGo').disabled=false; return; }
+    st.textContent=d.papers+' papiers balayés → '+(d.candidates||[]).length+' solutions candidates. Valide celles qui méritent le catalogue :';
+    box.style.display='block'; box.innerHTML='';
+    (d.candidates||[]).forEach(c=>{
+      const el=document.createElement('div');
+      el.style.cssText='background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:8px';
+      const esc=s=>String(s==null?'':s).replace(/</g,'&lt;');
+      el.innerHTML='<b>'+esc(c.name)+'</b> <code style="font-size:11px; color:var(--mut)">'+esc(c.id)+'</code>'
+        +'<div class="muted" style="font-size:13px; margin:4px 0">'+esc(c.desc)+'</div>'
+        +'<div style="font-size:12px; color:var(--mut)">P '+(c.principles||[]).join(', ')
+        +' · améliore № '+(c.improves||[]).join(', ')
+        +((c.degrades||[]).length?' · risque № '+c.degrades.join(', '):'')
+        +((c.sources||[]).length?'<br>📚 '+esc((c.sources||[]).slice(0,2).join(' ; ')):'')+'</div>'
+        +'<button class="vadd" style="margin-top:8px; padding:5px 12px; font-size:12.5px">➕ Adopter au catalogue</button>';
+      el.querySelector('.vadd').onclick=async ()=>{
+        const b=el.querySelector('.vadd'); b.disabled=true; b.textContent='⏳';
+        const ra=await fetch('/invent/veille/adopt',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({candidate:c})});
+        const da=await ra.json();
+        b.textContent=da.ok?'✔ au catalogue ('+da.total+' solutions)':'déjà présent';
+      };
+      box.appendChild(el);
+    });
+  }catch(e){ st.textContent='erreur réseau'; }
+  $('veilleGo').disabled=false;
 };
 
 function contradictionText(){
