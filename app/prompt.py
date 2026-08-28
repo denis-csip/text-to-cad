@@ -17,6 +17,9 @@ CONTRAT DE SORTIE (strict) :
   (un objet build123d : resultat d'un `with BuildPart() as x:` -> `part = x.part`,
   ou une Part/Solid/Compound issue de l'API algebre).
 - N'ecris AUCUN export, AUCUN print, AUCUN `show()`, AUCUN accès reseau/fichier.
+- La piece doit etre UN SEUL SOLIDE CONNEXE : chaque element (support, anneau, crochet,
+  nervure...) doit CHEVAUCHER franchement son voisin (>= 1 mm de recouvrement) avant
+  l'union — deux volumes qui se touchent a peine ou flottent separement = piece REJETEE.
 - Le solide doit etre MANIFOLD (etanche) et imprimable en FDM :
   * oriente la piece base a plat sur le plan XY (z=0 vers le haut), sans support si possible ;
   * pour des ajustements/snap, prevois un jeu d'impression de 0.2 a 0.4 mm ;

@@ -398,6 +398,7 @@ const EDGE_COL = 0x22304a, EDGE_HOVER = 0x38bdf8, EDGE_SEL = 0xe11d48;
 let hoverMesh = null;
 let edgeGroup = null, edgeLines = [], hoverEdge = null, selEdges = [];
 let previewGroup = null, lastBasePos = null, lastSize = 30;
+let loadSeq = 0;   // anti-course : ignore les arêtes/faces d'un chargement périmé
 let meshMode = false, modelOffset = null, meshPoint = null, meshNormal = null, clickMarker = null;
 
 function resizeView(){
@@ -546,7 +547,9 @@ function selectEdge(line, additive){
 function loadGLB(url, keepView) {
   if(typeof clearFea==='function') clearFea();
   clearEdges();
+  const seq = ++loadSeq;
   new GLTFLoader().load(url + '?t=' + Date.now(), gltf => {
+    if(seq !== loadSeq) return;               // un chargement plus récent a pris le relais
     if (current) scene.remove(current);
     const obj = gltf.scene;
     faceMeshes = []; selSet = []; selFace = null; hoverMesh = null;
@@ -566,7 +569,7 @@ function loadGLB(url, keepView) {
     fetch('/work/faces.json?t='+Date.now()).then(r=>r.json()).then(d=>{ facesData={}; (d.faces||[]).forEach(f=>facesData[f.i]=f); }).catch(()=>{});
     const r = Math.max(s.x,s.y,s.z) || 30;
     if(!meshMode) fetch('/work/edges.json?t='+Date.now()).then(rr=>rr.json())
-      .then(d=>buildEdgeLayer(d.edges, obj.position, r)).catch(()=>{});
+      .then(d=>{ if(seq===loadSeq) buildEdgeLayer(d.edges, obj.position, r); }).catch(()=>{});
     lastBasePos = obj.position.clone(); lastSize = r;
     if(typeof updateLoadPreview==='function') updateLoadPreview();
     if(!keepView){ camera.position.set(r*1.6, r*1.3, r*1.8); controls.target.set(0,0,0); }

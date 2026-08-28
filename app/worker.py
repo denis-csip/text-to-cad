@@ -302,6 +302,21 @@ def main():
                     "Aucun solide trouve : le script doit definir 'part'.")
             if getattr(part, "volume", 0) <= 0:
                 raise RuntimeError("Le solide 'part' a un volume nul.")
+            # Porte de CONNEXITÉ : une pièce en plusieurs morceaux disjoints est
+            # inutilisable (rien ne les relie physiquement) — echec explicite pour
+            # que la boucle de correction demande a Gemini de les CONNECTER.
+            try:
+                _solids = list(part.solids())
+            except Exception:
+                _solids = []
+            if len(_solids) > 1:
+                _vols = sorted((round(s.volume / 1000.0, 1) for s in _solids),
+                               reverse=True)
+                raise RuntimeError(
+                    f"PIECE INVALIDE : {len(_solids)} solides DISJOINTS "
+                    f"(volumes {_vols} cm3) — les elements ne se touchent pas. "
+                    "Fais-les se CHEVAUCHER franchement (au moins 1 mm de "
+                    "recouvrement) puis unis-les pour obtenir UN SEUL solide connexe.")
 
             export_step(part, str(outdir / "model.step"))
             export_stl(part, str(outdir / "model.stl"))
