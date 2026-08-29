@@ -1,0 +1,138 @@
+[1/100] gyroid lattice mechanical properties additive manu -> 30 nouveaux (total 30)
+[2/100] triply periodic minimal surface lattice stiffness  -> 24 nouveaux (total 54)
+[3/100] octet truss lattice additive manufacturing mechani -> 22 nouveaux (total 76)
+[4/100] plate lattice stiffness limit additive manufacturi -> 14 nouveaux (total 90)
+[5/100] functionally graded lattice density design -> 18 nouveaux (total 108)
+[6/100] conformal lattice infill freeform design -> 27 nouveaux (total 135)
+[7/100] honeycomb core out-of-plane crush additive manufac -> 27 nouveaux (total 162)
+[8/100] Voronoi irregular lattice design 3D printing -> 26 nouveaux (total 188)
+[9/100] hierarchical multiscale lattice mechanical metamat -> 22 nouveaux (total 210)
+[10/100] pentamode metamaterial design fabrication -> 26 nouveaux (total 236)
+[11/100] negative stiffness metamaterial energy absorption -> 24 nouveaux (total 260)
+[12/100] auxetic re-entrant honeycomb design 3D printing -> 22 nouveaux (total 282)
+[13/100] chiral auxetic metamaterial mechanical behavior -> 9 nouveaux (total 291)
+[14/100] rotating squares auxetic perforated sheet design -> 20 nouveaux (total 311)
+[15/100] negative Poisson ratio structure impact protection -> 27 nouveaux (total 338)
+[16/100] Kelvin cell open foam lattice additive manufacturi -> 21 nouveaux (total 359)
+[17/100] strut diameter gradient lattice optimization -> 20 nouveaux (total 379)
+[18/100] shell TPMS lattice wall thickness gradient -> 19 nouveaux (total 398)
+[19/100] Miura-ori fold core sandwich stiffness -> 27 nouveaux (total 425)
+[20/100] origami tube stiff reconfigurable structure -> 22 nouveaux (total 447)
+[21/100] kirigami stretchable structure design -> 30 nouveaux (total 477)
+[22/100] origami crash box energy absorption -> 24 nouveaux (total 501)
+[23/100] bistable origami mechanism design -> 16 nouveaux (total 517)
+[24/100] folded corrugated core sandwich panel -> 28 nouveaux (total 545)
+[25/100] deployable structure origami engineering -> 16 nouveaux (total 561)
+[26/100] compliant mechanism flexure hinge design 3D printe -> 27 nouveaux (total 588)
+[27/100] cross-axis flexural pivot design -> 29 nouveaux (total 617)
+[28/100] bistable compliant mechanism switch design -> 21 nouveaux (total 638)
+[29/100] living hinge design fatigue polypropylene -> 29 nouveaux (total 667)
+[30/100] snap-fit joint design guidelines additive manufact -> 27 nouveaux (total 694)
+[31/100] print-in-place joint clearance 3D printing -> 29 nouveaux (total 723)
+[32/100] 3D printed thread tolerance design -> 28 nouveaux (total 751)
+[33/100] topological interlocking assembly blocks mechanics -> 29 nouveaux (total 780)
+[34/100] dovetail interlocking 3D printed joint strength -> 28 nouveaux (total 808)
+[35/100] lattice hinge kerf bending design -> 28 nouveaux (total 836)
+[36/100] ratchet pawl mechanism compact design -> 29 nouveaux (total 865)
+[37/100] constant force compliant mechanism design -> 27 nouveaux (total 892)
+[38/100] riblet surface drag reduction texture -> 30 nouveaux (total 922)
+[39/100] shark skin inspired surface texture -> 22 nouveaux (total 944)
+[40/100] superhydrophobic micropillar surface 3D printed -> 30 nouveaux (total 974)
+[41/100] surface texture friction control sliding -> 28 nouveaux (total 1002)
+[42/100] dimple texture lubrication friction reduction -> 21 nouveaux (total 1023)
+[43/100] anti-icing surface microstructure design -> 28 nouveaux (total 1051)
+[44/100] gecko adhesion fibrillar microstructure -> 30 nouveaux (total 1081)
+[45/100] anti-fouling surface topography design -> 21 nouveaux (total 1102)
+[46/100] conformal cooling channel injection mold design -> 30 nouveaux (total 1132)
+[47/100] TPMS heat exchanger thermal performance -> 26 nouveaux (total 1158)
+[48/100] capillary wick 3D printed heat pipe -> 29 nouveaux (total 1187)
+[49/100] microchannel capillary passive liquid transport -> 29 nouveaux (total 1216)
+[50/100] vascular network channel self-healing design -> 30 nouveaux (total 1246)
+[51/100] self-draining geometry drainage design -> 29 nouveaux (total 1275)
+[52/100] static mixer geometry 3D printed -> 29 nouveaux (total 1304)
+[53/100] Tesla valve fluidic diode design -> 29 nouveaux (total 1333)
+[54/100] flow distribution manifold header optimization -> 28 nouveaux (total 1361)
+[55/100] graded porous media 3D printed filtration -> 27 nouveaux (total 1388)
+[56/100] rib layout optimization thin wall stiffening -> 29 nouveaux (total 1417)
+[57/100] isogrid stiffened panel design -> 29 nouveaux (total 1446)
+[58/100] corrugated panel bending stiffness design -> 19 nouveaux (total 1465)
+[59/100] sandwich core shear design additive manufacturing -> 16 nouveaux (total 1481)
+[60/100] stress concentration fillet shape optimization -> 26 nouveaux (total 1507)
+[61/100] variable thickness tailored design structure -> 25 nouveaux (total 1532)
+[62/100] arch dome compression structure form finding -> 29 nouveaux (total 1561)
+[63/100] tensegrity structure design fabrication -> 26 nouveaux (total 1587)
+[64/100] geodesic rib shell reinforcement -> 27 nouveaux (total 1614)
+[65/100] buckling resistant thin structure stiffener design -> 26 nouveaux (total 1640)
+[66/100] crash box crush initiator geometry -> 26 nouveaux (total 1666)
+[67/100] cellular structure energy absorption plateau stres -> 12 nouveaux (total 1678)
+[68/100] bistable array reusable energy absorption -> 27 nouveaux (total 1705)
+[69/100] helmet liner lattice impact optimization -> 27 nouveaux (total 1732)
+[70/100] thin-walled tube crush trigger design -> 23 nouveaux (total 1755)
+[71/100] phononic crystal bandgap design -> 26 nouveaux (total 1781)
+[72/100] acoustic metamaterial sound absorption structure -> 21 nouveaux (total 1802)
+[73/100] acoustic black hole vibration damping -> 29 nouveaux (total 1831)
+[74/100] particle damping 3D printed cavity -> 26 nouveaux (total 1857)
+[75/100] architected lattice damping viscoelastic -> 18 nouveaux (total 1875)
+[76/100] support-free self-supporting overhang design addit -> 18 nouveaux (total 1893)
+[77/100] part consolidation assembly reduction additive man -> 17 nouveaux (total 1910)
+[78/100] topology optimization design features additive man -> 10 nouveaux (total 1920)
+[79/100] build orientation anisotropy strength design FDM -> 27 nouveaux (total 1947)
+[80/100] residual stress distortion compensation geometry a -> 25 nouveaux (total 1972)
+[81/100] teardrop horizontal hole design FDM -> 15 nouveaux (total 1987)
+[82/100] infill pattern strength optimization FDM -> 21 nouveaux (total 2008)
+[83/100] screw boss design plastic part guidelines -> 28 nouveaux (total 2036)
+[84/100] press fit interference design polymer part -> 28 nouveaux (total 2064)
+[85/100] Bouligand helicoidal architecture toughness -> 28 nouveaux (total 2092)
+[86/100] nacre brick and mortar architecture toughness -> 29 nouveaux (total 2121)
+[87/100] trabecular bone inspired lattice implant -> 22 nouveaux (total 2143)
+[88/100] bamboo node structure bending inspiration -> 24 nouveaux (total 2167)
+[89/100] plant stem inspired structural design -> 28 nouveaux (total 2195)
+[90/100] spider web architecture energy absorption -> 27 nouveaux (total 2222)
+[91/100] honeycomb bee comb structure optimization -> 29 nouveaux (total 2251)
+[92/100] conch shell hierarchical structure impact -> 24 nouveaux (total 2275)
+[93/100] 4D printing shape morphing structure design -> 26 nouveaux (total 2301)
+[94/100] anisotropic swelling hinge actuator geometry -> 25 nouveaux (total 2326)
+[95/100] shape memory polymer printed structure design -> 24 nouveaux (total 2350)
+[96/100] bistable morphing panel skin design -> 27 nouveaux (total 2377)
+[97/100] Geneva mechanism compact intermittent motion desig -> 30 nouveaux (total 2407)
+[98/100] flexure bearing linear guide design -> 27 nouveaux (total 2434)
+[99/100] origami inspired stent geometry -> 15 nouveaux (total 2449)
+[100/100] graded stiffness interface joint dissimilar materi -> 24 nouveaux (total 2473)
+
+Phase A terminee : 2473 articles dedoublonnes (111s)
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+  extraction 10/207 lots
+  extraction 20/207 lots
+batch KO: 'str' object has no attribute 'get'
+  extraction 30/207 lots
+  extraction 40/207 lots
+  extraction 50/207 lots
+  extraction 60/207 lots
+  extraction 70/207 lots
+  extraction 80/207 lots
+  extraction 90/207 lots
+  extraction 100/207 lots
+  extraction 110/207 lots
+  extraction 120/207 lots
+  extraction 130/207 lots
+  extraction 140/207 lots
+  extraction 150/207 lots
+  extraction 160/207 lots
+  extraction 170/207 lots
+  extraction 180/207 lots
+  extraction 190/207 lots
+  extraction 200/207 lots
+batch KO: 'str' object has no attribute 'get'
+
+=== CAMPAGNE TERMINEE ===
+{
+  "papers": 2473,
+  "candidats_bruts": 506,
+  "candidats_dedoublonnes": 503,
+  "articles_sources_distincts": 791,
+  "duree_harvest_s": 111,
+  "duree_extraction_s": 257
+}
+-> C:\Users\DenisCavallucci\OneDrive - INSA Strasbourg\Bureau\Claude\text-to-cad-proto\scripts\campagne_result.json

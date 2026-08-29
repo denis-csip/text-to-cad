@@ -1151,20 +1151,99 @@ def invent_veille(req: VeilleReq = VeilleReq()):
     return _veille.harvest(per_query=max(3, min(req.per_query, 20)))
 
 
+_MATRIX_CACHE = {}
+
+
 @app.get("/invent/matrix_stats")
 def invent_matrix_stats():
-    """Taux de remplissage géométrique des 39x39 cellules (pour la heatmap)."""
+    """Taux de remplissage géométrique des 39x39 cellules (pour la heatmap).
+    Mis en cache tant que le catalogue ne change pas (500+ solutions = ~1 s)."""
+    key = len(_geo.SOLUTIONS)
+    if key in _MATRIX_CACHE:
+        return _MATRIX_CACHE[key]
     cells = []
     for i in range(1, 40):
         for j in range(1, 40):
             if i == j:
                 continue
             prn = [p["number"] for p in _invent.principles_for(i, j)]
-            nsol = len(_geo.cell_solutions(i, j, prn))
+            nsol = len(_geo.cell_solutions(i, j, prn, limit=10 ** 6))
             if prn or nsol:
                 cells.append([i, j, nsol, len(prn)])
-    return {"cells": cells, "parameters": _invent.PARAMETERS,
-            "total_solutions": len(_geo.SOLUTIONS)}
+    result = {"cells": cells, "parameters": _invent.PARAMETERS,
+              "total_solutions": len(_geo.SOLUTIONS)}
+    _MATRIX_CACHE.clear()
+    _MATRIX_CACHE[key] = result
+    return result
+
+
+# ---- REVUE DE CAMPAGNE : l'expert adopte/rejette les candidats moissonnés ----
+CAMPAIGN_PATH = Path(os.environ.get("TCAD_CAMPAIGN", "/data/campagne_candidates.json"))
+REVIEW_PATH = Path(os.environ.get("TCAD_REVIEW", "/data/campagne_review.json"))
+
+
+def _load_json_file(p, default):
+    try:
+        return json.load(open(p, encoding="utf-8"))
+    except Exception:
+        return default
+
+
+@app.get("/invent/review/list")
+async def invent_review_list(request: Request):
+    if not await _admin(request):
+        return JSONResponse({"error": "forbidden"}, 403)
+    cands = _load_json_file(CAMPAIGN_PATH, [])
+    review = _load_json_file(REVIEW_PATH, {})
+    for c in cands:
+        c["status"] = review.get(c["id"], "pending")
+    counts = {"total": len(cands)}
+    for st in ("pending", "adopted", "rejected"):
+        counts[st] = sum(1 for c in cands if c["status"] == st)
+    return {"candidates": cands, "counts": counts,
+            "catalogue": len(_geo.SOLUTIONS)}
+
+
+@app.post("/invent/review/decide")
+async def invent_review_decide(request: Request):
+    if not await _admin(request):
+        return JSONResponse({"error": "forbidden"}, 403)
+    body = await request.json()
+    cid = str(body.get("id") or "").strip()
+    action = body.get("action")
+    review = _load_json_file(REVIEW_PATH, {})
+    if action == "adopt":
+        c = next((x for x in _load_json_file(CAMPAIGN_PATH, [])
+                  if x.get("id") == cid), None)
+        if not c:
+            return {"ok": False, "error": "candidat inconnu"}
+        e = body.get("edits") or {}
+        for k in ("name", "desc", "instruction"):
+            if e.get(k):
+                c[k] = str(e[k])
+        for k in ("principles", "improves", "degrades"):
+            if isinstance(e.get(k), list):
+                try:
+                    c[k] = [int(x) for x in e[k]]
+                except Exception:
+                    pass
+        _geo.add_solution(c)
+        review[cid] = "adopted"
+    elif action == "reject":
+        if review.get(cid) == "adopted":
+            _geo.remove_solution(cid)
+        review[cid] = "rejected"
+    elif action == "reset":
+        if review.get(cid) == "adopted":
+            _geo.remove_solution(cid)
+        review.pop(cid, None)
+    else:
+        return {"ok": False, "error": "action inconnue"}
+    REVIEW_PATH.parent.mkdir(parents=True, exist_ok=True)
+    json.dump(review, open(REVIEW_PATH, "w", encoding="utf-8"))
+    _MATRIX_CACHE.clear()                 # la heatmap doit refléter le catalogue
+    return {"ok": True, "status": review.get(cid, "pending"),
+            "catalogue": len(_geo.SOLUTIONS)}
 
 
 @app.get("/invent/solution/{sid}")

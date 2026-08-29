@@ -443,6 +443,19 @@
 <section id="viewAdmin" style="display:none">
   <div class="lbl" style="margin-bottom:10px">Administration — utilisateurs</div>
   <div id="adminList"><p class="muted">Chargement…</p></div>
+
+  <div class="lbl" style="margin:26px 0 10px">Revue de campagne — candidats moissonnés (littérature → matrice géométrique)</div>
+  <div id="revBar" class="row" style="align-items:center; gap:8px; margin-bottom:8px; display:none">
+    <span id="revCounts" class="muted" style="white-space:nowrap"></span>
+    <select id="revFilter" style="background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:7px">
+      <option value="pending">à traiter</option><option value="adopted">adoptés</option>
+      <option value="rejected">rejetés</option><option value="all">tous</option>
+    </select>
+    <input id="revSearch" type="text" placeholder="filtrer (nom, description, P14…)" style="flex:1; min-width:160px">
+    <button id="revAdoptSel" class="sec" style="white-space:nowrap">✓ Adopter la sélection</button>
+    <button id="revRejectSel" class="sec" style="white-space:nowrap">✗ Rejeter la sélection</button>
+  </div>
+  <div id="revList"><p class="muted">Chargement…</p></div>
 </section>
 
 <script type="importmap">
@@ -1424,6 +1437,9 @@ $('geoMatrixBox').addEventListener('toggle', async function(){
     const d=await fetch('/invent/matrix_stats').then(r=>r.json());
     (d.parameters||[]).forEach(p=>gmPN[p.number]=p.fr);
     (d.cells||[]).forEach(([i,j,n,np])=>{ gmM[i+'_'+j]={n:n,np:np}; });
+    // Seuil de pastille DYNAMIQUE : médiane des cellules non vides (le catalogue grandit)
+    const nz=(d.cells||[]).map(c=>c[2]).filter(n=>n>0).sort((a,b)=>a-b);
+    const thrHi=Math.max(3, nz.length?nz[Math.floor(nz.length/2)]:3);
     const S=16, L=238, T=156, W=L+39*S+150, H=T+39*S;
     let s='<svg width="'+W+'" height="'+H+'" style="display:block; user-select:none" role="grid">';
     s+='<text x="'+(L-8)+'" y="'+(T-22)+'" text-anchor="end" font-size="9" font-weight="bold" fill="#e11d48">Se dégrade ↑ (colonnes)</text>'
@@ -1443,14 +1459,14 @@ $('geoMatrixBox').addEventListener('toggle', async function(){
         +(diag?'':'<title>Améliorer №'+i+' ('+gmEsc(gmPN[i])+')  ×  sans dégrader №'+j+' ('+gmEsc(gmPN[j])+') — '+c.n+' solution(s) géométrique(s), '+c.np+' principe(s)</title>')
         +'</rect>';
       if(!diag && c.n>0)
-        dots+='<rect x="'+(x+S-5.5)+'" y="'+(y+S-5.5)+'" width="4" height="4" rx="1" pointer-events="none" fill="'+(c.n>=3?'#7c3aed':'#0891b2')+'"/>';
+        dots+='<rect x="'+(x+S-5.5)+'" y="'+(y+S-5.5)+'" width="4" height="4" rx="1" pointer-events="none" fill="'+(c.n>=thrHi?'#7c3aed':'#0891b2')+'"/>';
     }
     s+=dots+'</svg>';
     const leg='<div class="row" style="margin-top:8px; gap:8px; font-size:12px; align-items:center">'
       +'<span style="padding:4px 10px; border-radius:8px; background:#eff6ff; border:1px solid #dbeafe; color:#2563eb; font-weight:600">S&#39;améliore (lignes)</span>'
       +'<span style="padding:4px 10px; border-radius:8px; background:#fff1f2; border:1px solid #ffe4e6; color:#e11d48; font-weight:600">Se dégrade (colonnes)</span>'
-      +'<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:#0891b2;display:inline-block"></span>1-2 solutions géométriques</span>'
-      +'<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:#7c3aed;display:inline-block"></span>3 et +</span>'
+      +'<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:#0891b2;display:inline-block"></span>1-'+(thrHi-1)+' solutions géométriques</span>'
+      +'<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:#7c3aed;display:inline-block"></span>'+thrHi+' et + (médiane)</span>'
       +'<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:#eff6ff;border:1px solid #dbeafe;display:inline-block"></span>principes sans solution dédiée</span></div>';
     $('geoMatrix').innerHTML='<div style="overflow:auto; border:1px solid #e5e7eb; border-radius:10px; background:#fff; max-width:100%">'+s+'</div>'+leg;
     const svg=$('geoMatrix').querySelector('svg');
@@ -1836,6 +1852,95 @@ $('fapply').onclick = async () => {
       box.querySelectorAll('.unb').forEach(function(b){ b.onclick=function(){ setStatus(b.dataset.e,'active'); }; });
     }).catch(function(){ box.innerHTML='<p class="muted">Erreur de chargement.</p>'; });
   }
+
+  /* ===== Revue de campagne : adopter/rejeter les candidats moissonnés ===== */
+  var revData=null;
+  function esc(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+
+  function revRender(){
+    var box=document.getElementById('revList');
+    if(!revData){ box.innerHTML='<p class="muted">Chargement…</p>'; return; }
+    var f=document.getElementById('revFilter').value;
+    var q=(document.getElementById('revSearch').value||'').toLowerCase();
+    var c=document.getElementById('revCounts');
+    c.textContent=revData.counts.pending+' à traiter · '+revData.counts.adopted+' adoptés · '
+      +revData.counts.rejected+' rejetés · catalogue : '+revData.catalogue+' solutions';
+    var rows=revData.candidates.filter(function(x){
+      if(f!=='all' && x.status!==f) return false;
+      if(!q) return true;
+      var hay=(x.name+' '+x.desc+' P'+x.principles.join(' P')).toLowerCase();
+      return hay.indexOf(q)>=0;
+    });
+    var h='';
+    rows.slice(0,400).forEach(function(x){
+      var bg=x.status==='adopted'?'#eafaf2':(x.status==='rejected'?'#fdeeee':'var(--panel)');
+      var srcs=(x.sources||[]).slice(0,2).map(function(s){
+        var t=esc(s.title)+(s.year?' ('+s.year+')':'');
+        return s.url?'<a href="'+esc(s.url)+'" target="_blank" rel="noopener" style="color:var(--acc)">'+t+'</a>':t;
+      }).join(' · ');
+      var imp=x.impact?('~'+x.impact.cells+' cell. dont '+x.impact.thin+' pauvres'):'';
+      h+='<div class="revRow" data-id="'+esc(x.id)+'" style="border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin-bottom:8px; background:'+bg+'">'
+        +'<div style="display:flex; gap:10px; align-items:flex-start">'
+        +'<input type="checkbox" class="revChk" style="margin-top:4px"'+(x.status!=='pending'?' disabled':'')+'>'
+        +'<div style="flex:1; min-width:0"><b>'+esc(x.name)+'</b> '
+        +'<span class="muted" style="font-size:11.5px">P'+x.principles.join(', P')+' · ↑'+x.improves.join(',')+(x.degrades&&x.degrades.length?' · ↓'+x.degrades.join(','):'')+'</span> '
+        +(imp?'<span style="font-size:11px; background:#eef2ff; color:#4338ca; border-radius:6px; padding:1px 7px; white-space:nowrap">'+imp+'</span>':'')
+        +'<div class="muted" style="margin-top:2px">'+esc(x.desc)+'</div>'
+        +(srcs?'<div style="font-size:11.5px; margin-top:3px">📚 '+srcs+'</div>':'<div style="font-size:11.5px; margin-top:3px; color:var(--warn)">sans source liée</div>')
+        +'</div>'
+        +'<div style="white-space:nowrap">'
+        +(x.status==='pending'
+          ? '<button class="revA" style="padding:5px 10px; font-size:12px">✓</button> <button class="sec revR" style="padding:5px 10px; font-size:12px">✗</button>'
+          : '<button class="sec revU" style="padding:5px 10px; font-size:12px" title="annuler la décision">↩</button>')
+        +'</div></div></div>';
+    });
+    if(rows.length>400) h+='<p class="muted">… '+(rows.length-400)+' de plus (affine le filtre).</p>';
+    if(!rows.length) h='<p class="muted">Rien dans ce filtre.</p>';
+    box.innerHTML=h;
+    box.querySelectorAll('.revRow').forEach(function(row){
+      var id=row.dataset.id;
+      var a=row.querySelector('.revA'), r=row.querySelector('.revR'), u=row.querySelector('.revU');
+      if(a) a.onclick=function(){ revDecide(id,'adopt'); };
+      if(r) r.onclick=function(){ revDecide(id,'reject'); };
+      if(u) u.onclick=function(){ revDecide(id,'reset'); };
+    });
+  }
+
+  function revDecide(id, action, silent){
+    return fetch('/invent/review/decide',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({id:id, action:action})})
+      .then(function(r){return r.json();}).then(function(d){
+        if(!d.ok) return;
+        var x=revData.candidates.find(function(c){return c.id===id;});
+        if(x){ revData.counts[x.status]--; x.status=(action==='adopt'?'adopted':(action==='reject'?'rejected':'pending')); revData.counts[x.status]++; }
+        revData.catalogue=d.catalogue;
+        if(!silent) revRender();
+      }).catch(function(){});
+  }
+
+  function revBulk(action){
+    var ids=[]; document.querySelectorAll('#revList .revRow').forEach(function(row){
+      var chk=row.querySelector('.revChk'); if(chk&&chk.checked&&!chk.disabled) ids.push(row.dataset.id); });
+    if(!ids.length){ alert('Coche d\'abord des candidats.'); return; }
+    var p=Promise.resolve();
+    ids.forEach(function(id){ p=p.then(function(){ return revDecide(id, action, true); }); });
+    p.then(revRender);
+  }
+
+  function loadReview(){
+    fetch('/invent/review/list').then(function(r){return r.json();}).then(function(d){
+      if(d.error||!d.candidates){ document.getElementById('revList').innerHTML='<p class="muted">Pas de campagne chargée.</p>'; return; }
+      revData=d;
+      document.getElementById('revBar').style.display='flex';
+      revRender();
+    }).catch(function(){ document.getElementById('revList').innerHTML='<p class="muted">Erreur de chargement.</p>'; });
+  }
+  document.getElementById('revFilter').onchange=revRender;
+  document.getElementById('revSearch').oninput=revRender;
+  document.getElementById('revAdoptSel').onclick=function(){ revBulk('adopt'); };
+  document.getElementById('revRejectSel').onclick=function(){ revBulk('reject'); };
+  var _loadAdmin0=loadAdmin;
+  loadAdmin=function(){ _loadAdmin0(); loadReview(); };
 
   fetch('/api/me').then(function(r){return r.json();}).then(function(d){
     if(!(d&&d.authenticated)) return;

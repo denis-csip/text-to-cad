@@ -215,6 +215,8 @@ def _norm_source(x):
     return {"title": t, "year": None, "url": None}
 
 
+_CURATED = {s["id"] for s in SOLUTIONS}   # fiches en dur : jamais retirables
+
 try:
     for _s in _json.load(open(EXT_PATH, encoding="utf-8")):
         if not _s.get("id"):
@@ -281,6 +283,22 @@ def add_solution(s):
     return True
 
 
+def remove_solution(sol_id):
+    """Annule une adoption (revue d'expert). Les fiches du catalogue en dur sont
+    intouchables ; seules les entrées adoptées (ext) peuvent être retirées."""
+    if sol_id in _CURATED or sol_id not in _BY_ID:
+        return False
+    SOLUTIONS[:] = [s for s in SOLUTIONS if s["id"] != sol_id]
+    del _BY_ID[sol_id]
+    try:
+        ext = _json.load(open(EXT_PATH, encoding="utf-8"))
+        ext = [e for e in ext if e.get("id") != sol_id]
+        _json.dump(ext, open(EXT_PATH, "w", encoding="utf-8"), ensure_ascii=False)
+    except Exception:
+        pass
+    return True
+
+
 def get(sol_id):
     return _BY_ID.get(sol_id)
 
@@ -299,6 +317,8 @@ def cell_solutions(improve, degrade, cell_principles, limit=6):
         if degrade in s.get("degrades", []):
             score -= 2
         if score > 0:
+            if s.get("sources"):        # à égalité, une solution SOURCÉE passe devant
+                score += 1
             ranked.append((score, s))
     ranked.sort(key=lambda x: -x[0])
     return [{"id": s["id"], "name": s["name"], "kind": s["kind"],
