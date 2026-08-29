@@ -1890,29 +1890,79 @@ $('fapply').onclick = async () => {
         +'</div>'
         +'<div style="white-space:nowrap">'
         +(x.status==='pending'
-          ? '<button class="revA" style="padding:5px 10px; font-size:12px">✓</button> <button class="sec revR" style="padding:5px 10px; font-size:12px">✗</button>'
+          ? '<button class="revA" style="padding:5px 10px; font-size:12px" title="adopter tel quel">✓</button> '
+            +'<button class="sec revE" style="padding:5px 10px; font-size:12px" title="corriger l\'étiquetage avant d\'adopter">✎</button> '
+            +'<button class="sec revR" style="padding:5px 10px; font-size:12px" title="rejeter">✗</button>'
           : '<button class="sec revU" style="padding:5px 10px; font-size:12px" title="annuler la décision">↩</button>')
-        +'</div></div></div>';
+        +'</div></div><div class="revEd"></div></div>';
     });
     if(rows.length>400) h+='<p class="muted">… '+(rows.length-400)+' de plus (affine le filtre).</p>';
     if(!rows.length) h='<p class="muted">Rien dans ce filtre.</p>';
     box.innerHTML=h;
     box.querySelectorAll('.revRow').forEach(function(row){
       var id=row.dataset.id;
-      var a=row.querySelector('.revA'), r=row.querySelector('.revR'), u=row.querySelector('.revU');
+      var a=row.querySelector('.revA'), r=row.querySelector('.revR'), u=row.querySelector('.revU'), e=row.querySelector('.revE');
       if(a) a.onclick=function(){ revDecide(id,'adopt'); };
       if(r) r.onclick=function(){ revDecide(id,'reject'); };
       if(u) u.onclick=function(){ revDecide(id,'reset'); };
+      if(e) e.onclick=function(){ revEditor(row, id); };
     });
   }
 
-  function revDecide(id, action, silent){
+  /* Correction d'expert AVANT adoption : le tag automatique n'est qu'une proposition. */
+  function revEditor(row, id){
+    var ed=row.querySelector('.revEd');
+    if(ed.innerHTML){ ed.innerHTML=''; return; }        // re-clic = fermer
+    var x=revData.candidates.find(function(c){return c.id===id;});
+    if(!x) return;
+    var inp='background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:6px 8px; font:inherit; font-size:12.5px';
+    ed.innerHTML='<div style="margin-top:10px; border-top:1px dashed var(--line); padding-top:10px">'
+      +'<input class="reN" style="'+inp+'; width:100%; font-weight:600" value="'+esc(x.name)+'">'
+      +'<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px">'
+      +'<label class="muted" style="font-size:12px">Principes <input class="reP" style="'+inp+'; width:130px" value="'+x.principles.join(', ')+'"></label>'
+      +'<label class="muted" style="font-size:12px">↑ améliore <input class="reU" style="'+inp+'; width:130px" value="'+x.improves.join(', ')+'"></label>'
+      +'<label class="muted" style="font-size:12px">↓ dégrade <input class="reD" style="'+inp+'; width:130px" value="'+(x.degrades||[]).join(', ')+'"></label>'
+      +'</div><div class="reLbl muted" style="font-size:11.5px; margin-top:4px"></div>'
+      +'<textarea class="reI" rows="3" style="'+inp+'; width:100%; margin-top:6px" placeholder="consigne CAO">'+esc(x.instruction||'')+'</textarea>'
+      +'<div class="row" style="margin-top:8px; gap:6px">'
+      +'<button class="reGo" style="padding:6px 12px; font-size:12.5px">✓ Adopter avec ces corrections</button>'
+      +'<button class="sec reX" style="padding:6px 12px; font-size:12.5px">fermer</button></div></div>';
+    var nums=function(s,max){ return String(s).split(/[\s,;]+/).map(Number)
+      .filter(function(n){ return n>=1 && n<=max && Math.floor(n)===n; }); };
+    var showLbl=function(){
+      var PL=revData.principle_labels||{}, QL=revData.parameter_labels||{};
+      var p=nums(ed.querySelector('.reP').value,40).map(function(n){return n+' '+(PL[n]||'?');}).join(' · ');
+      var u2=nums(ed.querySelector('.reU').value,39).map(function(n){return n+' '+(QL[n]||'?');}).join(' · ');
+      var d2=nums(ed.querySelector('.reD').value,39).map(function(n){return n+' '+(QL[n]||'?');}).join(' · ');
+      ed.querySelector('.reLbl').innerHTML='P : '+(p||'—')+'<br>↑ : '+(u2||'—')+'<br>↓ : '+(d2||'—');
+    };
+    ['reP','reU','reD'].forEach(function(c){ ed.querySelector('.'+c).oninput=showLbl; });
+    showLbl();
+    ed.querySelector('.reX').onclick=function(){ ed.innerHTML=''; };
+    ed.querySelector('.reGo').onclick=function(){
+      var edits={ name: ed.querySelector('.reN').value.trim(),
+                  instruction: ed.querySelector('.reI').value.trim(),
+                  principles: nums(ed.querySelector('.reP').value,40),
+                  improves: nums(ed.querySelector('.reU').value,39),
+                  degrades: nums(ed.querySelector('.reD').value,39) };
+      if(!edits.principles.length||!edits.improves.length){ alert('Il faut au moins un principe et un paramètre amélioré.'); return; }
+      revDecide(id,'adopt',false,edits);
+    };
+  }
+
+  function revDecide(id, action, silent, edits){
+    var body={id:id, action:action};
+    if(edits) body.edits=edits;
     return fetch('/invent/review/decide',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({id:id, action:action})})
+      body:JSON.stringify(body)})
       .then(function(r){return r.json();}).then(function(d){
         if(!d.ok) return;
         var x=revData.candidates.find(function(c){return c.id===id;});
-        if(x){ revData.counts[x.status]--; x.status=(action==='adopt'?'adopted':(action==='reject'?'rejected':'pending')); revData.counts[x.status]++; }
+        if(x){
+          revData.counts[x.status]--; x.status=(action==='adopt'?'adopted':(action==='reject'?'rejected':'pending')); revData.counts[x.status]++;
+          if(edits){ x.name=edits.name||x.name; x.instruction=edits.instruction||x.instruction;
+            x.principles=edits.principles; x.improves=edits.improves; x.degrades=edits.degrades; }
+        }
         revData.catalogue=d.catalogue;
         if(!silent) revRender();
       }).catch(function(){});

@@ -1201,7 +1201,11 @@ async def invent_review_list(request: Request):
     for st in ("pending", "adopted", "rejected"):
         counts[st] = sum(1 for c in cands if c["status"] == st)
     return {"candidates": cands, "counts": counts,
-            "catalogue": len(_geo.SOLUTIONS)}
+            "catalogue": len(_geo.SOLUTIONS),
+            "principle_labels": {n: p.get("label", "")
+                                 for n, p in _invent.PRINCIPLES.items()},
+            "parameter_labels": {p["number"]: p["fr"]
+                                 for p in _invent.PARAMETERS}}
 
 
 @app.post("/invent/review/decide")
