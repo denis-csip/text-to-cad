@@ -1357,25 +1357,29 @@ async function genVariantSol(id, label){
   card.innerHTML='<b>🧩 '+label+'</b><div class="muted" style="margin-top:6px">⏳ transformation + validation + calcul…</div>';
   try{
     const r=await fetch('/invent/variant',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({solution:id, contradiction:contradictionText()})});
+      body:JSON.stringify({solution:id, contradiction:contradictionText(),
+                           baseline_sf:(invBaseline&&invBaseline.sf!=null)?invBaseline.sf:null})});
     const d=await r.json();
     if(!d.ok){ card.innerHTML='<b>🧩 '+label+'</b><div class="muted" style="margin-top:6px; color:var(--err)">échec : '+String(d.error||'').slice(0,90)+'</div>'; return; }
+    const isLat=(d.redirect==='lattice');
+    const adoptKey=isLat?'lattice':id;
     const dSF=(invBaseline&&invBaseline.sf!=null&&d.sf!=null)?(d.sf-invBaseline.sf):null;
     const dM=(invBaseline&&invBaseline.masse_g&&d.masse_g)?(d.masse_g-invBaseline.masse_g):null;
     const dI=(invBaseline&&invBaseline.ideality!=null&&d.ideality!=null)?(d.ideality-invBaseline.ideality):null;
     const fmt=(v,u)=>v==null?'':' <span style="color:'+(v>0?'#15803d':'#b91c1c')+'">('+(v>0?'+':'')+(Math.round(v*10)/10)+u+')</span>';
     card.innerHTML='<b>🧩 '+label+'</b>'
-      +'<div style="font-size:13px; margin-top:6px">SF <b>'+(d.sf!=null?d.sf:'?')+'</b>'+fmt(dSF,'')+'</div>'
+      +(isLat?'<div class="muted" style="font-size:11px">âme lattifiée — surfaces d\'origine intactes · densité '+Math.round((d.rel_density||0)*100)+'%</div>':'')
+      +'<div style="font-size:13px; margin-top:6px">SF <b>'+(d.sf!=null?d.sf:'?')+'</b>'+fmt(dSF,'')+(isLat?' <span class="muted" style="font-size:10.5px">(estimé ρ²)</span>':'')+'</div>'
       +'<div style="font-size:13px">masse <b>'+(d.masse_g||'?')+' g</b>'+fmt(dM,' g')+'</div>'
       +'<div style="font-size:13px">idéalité <b>'+(d.ideality!=null?d.ideality:'?')+'</b>'+fmt(dI,'')+'</div>'
       +'<div class="row" style="margin-top:8px"><button class="sec vprev" style="padding:5px 10px; font-size:12px">👁 Voir</button>'
       +'<button class="vadopt" style="padding:5px 10px; font-size:12px">✔ Adopter</button></div>';
-    card.querySelector('.vprev').onclick=()=>{ loadGLB(d.glb, true);
+    card.querySelector('.vprev').onclick=()=>{ if(isLat) meshMode=true; loadGLB(d.glb, true);
       $('invStatus').textContent='👁 aperçu : '+label+' — non adoptée'; };
     card.querySelector('.vadopt').onclick=async ()=>{
       const btn=card.querySelector('.vadopt'); btn.textContent='⏳'; btn.disabled=true;
       try{
-        const ra=await fetch('/invent/adopt',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({principle:id})});
+        const ra=await fetch('/invent/adopt',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({principle:adoptKey})});
         const da=await ra.json();
         showResult(da, $('invStatus'), false);
         if(da.ok){ addIter('adopté : '+label); btn.textContent='✔ adoptée'; }

@@ -509,6 +509,7 @@ def visual_check(req: VisualReq):
 @app.post("/generate")
 def generate(b: Brief):
     MESH["active"] = False
+    MESH["lattice"] = None            # nouvelle piece : pas de post-traitement herite
     _clear_outputs()
     _sketch = _dataurl_bytes(b.sketch)
     return _best_of_n(
@@ -552,7 +553,32 @@ def refine(r: RefineReq):
             "rayon (r, r/2, r/4). "
             f"DEMANDE DE L'UTILISATEUR : {instruction if r.faces else r.instruction}")
     ctx = f"{STATE.get('brief') or ''} | modification: {r.instruction}"
-    return _best_of_n(lambda t: llm.refine_code(base, instruction, temperature=t), ctx)
+    res = _best_of_n(lambda t: llm.refine_code(base, instruction, temperature=t), ctx)
+    # Lattice = post-traitement rejouable : si la pièce courante était lattifiée,
+    # on re-lattifie la géométrie itérée (l'itération texte reste donc possible).
+    if res.get("ok") and MESH.get("active") and MESH.get("lattice"):
+        res = _relattice(res)
+    return res
+
+
+def _relattice(res: dict) -> dict:
+    """Rejoue le post-traitement lattice mémorisé sur la pièce B-rep fraîche."""
+    params = MESH.get("lattice") or {}
+    r = WORKER.run_raw({"cmd": "lattice", "src_stl": str(WORK / "model.stl"),
+                        "outdir": str(WORK), **params}, timeout=300)
+    if not r.get("ok"):
+        MESH["active"] = False                # repli : pièce B-rep sans lattice
+        res["log"] = (res.get("log") or "") + " ⚠ re-lattification échouée (pièce pleine affichée)."
+        return res
+    for f in ("model.step", "faces.json", "edges.json"):
+        (WORK / f).unlink(missing_ok=True)
+    MESH["active"] = True
+    MESH["stats"] = r["stats"]
+    res["mesh"] = True
+    res["stats"] = r["stats"]
+    res["rel_density"] = r.get("rel_density")
+    res["files"] = _files_ok()
+    return res
 
 
 @app.post("/rebuild")
@@ -1036,6 +1062,7 @@ class InventVariantReq(BaseModel):
     principle: int = 0
     solution: str | None = None    # id d'une solution geometrique (matrice geometrique)
     contradiction: str = ""
+    baseline_sf: float | None = None   # SF de la piece de depart (estimation lattice)
 
 
 class InventAdoptReq(BaseModel):
@@ -1094,17 +1121,44 @@ def invent_variant(req: InventVariantReq):
         return {"ok": False, "error": "Aucune piece de depart."}
     if req.solution:                          # solution de la MATRICE GEOMETRIQUE
         sol = _geo.get(req.solution)
-        if not sol or sol.get("kind") != "llm":
+        if not sol:
+            return {"ok": False, "error": "Solution inconnue."}
+        # GARDE-FOU (retour d'expert) : une consigne de type LATTICE/TPMS ne va
+        # JAMAIS au LLM — immodelable proprement en B-rep. Elle est routée vers
+        # le moteur déterministe : l'âme des volumes massifs est lattifiée, les
+        # surfaces fonctionnelles/visibles restent la géométrie d'origine.
+        txt = (str(sol.get("name", "")) + " " + str(sol.get("instruction", ""))).lower()
+        if sol.get("kind") == "lattice" or re.search(
+                r"gyro|tpms|schwarz|surface minimale|minimal surface|lattice|"
+                r"treillis|métamatériau|metamaterial|nid d'abeille|honeycomb|"
+                r"auxét|auxet|cellulaire", txt):
+            L = sol.get("lattice") or {}
+            kind = L.get("kind") or ("schwarz" if "schwarz" in txt else
+                                     "diamond" if ("diamant" in txt or "diamond" in txt)
+                                     else "gyroid")
+            grad = L.get("gradient") or ("z" if re.search(r"gradient|gradu|graded", txt)
+                                         else None)
+            res = invent_lattice(LatticeReq(kind=kind, gradient=grad,
+                                            baseline_sf=req.baseline_sf))
+            if res.get("ok"):
+                res["label"] = sol["name"] + " (âme " + kind + ")"
+                res["redirect"] = "lattice"
+            return res
+        if sol.get("kind") != "llm":
             return {"ok": False, "error": "Solution inconnue."}
         instruction = (
             f"TRANSFORMATION GEOMETRIQUE « {sol['name']} » "
             f"(principes TRIZ {sol['principles']}).\n"
             f"CONTRADICTION A RESOUDRE : {req.contradiction}\n"
             f"CONSIGNE : {sol['instruction']}\n"
-            "CONTRAINTES : conserve la FONCTION et les interfaces (trous, appuis, "
-            "logements aux memes positions/cotes) ; UN SEUL solide connexe, "
-            "imprimable FDM (parois >= 1.2 mm) ; parametres nommes en tete ; "
-            "l'effet doit etre NETTEMENT VISIBLE dans la silhouette 3D.")
+            "CONTRAINTES : les surfaces FONCTIONNELLES (interfaces, trous, appuis, "
+            "logements, zones de contact) sont INTOUCHABLES — memes positions/cotes ; "
+            "par defaut opere dans l'AME et l'EPAISSEUR de la piece (evidements, "
+            "poches sur faces non fonctionnelles, nervures internes) et ne remodele "
+            "l'enveloppe visible que si la consigne l'exige explicitement ; "
+            "UN SEUL solide connexe, imprimable FDM (parois >= 1.2 mm) ; "
+            "parametres nommes en tete ; l'effet doit etre MESURABLE (masse) sans "
+            "denaturer la piece.")
         outdir = VAR_DIR / f"s_{req.solution}"
         label = sol["name"]
         key = req.solution
@@ -1339,12 +1393,16 @@ def invent_lattice(req: LatticeReq):
     if not src.exists():
         return {"ok": False, "error": "Aucune piece de depart."}
     outdir = VAR_DIR / "lattice"
+    params = {"cell_mm": req.cell_mm, "wall_mm": req.wall_mm,
+              "shell_mm": req.shell_mm, "kind": req.kind, "gradient": req.gradient}
     r = WORKER.run_raw({"cmd": "lattice", "src_stl": str(src), "outdir": str(outdir),
-                        "cell_mm": req.cell_mm, "wall_mm": req.wall_mm,
-                        "shell_mm": req.shell_mm, "kind": req.kind,
-                        "gradient": req.gradient}, timeout=300)
+                        **params}, timeout=300)
     if not r.get("ok"):
         return {"ok": False, "error": str(r.get("error", "lattice echoue"))[:200]}
+    try:   # mémorise les réglages : l'adoption en fera un POST-TRAITEMENT rejouable
+        (outdir / "lattice_params.json").write_text(json.dumps(params), encoding="utf-8")
+    except Exception:
+        pass
     st = r["stats"]
     rel = r.get("rel_density")
     masse = round(st.get("volume_cm3", 0) * 1.24, 1)
@@ -1360,7 +1418,9 @@ def invent_lattice(req: LatticeReq):
 def invent_adopt(req: InventAdoptReq):
     """Adopte une variante : elle devient la piece courante de l'atelier."""
     if str(req.principle) == "lattice" or req.principle == -1:
-        # variante MAILLAGE : bascule l'atelier en mode mesh
+        # variante MAILLAGE : bascule l'atelier en mode mesh. Le code paramétrique
+        # est CONSERVÉ et les réglages lattice mémorisés : le lattice devient un
+        # POST-TRAITEMENT rejouable, donc l'itération texte continue de marcher.
         outdir = VAR_DIR / "lattice"
         if not (outdir / "model.glb").exists():
             return {"ok": False, "error": "Variante lattice introuvable."}
@@ -1368,8 +1428,13 @@ def invent_adopt(req: InventAdoptReq):
         for f in ("model.glb", "model.stl", "_mesh.stl"):
             if (outdir / f).exists():
                 shutil.copy2(outdir / f, WORK / f)
-        for f in ("generated_model.py", "model.step", "faces.json", "edges.json"):
+        for f in ("model.step", "faces.json", "edges.json"):
             (WORK / f).unlink(missing_ok=True)
+        try:
+            MESH["lattice"] = json.loads(
+                (outdir / "lattice_params.json").read_text(encoding="utf-8"))
+        except Exception:
+            MESH["lattice"] = None
         import trimesh as _tm
         m = _tm.load(str(WORK / "model.stl"), force="mesh")
         stats = {"triangles": int(len(m.faces)), "watertight": bool(m.is_watertight),

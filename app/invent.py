@@ -97,15 +97,17 @@ def operator_instruction(principle: int, contradiction: str) -> str:
         f"TRANSFORMATION INVENTIVE — principe TRIZ n°{principle} « {name} ».\n"
         f"CONTRADICTION À RÉSOUDRE : {contradiction}\n"
         f"CONSIGNE : {core}\n"
-        "CONTRAINTES : conserve la FONCTION et les interfaces de la pièce "
-        "(trous de fixation, appuis, logements aux mêmes positions/cotes) ; "
+        "CONTRAINTES : les surfaces FONCTIONNELLES (interfaces, trous de fixation, "
+        "appuis, logements, zones de contact) sont INTOUCHABLES — mêmes "
+        "positions/cotes ; par défaut opère dans l'ÂME et l'ÉPAISSEUR de la pièce "
+        "(évidements, poches sur faces non fonctionnelles, nervures) et ne "
+        "remodèle l'enveloppe visible que si le principe l'exige explicitement ; "
         "la pièce reste UN SEUL solide connexe, imprimable FDM (parois >= 1.2 mm) ; "
         "garde les paramètres nommés en tête de script et AJOUTE en commentaire "
         f"en première ligne : # PRINCIPE {principle}: {name}. "
-        "EXIGENCE D'EFFET : la transformation doit être NETTEMENT VISIBLE dans la "
-        "silhouette 3D (volumes ajoutés/retirés apparents, forme modifiée, motifs "
-        "d'ajourage visibles) ET changer la masse d'AU MOINS 10%. Un simple "
-        "ajustement interne ou cosmétique est un ÉCHEC de la transformation.")
+        "EXIGENCE D'EFFET : la transformation doit changer la masse d'AU MOINS "
+        "10% — un ajustement purement cosmétique est un ÉCHEC — sans jamais "
+        "dénaturer la pièce ni ses surfaces fonctionnelles.")
 
 
 def ideality(sf, masse_g):

@@ -380,9 +380,37 @@ def _lattice(job):
         t = (np.pi * wall_z / cell)[None, None, :]
     else:
         t = np.pi * wall / cell
-    final = shell_mask | (inner & (np.abs(G) < t))
-    mesh = matrix_to_marching_cubes(final, pitch=pitch)
-    mesh.apply_translation(origin)
+    # ÂME SEULEMENT, surfaces d'origine INTOUCHÉES : on ne reconstruit pas la
+    # pièce en voxels (peau en escalier), on SOUSTRAIT le VIDE du coeur —
+    # vide = (coeur érodé de la peau) ∖ (parois TPMS). Champ CONTINU (masque
+    # lissé par gaussienne) -> marching cubes niveau 0 -> booléen manifold.
+    # Les zones minces n'ont pas de coeur : elles restent pleines d'elles-mêmes.
+    Sin = ndimage.gaussian_filter(inner.astype(np.float32), sigma=1.1)
+    F_void = np.minimum(Sin - 0.5, (np.abs(G) - t) * 0.5)
+    mesh = m                                   # repli : pièce inchangée
+    if bool((F_void > 0).any()):
+        from skimage import measure
+        verts, faces_, _, _ = measure.marching_cubes(
+            F_void, level=0.0, spacing=(pitch, pitch, pitch))
+        void = trimesh.Trimesh(vertices=verts + np.asarray(origin), faces=faces_)
+        try:
+            void.update_faces(void.nondegenerate_faces())
+            void.remove_unreferenced_vertices()
+            void.process(validate=True)
+            void.fix_normals()
+            if void.volume < 0:        # marching cubes sort les normales inversées
+                void.invert()
+        except Exception:
+            pass
+        try:
+            out = trimesh.boolean.difference([m, void], engine="manifold")
+            if out is not None and out.volume > 0:
+                mesh = out
+        except Exception:
+            # repli historique : reconstruction voxel complète (approchée)
+            final = shell_mask | (inner & (np.abs(G) < t))
+            mesh = matrix_to_marching_cubes(final, pitch=pitch)
+            mesh.apply_translation(origin)
     try:
         mesh.update_faces(mesh.nondegenerate_faces())
         mesh.remove_unreferenced_vertices()
