@@ -1,0 +1,84 @@
+6 variantes x 10 briefs = 60 generations
+devis : ~0.24 $ (gemini-3.6-flash, ~1 appel de 3-6k tokens par generation ; V5 reflexion haute ~2x)
+
+== V0_baseline ==
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+  V0_baseline            plaque_trous   OK score  85.0  6.9s
+  V0_baseline            equerre        OK score 100.0  8.1s
+  V0_baseline            support_tube   KO score   0.0  4.9s
+  V0_baseline            vide_poche     OK score 100.0  4.9s
+  V0_baseline            patere         KO score   0.0  17.5s
+  V0_baseline            entretoise     OK score  85.0  3.4s
+  V0_baseline            boitier        OK score  92.5  10.9s
+  V0_baseline            poignee        KO score   0.0  10.7s
+  V0_baseline            cale_angle     OK score  90.0  6.0s
+  V0_baseline            clip_cable     OK score  85.0  9.4s
+
+== V1_plan ==
+  V1_plan                plaque_trous   OK score  85.0  3.5s
+  V1_plan                equerre        KO score   0.0  5.9s
+  V1_plan                support_tube   OK score  85.0  11.4s
+  V1_plan                vide_poche     OK score 100.0  3.8s
+  V1_plan                patere         KO score   0.0  7.6s
+  V1_plan                entretoise     OK score  85.0  5.9s
+  V1_plan                boitier        OK score  92.5  10.8s
+  V1_plan                poignee        OK score 100.0  5.4s
+  V1_plan                cale_angle     OK score  90.0  6.1s
+  V1_plan                clip_cable     OK score  85.0  6.8s
+
+== V2_exemplaire ==
+  V2_exemplaire          plaque_trous   OK score  85.0  3.9s
+  V2_exemplaire          equerre        OK score 100.0  6.7s
+  V2_exemplaire          support_tube   KO score   0.0  8.1s
+  V2_exemplaire          vide_poche     OK score 100.0  3.6s
+  V2_exemplaire          patere         OK score 100.0  10.3s
+  V2_exemplaire          entretoise     OK score  85.0  2.8s
+  V2_exemplaire          boitier        OK score 100.0  10.2s
+  V2_exemplaire          poignee        KO score   0.0  5.3s
+  V2_exemplaire          cale_angle     OK score 100.0  16.1s
+  V2_exemplaire          clip_cable     OK score  85.0  11.9s
+
+== V3_fonctionnel ==
+  V3_fonctionnel         plaque_trous   OK score  85.0  2.7s
+  V3_fonctionnel         equerre        OK score 100.0  10.3s
+  V3_fonctionnel         support_tube   OK score  85.0  5.4s
+  V3_fonctionnel         vide_poche     OK score 100.0  6.3s
+  V3_fonctionnel         patere         OK score  85.0  13.6s
+  V3_fonctionnel         entretoise     OK score  85.0  2.4s
+  V3_fonctionnel         boitier        OK score  92.5  11.2s
+  V3_fonctionnel         poignee        OK score 100.0  14.0s
+  V3_fonctionnel         cale_angle     OK score 100.0  21.5s
+  V3_fonctionnel         clip_cable     OK score  85.0  8.4s
+
+== V4_plan_exemplaire ==
+  V4_plan_exemplaire     plaque_trous   OK score  85.0  8.5s
+  V4_plan_exemplaire     equerre        KO score   0.0  5.4s
+  V4_plan_exemplaire     support_tube   KO score   0.0  5.6s
+  V4_plan_exemplaire     vide_poche     KO score   0.0  3.4s
+  V4_plan_exemplaire     patere         OK score 100.0  6.7s
+  V4_plan_exemplaire     entretoise     OK score  85.0  4.1s
+  V4_plan_exemplaire     boitier        OK score  92.5  9.8s
+  V4_plan_exemplaire     poignee        OK score 100.0  10.9s
+  V4_plan_exemplaire     cale_angle     OK score 100.0  8.6s
+  V4_plan_exemplaire     clip_cable     KO score   0.0  6.6s
+
+== V5_reflexion_haute ==
+  V5_reflexion_haute     plaque_trous   OK score  85.0  12.1s
+  V5_reflexion_haute     equerre        OK score  85.0  52.1s
+  V5_reflexion_haute     support_tube   OK score  85.0  70.2s
+  V5_reflexion_haute     vide_poche     OK score  85.0  11.9s
+  V5_reflexion_haute     patere         OK score 100.0  77.6s
+  V5_reflexion_haute     entretoise     OK score  85.0  9.5s
+  V5_reflexion_haute     boitier        OK score  92.5  12.9s
+  V5_reflexion_haute     poignee        OK score 100.0  25.2s
+  V5_reflexion_haute     cale_angle     OK score 100.0  38.2s
+  V5_reflexion_haute     clip_cable     OK score 100.0  40.5s
+
+=== CLASSEMENT DES STRATEGIES ===
+  V3_fonctionnel         score  91.8 / 100 · validite 100%
+  V5_reflexion_haute     score  91.8 / 100 · validite 100%
+  V2_exemplaire          score  75.5 / 100 · validite 80%
+  V1_plan                score  72.2 / 100 · validite 80%
+  V0_baseline            score  63.8 / 100 · validite 70%
+  V4_plan_exemplaire     score  56.2 / 100 · validite 60%
+-> C:\Users\DenisCavallucci\OneDrive - INSA Strasbourg\Bureau\Claude\text-to-cad-proto\scripts\bench_result.json

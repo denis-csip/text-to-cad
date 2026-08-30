@@ -1,0 +1,44 @@
+[
+ {
+  "variant": "V0_baseline",
+  "results": [
+   {
+    "valide": true,
+    "score": 100.0,
+    "detail": {
+     "cotes": 20.0,
+     "parametres": 9,
+     "features": 15.0
+    },
+    "volume_cm3": 15.12,
+    "bbox": [
+     40.0,
+     68.0,
+     29.0
+    ],
+    "id": "patere",
+    "secondes": 12.2
+   },
+   {
+    "valide": true,
+    "score": 90.0,
+    "detail": {
+     "cotes": 20.0,
+     "parametres": 7,
+     "features": 15.0,
+     "volume_aberrant": 3.41
+    },
+    "volume_cm3": 3.41,
+    "bbox": [
+     112.0,
+     16.0,
+     34.0
+    ],
+    "id": "poignee",
+    "secondes": 5.0
+   }
+  ],
+  "score_moyen": 95.0,
+  "taux_validite": 100
+ }
+]

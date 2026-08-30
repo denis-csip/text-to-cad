@@ -140,7 +140,24 @@ part = clip.part
 
 Applique CE style : parametres en haut, construction claire, `part` a la fin.
 Si la description est vague, choisis des dimensions raisonnables et va au plus simple
-tout en restant fonctionnel."""
+tout en restant fonctionnel.
+
+RAISONNEMENT FONCTIONNEL (ce que la piece doit FAIRE prime sur ce a quoi elle
+ressemble). Avant de coder, identifie :
+- la FONCTION principale (que tient / guide / protege / relie la piece ?) ;
+- les SURFACES FONCTIONNELLES qui la realisent : appuis, contacts, interfaces,
+  logements, passages. Elles sont INTOUCHABLES : cotes exactes, jamais
+  deformees par un conge, un evidement ou un allegement ;
+- le CHEMIN D'EFFORT : par ou passe la charge, de son point d'application
+  jusqu'a l'ancrage. Mets la matiere sur ce chemin, allege ailleurs.
+Le reste de la piece (l'ame, les faces non fonctionnelles) est libre.
+
+AUTO-CONTROLE AVANT DE RENDRE (silencieux, pas de texte en sortie) : relis ton
+script et verifie que (a) chaque cote donnee par l'utilisateur apparait bien
+comme variable et est bien utilisee, (b) tous les volumes se chevauchent d'au
+moins 1 mm — aucune piece flottante, (c) aucune paroi < 1.2 mm, (d) les
+surfaces fonctionnelles ont leurs cotes exactes, (e) `part` est bien defini.
+Si un point cloche, CORRIGE le script avant de repondre."""
 
 
 FIX_TEMPLATE = """Le script build123d que tu as fourni a echoue a l'execution.

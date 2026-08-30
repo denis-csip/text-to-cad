@@ -13,10 +13,13 @@ _client = None
 _client_lock = threading.Lock()
 
 
-def _cfg(temperature: float = 0.2):
-    kwargs = dict(system_instruction=SYSTEM, temperature=temperature)
+def _cfg(temperature: float = 0.2, system: str = None, thinking: str = None):
+    """system/thinking injectables : le banc d'essai compare des variantes de
+    stratégie rédactionnelle sans toucher au comportement par défaut."""
+    kwargs = dict(system_instruction=system or SYSTEM, temperature=temperature)
     if "gemini-3" in MODEL:  # thinking_level n'existe que sur Gemini 3.x
-        kwargs["thinking_config"] = types.ThinkingConfig(thinking_level=THINKING)
+        kwargs["thinking_config"] = types.ThinkingConfig(
+            thinking_level=thinking or THINKING)
     return types.GenerateContentConfig(**kwargs)
 
 
@@ -39,7 +42,8 @@ def _extract_code(text: str) -> str:
 
 
 def generate_code(brief: str, temperature: float = 0.2, spec=None,
-                  sketch_bytes: bytes = None) -> str:
+                  sketch_bytes: bytes = None, system: str = None,
+                  thinking: str = None) -> str:
     if spec:
         text = (
             "SPECIFICATION DE CONCEPTION VALIDEE (JSON) — respecte-la fidelement :\n"
@@ -59,7 +63,7 @@ def generate_code(brief: str, temperature: float = 0.2, spec=None,
     resp = _get_client().models.generate_content(
         model=MODEL,
         contents=contents,
-        config=_cfg(temperature),
+        config=_cfg(temperature, system=system, thinking=thinking),
     )
     return _extract_code(resp.text)
 
