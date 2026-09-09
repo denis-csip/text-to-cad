@@ -137,11 +137,14 @@ def dedup(cands):
     return out
 
 
-def annote_impact(cands):
-    """Apport de chaque candidat a la matrice : cellules touchees, dont pauvres
-    (<3 solutions aujourd'hui). Tri decroissant = ordre de revue."""
+def annote_impact(cands, discipline=None):
+    """Apport de chaque candidat a la matrice : cellules ou il est specifiquement
+    a sa place, dont « pauvres » = cellules comptant < 3 solutions DANS LA
+    DISCIPLINE de la campagne (demande de Denis : la geometrie, 539 solutions,
+    masquait les trous de la plasturgie). Tri decroissant = ordre de revue."""
     import geo_solutions as geo
     import invent
+    discipline = discipline or DISCIPLINE
     cells = []
     for i in range(1, 40):
         for j in range(1, 40):
@@ -150,7 +153,8 @@ def annote_impact(cands):
             prn = {p["number"] for p in invent.principles_for(i, j)}
             if not prn:
                 continue
-            cur = len(geo.cell_solutions(i, j, list(prn), limit=10 ** 6))
+            cur = len(geo.cell_solutions(i, j, list(prn), limit=10 ** 6,
+                                         discipline=discipline))
             cells.append((i, j, prn, cur))
     for c in cands:
         P, I, D = set(c.get("principles", [])), set(c.get("improves", [])), set(c.get("degrades", []))

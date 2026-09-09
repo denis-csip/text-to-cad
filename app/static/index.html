@@ -2162,7 +2162,7 @@ $('fapply').onclick = async () => {
         var t=esc(s.title)+(s.year?' ('+s.year+')':'');
         return s.url?'<a href="'+esc(s.url)+'" target="_blank" rel="noopener" style="color:var(--acc)">'+t+'</a>':t;
       }).join(' · ');
-      var imp=x.impact?('~'+x.impact.cells+' cell. dont '+x.impact.thin+' pauvres'):'';
+      var imp=x.impact?('~'+x.impact.cells+' cell. dont '+x.impact.thin+' pauvres en '+esc(x.discipline||revData.discipline||'')):'';
       h+='<div class="revRow" data-id="'+esc(x.id)+'" style="border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin-bottom:8px; background:'+bg+'">'
         +'<div style="display:flex; gap:10px; align-items:flex-start">'
         +'<input type="checkbox" class="revChk" style="margin-top:4px"'+(x.status!=='pending'?' disabled':'')+'>'
