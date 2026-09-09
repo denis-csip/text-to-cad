@@ -157,11 +157,15 @@ def annote_impact(cands):
         n = thin = 0
         for i, j, prn, cur in cells:
             sc = geo.principle_score(P, prn) + (3 if i in I else 0) - (2 if j in D else 0)
-            if sc > 0:
+            # Cellule comptee seulement si le candidat y est SPECIFIQUEMENT a sa
+            # place (>= 4 : un principe precis, ou P35 fourre-tout + parametre
+            # ameliore). Un simple P35 (1) ou un seul parametre (3) ne suffit pas.
+            if sc >= 4:
                 n += 1
                 thin += cur < 3
         c["impact"] = {"cells": n, "thin": thin}
-    cands.sort(key=lambda c: (-c["impact"]["thin"], -c["impact"]["cells"]))
+    # ordre de revue : d'abord l'apport specifique, puis les cellules pauvres
+    cands.sort(key=lambda c: (-c["impact"]["cells"], -c["impact"]["thin"]))
 
 
 def main():
