@@ -228,13 +228,19 @@ def signin_ideas(email, password, totp=None):
     body = json.dumps({"query": query, "variables": variables}).encode()
     req = urllib.request.Request(
         IDEAS_ENDPOINT, data=body, method="POST",
-        headers={"Content-Type": "application/json", "x-application": IDEAS_APP})
+        headers={"Content-Type": "application/json", "x-application": IDEAS_APP,
+                 # le User-Agent par défaut « Python-urllib » est BLOQUÉ (403) par la
+                 # protection anti-robots d'IDEAS depuis sept. 2026 (même piège qu'Elicit)
+                 "User-Agent": "text-to-cad/1.0 (+https://text-to-cad.fr)",
+                 "Accept": "application/json"})
     try:
         with urllib.request.urlopen(req, timeout=20) as r:
             payload = json.loads(r.read().decode())
     except urllib.error.HTTPError as e:
-        # 5xx = plateforme en panne (pas un refus d'identifiants)
-        return {"error": f"IDEAS HTTP {e.code}", "unreachable": e.code >= 500}
+        # 5xx = panne ; 403/429 = notre relais est bloqué/limité par IDEAS :
+        # dans les deux cas ce n'est PAS un refus d'identifiants.
+        return {"error": f"IDEAS HTTP {e.code}",
+                "unreachable": e.code >= 500 or e.code in (403, 429)}
     except Exception as e:
         return {"error": f"network: {e}", "unreachable": True}
 
