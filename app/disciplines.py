@@ -36,14 +36,19 @@ _JSON_SCHEMA = """Réponds UNIQUEMENT en JSON : {"candidates": [
   "degrades": [n° des paramètres risqués],
   "sources": [numéros [n] des papiers du corpus dont la solution est tirée] }]}
 
-Rappels : 39 paramètres (1 poids mobile, 2 poids fixe, 9 vitesse, 10 force,
-11 contrainte/pression, 12 forme, 13 stabilité, 14 résistance, 17 température,
-23 pertes de matière, 27 fiabilité, 30 facteurs nuisibles externes, 31 effets
-nuisibles induits, 32 fabricabilité, 33 facilité d'usage, 34 réparabilité,
-35 adaptabilité, 36 complexité, 39 productivité). 40 principes (1 segmentation,
-3 qualité locale, 4 asymétrie, 7 poupées russes, 14 sphéricité, 15 dynamisation,
-17 autre dimension, 29 pneumatique/hydraulique, 30 membranes flexibles,
-31 matériaux poreux, 35 modification de propriétés, 40 composites...).
+Les 39 paramètres d'Altshuller : {{PARAMETRES}}
+
+LES 40 PRINCIPES INVENTIFS — étiquette TOUS ceux que la solution incarne
+EXPLICITEMENT (2 à 5), en t'appuyant sur ce que le texte DIT : « flash /
+ultra-rapide / impulsion » = 21 action éclair ; « ultrasons / vibration » = 18 ;
+« pulsé / cyclique » = 19 ; « polymérisation in situ / changement d'état » = 36
+transition de phase (PAS 35) ; « film / membrane » = 30 ; « poreux / mousse » = 31 ;
+« gaz / eau / contre-pression » = 29 ; « préchauffage / prétraitement » = 10 ;
+« couche intermédiaire / primaire » = 24 ; « emboîtement / télescopique » = 7.
+Réserve le 35 « modification des propriétés » aux changements d'état ou de
+propriété de la matière elle-même, jamais comme fourre-tout.
+{{PRINCIPES}}
+
 2 à 6 candidats MAXIMUM, uniquement les plus originaux et actionnables."""
 
 
@@ -352,6 +357,18 @@ PLASTURGIE_QUERIES = [
     "flexible living hinge packaging closure design",
 ]
 
+
+# Injection de la liste COMPLÈTE des 40 principes et des 39 paramètres dans les
+# prompts d'extraction : une liste partielle biaisait l'étiquetage vers les
+# seuls principes cités (P21, 24, 36, 2 quasi jamais attribués).
+try:
+    import invent as _inv
+    _P40 = "\n".join(f"{n}. {p.get('label','')}" for n, p in sorted(_inv.PRINCIPLES.items()))
+    _P39 = " ; ".join(f"{p['number']} {p['fr']}" for p in _inv.PARAMETERS)
+except Exception:
+    _P40, _P39 = "(liste indisponible)", "(liste indisponible)"
+GEOMETRIE_EXTRACT = GEOMETRIE_EXTRACT.replace("{{PRINCIPES}}", _P40).replace("{{PARAMETRES}}", _P39)
+PLASTURGIE_EXTRACT = PLASTURGIE_EXTRACT.replace("{{PRINCIPES}}", _P40).replace("{{PARAMETRES}}", _P39)
 
 DISCIPLINES = {
     "geometrie": {
