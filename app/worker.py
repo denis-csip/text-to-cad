@@ -425,6 +425,239 @@ def _lattice(job):
     return {"ok": True, "mesh": True, "stats": st, "rel_density": round(rel, 3)}
 
 
+# ---------------------------------------------------------------------------
+# COUCHE MECANISME : plusieurs pieces + un graphe de LIAISONS declaratif.
+# La regle « un seul solide connexe » ne s'applique PAS ici : c'est justement
+# l'objet. Convention volontairement simple pour que le LLM ne se trompe pas :
+# chaque piece est modelisee A SA PLACE DANS L'ASSEMBLAGE AU REPOS (coordonnees
+# monde), et chaque liaison declare son axe (origine + direction) en monde au
+# repos. Bouger une liaison de q transforme tout le sous-arbre de son enfant.
+# ---------------------------------------------------------------------------
+def _rot_about(axis, origin, ang_rad):
+    """Matrice 4x4 : rotation d'angle ang autour de l'axe (origin, axis)."""
+    import numpy as np
+    a = np.asarray(axis, dtype=float)
+    n = np.linalg.norm(a)
+    if n < 1e-12:
+        raise RuntimeError("axe de rotation nul")
+    a = a / n
+    c, s, C = np.cos(ang_rad), np.sin(ang_rad), 1.0 - np.cos(ang_rad)
+    x, y, z = a
+    R = np.array([
+        [c + x * x * C, x * y * C - z * s, x * z * C + y * s],
+        [y * x * C + z * s, c + y * y * C, y * z * C - x * s],
+        [z * x * C - y * s, z * y * C + x * s, c + z * z * C]])
+    o = np.asarray(origin, dtype=float)
+    T = np.eye(4)
+    T[:3, :3] = R
+    T[:3, 3] = o - R @ o
+    return T
+
+
+def _translate_along(axis, dist):
+    import numpy as np
+    a = np.asarray(axis, dtype=float)
+    n = np.linalg.norm(a)
+    if n < 1e-12:
+        raise RuntimeError("axe de translation nul")
+    T = np.eye(4)
+    T[:3, 3] = a / n * dist
+    return T
+
+
+def _joint_matrix(j, q):
+    """q en DEGRES pour un pivot, en MILLIMETRES pour une glissiere."""
+    import numpy as np
+    t = str(j.get("type", "revolute")).lower()
+    if t in ("revolute", "pivot", "hinge"):
+        return _rot_about(j["axis"], j.get("origin", [0, 0, 0]), np.radians(q))
+    if t in ("prismatic", "glissiere", "slider", "linear"):
+        return _translate_along(j["axis"], q)
+    if t in ("fixed", "rigid", "encastrement"):
+        return np.eye(4)
+    raise RuntimeError(f"type de liaison inconnu : {t}")
+
+
+def _fk(parts_ids, joints, root, q):
+    """Cinematique directe : id de piece -> matrice 4x4 monde, pour la pose q
+    (dict id_liaison -> valeur). Detecte cycles et pieces orphelines."""
+    import numpy as np
+    children = {}
+    parent_of = {}
+    for j in joints:
+        children.setdefault(j["parent"], []).append(j)
+        if j["child"] in parent_of:
+            raise RuntimeError(
+                f"la piece « {j['child']} » a deux liaisons parentes "
+                "(le graphe doit etre un ARBRE)")
+        parent_of[j["child"]] = j["id"]
+    M = {root: np.eye(4)}
+    stack, seen = [root], {root}
+    while stack:
+        p = stack.pop()
+        for j in children.get(p, []):
+            c = j["child"]
+            if c in seen:
+                raise RuntimeError(f"cycle dans le graphe de liaisons sur « {c} »")
+            M[c] = M[p] @ _joint_matrix(j, float(q.get(j["id"], 0.0)))
+            seen.add(c)
+            stack.append(c)
+        # les liaisons partant d'une piece deja placee restent valides
+    manquantes = [p for p in parts_ids if p not in M]
+    if manquantes:
+        raise RuntimeError(
+            f"pieces non reliees a « {root} » : {manquantes} — ajoute une liaison "
+            "(type 'fixed' si elles sont solidaires)")
+    return M
+
+
+def _poses(joints, n=16):
+    """Poses balayees : chaque liaison parcourue seule sur toute sa course, plus
+    un balayage diagonal (toutes ensemble) — les combinaisons croisees seraient
+    combinatoires, celles-ci attrapent l'essentiel des interferences."""
+    import numpy as np
+    mob = [j for j in joints
+           if str(j.get("type", "revolute")).lower() not in ("fixed", "rigid",
+                                                             "encastrement")]
+    if not mob:
+        return [{}]
+    out = []
+    rest = {j["id"]: float((j.get("range") or [0, 0])[0]) for j in mob}
+    for j in mob:
+        lo, hi = (j.get("range") or [0, 0])[:2]
+        for v in np.linspace(float(lo), float(hi), n):
+            q = dict(rest)
+            q[j["id"]] = float(v)
+            out.append(q)
+    for t in np.linspace(0.0, 1.0, n):        # diagonale : tout bouge ensemble
+        q = {}
+        for j in mob:
+            lo, hi = (j.get("range") or [0, 0])[:2]
+            q[j["id"]] = float(lo) + t * (float(hi) - float(lo))
+        out.append(q)
+    return out
+
+
+def _mechanism(job):
+    """Construit un mecanisme, exporte ses pieces + son graphe, et BALAYE ses
+    poses a la recherche d'interferences. Renvoie de quoi animer cote client."""
+    import numpy as np
+    import trimesh
+    import build123d as b
+    from build123d import export_stl
+    outdir = Path(job["outdir"])
+    outdir.mkdir(parents=True, exist_ok=True)
+    specs = job.get("parts") or []
+    joints = job.get("joints") or []
+    if not specs:
+        raise RuntimeError("aucune piece dans le mecanisme")
+    root = job.get("root") or specs[0]["id"]
+
+    import shapes as _shapes
+    helpers = {n: getattr(_shapes, n) for n, _, _ in _shapes.CATALOG
+               if hasattr(_shapes, n)}
+    helpers.update({"hollow_tray": hollow_tray, "hook": hook,
+                    "hook_curved": hook_curved, "contour_edges": contour_edges})
+
+    meshes, infos = {}, []
+    for spec in specs:
+        pid = str(spec["id"])
+        ns = dict(helpers)
+        exec(compile(spec["code"], f"part_{pid}.py", "exec"), ns)
+        part = ns.get("part")
+        if part is None:
+            for v in ns.values():
+                if isinstance(v, (b.Part, b.Solid, b.Compound)):
+                    part = v
+                    break
+        if part is None or getattr(part, "volume", 0) <= 0:
+            raise RuntimeError(f"piece « {pid} » : aucun solide valide "
+                               "(le script doit definir 'part')")
+        stl = outdir / f"part_{pid}.stl"
+        export_stl(part, str(stl))
+        m = trimesh.load(str(stl), force="mesh")
+        meshes[pid] = m
+        m.export(str(outdir / f"part_{pid}.glb"))     # mm, sans rotation
+        infos.append({"id": pid, "name": spec.get("name", pid),
+                      "volume_cm3": round(float(part.volume) / 1000.0, 2),
+                      "masse_g": round(float(part.volume) / 1000.0 * 1.24, 1),
+                      "glb": f"part_{pid}.glb"})
+
+    ids = [p["id"] for p in infos]
+    _fk(ids, joints, root, {})                    # valide l'arbre des le repos
+
+    # paires a surveiller : tout sauf les pieces reliees par une liaison
+    liees = {(j["parent"], j["child"]) for j in joints}
+    liees |= {(c, p) for p, c in liees}
+    paires = [(a, c) for i, a in enumerate(ids) for c in ids[i + 1:]
+              if (a, c) not in liees]
+
+    def _inter(a, c, M):
+        """Volume d'interpenetration entre deux pieces a une pose donnee."""
+        va = trimesh.transform_points(meshes[a].bounds, M[a])
+        vc = trimesh.transform_points(meshes[c].bounds, M[c])
+        if np.any(va.max(0) < vc.min(0)) or np.any(vc.max(0) < va.min(0)):
+            return 0.0                            # boites disjointes
+        ma = meshes[a].copy(); ma.apply_transform(M[a])
+        mc = meshes[c].copy(); mc.apply_transform(M[c])
+        try:
+            x = trimesh.boolean.intersection([ma, mc], engine="manifold")
+            return float(x.volume) if x is not None else 0.0
+        except Exception:
+            return 0.0
+
+    # REFERENCE AU REPOS : un axe qui traverse un percage, un tenon dans sa
+    # mortaise, se recouvrent PAR CONCEPTION. Ce qui compte est l'interference
+    # que le MOUVEMENT cree en plus — pas celle voulue par le concepteur.
+    Mrest = _fk(ids, joints, root, {})
+    base_inter = {(a, c): _inter(a, c, Mrest) for a, c in paires}
+
+    poses = _poses(joints, int(job.get("n_poses", 16)))
+    pire = {"volume_mm3": 0.0, "pose": None, "paire": None}
+    n_conflits = 0
+    SEUIL = 1.0                                   # mm3 : bruit de maillage ignore
+    for q in poses:
+        M = _fk(ids, joints, root, q)
+        conflit_pose = False
+        for a, c in paires:
+            vol = _inter(a, c, M) - base_inter[(a, c)]
+            if vol > SEUIL:                       # interference CREEE par le mouvement
+                conflit_pose = True
+                if vol > pire["volume_mm3"]:
+                    pire = {"volume_mm3": round(vol, 1), "pose": q,
+                            "paire": [a, c]}
+        n_conflits += bool(conflit_pose)
+
+    # assemblage exporte a la pose de repos (utile pour l'apercu et l'export)
+    M0 = _fk(ids, joints, root, {})
+    asm = []
+    for pid in ids:
+        mm = meshes[pid].copy(); mm.apply_transform(M0[pid])
+        asm.append(mm)
+    union = trimesh.util.concatenate(asm)
+    union.export(str(outdir / "model.stl"))
+    union.export(str(outdir / "model.glb"))
+
+    masse = round(sum(p["masse_g"] for p in infos), 1)
+    jclean = [{"id": j["id"], "type": j.get("type", "revolute"),
+               "parent": j["parent"], "child": j["child"],
+               "axis": list(j.get("axis", [0, 0, 1])),
+               "origin": list(j.get("origin", [0, 0, 0])),
+               "range": list(j.get("range") or [0, 0]),
+               "name": j.get("name", j["id"])} for j in joints]
+    (outdir / "mechanism.json").write_text(json.dumps(
+        {"parts": infos, "joints": jclean, "root": root}, ensure_ascii=False),
+        encoding="utf-8")
+    return {"ok": True, "mesh": True, "mechanism": True,
+            "parts": infos, "joints": jclean, "root": root,
+            "poses_balayees": len(poses), "poses_en_conflit": n_conflits,
+            "collision": (pire if pire["pose"] else None),
+            "masse_g": masse,
+            "stats": {"pieces": len(infos), "liaisons": len(jclean),
+                      "masse_g": masse,
+                      "bbox_mm": [round(float(x), 1) for x in union.extents]}}
+
+
 def _fea_job(job):
     """Calcul de structure minimaliste, exécuté ICI (thread principal du worker) :
     Gmsh installe un handler de signal qui n'est valide que dans le thread principal."""
@@ -478,6 +711,9 @@ def main():
                 sys.stdout.write(json.dumps(resp) + "\n"); sys.stdout.flush(); continue
             if cmd == "lattice":
                 resp = _lattice(job)
+                sys.stdout.write(json.dumps(resp) + "\n"); sys.stdout.flush(); continue
+            if cmd == "mechanism":
+                resp = _mechanism(job)
                 sys.stdout.write(json.dumps(resp) + "\n"); sys.stdout.flush(); continue
             code = Path(job["code_file"]).read_text(encoding="utf-8")
             outdir = Path(job["outdir"])

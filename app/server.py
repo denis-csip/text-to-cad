@@ -1461,6 +1461,131 @@ def invent_adopt(req: InventAdoptReq):
             "files": _files_ok(), "params": _params_from_code(code)}
 
 
+# --- COUCHE MECANISME : pieces + liaisons, balayage de poses ---------------
+MEC_DIR = VAR_DIR / "mechanism"
+
+
+class MechanismReq(BaseModel):
+    parts: list[dict]                 # [{id, name?, code}]
+    joints: list[dict] = []           # [{id, type, parent, child, axis, origin, range}]
+    root: str | None = None
+    n_poses: int = 16
+
+
+@app.post("/mechanism")
+def mechanism(req: MechanismReq):
+    """Assemble un mecanisme declaratif et BALAYE ses poses (interferences).
+    Deterministe : aucun appel LLM ici, le graphe de liaisons est deja pose."""
+    if not req.parts:
+        return {"ok": False, "error": "aucune piece"}
+    MEC_DIR.mkdir(parents=True, exist_ok=True)
+    r = WORKER.run_raw({"cmd": "mechanism", "outdir": str(MEC_DIR),
+                        "parts": req.parts, "joints": req.joints,
+                        "root": req.root, "n_poses": max(4, min(req.n_poses, 48))},
+                       timeout=300)
+    if not r.get("ok"):
+        return {"ok": False, "error": str(r.get("error", "mecanisme echoue"))[:300]}
+    r["base_url"] = "/work/variants/mechanism"
+    return r
+
+
+class MechTextReq(BaseModel):
+    brief: str
+    n_poses: int = 16
+
+
+def _valide_spec(spec):
+    """Verifie le schema AVANT de lancer le worker : messages d'erreur clairs
+    renvoyes au LLM par la boucle de correction."""
+    if not isinstance(spec, dict):
+        return "reponse non JSON"
+    parts = spec.get("parts") or []
+    joints = spec.get("joints") or []
+    if not parts:
+        return "aucune piece dans 'parts'"
+    ids = []
+    for p in parts:
+        if not isinstance(p, dict) or not p.get("id") or not p.get("code"):
+            return "chaque piece doit avoir 'id' et 'code'"
+        ids.append(str(p["id"]))
+    if len(set(ids)) != len(ids):
+        return f"identifiants de pieces en double : {ids}"
+    root = spec.get("root") or ids[0]
+    if root not in ids:
+        return f"'root' = « {root} » ne correspond a aucune piece {ids}"
+    enfants = []
+    for j in joints:
+        if not isinstance(j, dict) or not j.get("id"):
+            return "chaque liaison doit avoir un 'id'"
+        for k in ("parent", "child"):
+            if j.get(k) not in ids:
+                return (f"liaison « {j['id']} » : '{k}' = « {j.get(k)} » "
+                        f"ne correspond a aucune piece {ids}")
+        if j["parent"] == j["child"]:
+            return f"liaison « {j['id']} » : parent et child identiques"
+        enfants.append(j["child"])
+    if len(set(enfants)) != len(enfants):
+        return "une piece a plusieurs liaisons parentes (le graphe doit etre un ARBRE)"
+    orphelines = [i for i in ids if i != root and i not in enfants]
+    if orphelines:
+        return (f"pieces sans liaison parente : {orphelines} — relie-les "
+                "(type 'fixed' si elles sont solidaires)")
+    return None
+
+
+@app.post("/mechanism/from_text")
+def mechanism_from_text(req: MechTextReq):
+    """Brief -> mecanisme declaratif (LLM) -> construction + balayage (deterministe).
+    Une passe de correction si la construction ou la validation echoue."""
+    MEC_DIR.mkdir(parents=True, exist_ok=True)
+    spec, err, brut = None, None, None
+    for essai in range(2):
+        try:
+            spec = llm.design_mechanism(req.brief, erreur=err, precedent=brut)
+        except Exception as e:
+            return {"ok": False, "error": f"LLM : {str(e)[:200]}"}
+        brut = json.dumps(spec, ensure_ascii=False)
+        err = _valide_spec(spec)
+        if err:
+            continue
+        r = WORKER.run_raw({"cmd": "mechanism", "outdir": str(MEC_DIR),
+                            "parts": spec["parts"], "joints": spec.get("joints", []),
+                            "root": spec.get("root"),
+                            "n_poses": max(4, min(req.n_poses, 48))}, timeout=300)
+        if r.get("ok"):
+            r["base_url"] = "/work/variants/mechanism"
+            r["resume"] = spec.get("resume", "")
+            r["spec"] = spec
+            r["essais"] = essai + 1
+            return r
+        err = str(r.get("error", "construction echouee"))
+    return {"ok": False, "error": (err or "echec")[:300]}
+
+
+@app.post("/mechanism/adopt")
+def mechanism_adopt():
+    """Le mecanisme devient la piece courante de l'atelier (mode maillage)."""
+    src = MEC_DIR / "model.glb"
+    if not src.exists():
+        return {"ok": False, "error": "Aucun mecanisme a adopter."}
+    _clear_outputs()
+    for f in ("model.glb", "model.stl"):
+        if (MEC_DIR / f).exists():
+            shutil.copy2(MEC_DIR / f, WORK / f)
+    for f in ("model.step", "faces.json", "edges.json"):
+        (WORK / f).unlink(missing_ok=True)
+    MESH["active"] = True
+    MESH["lattice"] = None
+    import trimesh as _tm
+    m = _tm.load(str(WORK / "model.stl"), force="mesh")
+    stats = {"triangles": int(len(m.faces)),
+             "volume_cm3": round(float(m.volume) / 1000.0, 1),
+             "bbox_mm": [round(float(x), 1) for x in m.extents]}
+    MESH["stats"] = stats
+    return {"ok": True, "mesh": True, "stats": stats, "files": _files_ok(),
+            "params": None, "code": None}
+
+
 @app.get("/state")
 def state():
     return {"code": _current_code(), "brief": STATE.get("brief"),

@@ -308,6 +308,22 @@
       <button id="latGo" class="sec">Générer la variante lattice</button>
     </div>
     <div class="row" style="margin-top:8px; border-top:1px dashed var(--line); padding-top:10px; align-items:center">
+      <span class="muted" style="font-size:12.5px">🦿 <b>Mécanisme</b> (P15 Dynamisation / P1 Segmentation / P28 Substitution) — plusieurs pièces + des liaisons, avec balayage des poses :</span>
+      <input id="mecBrief" type="text" style="flex:1; min-width:220px" placeholder="ex. « une pince à deux mors qui s'ouvrent à 45° », « un support inclinable de 0 à 60° »">
+      <button id="mecGo" class="sec">Concevoir le mécanisme</button>
+      <span id="mecStatus" class="muted"></span>
+    </div>
+    <div id="mecPanel" style="display:none; margin-top:8px; background:var(--panel2); border:1px solid var(--line); border-radius:12px; padding:12px">
+      <div id="mecResume" style="font-size:13px; margin-bottom:6px"></div>
+      <div id="mecVerdict" style="font-size:13px; margin-bottom:8px"></div>
+      <div id="mecJoints"></div>
+      <div class="row" style="margin-top:10px">
+        <button id="mecPlay" class="sec" style="padding:6px 12px; font-size:12.5px">▶ Animer</button>
+        <button id="mecRest" class="sec" style="padding:6px 12px; font-size:12.5px">⏮ Repos</button>
+        <button id="mecAdopt" style="padding:6px 12px; font-size:12.5px">✔ Adopter comme pièce courante</button>
+      </div>
+    </div>
+    <div class="row" style="margin-top:8px; border-top:1px dashed var(--line); padding-top:10px; align-items:center">
       <span class="muted" style="font-size:12.5px">🔭 <b>Veille géométrique</b> — balaye la littérature (Elicit) et propose de nouvelles solutions au catalogue :</span>
       <button id="veilleGo" class="sec">Lancer la veille (~1-2 min)</button>
       <span id="veilleStatus" class="muted"></span>
@@ -1250,6 +1266,190 @@ $('eapply').onclick = async () => {
   $('eapply').disabled=false;
 };
 $('eclear').onclick = () => deselectAll();
+
+/* ============ MÉCANISME : pièces + liaisons, animées et vérifiées ============
+   Même convention que le worker : chaque pièce est modélisée à sa place dans
+   l'assemblage au repos, chaque liaison porte son axe en coordonnées monde. La
+   cinématique directe ci-dessous est le miroir exact de celle qui a servi au
+   balayage de collision — ce qu'on anime est ce qui a été vérifié. */
+let mecData = null, mecAnim = null, mecGroup = null;
+
+function mecJointMatrix(j, q){
+  const t = String(j.type || 'revolute').toLowerCase();
+  const ax = new THREE.Vector3(j.axis[0], j.axis[1], j.axis[2]);
+  if(ax.lengthSq() < 1e-12) return new THREE.Matrix4();
+  ax.normalize();
+  if(t === 'prismatic' || t === 'glissiere' || t === 'slider' || t === 'linear')
+    return new THREE.Matrix4().makeTranslation(ax.x*q, ax.y*q, ax.z*q);
+  if(t === 'fixed' || t === 'rigid' || t === 'encastrement')
+    return new THREE.Matrix4();
+  const o = new THREE.Vector3(j.origin[0], j.origin[1], j.origin[2]);
+  return new THREE.Matrix4().makeTranslation(o.x, o.y, o.z)
+    .multiply(new THREE.Matrix4().makeRotationAxis(ax, q * Math.PI / 180))
+    .multiply(new THREE.Matrix4().makeTranslation(-o.x, -o.y, -o.z));
+}
+function mecFK(q){
+  const M = {}; M[mecData.root] = new THREE.Matrix4();
+  const kids = {};
+  mecData.joints.forEach(j => { (kids[j.parent] = kids[j.parent] || []).push(j); });
+  const stack = [mecData.root];
+  while(stack.length){
+    const p = stack.pop();
+    (kids[p] || []).forEach(j => {
+      M[j.child] = new THREE.Matrix4().multiplyMatrices(
+        M[p], mecJointMatrix(j, +(q[j.id] || 0)));
+      stack.push(j.child);
+    });
+  }
+  return M;
+}
+function mecSetPose(q){
+  if(!mecData || !mecGroup) return;
+  const M = mecFK(q);
+  mecData.parts.forEach(p => {
+    const o = mecGroup.userData.objs[p.id];
+    if(o && M[p.id]){ o.matrix.copy(M[p.id]); o.matrixWorldNeedsUpdate = true; }
+  });
+}
+function mecRestPose(){
+  const q = {};
+  (mecData ? mecData.joints : []).forEach(j => { q[j.id] = (j.range || [0,0])[0]; });
+  return q;
+}
+async function loadMechanism(d){
+  if(typeof clearFea === 'function') clearFea();
+  clearEdges();
+  const seq = ++loadSeq;
+  mecData = { parts: d.parts, joints: d.joints, root: d.root, base: d.base_url };
+  meshMode = true; faceMeshes = []; selSet = []; selFace = null;
+  const loader = new GLTFLoader();
+  const grp = new THREE.Group(); grp.userData.objs = {};
+  for(const p of d.parts){
+    const g = await new Promise((ok, ko) =>
+      loader.load(d.base_url + '/' + p.glb + '?t=' + Date.now(), ok, undefined, ko));
+    const o = g.scene;
+    o.traverse(x => { if(x.isMesh){
+      x.geometry.computeVertexNormals();
+      x.material = new THREE.MeshStandardMaterial({ color: BASE_COL, metalness:.05,
+        roughness:.55, side: THREE.DoubleSide });
+    }});
+    o.matrixAutoUpdate = false;
+    grp.userData.objs[p.id] = o;
+    grp.add(o);
+  }
+  if(seq !== loadSeq) return;                     // un chargement plus récent a pris le relais
+  if(current) scene.remove(current);
+  mecGroup = grp;
+  mecSetPose(mecRestPose());
+  grp.updateMatrixWorld(true);
+  const box = new THREE.Box3().setFromObject(grp);
+  const c = box.getCenter(new THREE.Vector3()), s = box.getSize(new THREE.Vector3());
+  grp.position.sub(c);                            // recentrage FIXE (pas de saut à l'animation)
+  modelOffset = c.clone();
+  current = grp; scene.add(grp);
+  const r = Math.max(s.x, s.y, s.z) || 30;
+  camera.position.set(r*1.6, r*1.3, r*1.8); controls.target.set(0,0,0);
+  lastBasePos = grp.position.clone(); lastSize = r;
+  enableAfterModel();
+}
+function mecBuildSliders(d){
+  const box = $('mecJoints'); box.innerHTML = '';
+  (d.joints || []).forEach(j => {
+    const t = String(j.type || '').toLowerCase();
+    if(t === 'fixed' || t === 'rigid' || t === 'encastrement'){
+      box.insertAdjacentHTML('beforeend',
+        '<div class="muted" style="font-size:12px">🔩 ' + j.name + ' — encastrement (pas de mouvement)</div>');
+      return;
+    }
+    const lo = (j.range||[0,0])[0], hi = (j.range||[0,0])[1];
+    const unit = (t === 'prismatic' || t === 'glissiere' || t === 'slider' || t === 'linear') ? 'mm' : '°';
+    const row = document.createElement('div');
+    row.className = 'row'; row.style.cssText = 'align-items:center; gap:8px; margin-top:4px';
+    row.innerHTML = '<span class="muted" style="min-width:150px; font-size:12.5px">'
+      + (t.startsWith('prism') ? '↔ ' : '⟳ ') + j.name + '</span>'
+      + '<input type="range" class="mj" data-j="' + j.id + '" min="' + Math.min(lo,hi)
+      + '" max="' + Math.max(lo,hi) + '" step="0.5" value="' + lo + '" style="flex:1">'
+      + '<span class="mjv muted" style="min-width:62px; text-align:right">' + lo + ' ' + unit + '</span>';
+    const inp = row.querySelector('.mj'), out = row.querySelector('.mjv');
+    inp.oninput = () => {
+      out.textContent = (+inp.value).toFixed(1) + ' ' + unit;
+      const q = {}; box.querySelectorAll('.mj').forEach(s => q[s.dataset.j] = +s.value);
+      mecSetPose(q);
+    };
+    box.appendChild(row);
+  });
+}
+function mecStop(){ if(mecAnim){ cancelAnimationFrame(mecAnim); mecAnim = null;
+  $('mecPlay').textContent = '▶ Animer'; } }
+$('mecPlay').onclick = () => {
+  if(mecAnim){ mecStop(); return; }
+  $('mecPlay').textContent = '⏸ Pause';
+  const t0 = performance.now();
+  const step = () => {
+    const t = (1 - Math.cos((performance.now() - t0) / 1400)) / 2;   // va-et-vient doux
+    const q = {};
+    $('mecJoints').querySelectorAll('.mj').forEach(s => {
+      const lo = +s.min, hi = +s.max;
+      const j = mecData.joints.find(x => x.id === s.dataset.j) || {};
+      const a = (j.range||[lo,hi])[0], b = (j.range||[lo,hi])[1];
+      const v = a + t * (b - a);
+      q[s.dataset.j] = v; s.value = v;
+      s.parentElement.querySelector('.mjv').textContent = v.toFixed(1)
+        + ((String(j.type||'').toLowerCase().startsWith('prism')) ? ' mm' : ' °');
+    });
+    mecSetPose(q);
+    mecAnim = requestAnimationFrame(step);
+  };
+  mecAnim = requestAnimationFrame(step);
+};
+$('mecRest').onclick = () => { mecStop();
+  const q = mecRestPose(); mecSetPose(q);
+  $('mecJoints').querySelectorAll('.mj').forEach(s => {
+    s.value = q[s.dataset.j];
+    s.dispatchEvent(new Event('input'));
+  });
+};
+$('mecGo').onclick = async () => {
+  const brief = ($('mecBrief').value || '').trim();
+  if(!brief){ $('mecStatus').textContent = 'décris le mécanisme voulu'; return; }
+  mecStop();
+  $('mecGo').disabled = true;
+  $('mecStatus').textContent = '⏳ conception + construction + balayage des poses…';
+  try{
+    const d = await fetch('/mechanism/from_text', {method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({brief: brief, n_poses: 16})}).then(r => r.json());
+    if(!d.ok){ $('mecStatus').textContent = 'échec : ' + String(d.error||'').slice(0,120);
+      $('mecGo').disabled = false; return; }
+    $('mecPanel').style.display = 'block';
+    $('mecResume').innerHTML = '<b>' + (d.parts.length) + ' pièces · '
+      + d.joints.length + ' liaison(s)</b> — ' + (d.resume || '');
+    const c = d.collision;
+    $('mecVerdict').innerHTML = c
+      ? '<span class="pill err">Interférence</span> <span class="muted">le mouvement crée '
+        + c.volume_mm3 + ' mm³ de recouvrement entre « ' + c.paire[0] + ' » et « '
+        + c.paire[1] + ' » sur ' + d.poses_en_conflit + '/' + d.poses_balayees
+        + ' poses — la course est à revoir.</span>'
+      : '<span class="pill ok">Course vérifiée</span> <span class="muted">'
+        + d.poses_balayees + ' poses balayées, aucune interférence créée par le mouvement · '
+        + d.masse_g + ' g</span>';
+    mecBuildSliders(d);
+    await loadMechanism(d);
+    addIter('mécanisme : ' + brief);
+    $('mecStatus').textContent = 'bouge les curseurs ou lance l\'animation';
+  }catch(e){ $('mecStatus').textContent = 'erreur réseau'; }
+  $('mecGo').disabled = false;
+};
+$('mecAdopt').onclick = async () => {
+  mecStop();
+  const b = $('mecAdopt'); b.textContent = '⏳'; b.disabled = true;
+  try{
+    const d = await fetch('/mechanism/adopt', {method:'POST'}).then(r => r.json());
+    if(d.ok){ meshMode = true; showResult(d, $('mecStatus'), false);
+      addIter('adopté : mécanisme'); b.textContent = '✔ adopté'; }
+    else { $('mecStatus').textContent = d.error || 'échec'; b.textContent = '✔ Adopter comme pièce courante'; b.disabled = false; }
+  }catch(e){ b.textContent = '✔ Adopter comme pièce courante'; b.disabled = false; }
+};
 
 /* ============ VOIE INVENTIVE : contradiction -> principes -> variantes ============ */
 let invBaseline=null;

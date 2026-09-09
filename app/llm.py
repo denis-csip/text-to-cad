@@ -2,7 +2,8 @@
 import os, re, json, threading
 from google import genai
 from google.genai import types
-from prompt import SYSTEM, FIX_TEMPLATE, INTENT_SYSTEM, VISION_SYSTEM
+from prompt import (SYSTEM, FIX_TEMPLATE, INTENT_SYSTEM, VISION_SYSTEM,
+                    MECHANISM_SYSTEM)
 
 MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
 # Gemini 3.x active le "thinking" par defaut (tres lent : ~70s). 'low' suffit
@@ -104,6 +105,25 @@ def capture_intent(brief: str, sketch_bytes: bytes = None):
         contents = brief
     resp = _get_client().models.generate_content(
         model=MODEL, contents=contents, config=_intent_cfg())
+    return _extract_json(resp.text)
+
+
+def design_mechanism(brief: str, erreur: str = None, precedent: str = None):
+    """Ecrit la description DECLARATIVE d'un mecanisme : pieces + liaisons.
+    `erreur`/`precedent` : boucle de correction quand le balayage a echoue."""
+    contents = "Mecanisme demande : " + (brief or "")
+    if erreur and precedent:
+        contents += ("\n\nTa proposition precedente a ECHOUE a la construction ou "
+                     "au balayage de poses :\n" + str(erreur)[:900] +
+                     "\n\nJSON precedent :\n" + precedent[:6000] +
+                     "\n\nCorrige-le et renvoie le JSON complet corrige.")
+    cfg = types.GenerateContentConfig(
+        system_instruction=MECHANISM_SYSTEM, temperature=0.3,
+        response_mime_type="application/json",
+        **({"thinking_config": types.ThinkingConfig(thinking_level=THINKING)}
+           if "gemini-3" in MODEL else {}))
+    resp = _get_client().models.generate_content(
+        model=MODEL, contents=contents, config=cfg)
     return _extract_json(resp.text)
 
 
