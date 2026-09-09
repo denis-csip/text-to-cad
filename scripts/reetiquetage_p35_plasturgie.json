@@ -1,0 +1,4131 @@
+[
+ {
+  "id": "triple_hook_conformal_cooling",
+  "name": "Refroidissement conforme en triple crochet",
+  "avant": [
+   1,
+   3,
+   17,
+   35
+  ],
+  "apres": [
+   1,
+   3,
+   17,
+   40
+  ],
+  "motif": "Géométrie de canaux et inserts conducteurs, pas de changement d'état."
+ },
+ {
+  "id": "mono_material_packaging_design",
+  "name": "Conception mono-matériau recyclablement barrière",
+  "avant": [
+   1,
+   2,
+   35
+  ],
+  "apres": [
+   1,
+   2,
+   30
+  ],
+  "motif": "Modification géométrique et couche mince, pas de changement de phase."
+ },
+ {
+  "id": "demolding_force_optimization",
+  "name": "Contrôle des forces de démoulage par précharge et paramètres process",
+  "avant": [
+   10,
+   15,
+   35
+  ],
+  "apres": [
+   10,
+   15,
+   21
+  ],
+  "motif": "Réglages de paramètres process (pression/vitesse) et géométrie de dépouille."
+ },
+ {
+  "id": "ccc_outillage_noyau_cire",
+  "name": "Outillage rapide à canaux conformes par noyaux en cire",
+  "avant": [
+   10,
+   29,
+   35
+  ],
+  "apres": [
+   10,
+   29,
+   35,
+   36
+  ],
+  "motif": "Élimination par changement d'état/dissolution de la cire sacrifiable."
+ },
+ {
+  "id": "dispersion_selective_ath_tpv_elastomer",
+  "name": "Dispersion sélective d'ATH en phase vulcanisée de TPV",
+  "avant": [
+   1,
+   3,
+   35
+  ],
+  "apres": [
+   1,
+   3,
+   35,
+   40
+  ],
+  "motif": "Modification de formulation et viscosité des phases de la matière."
+ },
+ {
+  "id": "moule_resine_tiroir_integre",
+  "name": "Moule souple avec tiroir automatisé intégré",
+  "avant": [
+   1,
+   15,
+   35
+  ],
+  "apres": [
+   1,
+   15,
+   40
+  ],
+  "motif": "Structure d'outillage en composite/résine chargée et mécanisme mobile."
+ },
+ {
+  "id": "hybrid_single_shot_formage_surmoulage",
+  "name": "Formage et surmoulage simultanés par pression d'injection (HSS)",
+  "avant": [
+   10,
+   35,
+   17
+  ],
+  "apres": [
+   5,
+   10,
+   17
+  ],
+  "motif": "Combinaison d'étapes process et action mécanique du flux polymère."
+ },
+ {
+  "id": "dynamic_rhcm_hybrid_insert",
+  "name": "Outillage hybride L-PBF pour thermoréglage dynamique",
+  "avant": [
+   3,
+   15,
+   35,
+   39
+  ],
+  "apres": [
+   3,
+   15,
+   39
+  ],
+  "motif": "Conception géométrique de canaux proches de la surface de l'insert."
+ },
+ {
+  "id": "substitution_charge_thermal_black",
+  "name": "Allègement de la viscosité par Thermal Black eco-filler",
+  "avant": [
+   1,
+   35,
+   40
+  ],
+  "apres": [
+   1,
+   35,
+   40
+  ],
+  "motif": "Changement des propriétés de rhéologie et de viscosité de matière."
+ },
+ {
+  "id": "injection_compression_mid_3d",
+  "name": "Injection-Compression pour Microstructures 3D et LDS-MID",
+  "avant": [
+   1,
+   29,
+   35
+  ],
+  "apres": [
+   1,
+   15,
+   29
+  ],
+  "motif": "Modification cinématique du procédé par mouvement de noyaux/plateau."
+ },
+ {
+  "id": "tri_matiere_monomateriau",
+  "name": "Conception monomatériau et marquage normé",
+  "avant": [
+   2,
+   3,
+   35
+  ],
+  "apres": [
+   2,
+   3
+  ],
+  "motif": "Harmonisation du matériau et gravure géométrique directe dans le moule."
+ },
+ {
+  "id": "chauffage_ir_pulse_thermoformage",
+  "name": "Chauffage infrarouge pulsé à régulation convective",
+  "avant": [
+   15,
+   19,
+   35
+  ],
+  "apres": [
+   15,
+   19
+  ],
+  "motif": "Régulation périodique et temporelle du procédé de chauffage."
+ },
+ {
+  "id": "direct_granule_pc_recycled_extrusion",
+  "name": "Extrusion directe de broyats PC à deux étages thermiques",
+  "avant": [
+   35,
+   2,
+   29
+  ],
+  "apres": [
+   2,
+   19,
+   29
+  ],
+  "motif": "Réglage thermique multi-zone du procédé d'extrusion sans modification matière."
+ },
+ {
+  "id": "renfort_nanocellulose_cristalline_cnc",
+  "name": "Biocomposites haute rigidité à la nanocellulose",
+  "avant": [
+   1,
+   35,
+   40
+  ],
+  "apres": [
+   1,
+   40
+  ],
+  "motif": "Création d'un matériau composite par ajout de nanorenforts."
+ },
+ {
+  "id": "pp_cnf_nucleation_cellulaire",
+  "name": "Agent de nucléation cellulo-nanofibrillé (CNF) pour mousse PP",
+  "avant": [
+   1,
+   35,
+   40
+  ],
+  "apres": [
+   1,
+   31,
+   35,
+   40
+  ],
+  "motif": "Modification de la densité et structure cellulaire de la matière."
+ },
+ {
+  "id": "variotherm_electrique_localise",
+  "name": "Chauffage rapide de surface par résistance sous-cavité",
+  "avant": [
+   15,
+   19,
+   35
+  ],
+  "apres": [
+   15,
+   19,
+   35
+  ],
+  "motif": "Changement de température et de cristallinité du polymère."
+ },
+ {
+  "id": "microbraid_yarn_continu",
+  "name": "Co-filage micro-braidé fibre naturelle et thermoplastique",
+  "avant": [
+   1,
+   35,
+   40
+  ],
+  "apres": [
+   1,
+   24,
+   40
+  ],
+  "motif": "Assemblage textile et liant intermédiaire, pas de changement physique."
+ },
+ {
+  "id": "insert_moule_3d_microfluidique",
+  "name": "Insert d'outillage imprimé en 3D pour micro-injection",
+  "avant": [
+   1,
+   17,
+   35
+  ],
+  "apres": [
+   1,
+   17,
+   27
+  ],
+  "motif": "Substitution d'outillage par impression 3D résine."
+ },
+ {
+  "id": "injection_moussante_micro_cellulaire",
+  "name": "Allègement et suppression des retassures par injection micro-cellulaire",
+  "avant": [
+   31,
+   35,
+   1
+  ],
+  "apres": [
+   1,
+   31,
+   35
+  ],
+  "motif": "Modification de masse volumique et d'état de la matière."
+ },
+ {
+  "id": "consolidation_in_situ_laser",
+  "name": "Consolidation in-situ laser pour stratifiés composites thermoplastiques",
+  "avant": [
+   3,
+   15,
+   35
+  ],
+  "apres": [
+   3,
+   15,
+   35
+  ],
+  "motif": "Chauffage localisé modifiant l'état thermique et la diffusion."
+ },
+ {
+  "id": "fdm_peek_optimisation_mecanique",
+  "name": "Optimisation d'orientation et d'épaisseur FDM PEEK",
+  "avant": [
+   3,
+   15,
+   35
+  ],
+  "apres": [
+   3,
+   4,
+   15
+  ],
+  "motif": "Simple réglage d'orientation géométrique et d'épaisseur de couche."
+ },
+ {
+  "id": "activateur_uvc_ozone_adhesion_pc_lsr",
+  "name": "Activation UVC/Ozone du Polycarbonate pour Surmoulage LSR",
+  "avant": [
+   3,
+   15,
+   35
+  ],
+  "apres": [
+   3,
+   15,
+   35
+  ],
+  "motif": "Modification chimique des propriétés de surface par UVC/ozone."
+ },
+ {
+  "id": "regulation_thermique_asymetrique_moulage",
+  "name": "Régulation thermique asymétrique d'empreinte",
+  "avant": [
+   3,
+   15,
+   35
+  ],
+  "apres": [
+   3,
+   4,
+   35
+  ],
+  "motif": "Gradient thermique modifiant la cristallinité à travers l'épaisseur."
+ },
+ {
+  "id": "empreinte_laser_femtoseconde_hydrophobe",
+  "name": "Insert d'outillage texturé par laser femtoseconde",
+  "avant": [
+   3,
+   15,
+   35
+  ],
+  "apres": [
+   3,
+   15,
+   17
+  ],
+  "motif": "Texturation géométrique nanométrique de surface."
+ },
+ {
+  "id": "profilage_epaisseur_preforme_etirage_soufflage",
+  "name": "Optimisation géométrique de préforme pour étirage-soufflage",
+  "avant": [
+   3,
+   15,
+   35
+  ],
+  "apres": [
+   3,
+   15,
+   17
+  ],
+  "motif": "Redistribution géométrique de l'épaisseur de paroi en CAO."
+ },
+ {
+  "id": "cba_foam_injection_pallet",
+  "name": "Allègement et anti-retassures par agent schématisant chimique (CBA)",
+  "avant": [
+   28,
+   31,
+   35
+  ],
+  "apres": [
+   28,
+   31,
+   35
+  ],
+  "motif": "Changement de densité du matériau par moussage."
+ },
+ {
+  "id": "moussage_pp_branche_lcb",
+  "name": "Injection moussée sur PP hautement ramifié",
+  "avant": [
+   1,
+   31,
+   35
+  ],
+  "apres": [
+   1,
+   31,
+   35
+  ],
+  "motif": "Modification de la structure moléculaire et de la densité."
+ },
+ {
+  "id": "revêtement_activable_spray_mid",
+  "name": "Revêtement activable pour MID multi-matériaux",
+  "avant": [
+   3,
+   15,
+   35
+  ],
+  "apres": [
+   3,
+   15,
+   24
+  ],
+  "motif": "Ajout d'une couche de vernis intermédiaire."
+ },
+ {
+  "id": "rhcm_electrique_empreinte",
+  "name": "Moulage à cycle thermique rapide (RHCM) par chauffage électrique",
+  "avant": [
+   3,
+   15,
+   35
+  ],
+  "apres": [
+   3,
+   15,
+   35
+  ],
+  "motif": "Changement dynamique de température au-dessus de la Tg."
+ },
+ {
+  "id": "optimisation_lignes_soudure_pa6_gf",
+  "name": "Régulation thermique et compactage dynamique des lignes de soudure",
+  "avant": [
+   3,
+   15,
+   35
+  ],
+  "apres": [
+   3,
+   10,
+   15
+  ],
+  "motif": "Réglage de paramètre procédé (température moule et pression)."
+ },
+ {
+  "id": "prototypage_moule_fdm_injection_silicone",
+  "name": "Moulage silicone sur moule FDM imprimé 3D",
+  "avant": [
+   10,
+   35
+  ],
+  "apres": [
+   10,
+   29
+  ],
+  "motif": "Utilisation du vide (principe 29) et préparation préalable (10)."
+ },
+ {
+  "id": "reticulation_thermoreversible_diels_alder",
+  "name": "Polyuréthane thermo-réticulable Diels-Alder",
+  "avant": [
+   15,
+   35,
+   29
+  ],
+  "apres": [
+   15,
+   29,
+   35
+  ],
+  "motif": "Changement réversible de la structure chimique et viscosité."
+ },
+ {
+  "id": "expansion_noyau_core_back_fim",
+  "name": "Moulage de mousse par expansion de noyau (Core-Back)",
+  "avant": [
+   15,
+   29,
+   35
+  ],
+  "apres": [
+   15,
+   17,
+   29
+  ],
+  "motif": "Déplacement géométrique du noyau (17) et moussage (29)."
+ },
+ {
+  "id": "thermodur_liaisons_dynamiques",
+  "name": "Formulation de thermodurcissables à liaisons chimiques réversibles",
+  "avant": [
+   15,
+   27,
+   35
+  ],
+  "apres": [
+   15,
+   27,
+   35
+  ],
+  "motif": "Modification des liaisons covalentes et transition d'état."
+ },
+ {
+  "id": "insert_runner_ameliore",
+  "name": "Insert géométrique de canal d'injection",
+  "avant": [
+   3,
+   15,
+   35
+  ],
+  "apres": [
+   3,
+   15
+  ],
+  "motif": "Changement de géométrie locale (3), pas de modification matière."
+ },
+ {
+  "id": "preimpregne_b_stage_co_moulage",
+  "name": "Localisation rigide par patch B-Stage en co-moulage",
+  "avant": [
+   15,
+   35,
+   40
+  ],
+  "apres": [
+   15,
+   35,
+   40
+  ],
+  "motif": "Changement du degré de polymérisation (B-Stage) et viscosité."
+ },
+ {
+  "id": "moulage_biomimetique_superhydrophobe",
+  "name": "Micro-texturation hiérarchique par laser ultracourt",
+  "avant": [
+   3,
+   17,
+   31,
+   35
+  ],
+  "apres": [
+   3,
+   15,
+   17,
+   31
+  ],
+  "motif": "Texturation géométrique (3, 17) et variotherme (15)."
+ },
+ {
+  "id": "rhcm_vapeur_eau",
+  "name": "Moulage dynamique variotherme par vapeur d'eau (RHCM)",
+  "avant": [
+   15,
+   29,
+   35
+  ],
+  "apres": [
+   15,
+   29,
+   36
+  ],
+  "motif": "Transition de phase Tg (36) et régulation thermique dynamique (15)."
+ },
+ {
+  "id": "injection_compression_micro_optique",
+  "name": "Injection-compression pour micro-structures optiques",
+  "avant": [
+   15,
+   29,
+   35
+  ],
+  "apres": [
+   10,
+   15,
+   29
+  ],
+  "motif": "Action mécanique de compression et phasage (15, 10)."
+ },
+ {
+  "id": "pression_maintien_haute_fb_fibres",
+  "name": "Optimisation Pression de Maintien pour Pontage de Fibres",
+  "avant": [
+   10,
+   35
+  ],
+  "apres": [
+   10,
+   19
+  ],
+  "motif": "Réglage de paramètre de procédé (pression/maintien), pas de la matière."
+ },
+ {
+  "id": "soudage_ultrasons_composites_monomatiere",
+  "name": "Soudage ultrasonique de composites auto-renforcés APPC",
+  "avant": [
+   18,
+   35,
+   40
+  ],
+  "apres": [
+   18,
+   21,
+   40
+  ],
+  "motif": "Action d'ultrasons (18) et chauffage très rapide/éclair (21)."
+ },
+ {
+  "id": "polymere_memoire_forme_stimulable",
+  "name": "Composite polymère à mémoire de forme réactif",
+  "avant": [
+   15,
+   35,
+   40
+  ],
+  "apres": [
+   15,
+   35,
+   40
+  ],
+  "motif": "Changement de propriétés physiques de la matrice sous stimulus."
+ },
+ {
+  "id": "surmoulage_composites_thermoplastiques",
+  "name": "Surmoulage structurant de stratifiés composites thermoplastiques",
+  "avant": [
+   40,
+   15,
+   35
+  ],
+  "apres": [
+   5,
+   15,
+   40
+  ],
+  "motif": "Combinaison de matériaux (5, 40) et dynamique thermique (15)."
+ },
+ {
+  "id": "surmoulage_hybride_metal_pps",
+  "name": "Anodisation et silanisation d'insert métallique pour surmoulage",
+  "avant": [
+   3,
+   31,
+   35,
+   40
+  ],
+  "apres": [
+   3,
+   31,
+   40
+  ],
+  "motif": "Création de porosités/micro-fissures (31) et qualité locale (3)."
+ },
+ {
+  "id": "polymerisation_in_situ_mift_mma",
+  "name": "Infusion et polymérisation in situ de monomère MMA",
+  "avant": [
+   28,
+   35
+  ],
+  "apres": [
+   28,
+   35
+  ],
+  "motif": "Changement d'état chimique (monomère à polymère in situ)."
+ },
+ {
+  "id": "prehenseur_chauffant_ir_integre",
+  "name": "Gripper de transfert à réchauffage IR intégré",
+  "avant": [
+   15,
+   35,
+   17
+  ],
+  "apres": [
+   15,
+   17,
+   35
+  ],
+  "motif": "Maintien de la température du matériau au-dessus de Tf."
+ },
+ {
+  "id": "recyclage_pet_ssp_maintien_viscosite",
+  "name": "Boucle fermée rPET à haute fraction par régénération SSP",
+  "avant": [
+   1,
+   35
+  ],
+  "apres": [
+   1,
+   35
+  ],
+  "motif": "Modification chimique de masse molaire et viscosité du polymère."
+ },
+ {
+  "id": "variotherm_surface_multicouche",
+  "name": "Chauffage variotherme rapide par couche mince",
+  "avant": [
+   15,
+   17,
+   35
+  ],
+  "apres": [
+   15,
+   17,
+   30
+  ],
+  "motif": "Chauffage d'outillage par couche mince, pas le matériau."
+ },
+ {
+  "id": "chauffage_induction_externe_mobile",
+  "name": "Chauffage d'empreinte par induction externe déportée",
+  "avant": [
+   15,
+   17,
+   35
+  ],
+  "apres": [
+   10,
+   15,
+   17
+  ],
+  "motif": "Préchauffage du moule par induction, réglage de procédé."
+ },
+ {
+  "id": "comonomeres_cleavables_reseau_dynamique",
+  "name": "Intégration de comonomères thiolatones pour recyclabilité fermée",
+  "avant": [
+   1,
+   35
+  ],
+  "apres": [
+   1,
+   35
+  ],
+  "motif": "Modification de la structure chimique macromoléculaire."
+ },
+ {
+  "id": "pa12_sls_doping_lds",
+  "name": "Poudre PA12 dopée MID pour prototype SLS",
+  "avant": [
+   1,
+   35
+  ],
+  "apres": [
+   1,
+   40
+  ],
+  "motif": "Ajout d'additifs réactifs formant un matériau composite."
+ },
+ {
+  "id": "dispersion_cnt_pdms_volatil",
+  "name": "Compoundage élastomère/CNT via véhiculation solvant volatil",
+  "avant": [
+   1,
+   35
+  ],
+  "apres": [
+   1,
+   35
+  ],
+  "motif": "Changement d'état et évaporation du solvant volatil."
+ },
+ {
+  "id": "rhcm_outillage_thermique_dynamique",
+  "name": "Moulage à cycle thermique dynamique (RHCM / variothermie)",
+  "avant": [
+   15,
+   17,
+   35
+  ],
+  "apres": [
+   15,
+   17,
+   19
+  ],
+  "motif": "Cyclage thermique périodique de l'outillage."
+ },
+ {
+  "id": "degazage_amont_extrusion_reactive",
+  "name": "Dégazage amont en extrusion réactive",
+  "avant": [
+   2,
+   35
+  ],
+  "apres": [
+   2,
+   10
+  ],
+  "motif": "Positionnement préalable d'un tirage sous vide."
+ },
+ {
+  "id": "nanocharge_hybride_swcnt_ws2",
+  "name": "Plastification et lubrification par nano-fullerènes IF-WS2",
+  "avant": [
+   3,
+   35,
+   40
+  ],
+  "apres": [
+   3,
+   40
+  ],
+  "motif": "Incorporate de nanocharges formant un composite."
+ },
+ {
+  "id": "cvd_polymer_coating_submicron",
+  "name": "Revêtement polymère ultra-fin sous vide (iCVD / oCVD)",
+  "avant": [
+   15,
+   30,
+   35
+  ],
+  "apres": [
+   3,
+   15,
+   30
+  ],
+  "motif": "Dépôt de film mince de surface."
+ },
+ {
+  "id": "decouplage_pression_temps_maintien",
+  "name": "Découplage paramétrique retrait / gauchissement",
+  "avant": [
+   2,
+   35
+  ],
+  "apres": [
+   2,
+   19
+  ],
+  "motif": "Ajustement de paramètres machine et cycles de pression."
+ },
+ {
+  "id": "moulage_billes_mousse_imfm_micro_ondes",
+  "name": "Frittage in-mold et fusion sélective micro-ondes de particules polymères",
+  "avant": [
+   15,
+   31,
+   35
+  ],
+  "apres": [
+   15,
+   28,
+   31
+  ],
+  "motif": "Apport d'énergie par micro-ondes sur mousse."
+ },
+ {
+  "id": "biocatalyse_pet_directe",
+  "name": "Dépolymérisation enzymatique directe du PET sans pré-traitement thermique",
+  "avant": [
+   28,
+   35
+  ],
+  "apres": [
+   28,
+   35
+  ],
+  "motif": "Dégradation et modification chimique par biocatalyse."
+ },
+ {
+  "id": "orientation_moleculaire_transparence",
+  "name": "Orientation moléculaire pour transparence des semi-cristallins",
+  "avant": [
+   15,
+   17,
+   35
+  ],
+  "apres": [
+   15,
+   17,
+   35
+  ],
+  "motif": "Modification de la cristallinité et structure moléculaire."
+ },
+ {
+  "id": "impression_4d_stimulable",
+  "name": "Conception multicouche 4D réactive",
+  "avant": [
+   15,
+   17,
+   35
+  ],
+  "apres": [
+   15,
+   17,
+   35
+  ],
+  "motif": "Changement d'état et flexibilité du polymère sous stimulus."
+ },
+ {
+  "id": "ti_mim_precision_molding",
+  "name": "Injection de poudres de titane (Ti-MIM)",
+  "avant": [
+   1,
+   35
+  ],
+  "apres": [
+   1,
+   35,
+   36
+  ],
+  "motif": "Changement de densité et d'état physique par frittage."
+ },
+ {
+  "id": "assemblage_hybride_induction_deux_phases",
+  "name": "Assemblage hybride métal-polymère par induction en deux phases",
+  "avant": [
+   15,
+   35,
+   37
+  ],
+  "apres": [
+   15,
+   19,
+   37
+  ],
+  "motif": "Simple réglage temporel du procédé thermique sans mutation matière."
+ },
+ {
+  "id": "metallisation_surface_polymere",
+  "name": "Métallisation de surface par projection ou PVD",
+  "avant": [
+   3,
+   35,
+   40
+  ],
+  "apres": [
+   3,
+   24,
+   40
+  ],
+  "motif": "Ajout d'une couche composite/revêtement, pas de mutation intrinsèque."
+ },
+ {
+  "id": "matrice_smp_capa_auto_reparante",
+  "name": "Système auto-cicatrisant bistade SMP/CAPA",
+  "avant": [
+   15,
+   35,
+   17
+  ],
+  "apres": [
+   15,
+   17,
+   35
+  ],
+  "motif": "Transition de phase et mémoire de forme du matériau."
+ },
+ {
+  "id": "moussage_supercritique_pla_pbsa_compatibilise",
+  "name": "Moussage physique supercritique de mélanges biopolymères compatibilisés",
+  "avant": [
+   29,
+   35,
+   40
+  ],
+  "apres": [
+   29,
+   31,
+   35,
+   40
+  ],
+  "motif": "Modification de densité et état physique par expansion gazeuse."
+ },
+ {
+  "id": "insert_epoxy_su8_microfluidique",
+  "name": "Inserts de moule rapides en résine SU-8 fonctionnalisée",
+  "avant": [
+   3,
+   24,
+   35
+  ],
+  "apres": [
+   3,
+   24
+  ],
+  "motif": "Intermédiaire anti-adhérent et géométrie, sans modification de paramètres."
+ },
+ {
+  "id": "texturation_nanostructuree_variotherme",
+  "name": "Chauffe flash surfacique pour nanostructuration fonctionnelle",
+  "avant": [
+   3,
+   17,
+   35
+  ],
+  "apres": [
+   3,
+   17,
+   21
+  ],
+  "motif": "Action thermique flash de procédé pour réplication géométrique."
+ },
+ {
+  "id": "mousse_multicouche_pbat_emi",
+  "name": "Mousse PBAT structurée multicouche anti-EMI",
+  "avant": [
+   3,
+   35,
+   40
+  ],
+  "apres": [
+   3,
+   35,
+   40
+  ],
+  "motif": "Changement de densité de structure par moussage supercritique."
+ },
+ {
+  "id": "laser_texturing_mold_hydrophobic",
+  "name": "Micro-texturation laser de l'outillage pour super-hydrophobie intégrée",
+  "avant": [
+   3,
+   17,
+   35
+  ],
+  "apres": [
+   3,
+   17
+  ],
+  "motif": "Modification purement géométrique et surfacique de l'outillage."
+ },
+ {
+  "id": "non_reactive_dopo_hybrids",
+  "name": "Additifs DOPO non-réactifs hybrides pour époxy",
+  "avant": [
+   3,
+   35,
+   40
+  ],
+  "apres": [
+   3,
+   35,
+   40
+  ],
+  "motif": "Modification chimique de l'additif pour préserver la Tg."
+ },
+ {
+  "id": "tp_rtm_in_situ_polymerization",
+  "name": "Moulage TP-RTM par polymérisation in situ",
+  "avant": [
+   35,
+   29,
+   40
+  ],
+  "apres": [
+   29,
+   35,
+   40
+  ],
+  "motif": "Changement d'état chimique monomère vers polymère liquide/solide."
+ },
+ {
+  "id": "hybridation_rhdpe_lin_pneu_mape",
+  "name": "Compounding rHDPE hybride lin/pneu pour synergie rigidité-impact",
+  "avant": [
+   40,
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   40
+  ],
+  "motif": "Mélange et formulation de matériaux composites sans transformation intrinsèque."
+ },
+ {
+  "id": "copolymere_gbl_recyclable_chimiquement",
+  "name": "Résine bio-sourcée GBL à barrière et recyclabilité chimique intégrale",
+  "avant": [
+   35,
+   34,
+   40
+  ],
+  "apres": [
+   34,
+   35,
+   40
+  ],
+  "motif": "Modification de structure chimique polymère pour recyclabilité intrinsèque."
+ },
+ {
+  "id": "suivi_pression_empreinte_mlp",
+  "name": "Contrôle qualité automatique par courbe de pression et réseau MLP",
+  "avant": [
+   15,
+   23,
+   35
+  ],
+  "apres": [
+   15,
+   23
+  ],
+  "motif": "Contrôle et mesure par capteurs, sans action sur matière."
+ },
+ {
+  "id": "nanostructuration_empreinte_nil",
+  "name": "Nanostructuration fonctionnelle par réplication mécanique",
+  "avant": [
+   17,
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   17
+  ],
+  "motif": "Déformation mécanique de surface, pas de changement d'état."
+ },
+ {
+  "id": "traitement_surface_fibres_naturelles",
+  "name": "Silanisation et alcalinisation des fibres végétales",
+  "avant": [
+   3,
+   35,
+   40
+  ],
+  "apres": [
+   3,
+   35,
+   40
+  ],
+  "motif": "Modification chimique des propriétés de surface des fibres."
+ },
+ {
+  "id": "nano_argile_ecrouissage_rayure",
+  "name": "Additivation nanostructurée anti-rayure par écrouissage",
+  "avant": [
+   3,
+   35,
+   40
+  ],
+  "apres": [
+   3,
+   40
+  ],
+  "motif": "Ajout de charges composites, releve du principe 40."
+ },
+ {
+  "id": "fdm_printed_bn_heatsink",
+  "name": "Dissipateur thermique plastique orienté par FDM/Injection",
+  "avant": [
+   3,
+   17,
+   35
+  ],
+  "apres": [
+   3,
+   17,
+   40
+  ],
+  "motif": "Orientation de charges au sein d'un composite."
+ },
+ {
+  "id": "plastronique_3d_mid_lds_additivation",
+  "name": "Plastronique 3D-MID par additivation et structuration laser LDS",
+  "avant": [
+   3,
+   17,
+   35
+  ],
+  "apres": [
+   3,
+   17,
+   35
+  ],
+  "motif": "Transformation physico-chimique locale de l'additif par laser."
+ },
+ {
+  "id": "gcp_dmtc_mucell_surface",
+  "name": "MuCell assisté par contre-pression gaz et moule dynamique",
+  "avant": [
+   29,
+   35,
+   39
+  ],
+  "apres": [
+   15,
+   29,
+   39
+  ],
+  "motif": "Réglage de température/pression de procédé, pas de la matière."
+ },
+ {
+  "id": "ultrafine_bubble_coolant",
+  "name": "Fluidique à micro/nano-bulles pour refroidissement",
+  "avant": [
+   29,
+   35,
+   39
+  ],
+  "apres": [
+   29,
+   35,
+   39
+  ],
+  "motif": "Changement de la densité et structure physique du fluide."
+ },
+ {
+  "id": "dimensionnement_rheologique_canaux_h",
+  "name": "Dimensionnement analytique des canaux d'alimentation H",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   17
+  ],
+  "motif": "Ajustement géométrique des canaux d'alimentation."
+ },
+ {
+  "id": "injection_compression_temperature_dynamique",
+  "name": "Injection-compression à thermorégulation dynamique (ICM-DT)",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15
+  ],
+  "motif": "Régulation dynamique des paramètres du procédé."
+ },
+ {
+  "id": "recuit_cristallinite_pre_soudage",
+  "name": "Homogénéisation morphologique par recuit pré-soudage",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Modification du taux de cristallinité et de la phase."
+ },
+ {
+  "id": "cationic_mxene_ps_composite",
+  "name": "Nanocomposite PS / MXène fonctionnalisé par tensioactif",
+  "avant": [
+   17,
+   35,
+   40
+  ],
+  "apres": [
+   17,
+   35,
+   40
+  ],
+  "motif": "Fonctionnalisation chimique de surface du nano-renfort."
+ },
+ {
+  "id": "recuit_thermique_post_moulage_polymere",
+  "name": "Recuit thermique post-transformation",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Modification de l'état cristallin et relaxation interne."
+ },
+ {
+  "id": "variotherm_pignons_precision",
+  "name": "Moulage Variotherm pour pignons thermoplastiques",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Contrôle direct de la cristallinité de la matière."
+ },
+ {
+  "id": "seuil_de_debit_injection_anti_defauts",
+  "name": "Débit d'injection minimal anti-surpression",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   21
+  ],
+  "motif": "Ajustement du débit d'injection, paramètre de procédé."
+ },
+ {
+  "id": "optim_masse_preforme_nn",
+  "name": "Optimisation IA de préforme PET allégerie",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   23
+  ],
+  "motif": "Optimisation et contrôle de procédé par IA."
+ },
+ {
+  "id": "structuration_shish_kebab_injection",
+  "name": "Orientation moléculaire contrôlée par cisaillement dynamique (Shish-Kebab)",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Modification de la structure cristalline et orientation moléculaire"
+ },
+ {
+  "id": "porous_injection_scaffold_scco2",
+  "name": "Injection moussée supercritique avec lixiviation saline",
+  "avant": [
+   29,
+   31,
+   35
+  ],
+  "apres": [
+   2,
+   29,
+   31,
+   35
+  ],
+  "motif": "scCO2 modifie l'état et la viscosité du polymère"
+ },
+ {
+  "id": "debit_seuil_injection_basse_pression",
+  "name": "Débit d'injection seuil anti-surpression",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   21
+  ],
+  "motif": "Réglage de débit d'injection, paramètre de procédé"
+ },
+ {
+  "id": "structure_smpc_absorbeur_impact",
+  "name": "Structures composites à mémoire de forme (SMPC)",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35,
+   40
+  ],
+  "motif": "Changement de rigidité et flexibilité du matériau SMP"
+ },
+ {
+  "id": "variotherm_revêtement_hsq_nanostructure",
+  "name": "Revêtement isolant HSQ pour réplication micro/nano",
+  "avant": [
+   3,
+   31,
+   35
+  ],
+  "apres": [
+   3,
+   30,
+   31
+  ],
+  "motif": "Ajout d'un revêtement isolant sur l'outillage"
+ },
+ {
+  "id": "controle_glissement_poincon",
+  "name": "Régulation thermique et frictionnelle du poinçon d'assistance",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   10,
+   15
+  ],
+  "motif": "Réglage de température et frottement du procédé"
+ },
+ {
+  "id": "variotherm_profil_epaisseur_optique",
+  "name": "Refroidissement variotherme asservi à l'épaisseur lenticulaire",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   23
+  ],
+  "motif": "Asservissement et contrôle thermique selon la géométrie"
+ },
+ {
+  "id": "moulage_variotherme_micro_features",
+  "name": "Régulation variotherme pour micro-injection",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   19
+  ],
+  "motif": "Cycles thermiques alternés, régulation du procédé"
+ },
+ {
+  "id": "nucleation_supercooling_controle",
+  "name": "Nucléation contrôlée par surfusion extrême",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Contrôle de la taille de sphérolites et cristallinité"
+ },
+ {
+  "id": "refroidissement_lent_rotomoulage_pa11_barriere",
+  "name": "Refroidissement contrôlé PA11 rotomoulé",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Modification du taux de cristallinité et perméabilité"
+ },
+ {
+  "id": "ultrasons_2d_micro_injection",
+  "name": "Assistance par vibrations ultrasoniques 2D",
+  "avant": [
+   18,
+   35
+  ],
+  "apres": [
+   18
+  ],
+  "motif": "Assistance par vibrations mécaniques ultrasons uniquement"
+ },
+ {
+  "id": "recuit_thermique_pressurise_fused_filament",
+  "name": "Recuit thermique pressurisé des pièces imprimées en polymères techniques",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Recristallisation et modification des propriétés physiques"
+ },
+ {
+  "id": "auto_compatibilisation_ssse_recyclat",
+  "name": "Auto-compatibilisation par pulvérisation à l'état solide (SSSE)",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Réaction mécano-chimique et scission de chaînes"
+ },
+ {
+  "id": "rtm_cure_profile_warpage_control",
+  "name": "Profil de cuisson optimisé RTM anti-gauchissement",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   10,
+   15
+  ],
+  "motif": "Optimisation du profil et rampe de cuisson"
+ },
+ {
+  "id": "pvt_refroidissement_rapide_simulation",
+  "name": "Intégration de pVT haute vitesse pour prédiction du retrait",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   23,
+   26
+  ],
+  "motif": "Caractérisation et modélisation pour simulation numérique"
+ },
+ {
+  "id": "co_moussage_eau_gaz_contre_pression",
+  "name": "Co-moussage assisté vapeur d'eau et contre-pression de gaz",
+  "avant": [
+   29,
+   35,
+   31
+  ],
+  "apres": [
+   29,
+   31,
+   35
+  ],
+  "motif": "Changement de concentration, solubilité et état fluide du gaz/eau."
+ },
+ {
+  "id": "soudage_ultrason_haute_amplitude_composites",
+  "name": "Soudage ultrason continu à forte amplitude",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   18,
+   19
+  ],
+  "motif": "Réglage d'amplitude et de vitesse ultrasonique sans changement d'état."
+ },
+ {
+  "id": "film_mousse_multicouche_emi",
+  "name": "Co-injection/Extrusion multicouche Mousse/Film conductrice EMI",
+  "avant": [
+   3,
+   31,
+   35
+  ],
+  "apres": [
+   3,
+   31,
+   40
+  ],
+  "motif": "Structure multicouche et ajout de charges conductrices, pas un 35."
+ },
+ {
+  "id": "mfc_pp_pet_in_situ",
+  "name": "Composite microfibrillaire in-situ PP/PET",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Changement d'état et de structure moléculaire/morphologie des fibrilles."
+ },
+ {
+  "id": "refroidissement_eau_microbulles",
+  "name": "Refroidissement par eau à ultrafines bulles",
+  "avant": [
+   29,
+   31,
+   35
+  ],
+  "apres": [
+   29,
+   31,
+   35
+  ],
+  "motif": "Changement de structure et propriétés physiques du fluide caloporteur."
+ },
+ {
+  "id": "heat_set_moule_chaud_pet",
+  "name": "Procédé Heat-Set pour soufflage PET chaud",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Modification directe du taux de cristallinité du polymère."
+ },
+ {
+  "id": "surmoulage_prechauffage_interdiffusion",
+  "name": "Préchauffage d'interface pour surmoulage polymère/composite",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   10,
+   15
+  ],
+  "motif": "Préchauffage d'interface et réglage procédé sans modifier la matière."
+ },
+ {
+  "id": "surmoulage_chauffage_interface_localise",
+  "name": "Surmoulage avec préchauffage localisé de l'interface",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   3,
+   10,
+   15
+  ],
+  "motif": "Chauffage local préalable de la zone d'interface."
+ },
+ {
+  "id": "graphitisation_laser_polyimide",
+  "name": "Pistes conductrices par laser direct sur Polyimide (LIG)",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Transformation chimique directe du polyimide en graphène par laser."
+ },
+ {
+  "id": "soudage_laser_quasi_simultane_composite_hybride",
+  "name": "Soudage laser quasi-simultané pour composites PA/PPS hybrides",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   19,
+   21
+  ],
+  "motif": "Balayage rapide laser et réglage du procédé de soudage."
+ },
+ {
+  "id": "macromonomer_endgroup_depoly",
+  "name": "Dépolymérisation basse température par amorçage terminal",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Modification chimique des terminaisons de chaîne polymère."
+ },
+ {
+  "id": "moulage_variotherme_lignes_soudure",
+  "name": "Régulation variotherme pour résorption des lignes de soudure",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   10,
+   15,
+   20
+  ],
+  "motif": "Cycle thermique du moule, simple réglage de procédé."
+ },
+ {
+  "id": "surmoulage_tpv_haute_temperature",
+  "name": "Surmoulage TPV souple-souple à haute température",
+  "avant": [
+   35,
+   15
+  ],
+  "apres": [
+   15,
+   21
+  ],
+  "motif": "Ajustement de la température d'injection du procédé."
+ },
+ {
+  "id": "conception_filiere_3d_gonflement",
+  "name": "Profilage CAO de filière d'extrusion par simulation de gonflement",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   14,
+   15,
+   17
+  ],
+  "motif": "Modification géométrique 3D du profil de la filière."
+ },
+ {
+  "id": "dispersions_nanofrottement_injection_pp_argile",
+  "name": "Cisaillement extrême en injection pour exfoliation de nanocomposites",
+  "avant": [
+   18,
+   35
+  ],
+  "apres": [
+   1,
+   10,
+   18
+  ],
+  "motif": "Dispersion/exfoliation mécanique par cisaillement accru du procédé."
+ },
+ {
+  "id": "film_nanocomposite_mwcnt_desassemblage",
+  "name": "Film nanocomposite MWCNT pour désassemblage thermique",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Changement de conductivité et de phase du polymère"
+ },
+ {
+  "id": "snap_thermo_deverrouillable",
+  "name": "Snap thermo-déverrouillable à détrompage",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   3,
+   15
+  ],
+  "motif": "Flexibilité locale/géométrie modifiée par apport de chaleur"
+ },
+ {
+  "id": "reglage_pression_maintien_paroi_mince",
+  "name": "Maintien haute pression ciblé contre le gauchissement",
+  "avant": [
+   35,
+   15
+  ],
+  "apres": [
+   10,
+   15,
+   19
+  ],
+  "motif": "Réglage de paramètres de procédé (pression/durée)"
+ },
+ {
+  "id": "recuit_thermique_post_impression_rcf",
+  "name": "Recuit thermique contrôlé de pièces thermoplastiques chargées fibres",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   10,
+   15
+  ],
+  "motif": "Traitement thermique de procédé (recuit post-impression)"
+ },
+ {
+  "id": "activation_uv_express_tpc",
+  "name": "Activation de surface UV ultra-rapide pour composites TPC",
+  "avant": [
+   35,
+   18
+  ],
+  "apres": [
+   18,
+   21
+  ],
+  "motif": "Traitement de surface ultra-rapide par irradiation"
+ },
+ {
+  "id": "co-injection_viscosite_optimisee",
+  "name": "Co-injection à ratio de viscosité ajusté",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Ajustement de la viscosité dynamique de la matière"
+ },
+ {
+  "id": "injection_compression_relaxation_birefringence",
+  "name": "Injection-compression pour relaxation des contraintes optiques",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   10,
+   15
+  ],
+  "motif": "Mouvement mécanique du moule pour relaxer les contraintes"
+ },
+ {
+  "id": "depolymerisation_chimique_bouts_de_chaine",
+  "name": "Formulation à dépolymérisation thermique basse température par macromonomères",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Modification de la structure chimique pour dégradation ciblée"
+ },
+ {
+  "id": "reseaux_thermodurcissables_amidation_reversible",
+  "name": "Réseaux réticulés à liaisons dynamiques amides tertiaires",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Liaisons chimiques dynamiques modifiant la structure macromoléculaire"
+ },
+ {
+  "id": "pvd_altin_moulage_gf",
+  "name": "Revêtement PVD anti-abrasion et anti-friction",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   40
+  ],
+  "motif": "Dépôt d'une couche/revêtement protecteur sur l'outillage"
+ },
+ {
+  "id": "nanofibrillation_in_situ_reforcement_mousse",
+  "name": "Renforcement par nanofibrillation in situ (INF) pour mousses d'injection",
+  "avant": [
+   40,
+   31,
+   35
+  ],
+  "apres": [
+   31,
+   40
+  ],
+  "motif": "Inclusion de fibrilles et génération de structure poreuse"
+ },
+ {
+  "id": "composite_pla_farine_cafe_torrefiee",
+  "name": "PLA chargé farine de coque de café torréfiée",
+  "avant": [
+   35,
+   31,
+   40
+  ],
+  "apres": [
+   31,
+   40
+  ],
+  "motif": "Substitution/ajout d'une charge organique dans la matrice"
+ },
+ {
+  "id": "granules_impregnes_co2_pba",
+  "name": "Injection de granules polymères pré-imprégnés au CO2",
+  "avant": [
+   29,
+   35
+  ],
+  "apres": [
+   29,
+   35
+  ],
+  "motif": "Saturation de la matière en gaz sous pression"
+ },
+ {
+  "id": "rpp_dechets_geopolymere_acide_oleique",
+  "name": "Composite rPP chargé en béton géopolymère fonctionnalisé",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   40
+  ],
+  "motif": "Ajout de charges minérales traitées en surface"
+ },
+ {
+  "id": "segregated_network_pla_stereocomplex",
+  "name": "Réseau conducteur ségrégé par nodules stéréocomplexes PLA",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Changement de phase/état physique partiel des nodules"
+ },
+ {
+  "id": "suppression_defauts_brillance_dynamique",
+  "name": "Contrôle de la brillance par vitesse de front et température moule",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   21
+  ],
+  "motif": "Réglage de paramètres procédé (vitesse, température)."
+ },
+ {
+  "id": "surmoulage_haute_moule_paek_peek",
+  "name": "Surmoulage PEEK/PAEK à haute température d'outillage",
+  "avant": [
+   19,
+   35
+  ],
+  "apres": [
+   19
+  ],
+  "motif": "Réglage de température du moule (procédé)."
+ },
+ {
+  "id": "film_nanocomposite_demontable_effet_joule",
+  "name": "Interface nanocomposite pour assemblage et désassemblage par effet Joule",
+  "avant": [
+   15,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Modification des propriétés électriques de la matrice."
+ },
+ {
+  "id": "controle_reticulation_interface_refusion",
+  "name": "Optimisation de la re-fusion par contrôle thermique de préformage",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   10
+  ],
+  "motif": "Réglage des paramètres de temps/température du procédé."
+ },
+ {
+  "id": "imd_injection_microcellulaire_combinee",
+  "name": "Combinaison IMD / Injection microcellulaire (Mucell)",
+  "avant": [
+   17,
+   30,
+   35
+  ],
+  "apres": [
+   17,
+   30,
+   31
+  ],
+  "motif": "Structure microcellulaire relevant de matériau poreux (31)."
+ },
+ {
+  "id": "sppc_polissage_chimique_moule",
+  "name": "Procédé SPPC pour moules d'injection et coulée",
+  "avant": [
+   32,
+   35
+  ],
+  "apres": [
+   3
+  ],
+  "motif": "Action de lissage géométrique de surface (3)."
+ },
+ {
+  "id": "encapsulation_molded_underfill",
+  "name": "Surmoulage direct d'inserts puces/électronique (Molded Underfill)",
+  "avant": [
+   29,
+   35
+  ],
+  "apres": [
+   29
+  ],
+  "motif": "Choix de procédé de moulage basse pression."
+ },
+ {
+  "id": "nanoclay_oleic_acid_modification",
+  "name": "Argile organophile à l'acide oléique",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Modification chimique de surface de l'argile."
+ },
+ {
+  "id": "grainage_mecanique_adherence_pmma",
+  "name": "Texturation mécanique de surface pour assemblage polymère",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3
+  ],
+  "motif": "Texturation géométrique mécanique de surface (3)."
+ },
+ {
+  "id": "functionalisation_hdpe_macromonomeres",
+  "name": "Polyéthylène téléchélique réticulable par transestérification",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Modification de la structure chimique du polymère."
+ },
+ {
+  "id": "oleic_acid_modified_clay_nanocomposite",
+  "name": "Nanocomposite PET/argile exfoliée à l'acide oléique",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Fonctionnalisation chimique de l'argile."
+ },
+ {
+  "id": "variothermie_insert_couche_conductrice",
+  "name": "Insert variotherme à couche intermédiaire à haute diffusivité",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   24
+  ],
+  "motif": "Ajout d'une couche intermédiaire conductrice (24)."
+ },
+ {
+  "id": "moule_composite_induction_localisee",
+  "name": "Moulage hybride ferromagnétique pour induction sélective",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   5
+  ],
+  "motif": "Combinaison de matériaux ferro/paramagnétiques (5)."
+ },
+ {
+  "id": "outillage_polymere_revêtement_nanostructure",
+  "name": "Outillage polymère à revêtement anti-adhérent pour hauts ratios d'aspect",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   30
+  ],
+  "motif": "Application d'un film mince anti-adhérent (30)."
+ },
+ {
+  "id": "activation_plasma_surmoulage_abs_pa6",
+  "name": "Activation plasma atmosphérique pour surmoulage multimatière incompatible",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Modification chimique des groupements fonctionnels."
+ },
+ {
+  "id": "pc_pet_chain_extender_compatibilization",
+  "name": "Régénération et compatibilisation réactive de mélanges PC/PET par allongeurs de chaîne",
+  "avant": [
+   35,
+   3
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Recombinaison chimique modifiant les propriétés de la matière"
+ },
+ {
+  "id": "polymerisation_in_situ_arop_lactame",
+  "name": "Inclusion polymérique in-situ à basse viscosité (AROP)",
+  "avant": [
+   29,
+   35
+  ],
+  "apres": [
+   29,
+   35
+  ],
+  "motif": "Changement d'état physique et viscosité par réaction"
+ },
+ {
+  "id": "optimisation_laser_semicristallin_charge",
+  "name": "Formulation polymère chargée adaptée au soudage laser TTLW",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Modification de la cristallinité et de la transmissibilité opticale"
+ },
+ {
+  "id": "pha_greffe_mah_couche_liaison",
+  "name": "Greffage MAH sur PHA pour co-extrusion barrière PVOH",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Modification chimique des paramètres de la résine"
+ },
+ {
+  "id": "revêtement_dlc_promoteur_adherence",
+  "name": "Intercouche DLC pour hybrides acier-composite",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   30
+  ],
+  "motif": "Dépôt d'un film mince de surface"
+ },
+ {
+  "id": "assemblage_plastite_charge_bio",
+  "name": "Vissage direct Plastite optimisé pour polymères chargés",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   17
+  ],
+  "motif": "Géométrie de vis et dimensionnement CAO"
+ },
+ {
+  "id": "hybridation_directe_metal_plastique_pps",
+  "name": "Surmoulage structurel métal-polymère par nanotexturation",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   24
+  ],
+  "motif": "Texturation de surface et agent intermédiaire"
+ },
+ {
+  "id": "charge_coeur_ecorce_bagasse_pani",
+  "name": "Fibres biosourcées cœur-écorce Bagasse/PANI",
+  "avant": [
+   7,
+   35,
+   40
+  ],
+  "apres": [
+   7,
+   35,
+   40
+  ],
+  "motif": "Modification des propriétés électriques du matériau"
+ },
+ {
+  "id": "dopo_non_reactif_epoxy",
+  "name": "Additifs DOPO non réactifs pour thermodurcissables",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Modification des propriétés d'inflammabilité par additivation"
+ },
+ {
+  "id": "optimisation_maintien_composite_lignes_soudure",
+  "name": "Compactage thermique ciblé pour lignes de soudure PA6-GF30",
+  "avant": [
+   35,
+   3
+  ],
+  "apres": [
+   3,
+   15
+  ],
+  "motif": "Réglage de paramètres du procédé d'injection"
+ },
+ {
+  "id": "revêtement_moule_anti_adherence",
+  "name": "Revêtement d'Outillage Anti-Adhérent PVD",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   30
+  ],
+  "motif": "Revêtement mince déposé sur l'outillage"
+ },
+ {
+  "id": "exfoliation_flhbn_isolation_thermique",
+  "name": "Intégration de nanofeuillets h-BN exfoliés (FLh-BN)",
+  "avant": [
+   35,
+   3
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Modification des paramètres de conductivité thermique"
+ },
+ {
+  "id": "surmoulage_optique_thv_pc_plasma",
+  "name": "Placage optique de film fluoropolymère sur PC par plasma O2",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   30
+  ],
+  "motif": "Traitement de surface plasma et procédé thermique"
+ },
+ {
+  "id": "compatibilizer_water_uptake_control",
+  "name": "Additivation agent de couplage anti-reprise d'humidité",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Altération chimique de l'absorbance d'eau des fibres"
+ },
+ {
+  "id": "iml_ratio_epaisseurs_anti_gauchissement",
+  "name": "Optimisation du ratio d'épaisseurs film/pièce en IML/IMD",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   17
+  ],
+  "motif": "Optimisation géométrique du ratio d'épaisseurs"
+ },
+ {
+  "id": "traitement_hybride_insert_surmoulage",
+  "name": "Traitement de surface hybride mécanique/chimique pour inserts",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   10
+  ],
+  "motif": "Traitement de surface et préparation préalable au moulage."
+ },
+ {
+  "id": "optimisation_profil_nanocomposites",
+  "name": "Réglage thermique court pour nanocomposites",
+  "avant": [
+   35,
+   3
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Changement de température/viscosité pour modifier la rigidité."
+ },
+ {
+  "id": "formulation_pbat_resine_pins",
+  "name": "Additivation du PBAT par dérivé de résine de pin",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Modification de viscosité et stabilité par additivation."
+ },
+ {
+  "id": "plastification_pla_cardanol_rotomoulage",
+  "name": "Plastification du PLA par dérivés de cardanol pour rotomoulage",
+  "avant": [
+   35,
+   3
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Modification d'état physique et inhibition de cristallisation."
+ },
+ {
+  "id": "insert_moule_cuivre_ampcoloy",
+  "name": "Inserts de moule à haute conductivité thermique (Ampcoloy)",
+  "avant": [
+   35,
+   3
+  ],
+  "apres": [
+   3,
+   40
+  ],
+  "motif": "Substitution de matériau d'outillage par alliage conducteur."
+ },
+ {
+  "id": "rotomoulage_reactif_systeme_liquide",
+  "name": "Rotomoulage réactif de systèmes polymères liquides",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Passage de phase solide/poudre à phase liquide."
+ },
+ {
+  "id": "revetement_noyau_dlc_ws2",
+  "name": "Revêtement anti-friction sur noyaux d'éjection",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   30
+  ],
+  "motif": "Ajout de couche mince/revêtement anti-friction sur l'outil."
+ },
+ {
+  "id": "traitement_plasma_bioplastique_conducteur",
+  "name": "Film bioplastique PLA/PHB fonctionnalisé plasma et SWCNT",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Modification chimique et physique de surface par plasma."
+ },
+ {
+  "id": "nanocomposite_argile_exfoliee",
+  "name": "Renforcement polymère par nano-charges exfoliées",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   31,
+   40
+  ],
+  "motif": "Mélange composite avec nano-charges dispersées."
+ },
+ {
+  "id": "activation_uv_composites_thermoplastiques",
+  "name": "Activation de surface flash par UV haute puissance",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Modification photochimique de surface du matériau."
+ },
+ {
+  "id": "soudage_vibration_pp_cristallisation_beta",
+  "name": "Soudage par vibration optimisé sur PP à nucléation Bêta",
+  "avant": [
+   35,
+   3
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Changement de structure cristalline (phase bêta)."
+ },
+ {
+  "id": "gaim_contre_pression_gcp",
+  "name": "Injection gaz avec contre-pression en empreinte",
+  "avant": [
+   29,
+   35
+  ],
+  "apres": [
+   23,
+   29
+  ],
+  "motif": "Réglage de procédé et contrôle de pression pneumatique."
+ },
+ {
+  "id": "empreinte_bmg_micro_structuration",
+  "name": "Insert d'outillage en verre métallique massif (BMG)",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   17
+  ],
+  "motif": "Changement de matériau d'outillage et micro-structuration géométrique."
+ },
+ {
+  "id": "poincon_regule_tg_thermoformage",
+  "name": "Poinçon de thermoformage régulé à T_g",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Ajustement de la température au-dessus de Tg."
+ },
+ {
+  "id": "direct_pellet_extrusion_biocomposites",
+  "name": "Impression directe de granulés pour composites souples",
+  "avant": [
+   35,
+   29
+  ],
+  "apres": [
+   10,
+   27
+  ],
+  "motif": "Élimination de l'étape de filage, impression directe."
+ },
+ {
+  "id": "extrusion_cryogenique_structure_poreuse",
+  "name": "Extrusion cryogénique de polymères poreux",
+  "avant": [
+   31,
+   35,
+   39
+  ],
+  "apres": [
+   31,
+   35,
+   39
+  ],
+  "motif": "Changement de température et état via lyophilisation"
+ },
+ {
+  "id": "capteur_pression_auto_alimente_ultrasons",
+  "name": "Capteur de pression d'empreinte sans fil auto-alimenté par la matière",
+  "avant": [
+   29,
+   35
+  ],
+  "apres": [
+   28,
+   29
+  ],
+  "motif": "Effet piézoélectrique (substitution mécanique) et signal ultrason"
+ },
+ {
+  "id": "charges_plastiques_recyclees_aggregats",
+  "name": "Formulation de composites thermoplastiques fortement chargés en broyés",
+  "avant": [
+   31,
+   35,
+   22
+  ],
+  "apres": [
+   22,
+   31,
+   35
+  ],
+  "motif": "Modification chimique de surface des particules"
+ },
+ {
+  "id": "optimization_eventation_simulee_anti_brulure",
+  "name": "Optimisation de l'éventation contre l'effet Diesel",
+  "avant": [
+   29,
+   35
+  ],
+  "apres": [
+   10,
+   29
+  ],
+  "motif": "Réglage de procédé et géométrie d'évents"
+ },
+ {
+  "id": "refroidissement_force_anti_gauchissement_pps",
+  "name": "Refroidissement convectif assisté pour semi-cristallins",
+  "avant": [
+   29,
+   35
+  ],
+  "apres": [
+   19,
+   29
+  ],
+  "motif": "Action de refroidissement par air forcé"
+ },
+ {
+  "id": "depot_surface_antimicrobien_moule",
+  "name": "Dépôt d'additifs fonctionnels en empreinte de soufflage",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   10
+  ],
+  "motif": "Action préalable de poudrage et qualité locale"
+ },
+ {
+  "id": "soudage_laser_transparence_pc",
+  "name": "Soudage laser par transparence PC/PC absorbant",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   17
+  ],
+  "motif": "Propriétés optiques différentes par couches"
+ },
+ {
+  "id": "prevention_cloquage_surmoulage_film",
+  "name": "Contrôle anti-cloquage en surmoulage de film (FIM/IMD)",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   10
+  ],
+  "motif": "Réglage de paramètres de process d'injection"
+ },
+ {
+  "id": "controle_brillant_pression_front_moule",
+  "name": "Optimisation du couple vitesse de front / température pour l'aspect haut brillant",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   15
+  ],
+  "motif": "Dynamisation des vitesses de cycle d'injection"
+ },
+ {
+  "id": "polymere_biosource_degradable_milieu_marin",
+  "name": "Plastique biosourcé à dégradation contrôlée en milieu aquatique",
+  "avant": [
+   35,
+   3
+  ],
+  "apres": [
+   3,
+   35
+  ],
+  "motif": "Changement de composition chimique pour la dégradabilité"
+ },
+ {
+  "id": "impression_3d_cryogenique_ecp",
+  "name": "Extrusion 3D cryogénique avec lyophilisation",
+  "avant": [
+   31,
+   35,
+   39
+  ],
+  "apres": [
+   31,
+   35,
+   39
+  ],
+  "motif": "Changement de phase par gel et sublimation"
+ },
+ {
+  "id": "revetement_fdts_nanostructures_demoulage",
+  "name": "Traitement de surface anti-adhérent pour micro/nano-moulage",
+  "avant": [
+   3,
+   35
+  ],
+  "apres": [
+   3,
+   30
+  ],
+  "motif": "Revêtement film mince anti-adhérent"
+ },
+ {
+  "id": "bionanocomposites_charges_bioflex_materbi",
+  "name": "Bionanocomposites renforcés nanocharges",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Création d'un matériau composite renforcé"
+ },
+ {
+  "id": "biocomposite_pla_pcl_reinforce",
+  "name": "Matrice thermoplastique biodégradable bio-chargée",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Incorporation de charges pour matériau composite"
+ },
+ {
+  "id": "moussage_hybride_pba_cba_caco3",
+  "name": "Moussage hybride physique/chimique avec nucléation CaCO3",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Réaction chimique de moussage et nucléation"
+ },
+ {
+  "id": "alliage_pom_eva_anti_gauchissement",
+  "name": "Formulation d'alliage POM/EVA pour stabilité dimensionnelle",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Mélange de polymères relevant du principe 40"
+ },
+ {
+  "id": "compatibilisation_hybride_pp_pe_biofillers",
+  "name": "Compatibilisation hybride PP/PE par charges biosourcées",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Composite avec charges relevant du principe 40"
+ },
+ {
+  "id": "surmoulage_spc_pp",
+  "name": "Surmoulage composite mono-matériau PP/PP",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Réglage procédé et composite monomatériau 40"
+ },
+ {
+  "id": "composite_auto_renforce_monomatiere",
+  "name": "Composites polymères auto-renforcés (SRPC/SR-PLA)",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   36,
+   40
+  ],
+  "motif": "Fusion partielle relevant de transition de phase 36"
+ },
+ {
+  "id": "polypropylene_nanoclay_charniere",
+  "name": "Polypropylene nanoclay charniere",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Nanocomposite relevant du principe 40"
+ },
+ {
+  "id": "pla_renforce_fibres_lin",
+  "name": "Biocomposite PLA renforcé lin sans couplage",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Biocomposite chargé relevant du principe 40"
+ },
+ {
+  "id": "pha_agrowaste_formulation",
+  "name": "Polymères PHAs issus de résidus agroalimentaires",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   27,
+   40
+  ],
+  "motif": "Substitution biosourcée alternative 27 et 40"
+ },
+ {
+  "id": "structure_apa6_nervuree_in_situ",
+  "name": "Composite APA-6 thermoplastique à nervurage optimisé",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   3,
+   40
+  ],
+  "motif": "Geométrie nervurée (3) et composite (40)"
+ },
+ {
+  "id": "attenuation_contraintes_moule_chaud",
+  "name": "Atténuation des contraintes par moule chaud et maintien profilé",
+  "avant": [
+   17,
+   35
+  ],
+  "apres": [
+   17,
+   19
+  ],
+  "motif": "Réglage de procédé et profilage de pression"
+ },
+ {
+  "id": "traitement_surface_biofibres_interphase",
+  "name": "Traitements de surface des bio-fibres pour composites polymères",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Modification chimique des propriétés de surface"
+ },
+ {
+  "id": "surmoulage_tissu_auto_renforce_uhmwpe_hdpe",
+  "name": "Surmoulage de Tissu UHMWPE par Matrice HDPE",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Composite thermoplastique relevant du principe 40"
+ },
+ {
+  "id": "compatibilisation_mecanique_rpp_rpet_sebs_g_ma",
+  "name": "Compatibilisation sélective rPP/rPET par SEBS-g-MA",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Compatibilisation d'alliage relevant du principe 40"
+ },
+ {
+  "id": "silicone_charge_hybride_prototypage",
+  "name": "Silicone à haute conductivité pour moules de pré-série",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Silicone additivé charges hybrides (composite 40)"
+ },
+ {
+  "id": "compatibilisation_mélanges_rpe_rpp_obc",
+  "name": "Compatibilisation rPE/rPP via élastomère bloc OBC",
+  "avant": [
+   40,
+   35
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Ajout de compatibilisant relevant du principe 40"
+ },
+ {
+  "id": "depolymerizable_circular_polymers",
+  "name": "Polymères chimiquement recyclables par dépolymérisation",
+  "avant": [
+   35,
+   34
+  ],
+  "apres": [
+   34,
+   36
+  ],
+  "motif": "Dépolymérisation relevant des principes 34 et 36"
+ },
+ {
+  "id": "synergie_graphite_appm_tpe_sans_halogene",
+  "name": "Synergie Graphite Expansible / APP enrobé pour TPE",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Ajout de charges ignifuges relève des composites."
+ },
+ {
+  "id": "pp_talc_stabilite_dimensionnelle",
+  "name": "Polypropylène chargé talc à stabilité dimensionnelle",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   3,
+   40
+  ],
+  "motif": "Renforcement par talc et injection localisée."
+ },
+ {
+  "id": "sertissage_infrarouge_optimise",
+  "name": "Sertissage thermoplastique infrarouge (IR Staking)",
+  "avant": [
+   17,
+   35
+  ],
+  "apres": [
+   17,
+   19
+  ],
+  "motif": "Réglage temporel et séquentiel d'un procédé."
+ },
+ {
+  "id": "nanocomposite_pp_mwnt_anti_retrait",
+  "name": "Additivation PP en nanotubes de carbone",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Inclusion de nanotubes de carbone relève des composites."
+ },
+ {
+  "id": "pla_pbat_stereocomplex_compatibilization",
+  "name": "Compatibilisation in-situ PLA/PBAT par cristallites stéréocomplexes",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Modification de structure cristalline et état de phase."
+ },
+ {
+  "id": "pbs_bio_nanocomposite_blend",
+  "name": "Formulation hybride PBS / nano-charges bio-sourcées",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Mélange polymère et nano-charges relève des composites."
+ },
+ {
+  "id": "elastomere_hybride_hydrogene",
+  "name": "Élastomère à réticulation mixte pour pièces souples haute ténacité",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Modulation de flexibilité par liaisons physiques supramoléculaires."
+ },
+ {
+  "id": "pei_pp_blend_nucleation",
+  "name": "Compound PEI/PP pour le contrôle de morphologie microcellulaire",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   31,
+   40
+  ],
+  "motif": "Moussage microcellulaire relève des matériaux poreux."
+ },
+ {
+  "id": "nanocharges_hybrides_lubrifiees_peek",
+  "name": "Synergie SWCNT et nano-lubrifiant IF-WS2",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Inclusion de nano-renforts et lubrifiant solide."
+ },
+ {
+  "id": "nanocomposite_f_swnt_diazonium",
+  "name": "Renforcement ultra-faible charge par F-SWNT",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Fonctionnalisation de nano-charges relève des composites."
+ },
+ {
+  "id": "compatibilisation_pp_mwnt_pp_g_ma",
+  "name": "Compatibilisation PP/MWNT par PP-g-MA",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Agent de couplage dans un nanocomposite."
+ },
+ {
+  "id": "compatibilisation_rhdpe_rpet_egma",
+  "name": "Compatibilisation réactive rHDPE/rPET via E-GMA",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Compatibilisation d'alliage polymère réactif."
+ },
+ {
+  "id": "melange_pla_pbat_submicronique",
+  "name": "Mélange PLA/PBAT à dispersion submicronique",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Dispersion de phases dans un mélange polymère."
+ },
+ {
+  "id": "renfort_verre_soudabilite_ultrason",
+  "name": "Dopage en fibres de verre pour soudage ultrason optimisé",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   18,
+   40
+  ],
+  "motif": "Fibres de verre et transmission d'ondes ultrasonores."
+ },
+ {
+  "id": "blend_pe_mpa_compatabilise_barriere",
+  "name": "Mélange PE/Polyamide modifié par extrusion réactive",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Alliage de polymères à morphologie lamellaire."
+ },
+ {
+  "id": "hybridation_metal_plastique_surmoulage",
+  "name": "Structure hybride métal-plastique surmoulée",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Assemblage multi-matériaux et ancrage, pas de changement d'état."
+ },
+ {
+  "id": "depolymerisable_trans_gbl",
+  "name": "Polybutyrolactone trans-fused à recyclage fermé",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Dépolymérisation et modification de la structure chimique du matériau."
+ },
+ {
+  "id": "rallongeur_chaine_bisoxazoline_pet_recycle",
+  "name": "Rallongement de chaîne bisoxazoline pour rPET",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Restauration de la masse moléculaire et viscosité du polymère."
+ },
+ {
+  "id": "moule_silicone_hybride_haute_conductivite",
+  "name": "Moulage silicone hybride à haute conductivité thermique",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Mélange de charges et formulation composite."
+ },
+ {
+  "id": "synergistic_pen_oxygen_barrier",
+  "name": "Mélange PET/PEN et piégeurs d'oxygène synergiques",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Mélange de polymères et additifs, formulation composite."
+ },
+ {
+  "id": "p_n_mmt_synergy_tpee",
+  "name": "Synergie P-N et Nano-Argile Anti-Goutte",
+  "avant": [
+   40,
+   35
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Synergie d'additifs et dispersion nanocomposite."
+ },
+ {
+  "id": "pet_pen_active_passive_barrier",
+  "name": "Barrière active/passive PET-PEN",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Association de résines et piégeurs, matériau composite."
+ },
+ {
+  "id": "compatibilisation_poss_pla_pbat",
+  "name": "Compatibilisation PLA/PBAT par Epoxy-POSS",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   24,
+   40
+  ],
+  "motif": "Agent intermédiaire d'interface pour alliage de polymères."
+ },
+ {
+  "id": "composite_thermoplastique_structural",
+  "name": "Allègement par composite thermoplastique de structure",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Substitution par matériau composite thermoplastique."
+ },
+ {
+  "id": "heat_set_soufflage_moule_chaud",
+  "name": "Soufflage Heat-Set sur moule chaud pour Hot-Fill",
+  "avant": [
+   17,
+   35
+  ],
+  "apres": [
+   17,
+   35
+  ],
+  "motif": "Modification de la cristallinité et relaxation de phase thermique."
+ },
+ {
+  "id": "coextrusion_barrieres_biodegradables",
+  "name": "Formulation et co-extrusion barrière pour polymères biodégradables",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   30,
+   40
+  ],
+  "motif": "Structure multicouche et ajout de nanocharges."
+ },
+ {
+  "id": "surmoulage_hybride_poche_aluminium",
+  "name": "Surmoulage direct de structures hybrides métal-plastique",
+  "avant": [
+   40,
+   35
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Combinaison mécanique métal/plastique par surmoulage."
+ },
+ {
+  "id": "pet_pe_per_sebs_compatibilization",
+  "name": "Compatibilisation d'emballages multicouches PET/PE par caoutchouc PER",
+  "avant": [
+   40,
+   35
+  ],
+  "apres": [
+   24,
+   40
+  ],
+  "motif": "Utilisation d'un compatibilisant comme agent intermédiaire."
+ },
+ {
+  "id": "r_hdpe_dechets_carbone_charges",
+  "name": "Renforcement de r-HDPE par fibres de carbone recyclées",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Simple renforcement de matrice par charges minérales/fibres."
+ },
+ {
+  "id": "refroidissement_turbulent_high_reynolds",
+  "name": "Régulation thermique à fort régime turbulent",
+  "avant": [
+   17,
+   35
+  ],
+  "apres": [
+   15,
+   17
+  ],
+  "motif": "Réglage de régime d'écoulement hydraulique du procédé."
+ },
+ {
+  "id": "renfort_nanowhiskers_cellulose",
+  "name": "Nano-composite biosourcé à fibrilles de cellulose",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Ajout de nano-charges relève du principe 40 (composites)."
+ },
+ {
+  "id": "recyclage_pa66_cf30_regronule",
+  "name": "Réutilisation de PA66-CF30 vieilli UV",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   27,
+   40
+  ],
+  "motif": "Réutilisation de matière usagée relève du principe 27."
+ },
+ {
+  "id": "polythioesters_biosources_haute_molarite",
+  "name": "Matériaux résine polythioester (PTE) à dépolymérisation intégrale",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Modification de la masse molaire et réversibilité chimique."
+ },
+ {
+  "id": "semifinished_continuous_fiber_filament",
+  "name": "Impression 3D à filament continu pré-imprégné",
+  "avant": [
+   24,
+   35
+  ],
+  "apres": [
+   10,
+   24
+  ],
+  "motif": "Pré-imprégnation est une étape intermédiaire (24) et préalable (10)."
+ },
+ {
+  "id": "reticulation_peroxyde_biopolymeres_pla_phb",
+  "name": "Réticulation réactive DCP pour bio-nanocomposites PLA/PHB",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Modification du taux de cristallinité et réticulation chimique."
+ },
+ {
+  "id": "pla_lin_huile_fonctionnalisee",
+  "name": "Biocomposite PLA / Farine de lin compatibilisé",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Formulation composite avec additif, relève du principe 40."
+ },
+ {
+  "id": "pekk_faible_retrait_frittage_poudre",
+  "name": "Matrice PEKK à faible retrait structural pour impression poudre",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Substitution de matériau par une alternative, pas de P35."
+ },
+ {
+  "id": "pp_nucleation_beta_soudage_vibration",
+  "name": "Polypropylène nucléé Bêta pour soudage vibration",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Changement de la structure cristalline (phase alpha vers bêta)."
+ },
+ {
+  "id": "dilatation_accordee_charge",
+  "name": "Accord des coefficients de dilatation thermique filler/matrice",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Ajustement de la concentration pour modifier le paramètre CTE."
+ },
+ {
+  "id": "additivation_pp_nanotubes_mwnt",
+  "name": "Additivation PP par Nanotubes de Carbone (MWNT)",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Simple ajout de renforts minéraux/nanotubes (composites 40)."
+ },
+ {
+  "id": "soudage_laser_direct_polymere_metal",
+  "name": "Soudage laser direct métal-thermoplastique",
+  "avant": [
+   40,
+   35
+  ],
+  "apres": [
+   3,
+   40
+  ],
+  "motif": "Apport calorifique localisé relève de la qualité locale (3)."
+ },
+ {
+  "id": "additivation_synergique_ath_eg_rp",
+  "name": "Additivation ignifuge synergique ATH-EG-RP",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Combinaison d'additifs (5) dans une matrice (40)."
+ },
+ {
+  "id": "composites_fibres_naturelles_traitees",
+  "name": "Matériaux composites thermoplastiques renforcés de fibres végétales fonctionnalisées",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Inclusion de fibres végétales relève du principe 40."
+ },
+ {
+  "id": "compatibilisation_hdpe_pet_gma",
+  "name": "Compatibilisation réactive HDPE/PET par copolymère GMA",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   5,
+   40
+  ],
+  "motif": "Mélange polymère et compatibilisant (combinaison 5 / composite 40)."
+ },
+ {
+  "id": "overmoulage_mid_isomatiere",
+  "name": "Surmoulage MID iso-matériau anti-fissuration",
+  "avant": [
+   6,
+   35
+  ],
+  "apres": [
+   6,
+   33
+  ],
+  "motif": "Emploi d'un matériau identique relève de l'homogénéité (33)."
+ },
+ {
+  "id": "cnt_secondary_network_structuring",
+  "name": "Structuration par réseau secondaire de NTC",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Changement d'état d'agglomération des NTC dans le polymère."
+ },
+ {
+  "id": "moulage_liner_hydrogene_type4",
+  "name": "Injection stabilisée pour grands liners de réservoirs Hydrogène",
+  "avant": [
+   35,
+   39
+  ],
+  "apres": [
+   10,
+   39
+  ],
+  "motif": "Simple réglage de paramètres de procédé d'injection."
+ },
+ {
+  "id": "mxene_surface_functionalization",
+  "name": "Nanofeuijllets de MXène fonctionnalisés par tensioactifs",
+  "avant": [
+   14,
+   35
+  ],
+  "apres": [
+   14,
+   35
+  ],
+  "motif": "Modification des propriétés physico-chimiques de surface du MXène."
+ },
+ {
+  "id": "compensation_3d_gonflement_filiere",
+  "name": "Compensation 3D du gonflement et vrillage en filière d'extrusion",
+  "avant": [
+   17,
+   35
+  ],
+  "apres": [
+   3,
+   17
+  ],
+  "motif": "Modification géométrique 3D de la filière d'extrusion."
+ },
+ {
+  "id": "soudage_laser_hybride_polymere_metal",
+  "name": "Assemblage laser direct polymère-métal",
+  "avant": [
+   17,
+   35
+  ],
+  "apres": [
+   17
+  ],
+  "motif": "Procédé d'assemblage laser sans changement d'état intrinsèque."
+ },
+ {
+  "id": "biocomposites_lignocellulosiques_injectes",
+  "name": "Renforcement polymère par agro-fibres lignocellulosiques modifiées",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Greffage et modification chimique de surface des fibres."
+ },
+ {
+  "id": "poche_de_pincement_demi_circulaire",
+  "name": "Poche de pincement d'ébarbage semi-circulaire",
+  "avant": [
+   14,
+   35
+  ],
+  "apres": [
+   3,
+   14
+  ],
+  "motif": "Changement de forme géométrique de l'insert d'outillage."
+ },
+ {
+  "id": "surmoulage_paek_peek_haute_temp_moule",
+  "name": "Surmoulage composite PAEK/PEEK à haute température d'outillage",
+  "avant": [
+   17,
+   35
+  ],
+  "apres": [
+   10,
+   17
+  ],
+  "motif": "Ajustement thermique du moule, simple paramètre procédé."
+ },
+ {
+  "id": "canal_chaud_presse_electrique",
+  "name": "Moulage hybride canal chaud et presse tout-électrique",
+  "avant": [
+   22,
+   35
+  ],
+  "apres": [
+   22
+  ],
+  "motif": "Choix d'architecture d'outillage et de machine."
+ },
+ {
+  "id": "optique_bimatiere_achromatique",
+  "name": "Optique poly-matériau bi-injectée plastique/élastomère",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Association multi-matériaux et géométrie d'interface."
+ },
+ {
+  "id": "laser_transparence_sans_additif",
+  "name": "Soudage laser de thermoplastiques transparents sans absorbeur",
+  "avant": [
+   17,
+   35
+  ],
+  "apres": [
+   17,
+   28
+  ],
+  "motif": "Utilisation de la longueur d'onde intrinsèque du laser."
+ },
+ {
+  "id": "epoxy_charges_mgo_conductivite",
+  "name": "Résine Epoxy Haute Conductivité par MgO",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   40
+  ],
+  "motif": "Ajout de charges minérales, création d'un composite."
+ },
+ {
+  "id": "monitoring_jauges_extensometriques_tirants",
+  "name": "Suivi qualité par incrément d'effort sur tirants",
+  "avant": [
+   22,
+   35
+  ],
+  "apres": [
+   22,
+   23
+  ],
+  "motif": "Mise en place de capteurs et rétroaction."
+ },
+ {
+  "id": "agent_demoulage_stearate_calcium_pla",
+  "name": "Additivation stéarate de calcium pour démoulage du PLA",
+  "avant": [
+   35,
+   39
+  ],
+  "apres": [
+   39
+  ],
+  "motif": "Ajout d'un additif lubrifiant/démoulant standard."
+ },
+ {
+  "id": "optimisation_interface_surmoulage_hybride",
+  "name": "Interpénétration macromoléculaire en surmoulage hybride",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Diffusion et interpénétration macromoléculaire des chaînes."
+ },
+ {
+  "id": "mg_oh2_tpe_flame_retardant",
+  "name": "TPE ignifugé à l'hydroxide de magnésium",
+  "avant": [
+   35,
+   39
+  ],
+  "apres": [
+   35,
+   39
+  ],
+  "motif": "Modification de propriété ignifuge du matériau"
+ },
+ {
+  "id": "faim_fluide_silicone_caloporteur",
+  "name": "Injection eau/fluide assistée par huile silicone",
+  "avant": [
+   35,
+   39
+  ],
+  "apres": [
+   24
+  ],
+  "motif": "Substitution d'un fluide intermédiaire de procédé"
+ },
+ {
+  "id": "optimisation_retrait_preforme_pet",
+  "name": "Réglage optimal anti-retrait préforme PET",
+  "avant": [
+   35,
+   39
+  ],
+  "apres": [
+   10,
+   21
+  ],
+  "motif": "Simple réglage des paramètres de procédé"
+ },
+ {
+  "id": "polymeres_soufres_haut_indice",
+  "name": "Polymeres soufrés à haut indice de réfraction",
+  "avant": [
+   35,
+   40
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Modification de l'indice de réfraction du polymère"
+ },
+ {
+  "id": "charges_spheriques_rugosite_etat_surface",
+  "name": "Charges minérales sphériques pour état de surface ultime",
+  "avant": [
+   14,
+   35
+  ],
+  "apres": [
+   14
+  ],
+  "motif": "Changement géométrique des charges vers la sphéroïdalité"
+ },
+ {
+  "id": "compounding_agri_dechets_bioemballage",
+  "name": "Compounding de résidus agro-alimentaires fonctionnalisés",
+  "avant": [
+   22,
+   35
+  ],
+  "apres": [
+   22,
+   40
+  ],
+  "motif": "Valorisation de déchets en matériau composite"
+ },
+ {
+  "id": "nucleation_nano_caco3_moussage_pp",
+  "name": "Additivation en nano-CaCO3 à 6% pour micro-moussage physique",
+  "avant": [
+   31,
+   35
+  ],
+  "apres": [
+   31
+  ],
+  "motif": "Création d'une structure alvéolaire poreuse"
+ },
+ {
+  "id": "reseau_polymerique_hydrophobe_insitu",
+  "name": "Réseau hydrophobe barrière polymérisé in-situ",
+  "avant": [
+   30,
+   35
+  ],
+  "apres": [
+   30,
+   35
+  ],
+  "motif": "Changement de structure chimique par réticulation"
+ },
+ {
+  "id": "pilotage_pressions_empreinte_multiples",
+  "name": "Régulation du procédé par intégrale de pression empreinte",
+  "avant": [
+   23,
+   35
+  ],
+  "apres": [
+   23
+  ],
+  "motif": "Système de contrôle et boucle de rétroaction"
+ },
+ {
+  "id": "pla_scg_bio_composite_fluidified",
+  "name": "Composite PLA chargé en marc de café valorisé (SCG)",
+  "avant": [
+   35,
+   31
+  ],
+  "apres": [
+   22,
+   31,
+   40
+  ],
+  "motif": "Valorisation de sous-produit en composite"
+ },
+ {
+  "id": "pla_ramifie_haute_viscosite_moussage",
+  "name": "PLA modifié chimiquement par ramification pour le moussage",
+  "avant": [
+   31,
+   35
+  ],
+  "apres": [
+   31,
+   35
+  ],
+  "motif": "Modification de la tenue à chaud du polymère"
+ },
+ {
+  "id": "liner_barriere_pvd_depot_metallique_cfrp",
+  "name": "Barrière d'étanchéité métallique/DLC sur composite CFRP",
+  "avant": [
+   30,
+   35
+  ],
+  "apres": [
+   30
+  ],
+  "motif": "Ajout d'un film mince barrière"
+ },
+ {
+  "id": "starch_hydrogel_conductive_insert",
+  "name": "Biopolymère conducteur à base d'amidon pour surmoulage électronique",
+  "avant": [
+   35,
+   30
+  ],
+  "apres": [
+   30,
+   35
+  ],
+  "motif": "Modification de la conductivité électrique du matériau"
+ },
+ {
+  "id": "lcp_stimuli_reponsif_actuation",
+  "name": "Polymères cristaux liquides à auto-actuation",
+  "avant": [
+   30,
+   35
+  ],
+  "apres": [
+   15,
+   35
+  ],
+  "motif": "Changement de propriétés sous stimulus externe"
+ },
+ {
+  "id": "mucell_gfrp_warpage_control",
+  "name": "Suppression du gauchissement GFRP par moussage microcellulaire",
+  "avant": [
+   31,
+   35
+  ],
+  "apres": [
+   31
+  ],
+  "motif": "Obtention d'une structure interne micro-poreuse"
+ },
+ {
+  "id": "optimisation_multi_objectif_nsga2_cae",
+  "name": "Optimisation multi-objectif injection (NSGA-II + CAE)",
+  "avant": [
+   23,
+   35
+  ],
+  "apres": [
+   23
+  ],
+  "motif": "Reglage et optimisation de procede"
+ },
+ {
+  "id": "mucell_pc_notch_toughness",
+  "name": "Moussage microcellulaire pour élimination de la fragilité à l'entaille du PC",
+  "avant": [
+   31,
+   35
+  ],
+  "apres": [
+   31,
+   35
+  ],
+  "motif": "Modification de structure physique interne"
+ },
+ {
+  "id": "charges_noir_thermique_substitut_fc",
+  "name": "Eco-charge en noir thermique pour substitution partielle de fibres",
+  "avant": [
+   31,
+   35
+  ],
+  "apres": [
+   27,
+   31,
+   40
+  ],
+  "motif": "Substitution de materiau par charge"
+ },
+ {
+  "id": "moussage_supercritique_silice",
+  "name": "Moussage microcellulaire chargé en silice",
+  "avant": [
+   31,
+   35
+  ],
+  "apres": [
+   31,
+   35
+  ],
+  "motif": "Modification du taux de cristallinite"
+ },
+ {
+  "id": "electrofilage_recuit_phbv_eugenol",
+  "name": "Interlayer PHBV/Eugénol électrofilé puis recuit",
+  "avant": [
+   31,
+   35
+  ],
+  "apres": [
+   30,
+   35
+  ],
+  "motif": "Changement de densite par recuit"
+ },
+ {
+  "id": "pretraitement_fongique_biomasse_straw",
+  "name": "Prétraitement fongique des fibres naturelles",
+  "avant": [
+   35,
+   31
+  ],
+  "apres": [
+   31,
+   35
+  ],
+  "motif": "Modification de composition chimique biologique"
+ },
+ {
+  "id": "composite_reva_dechets_cuir",
+  "name": "Matrice r-EVA chargée en poussières de cuir",
+  "avant": [
+   31,
+   35
+  ],
+  "apres": [
+   22,
+   31,
+   40
+  ],
+  "motif": "Formulation de composite et recyclage"
+ },
+ {
+  "id": "optimisation_mdf_ga_paretiennes",
+  "name": "Optimisation multi-objectif des paramètres d'injection",
+  "avant": [
+   23,
+   35
+  ],
+  "apres": [
+   23
+  ],
+  "motif": "Reglage et optimisation de procede"
+ },
+ {
+  "id": "moule_sacrificiel_poreux_reticulation",
+  "name": "Moulage par matrice poreuse à diffusion d'agent réticulant",
+  "avant": [
+   31,
+   35
+  ],
+  "apres": [
+   31,
+   35
+  ],
+  "motif": "Reticulation chimique par diffusion"
+ },
+ {
+  "id": "optimisation_kriging_micro_stent",
+  "name": "Minimisation des contraintes résiduelles en micro-injection par métamodèle Kriging",
+  "avant": [
+   23,
+   35
+  ],
+  "apres": [
+   23
+  ],
+  "motif": "Optimisation de parametres de procede"
+ },
+ {
+  "id": "integration_fibres_optiques_composites",
+  "name": "Noyautage de fibres optiques pour suivi de polymérisation RTM",
+  "avant": [
+   7,
+   35
+  ],
+  "apres": [
+   7,
+   23
+  ],
+  "motif": "Capteur pour suivi de procede"
+ },
+ {
+  "id": "asservissement_derivee_puissance_us",
+  "name": "Pilotage US dynamique par la dérivée de puissance",
+  "avant": [
+   23,
+   35
+  ],
+  "apres": [
+   23
+  ],
+  "motif": "Asservissement et reglage de procede"
+ },
+ {
+  "id": "optimisation_soudage_miroir_chaud",
+  "name": "Soudage miroir chaud à paramètres découplés",
+  "avant": [
+   21,
+   35
+  ],
+  "apres": [
+   10,
+   21
+  ],
+  "motif": "Reglage de temps de procede"
+ },
+ {
+  "id": "bridage_cycles_recyclage_pla",
+  "name": "Plafonnement des cycles de broyage PLA",
+  "avant": [
+   35
+  ],
+  "apres": [
+   16,
+   22
+  ],
+  "motif": "Limitation du taux de recyclage"
+ },
+ {
+  "id": "grey_taguchi_injection_preforme",
+  "name": "Optimisation Grey-Taguchi du retrait de préforme",
+  "avant": [
+   35
+  ],
+  "apres": [
+   23
+  ],
+  "motif": "Optimisation de parametres de procede"
+ },
+ {
+  "id": "ajustement_temperature_cuisson_pdms",
+  "name": "Contrôle du module élastique par température de réticulation",
+  "avant": [
+   35
+  ],
+  "apres": [
+   35
+  ],
+  "motif": "Modification de la rigidité par degré de réticulation."
+ },
+ {
+  "id": "recuit_morphologique_pre_soudure",
+  "name": "Recuit d'homogénéisation de cristallinité pré-soudure",
+  "avant": [
+   35
+  ],
+  "apres": [
+   10,
+   35
+  ],
+  "motif": "Action préalable modifiant la cristallinité du matériau."
+ },
+ {
+  "id": "surmoulage_fils_moule_chaud",
+  "name": "Régulation thermique haute contre les retassures sur insert",
+  "avant": [
+   35
+  ],
+  "apres": [
+   10,
+   37
+  ],
+  "motif": "Réglage thermique du procédé pour compenser le retrait."
+ },
+ {
+  "id": "couche_barriere_proteine_lactoserum",
+  "name": "Substitut biosourcé de l'EVOH à base de lactosérum",
+  "avant": [
+   35
+  ],
+  "apres": [
+   27,
+   30
+  ],
+  "motif": "Substitution de matériau par un film alternatif biosourcé."
+ },
+ {
+  "id": "slow_crystallizing_pet_lfam",
+  "name": "PET à cristallisation lente pour extrusion 3D",
+  "avant": [
+   35
+  ],
+  "apres": [
+   35
+  ],
+  "motif": "Modification de la cinétique de cristallisation de la matière."
+ },
+ {
+  "id": "elimination_flow_marks_elasticite",
+  "name": "Suppression des traces de flux par contrôle d'élasticité",
+  "avant": [
+   35
+  ],
+  "apres": [
+   35,
+   40
+  ],
+  "motif": "Ajustement de la viscoélasticité du compound."
+ },
+ {
+  "id": "pdxl_reversible_crop",
+  "name": "Polyacétal PDXL haute résistance à recyclage acide",
+  "avant": [
+   35
+  ],
+  "apres": [
+   27,
+   34
+  ],
+  "motif": "Substitution de matériau pour dépolymérisation et régénération."
+ },
+ {
+  "id": "variothermal_high_gloss_replication",
+  "name": "Moulage variotherme ciblé pour contrôle du brillant et réplication",
+  "avant": [
+   35
+  ],
+  "apres": [
+   10,
+   15
+  ],
+  "motif": "Pilotage dynamique de la température de l'outillage."
+ }
+]
