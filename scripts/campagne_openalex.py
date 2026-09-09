@@ -16,6 +16,7 @@ import sys
 import threading
 import time
 import urllib.parse
+import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -37,12 +38,25 @@ UA = {"User-Agent": "text-to-cad/1.0"}
 _print_lock = threading.Lock()
 
 
-def openalex(query, rows=30):
+def openalex(query, rows=30, tries=5):
+    """Recherche OpenAlex avec REPRISE sur 503/429 (attente 3, 6, 12, 24 s) :
+    la campagne plasturgie du 2026-09-09 a perdu ~80 requetes sur une indispo."""
     url = ("https://api.openalex.org/works?search=" + urllib.parse.quote(query)
            + f"&per-page={rows}&filter=has_abstract:true")
     req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=30) as r:
-        data = json.loads(r.read().decode())
+    data = None
+    for k in range(tries):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                data = json.loads(r.read().decode())
+            break
+        except urllib.error.HTTPError as e:
+            if e.code in (503, 429, 502, 504) and k < tries - 1:
+                time.sleep(3 * (2 ** k))
+                continue
+            raise
+    if data is None:
+        return []
     out = []
     for w in data.get("results", []):
         inv = w.get("abstract_inverted_index") or {}
@@ -153,7 +167,12 @@ def annote_impact(cands):
 def main():
     t0 = time.time()
     print(f"DISCIPLINE : {DISCIPLINE} ({len(QUERIES)} requetes)", flush=True)
-    papers = harvest()
+    if "--from-papers" in sys.argv:      # reprise : corpus deja moissonne (fichier)
+        pf = Path(sys.argv[sys.argv.index("--from-papers") + 1])
+        papers = json.loads(pf.read_text(encoding="utf-8"))
+        print(f"corpus recharge : {len(papers)} articles depuis {pf.name}", flush=True)
+    else:
+        papers = harvest()
     print(f"\nPhase A terminee : {len(papers)} articles dedoublonnes "
           f"({time.time()-t0:.0f}s)", flush=True)
     if "--harvest-only" in sys.argv:
