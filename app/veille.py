@@ -82,44 +82,24 @@ def scholar_url(title: str) -> str:
     return "https://scholar.google.com/scholar?q=" + urllib.parse.quote(title[:200])
 
 
-EXTRACT_SYSTEM = """Tu es un expert TRIZ et conception pour fabrication additive.
-On te donne des résumés d'articles scientifiques récents. Extrais-en des SOLUTIONS
-GÉOMÉTRIQUES transférables à des pièces CAO imprimées en FDM : des transformations
-de géométrie concrètes (pas des matériaux, pas des procédés hors FDM).
-
-Réponds UNIQUEMENT en JSON : {"candidates": [
- {"id": "slug_court_en_snake_case",
-  "name": "nom FR court",
-  "desc": "en 1-2 phrases FR : la géométrie et ce qu'elle apporte",
-  "instruction": "consigne IMPÉRATIVE FR pour transformer une pièce CAO existante
-                  selon cette solution (dimensions indicatives en mm)",
-  "principles": [n° parmi les 40 principes TRIZ que la solution incarne],
-  "improves": [n° parmi les 39 paramètres d'Altshuller améliorés],
-  "degrades": [n° des paramètres risqués],
-  "sources": [numéros [n] des papiers du corpus dont la solution est tirée] }]}
-
-Rappels : 39 paramètres (1 poids mobile, 2 poids fixe, 9 vitesse, 10 force,
-11 contrainte/pression, 12 forme, 13 stabilité, 14 résistance, 17 température,
-23 pertes de matière, 27 fiabilité, 30 facteurs nuisibles externes, 31 effets
-nuisibles induits, 32 fabricabilité, 33 facilité d'usage, 34 réparabilité,
-35 adaptabilité, 36 complexité, 39 productivité). 40 principes (1 segmentation,
-3 qualité locale, 4 asymétrie, 7 poupées russes, 14 sphéricité, 15 dynamisation,
-17 autre dimension, 29 pneumatique/hydraulique, 30 membranes flexibles,
-31 matériaux poreux, 35 modification de propriétés, 40 composites...).
-2 à 6 candidats MAXIMUM, uniquement les plus originaux et actionnables ;
-ignore ce qui n'est pas géométrique."""
+import disciplines as _disc
+# Prompt d'extraction de la discipline historique (géométrie) — les autres
+# disciplines apportent le leur via le registre `disciplines.py`.
+EXTRACT_SYSTEM = _disc.get("geometrie")["extract_system"]
 
 
-def extract_candidates(papers):
-    """Gemini transforme un lot de résumés en solutions candidates étiquetées TRIZ.
-    Les sources sont référencées par NUMÉRO puis résolues (titre + lien DOI)."""
+def extract_candidates(papers, discipline=None):
+    """Gemini transforme un lot de résumés en solutions candidates étiquetées TRIZ,
+    avec le prompt d'extraction de la DISCIPLINE demandée. Les sources sont
+    référencées par NUMÉRO puis résolues (titre + lien DOI)."""
     import llm
     from google.genai import types
+    d = _disc.get(discipline)
     corpus = "\n\n".join(
         f"[{i+1}] {p['title']} ({p.get('year','?')})\n{p.get('abstract','')}"
         for i, p in enumerate(papers) if p.get("title"))
     cfg = types.GenerateContentConfig(
-        system_instruction=EXTRACT_SYSTEM, temperature=0.3,
+        system_instruction=d["extract_system"], temperature=0.3,
         response_mime_type="application/json",
         **({"thinking_config": types.ThinkingConfig(thinking_level=llm.THINKING)}
            if "gemini-3" in llm.MODEL else {}))
@@ -138,6 +118,9 @@ def extract_candidates(papers):
                 if isinstance(s, str):
                     src.append({"title": s, "year": None, "url": None})
         c["sources"] = src
+        c["discipline"] = d["id"]
+        if c.get("portee") not in _disc.PORTEES:
+            c["portee"] = d["portee_defaut"]
     return cands
 
 

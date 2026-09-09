@@ -292,7 +292,7 @@
       <span id="invStatus" class="muted"></span>
     </div>
     <details id="geoMatrixBox" style="margin-top:8px">
-      <summary style="cursor:pointer; font-size:13px; color:var(--acc); font-weight:600">🗺️ Matrice 39×39 — taux de remplissage géométrique (clique une cellule)</summary>
+      <summary style="cursor:pointer; font-size:13px; color:var(--acc); font-weight:600">🗺️ Matrices disciplinaires 39×39 — géométrie, plasturgie… (clique une cellule)</summary>
       <div id="geoMatrix" style="margin-top:10px; overflow-x:auto"><span class="muted">chargement…</span></div>
       <div class="muted" style="font-size:11.5px; margin-top:6px">Case bleu pâle = la matrice d'Altshuller recommande des principes · pastille sarcelle = 1-2 solutions géométriques prêtes · pastille violette = 3 et plus. Clique une cellule pour ouvrir sa fiche (principes + solutions + sources).</div>
     </details>
@@ -463,6 +463,7 @@
   <div class="lbl" style="margin:26px 0 10px">Revue de campagne — candidats moissonnés (littérature → matrice géométrique)</div>
   <div id="revBar" class="row" style="align-items:center; gap:8px; margin-bottom:8px; display:none">
     <span id="revCounts" class="muted" style="white-space:nowrap"></span>
+    <select id="revDisc" title="matrice disciplinaire" style="background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:7px; font-weight:600"></select>
     <select id="revFilter" style="background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:7px">
       <option value="pending">à traiter</option><option value="adopted">adoptés</option>
       <option value="rejected">rejetés</option><option value="all">tous</option>
@@ -1640,17 +1641,46 @@ $('latGo').onclick = async () => {
    grille SVG blanche, libellés complets inclinés à 45°, axes bleu/rouge, pastilles de
    couverture en coin de case, et fiche latérale (principes ambre + solutions + sources). */
 let geoMatrixBuilt=false, gmPN={}, gmM={}, gmSelEl=null;
+/* MATRICES DISCIPLINAIRES : gmDiscs = registre (id, label, color…), gmDisc = vue
+   courante ('all' = superposition de toutes les disciplines, sinon un id). */
+let gmDiscs=[], gmDisc='all';
+const gmDiscById=id=>gmDiscs.find(x=>x.id===id)||{id:id,label:id,color:'#64748b',color_soft:'#f1f5f9',short:id};
 const gmEsc=t=>String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 $('geoMatrixBox').addEventListener('toggle', async function(){
   if(!this.open){ gmClose(); return; }
   if(geoMatrixBuilt) return;
   geoMatrixBuilt=true;
   try{
-    const d=await fetch('/invent/matrix_stats').then(r=>r.json());
+    const [d, dl]=await Promise.all([
+      fetch('/invent/matrix_stats').then(r=>r.json()),
+      fetch('/invent/disciplines').then(r=>r.json()).catch(()=>({disciplines:[]}))]);
+    gmDiscs=dl.disciplines||[];
     (d.parameters||[]).forEach(p=>gmPN[p.number]=p.fr);
-    (d.cells||[]).forEach(([i,j,n,np])=>{ gmM[i+'_'+j]={n:n,np:np}; });
-    // Seuil de pastille DYNAMIQUE : médiane des cellules non vides (le catalogue grandit)
-    const nz=(d.cells||[]).map(c=>c[2]).filter(n=>n>0).sort((a,b)=>a-b);
+    (d.cells||[]).forEach(([i,j,n,np,pd])=>{ gmM[i+'_'+j]={n:n,np:np,pd:pd||{}}; });
+    gmRender();
+  }catch(e){ $('geoMatrix').innerHTML='<span class="muted">erreur de chargement</span>'; }
+});
+
+/* Sélecteur de discipline : « Toutes » + une puce colorée par matrice disciplinaire. */
+function gmDiscBar(){
+  const chip=(id,label,color,count,on)=>'<button class="gmdisc" data-d="'+id+'" style="padding:5px 11px; border-radius:20px; font-size:12.5px; font-weight:600; cursor:pointer;'
+    +' border:1.5px solid '+color+'; background:'+(on?color:'#fff')+'; color:'+(on?'#fff':color)+'">'
+    +(color!=='#334155'?'<span style="display:inline-block; width:8px; height:8px; border-radius:2px; background:'+(on?'#fff':color)+'; margin-right:6px"></span>':'')
+    +gmEsc(label)+(count!=null?' <span style="opacity:.75; font-weight:500">'+count+'</span>':'')+'</button>';
+  let h='<div class="row" style="gap:6px; align-items:center; margin-bottom:8px">'
+    +'<span class="muted" style="font-size:12px">Matrice :</span>'
+    +chip('all','Toutes les disciplines','#334155',null,gmDisc==='all');
+  gmDiscs.forEach(x=>{ h+=chip(x.id,x.label,x.color,x.count,gmDisc===x.id); });
+  h+='<span class="muted" style="font-size:11.5px; margin-left:4px">+ une discipline = une banque de requêtes + une campagne (Administration)</span></div>';
+  return h;
+}
+
+function gmRender(){
+  try{
+    const one=(gmDisc!=='all');
+    const nOf=c=>one?((c.pd||{})[gmDisc]||0):c.n;
+    // Seuil de pastille DYNAMIQUE : médiane des cellules non vides de la vue courante
+    const nz=Object.values(gmM).map(nOf).filter(n=>n>0).sort((a,b)=>a-b);
     const thrHi=Math.max(3, nz.length?nz[Math.floor(nz.length/2)]:3);
     const S=16, L=238, T=156, W=L+39*S+150, H=T+39*S;
     let s='<svg width="'+W+'" height="'+H+'" style="display:block; user-select:none" role="grid">';
@@ -1663,24 +1693,39 @@ $('geoMatrixBox').addEventListener('toggle', async function(){
     let dots='';
     for(let i=1;i<=39;i++) for(let j=1;j<=39;j++){
       const x=L+(j-1)*S, y=T+(i-1)*S, diag=(i===j);
-      const c=gmM[i+'_'+j]||{n:0,np:0};
-      const base=diag?'#f3f4f6':((c.n||c.np)?'#eff6ff':'#ffffff');
+      const c=gmM[i+'_'+j]||{n:0,np:0,pd:{}};
+      const n=nOf(c);
+      const base=diag?'#f3f4f6':((n||c.np)?'#eff6ff':'#ffffff');
+      const detail=Object.entries(c.pd||{}).map(([k,v])=>gmDiscById(k).label+' : '+v).join(' · ');
       s+='<rect '+(diag?'':'class="gmc" data-i="'+i+'" data-j="'+j+'" data-f="'+base+'" ')
         +'x="'+x+'" y="'+y+'" width="'+S+'" height="'+S+'" fill="'+base+'" stroke="#eef2f7" stroke-width="1"'
         +(diag?'':' style="cursor:pointer"')+'>'
-        +(diag?'':'<title>Améliorer №'+i+' ('+gmEsc(gmPN[i])+')  ×  sans dégrader №'+j+' ('+gmEsc(gmPN[j])+') — '+c.n+' solution(s) géométrique(s), '+c.np+' principe(s)</title>')
+        +(diag?'':'<title>Améliorer №'+i+' ('+gmEsc(gmPN[i])+')  ×  sans dégrader №'+j+' ('+gmEsc(gmPN[j])+') — '+c.np+' principe(s) · '+(detail||'aucune solution')+'</title>')
         +'</rect>';
-      if(!diag && c.n>0)
-        dots+='<rect x="'+(x+S-5.5)+'" y="'+(y+S-5.5)+'" width="4" height="4" rx="1" pointer-events="none" fill="'+(c.n>=thrHi?'#7c3aed':'#0891b2')+'"/>';
+      if(diag) continue;
+      if(one){                     // une discipline : sa couleur, taille = densité vs médiane
+        if(n>0){ const big=n>=thrHi, w=big?5.5:3.5;
+          dots+='<rect x="'+(x+S-w-1.5)+'" y="'+(y+S-w-1.5)+'" width="'+w+'" height="'+w+'" rx="1" pointer-events="none" fill="'+gmDiscById(gmDisc).color+'"/>'; }
+      } else {                     // toutes : une pastille par discipline présente, alignées en bas
+        let k=0;
+        gmDiscs.forEach(x=>{ if((c.pd||{})[x.id]>0){
+          dots+='<rect x="'+(x0(x,k))+'" y="'+(y+S-5.5)+'" width="4" height="4" rx="1" pointer-events="none" fill="'+x.color+'"/>'; k++; } });
+        function x0(x_,k_){ return x+S-5.5-5*k_; }
+      }
     }
     s+=dots+'</svg>';
-    const leg='<div class="row" style="margin-top:8px; gap:8px; font-size:12px; align-items:center">'
+    let leg='<div class="row" style="margin-top:8px; gap:8px; font-size:12px; align-items:center">'
       +'<span style="padding:4px 10px; border-radius:8px; background:#eff6ff; border:1px solid #dbeafe; color:#2563eb; font-weight:600">S&#39;améliore (lignes)</span>'
-      +'<span style="padding:4px 10px; border-radius:8px; background:#fff1f2; border:1px solid #ffe4e6; color:#e11d48; font-weight:600">Se dégrade (colonnes)</span>'
-      +'<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:#0891b2;display:inline-block"></span>1-'+(thrHi-1)+' solutions géométriques</span>'
-      +'<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:#7c3aed;display:inline-block"></span>'+thrHi+' et + (médiane)</span>'
-      +'<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:#eff6ff;border:1px solid #dbeafe;display:inline-block"></span>principes sans solution dédiée</span></div>';
-    $('geoMatrix').innerHTML='<div style="overflow:auto; border:1px solid #e5e7eb; border-radius:10px; background:#fff; max-width:100%">'+s+'</div>'+leg;
+      +'<span style="padding:4px 10px; border-radius:8px; background:#fff1f2; border:1px solid #ffe4e6; color:#e11d48; font-weight:600">Se dégrade (colonnes)</span>';
+    if(one){ const col=gmDiscById(gmDisc).color;
+      leg+='<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:6px;height:6px;border-radius:1px;background:'+col+';display:inline-block"></span>1-'+(thrHi-1)+' solutions</span>'
+        +'<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:10px;height:10px;border-radius:2px;background:'+col+';display:inline-block"></span>'+thrHi+' et + (médiane)</span>';
+    } else {
+      gmDiscs.forEach(x=>{ leg+='<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:'+x.color+';display:inline-block"></span>'+gmEsc(x.label)+'</span>'; });
+    }
+    leg+='<span style="display:inline-flex; align-items:center; gap:5px; color:var(--mut)"><span style="width:9px;height:9px;border-radius:2px;background:#eff6ff;border:1px solid #dbeafe;display:inline-block"></span>principes sans solution dédiée</span></div>';
+    $('geoMatrix').innerHTML=gmDiscBar()+'<div style="overflow:auto; border:1px solid #e5e7eb; border-radius:10px; background:#fff; max-width:100%">'+s+'</div>'+leg;
+    $('geoMatrix').querySelectorAll('.gmdisc').forEach(b=>{ b.onclick=()=>{ gmDisc=b.dataset.d; gmClose(); gmRender(); }; });
     const svg=$('geoMatrix').querySelector('svg');
     svg.addEventListener('mouseover', e=>{ const t=e.target;
       if(t.classList && t.classList.contains('gmc') && t!==gmSelEl) t.setAttribute('fill','#dbeafe'); });
@@ -1688,8 +1733,8 @@ $('geoMatrixBox').addEventListener('toggle', async function(){
       if(t.classList && t.classList.contains('gmc') && t!==gmSelEl) t.setAttribute('fill',t.dataset.f); });
     svg.addEventListener('click', e=>{ const t=e.target.closest ? e.target.closest('.gmc') : null;
       if(t) gmSelect(+t.dataset.i, +t.dataset.j, t); });
-  }catch(e){ $('geoMatrix').innerHTML='<span class="muted">erreur de chargement</span>'; }
-});
+  }catch(e){ $('geoMatrix').innerHTML='<span class="muted">erreur de rendu</span>'; }
+}
 
 function gmPanel(){
   let p=document.getElementById('gmPanel');
@@ -1725,7 +1770,7 @@ async function gmSelect(i, j, rectEl){
   try{
     const [pr, bl]=await Promise.all([
       fetch('/invent/principles',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({improve:i, degrade:j})}).then(r=>r.json()),
+        body:JSON.stringify({improve:i, degrade:j, discipline:(gmDisc==='all'?null:gmDisc)})}).then(r=>r.json()),
       fetch('/invent/baseline',{method:'POST'}).then(r=>r.json())
     ]);
     if(bl && bl.ok){ invBaseline=bl;
@@ -1736,7 +1781,8 @@ async function gmSelect(i, j, rectEl){
     let h=gmHeader(i,j);
     if(prn.length) h+='<div class="lbl" style="margin:12px 0 6px">Principes inventifs suggérés</div>'
       +'<div id="gmChips" style="display:flex; flex-wrap:wrap; gap:6px"></div>';
-    if(sols.length) h+='<div class="lbl" style="margin:14px 0 6px">Solutions géométriques ('+sols.length+')</div>'
+    if(sols.length) h+='<div class="lbl" style="margin:14px 0 6px">'
+      +(gmDisc==='all'?'Solutions par discipline':'Solutions — '+gmEsc(gmDiscById(gmDisc).label))+' ('+sols.length+')</div>'
       +'<div id="gmCards" style="display:grid; gap:8px"></div>';
     if(!prn.length && !sols.length)
       h+='<div class="muted" style="margin-top:12px">La matrice ne recommande rien pour ce couple — essaie une cellule voisine.</div>';
@@ -1747,18 +1793,33 @@ async function gmSelect(i, j, rectEl){
       b.onclick=()=>{ genVariant(pc.number, pc.label);
         $('invStatus').textContent='variante « '+pc.label+' » en cours — voir la grille des variantes'; };
       document.getElementById('gmChips').appendChild(b); });
-    sols.forEach(so=>{ const c=document.createElement('div'); c.className='gmcard';
+    // Vue « toutes » : cartes GROUPÉES par matrice disciplinaire (sous-titre coloré)
+    const PORTEE={cao:'géométrie', procede:'procédé', matiere:'matière'};
+    let lastDisc=null;
+    sols.forEach(so=>{
+      const dd=gmDiscById(so.discipline||'geometrie');
+      if(gmDisc==='all' && so.discipline!==lastDisc){ lastDisc=so.discipline;
+        const hd=document.createElement('div');
+        hd.style.cssText='font-size:11px; font-weight:700; letter-spacing:.05em; color:'+dd.color+'; margin-top:4px';
+        hd.innerHTML='<span style="display:inline-block; width:8px; height:8px; border-radius:2px; background:'+dd.color+'; margin-right:6px"></span>'+gmEsc(dd.label.toUpperCase());
+        document.getElementById('gmCards').appendChild(hd); }
+      const c=document.createElement('div'); c.className='gmcard';
       c.style.cursor='pointer'; c.title='Clique pour ouvrir la fiche détaillée (vignette + sources)';
+      c.style.borderLeft='3px solid '+dd.color;
       const srcs=(so.sources||[]).map(x=> x && x.url
         ? '<a href="'+gmEsc(x.url)+'" target="_blank" rel="noopener" style="color:var(--acc)">'+gmEsc(x.title||x.url)+(x.year?' ('+x.year+')':'')+'</a>'
         : gmEsc((x&&x.title)||x)).join(' · ');
-      c.innerHTML='<div style="font-size:13.5px"><b>'+(so.kind==='lattice'?'🕸':'🧩')+' '+gmEsc(so.name)+'</b>'
+      const canGen=(so.kind==='lattice' || (so.portee||'cao')==='cao');
+      const portTag=(so.portee&&so.portee!=='cao')
+        ?' <span style="font-size:10.5px; background:'+dd.color_soft+'; color:'+dd.color+'; border-radius:6px; padding:1px 6px">'+PORTEE[so.portee]+'</span>':'';
+      c.innerHTML='<div style="font-size:13.5px"><b>'+(so.kind==='lattice'?'🕸':'🧩')+' '+gmEsc(so.name)+'</b>'+portTag
         +' <span style="font-size:11px; color:#9ca3af">P'+(so.principles||[]).join(', P')+'</span></div>'
         +'<div class="muted" style="margin-top:3px">'+gmEsc(so.desc)+'</div>'
         +(srcs?'<div style="font-size:11.5px; margin-top:4px">📚 '+srcs+'</div>':'')
-        +'<div class="row" style="margin-top:8px; gap:6px"><button class="gmgen" style="padding:5px 11px; font-size:12px">▶ Générer la variante</button>'
+        +'<div class="row" style="margin-top:8px; gap:6px">'
+        +(canGen?'<button class="gmgen" style="padding:5px 11px; font-size:12px">▶ Générer la variante</button>':'')
         +'<button class="sec gmdet" style="padding:5px 11px; font-size:12px">🔍 Fiche</button></div>';
-      c.querySelector('.gmgen').onclick=ev=>{ ev.stopPropagation();
+      const g=c.querySelector('.gmgen'); if(g) g.onclick=ev=>{ ev.stopPropagation();
         if(so.kind==='lattice'){ const Lt=so.lattice||{};
           $('latKind').value=Lt.kind||'gyroid'; $('latGrad').checked=!!Lt.gradient; $('latGo').click();
           $('invStatus').textContent='variante lattice en cours — voir la grille des variantes';
@@ -1798,17 +1859,21 @@ async function gmSolModal(sid){
         : '<button class="sec genimg" style="padding:8px 14px; font-size:13px">🎨 Générer la vignette (~0,03 $)</button>'
           +'<div class="muted" style="font-size:11px; margin-top:6px">une seule fois — ensuite gratuite (cache serveur)</div>')
       +'</div><img alt="" style="display:none"><div class="cap" style="display:none">Illustration générée — text-to-CAD</div></div>'
-      +'<div class="det"><span class="gmbadge">'+(d.kind==='lattice'?'🕸 LATTICE':'SOLUTION GÉOMÉTRIQUE')+'</span>'
+      +'<div class="det"><span class="gmbadge" style="background:'+(d.discipline_color||'#0e7490')+'22; color:'+(d.discipline_color||'#0e7490')+'">'
+      +(d.kind==='lattice'?'🕸 LATTICE · ':'')+gmEsc((d.discipline_label||'Géométrie 3D').toUpperCase())+'</span>'
+      +(d.portee&&d.portee!=='cao'?' <span class="gmbadge" style="background:#f1f5f9; color:#475569">'+gmEsc(d.portee_label||d.portee)+'</span>':'')
       +'<div style="font-size:20px; font-weight:700; line-height:1.3; margin:10px 24px 8px 0">'+gmEsc(d.name)+'</div>'
       +'<div style="font-size:13.5px; color:#374151">'+gmEsc(d.desc)+'</div>'
-      +(d.instruction?'<div style="font-size:12px; color:#64748b; background:#f8fafc; border:1px solid #e5e7eb; border-radius:8px; padding:8px 10px; margin-top:10px"><b>Consigne CAO :</b> '+gmEsc(d.instruction)+'</div>':'')
+      +(d.instruction?'<div style="font-size:12px; color:#64748b; background:#f8fafc; border:1px solid #e5e7eb; border-radius:8px; padding:8px 10px; margin-top:10px"><b>'+((d.portee||'cao')==='cao'?'Consigne CAO :':'Recommandation :')+'</b> '+gmEsc(d.instruction)+'</div>':'')
       +'<div class="lbl" style="margin:14px 0 6px">Principes incarnés</div><div>'+chips+'</div>'
       +(srcs?'<div class="lbl" style="margin:12px 0 4px">Sources</div>'+srcs:'')
-      +'<button class="gmgen" style="margin-top:14px; padding:8px 16px">▶ Générer la variante</button>'
+      +((d.kind==='lattice'||(d.portee||'cao')==='cao')
+        ?'<button class="gmgen" style="margin-top:14px; padding:8px 16px">▶ Générer la variante</button>'
+        :'<div class="muted" style="margin-top:14px; font-size:12px">Solution de '+gmEsc(d.portee_label||d.portee)+' : elle se décide, elle ne se modélise pas.</div>')
       +'<div style="font-size:11px; color:#9ca3af; margin-top:12px">'+attrib+'</div></div>'
       +'<button class="x">✕</button>';
     m.querySelector('.x').onclick=()=>bg.remove();
-    m.querySelector('.gmgen').onclick=()=>{ bg.remove();
+    const gg=m.querySelector('.gmgen'); if(gg) gg.onclick=()=>{ bg.remove();
       if(d.kind==='lattice'){ const Lt=d.lattice||{};
         $('latKind').value=Lt.kind||'gyroid'; $('latGrad').checked=!!Lt.gradient; $('latGo').click();
         $('invStatus').textContent='variante lattice en cours — voir la grille des variantes';
@@ -2076,7 +2141,8 @@ $('fapply').onclick = async () => {
     var q=(document.getElementById('revSearch').value||'').toLowerCase();
     var c=document.getElementById('revCounts');
     c.textContent=revData.counts.pending+' à traiter · '+revData.counts.adopted+' adoptés · '
-      +revData.counts.rejected+' rejetés · catalogue : '+revData.catalogue+' solutions';
+      +revData.counts.rejected+' rejetés · catalogue '+(revData.discipline||'')+' : '
+      +(revData.catalogue_discipline!=null?revData.catalogue_discipline:revData.catalogue)+' solutions';
     var rows=revData.candidates.filter(function(x){
       if(f!=='all' && x.status!==f) return false;
       if(!q) return true;
@@ -2134,8 +2200,11 @@ $('fapply').onclick = async () => {
       +'<label class="muted" style="font-size:12px">Principes <input class="reP" style="'+inp+'; width:130px" value="'+x.principles.join(', ')+'"></label>'
       +'<label class="muted" style="font-size:12px">↑ améliore <input class="reU" style="'+inp+'; width:130px" value="'+x.improves.join(', ')+'"></label>'
       +'<label class="muted" style="font-size:12px">↓ dégrade <input class="reD" style="'+inp+'; width:130px" value="'+(x.degrades||[]).join(', ')+'"></label>'
+      +'<label class="muted" style="font-size:12px">Portée <select class="rePo" style="'+inp+'">'
+      +['cao','procede','matiere'].map(function(p){ return '<option value="'+p+'"'+((x.portee||'cao')===p?' selected':'')+'>'+({cao:'géométrie (CAO)',procede:'procédé',matiere:'matière'})[p]+'</option>'; }).join('')
+      +'</select></label>'
       +'</div><div class="reLbl muted" style="font-size:11.5px; margin-top:4px"></div>'
-      +'<textarea class="reI" rows="3" style="'+inp+'; width:100%; margin-top:6px" placeholder="consigne CAO">'+esc(x.instruction||'')+'</textarea>'
+      +'<textarea class="reI" rows="3" style="'+inp+'; width:100%; margin-top:6px" placeholder="consigne">'+esc(x.instruction||'')+'</textarea>'
       +'<div class="row" style="margin-top:8px; gap:6px">'
       +'<button class="reGo" style="padding:6px 12px; font-size:12.5px">✓ Adopter avec ces corrections</button>'
       +'<button class="sec reX" style="padding:6px 12px; font-size:12.5px">fermer</button></div></div>';
@@ -2154,6 +2223,7 @@ $('fapply').onclick = async () => {
     ed.querySelector('.reGo').onclick=function(){
       var edits={ name: ed.querySelector('.reN').value.trim(),
                   instruction: ed.querySelector('.reI').value.trim(),
+                  portee: ed.querySelector('.rePo').value,
                   principles: nums(ed.querySelector('.reP').value,40),
                   improves: nums(ed.querySelector('.reU').value,39),
                   degrades: nums(ed.querySelector('.reD').value,39) };
@@ -2163,7 +2233,7 @@ $('fapply').onclick = async () => {
   }
 
   function revDecide(id, action, silent, edits){
-    var body={id:id, action:action};
+    var body={id:id, action:action, discipline:(revData&&revData.discipline)||document.getElementById('revDisc').value};
     if(edits) body.edits=edits;
     return fetch('/invent/review/decide',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify(body)})
@@ -2176,6 +2246,7 @@ $('fapply').onclick = async () => {
             x.principles=edits.principles; x.improves=edits.improves; x.degrades=edits.degrades; }
         }
         revData.catalogue=d.catalogue;
+        if(d.catalogue_discipline!=null) revData.catalogue_discipline=d.catalogue_discipline;
         if(!silent) revRender();
       }).catch(function(){});
   }
@@ -2189,13 +2260,26 @@ $('fapply').onclick = async () => {
     p.then(revRender);
   }
 
+  /* Une campagne de revue PAR matrice disciplinaire : le sélecteur vient du registre. */
+  var revDiscLoaded=false;
   function loadReview(){
-    fetch('/invent/review/list').then(function(r){return r.json();}).then(function(d){
-      if(d.error||!d.candidates){ document.getElementById('revList').innerHTML='<p class="muted">Pas de campagne chargée.</p>'; return; }
-      revData=d;
-      document.getElementById('revBar').style.display='flex';
-      revRender();
-    }).catch(function(){ document.getElementById('revList').innerHTML='<p class="muted">Erreur de chargement.</p>'; });
+    var sel=document.getElementById('revDisc');
+    var go=function(){
+      var disc=sel.value||'geometrie';
+      revData=null; revRender();
+      fetch('/invent/review/list?discipline='+encodeURIComponent(disc)).then(function(r){return r.json();}).then(function(d){
+        document.getElementById('revBar').style.display='flex';
+        if(d.error||!d.candidates||!d.candidates.length){ revData=null;
+          document.getElementById('revList').innerHTML='<p class="muted">Aucune campagne chargée pour « '+esc(disc)+'» — lance `scripts/campagne_openalex.py --discipline '+esc(disc)+'` puis dépose le fichier de candidats sur le serveur.</p>';
+          document.getElementById('revCounts').textContent=''; return; }
+        revData=d; revRender();
+      }).catch(function(){ document.getElementById('revList').innerHTML='<p class="muted">Erreur de chargement.</p>'; });
+    };
+    if(revDiscLoaded){ go(); return; }
+    fetch('/invent/disciplines').then(function(r){return r.json();}).then(function(d){
+      sel.innerHTML=(d.disciplines||[]).map(function(x){ return '<option value="'+esc(x.id)+'">'+esc(x.label)+' ('+(x.count||0)+')</option>'; }).join('');
+      revDiscLoaded=true; sel.onchange=go; go();
+    }).catch(function(){ sel.innerHTML='<option value="geometrie">Géométrie 3D</option>'; revDiscLoaded=true; sel.onchange=go; go(); });
   }
   document.getElementById('revFilter').onchange=revRender;
   document.getElementById('revSearch').oninput=revRender;

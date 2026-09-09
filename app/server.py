@@ -1056,6 +1056,7 @@ VAR_DIR = WORK / "variants"
 class InventPrinciplesReq(BaseModel):
     improve: int
     degrade: int
+    discipline: str | None = None   # None = toutes les matrices disciplinaires
 
 
 class InventVariantReq(BaseModel):
@@ -1089,14 +1090,27 @@ def invent_params():
 
 
 import geo_solutions as _geo
+import disciplines as _disc
+
+
+@app.get("/invent/disciplines")
+def invent_disciplines():
+    """Les matrices disciplinaires disponibles + taille de chaque catalogue."""
+    counts = _geo.disciplines_counts()
+    out = _disc.public_list()
+    for d in out:
+        d["count"] = counts.get(d["id"], 0)
+    return {"disciplines": out, "portees": _disc.PORTEES, "default": _disc.DEFAULT}
 
 
 @app.post("/invent/principles")
 def invent_principles(req: InventPrinciplesReq):
     prins = _invent.principles_for(req.improve, req.degrade)
+    disc = req.discipline if req.discipline in _disc.DISCIPLINES else None
     sols = _geo.cell_solutions(req.improve, req.degrade,
-                               [p["number"] for p in prins])
-    return {"principles": prins, "solutions": sols}
+                               [p["number"] for p in prins],
+                               limit=6 if disc else 9, discipline=disc)
+    return {"principles": prins, "solutions": sols, "discipline": disc}
 
 
 @app.post("/invent/baseline")
@@ -1221,19 +1235,32 @@ def invent_matrix_stats():
             if i == j:
                 continue
             prn = [p["number"] for p in _invent.principles_for(i, j)]
-            nsol = len(_geo.cell_solutions(i, j, prn, limit=10 ** 6))
-            if prn or nsol:
-                cells.append([i, j, nsol, len(prn)])
+            sols = _geo.cell_solutions(i, j, prn, limit=10 ** 6)
+            par_disc = {}
+            for s in sols:                 # ventilation par matrice disciplinaire
+                par_disc[s["discipline"]] = par_disc.get(s["discipline"], 0) + 1
+            if prn or sols:
+                cells.append([i, j, len(sols), len(prn), par_disc])
     result = {"cells": cells, "parameters": _invent.PARAMETERS,
-              "total_solutions": len(_geo.SOLUTIONS)}
+              "total_solutions": len(_geo.SOLUTIONS),
+              "disciplines": _geo.disciplines_counts()}
     _MATRIX_CACHE.clear()
     _MATRIX_CACHE[key] = result
     return result
 
 
 # ---- REVUE DE CAMPAGNE : l'expert adopte/rejette les candidats moissonnés ----
+# Une campagne PAR DISCIPLINE ; la géométrie garde ses fichiers historiques.
 CAMPAIGN_PATH = Path(os.environ.get("TCAD_CAMPAIGN", "/data/campagne_candidates.json"))
 REVIEW_PATH = Path(os.environ.get("TCAD_REVIEW", "/data/campagne_review.json"))
+
+
+def _campaign_paths(discipline):
+    d = discipline if discipline in _disc.DISCIPLINES else _disc.DEFAULT
+    if d == _disc.DEFAULT:
+        return d, CAMPAIGN_PATH, REVIEW_PATH
+    base = CAMPAIGN_PATH.parent
+    return d, base / f"campagne_{d}.json", base / f"campagne_review_{d}.json"
 
 
 def _load_json_file(p, default):
@@ -1244,18 +1271,21 @@ def _load_json_file(p, default):
 
 
 @app.get("/invent/review/list")
-async def invent_review_list(request: Request):
+async def invent_review_list(request: Request, discipline: str | None = None):
     if not await _admin(request):
         return JSONResponse({"error": "forbidden"}, 403)
-    cands = _load_json_file(CAMPAIGN_PATH, [])
-    review = _load_json_file(REVIEW_PATH, {})
+    disc, cpath, rpath = _campaign_paths(discipline)
+    cands = _load_json_file(cpath, [])
+    review = _load_json_file(rpath, {})
     for c in cands:
         c["status"] = review.get(c["id"], "pending")
+        c.setdefault("discipline", disc)
     counts = {"total": len(cands)}
     for st in ("pending", "adopted", "rejected"):
         counts[st] = sum(1 for c in cands if c["status"] == st)
-    return {"candidates": cands, "counts": counts,
+    return {"candidates": cands, "counts": counts, "discipline": disc,
             "catalogue": len(_geo.SOLUTIONS),
+            "catalogue_discipline": _geo.disciplines_counts().get(disc, 0),
             "principle_labels": {n: p.get("label", "")
                                  for n, p in _invent.PRINCIPLES.items()},
             "parameter_labels": {p["number"]: p["fr"]
@@ -1269,9 +1299,10 @@ async def invent_review_decide(request: Request):
     body = await request.json()
     cid = str(body.get("id") or "").strip()
     action = body.get("action")
-    review = _load_json_file(REVIEW_PATH, {})
+    disc, cpath, rpath = _campaign_paths(body.get("discipline"))
+    review = _load_json_file(rpath, {})
     if action == "adopt":
-        c = next((x for x in _load_json_file(CAMPAIGN_PATH, [])
+        c = next((x for x in _load_json_file(cpath, [])
                   if x.get("id") == cid), None)
         if not c:
             return {"ok": False, "error": "candidat inconnu"}
@@ -1279,12 +1310,15 @@ async def invent_review_decide(request: Request):
         for k in ("name", "desc", "instruction"):
             if e.get(k):
                 c[k] = str(e[k])
+        if e.get("portee") in _disc.PORTEES:
+            c["portee"] = e["portee"]
         for k in ("principles", "improves", "degrades"):
             if isinstance(e.get(k), list):
                 try:
                     c[k] = [int(x) for x in e[k]]
                 except Exception:
                     pass
+        c["discipline"] = disc
         _geo.add_solution(c)
         review[cid] = "adopted"
     elif action == "reject":
@@ -1297,11 +1331,12 @@ async def invent_review_decide(request: Request):
         review.pop(cid, None)
     else:
         return {"ok": False, "error": "action inconnue"}
-    REVIEW_PATH.parent.mkdir(parents=True, exist_ok=True)
-    json.dump(review, open(REVIEW_PATH, "w", encoding="utf-8"))
+    rpath.parent.mkdir(parents=True, exist_ok=True)
+    json.dump(review, open(rpath, "w", encoding="utf-8"))
     _MATRIX_CACHE.clear()                 # la heatmap doit refléter le catalogue
     return {"ok": True, "status": review.get(cid, "pending"),
-            "catalogue": len(_geo.SOLUTIONS)}
+            "catalogue": len(_geo.SOLUTIONS),
+            "catalogue_discipline": _geo.disciplines_counts().get(disc, 0)}
 
 
 @app.get("/invent/solution/{sid}")
@@ -1330,10 +1365,15 @@ def invent_solution(sid: str):
                 pass                        # réseau KO -> on retentera à l'ouverture suivante
     if resolved:
         _geo.save_sources(sid, srcs)
+    dd = _disc.get(s.get("discipline"))
     return {"ok": True, "id": s["id"], "name": s["name"], "kind": s["kind"],
             "desc": s.get("desc", ""), "instruction": s.get("instruction", ""),
             "principles": labels, "sources": srcs,
             "lattice": s.get("lattice"),
+            "discipline": dd["id"], "discipline_label": dd["label"],
+            "discipline_color": dd["color"],
+            "portee": s.get("portee", "cao"),
+            "portee_label": _disc.PORTEES.get(s.get("portee", "cao"), ""),
             "image": f"/invent/solution_image/{s['id']}",
             "image_ready": (SOLIMG_DIR / f"{s['id']}.png").exists()}
 

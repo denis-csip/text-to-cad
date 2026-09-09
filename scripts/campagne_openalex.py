@@ -24,120 +24,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "app"))
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
-QUERIES = [
-    # --- Lattices & cellulaires ---
-    "gyroid lattice mechanical properties additive manufacturing",
-    "triply periodic minimal surface lattice stiffness strength",
-    "octet truss lattice additive manufacturing mechanical",
-    "plate lattice stiffness limit additive manufacturing",
-    "functionally graded lattice density design",
-    "conformal lattice infill freeform design",
-    "honeycomb core out-of-plane crush additive manufacturing",
-    "Voronoi irregular lattice design 3D printing",
-    "hierarchical multiscale lattice mechanical metamaterial",
-    "pentamode metamaterial design fabrication",
-    "negative stiffness metamaterial energy absorption",
-    "auxetic re-entrant honeycomb design 3D printing",
-    "chiral auxetic metamaterial mechanical behavior",
-    "rotating squares auxetic perforated sheet design",
-    "negative Poisson ratio structure impact protection",
-    "Kelvin cell open foam lattice additive manufacturing",
-    "strut diameter gradient lattice optimization",
-    "shell TPMS lattice wall thickness gradient",
-    # --- Origami / pliage ---
-    "Miura-ori fold core sandwich stiffness",
-    "origami tube stiff reconfigurable structure",
-    "kirigami stretchable structure design",
-    "origami crash box energy absorption",
-    "bistable origami mechanism design",
-    "folded corrugated core sandwich panel",
-    "deployable structure origami engineering",
-    # --- Mecanismes compliants & liaisons ---
-    "compliant mechanism flexure hinge design 3D printed",
-    "cross-axis flexural pivot design",
-    "bistable compliant mechanism switch design",
-    "living hinge design fatigue polypropylene",
-    "snap-fit joint design guidelines additive manufacturing",
-    "print-in-place joint clearance 3D printing",
-    "3D printed thread tolerance design",
-    "topological interlocking assembly blocks mechanics",
-    "dovetail interlocking 3D printed joint strength",
-    "lattice hinge kerf bending design",
-    "ratchet pawl mechanism compact design",
-    "constant force compliant mechanism design",
-    # --- Textures de surface / tribologie / mouillage ---
-    "riblet surface drag reduction texture",
-    "shark skin inspired surface texture",
-    "superhydrophobic micropillar surface 3D printed",
-    "surface texture friction control sliding",
-    "dimple texture lubrication friction reduction",
-    "anti-icing surface microstructure design",
-    "gecko adhesion fibrillar microstructure",
-    "anti-fouling surface topography design",
-    # --- Fluidique / thermique ---
-    "conformal cooling channel injection mold design",
-    "TPMS heat exchanger thermal performance",
-    "capillary wick 3D printed heat pipe",
-    "microchannel capillary passive liquid transport",
-    "vascular network channel self-healing design",
-    "self-draining geometry drainage design",
-    "static mixer geometry 3D printed",
-    "Tesla valve fluidic diode design",
-    "flow distribution manifold header optimization",
-    "graded porous media 3D printed filtration",
-    # --- Raidissement structurel ---
-    "rib layout optimization thin wall stiffening",
-    "isogrid stiffened panel design",
-    "corrugated panel bending stiffness design",
-    "sandwich core shear design additive manufacturing",
-    "stress concentration fillet shape optimization",
-    "variable thickness tailored design structure",
-    "arch dome compression structure form finding",
-    "tensegrity structure design fabrication",
-    "geodesic rib shell reinforcement",
-    "buckling resistant thin structure stiffener design",
-    # --- Absorption d'energie / impact ---
-    "crash box crush initiator geometry",
-    "cellular structure energy absorption plateau stress",
-    "bistable array reusable energy absorption",
-    "helmet liner lattice impact optimization",
-    "thin-walled tube crush trigger design",
-    # --- Vibration / acoustique ---
-    "phononic crystal bandgap design",
-    "acoustic metamaterial sound absorption structure",
-    "acoustic black hole vibration damping",
-    "particle damping 3D printed cavity",
-    "architected lattice damping viscoelastic",
-    # --- DFAM / geometrie pilotee fabrication ---
-    "support-free self-supporting overhang design additive manufacturing",
-    "part consolidation assembly reduction additive manufacturing",
-    "topology optimization design features additive manufacturing",
-    "build orientation anisotropy strength design FDM",
-    "residual stress distortion compensation geometry additive",
-    "teardrop horizontal hole design FDM",
-    "infill pattern strength optimization FDM",
-    "screw boss design plastic part guidelines",
-    "press fit interference design polymer part",
-    # --- Bio-inspire ---
-    "Bouligand helicoidal architecture toughness",
-    "nacre brick and mortar architecture toughness",
-    "trabecular bone inspired lattice implant",
-    "bamboo node structure bending inspiration",
-    "plant stem inspired structural design",
-    "spider web architecture energy absorption",
-    "honeycomb bee comb structure optimization",
-    "conch shell hierarchical structure impact",
-    # --- Morphing / 4D ---
-    "4D printing shape morphing structure design",
-    "anisotropic swelling hinge actuator geometry",
-    "shape memory polymer printed structure design",
-    "bistable morphing panel skin design",
-    # --- Mecanismes divers ---
-    "Geneva mechanism compact intermittent motion design",
-    "flexure bearing linear guide design",
-    "origami inspired stent geometry",
-    "graded stiffness interface joint dissimilar materials",
-]
+import disciplines as _disc
+
+# --discipline <id> : banque de requetes + prompt d'extraction du REGISTRE
+DISCIPLINE = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--discipline=")),
+                  None) or (sys.argv[sys.argv.index("--discipline") + 1]
+                            if "--discipline" in sys.argv else "geometrie")
+QUERIES = _disc.get(DISCIPLINE)["queries"]
 
 MAX_PAPERS = 3000
 UA = {"User-Agent": "text-to-cad/1.0"}
@@ -197,7 +90,7 @@ def extract_all(papers, workers=5):
 
     def run(batch):
         try:
-            c = veille.extract_candidates(batch)
+            c = veille.extract_candidates(batch, discipline=DISCIPLINE)
         except Exception as e:
             c = []
             with _print_lock:
@@ -230,13 +123,41 @@ def dedup(cands):
     return out
 
 
+def annote_impact(cands):
+    """Apport de chaque candidat a la matrice : cellules touchees, dont pauvres
+    (<3 solutions aujourd'hui). Tri decroissant = ordre de revue."""
+    import geo_solutions as geo
+    import invent
+    cells = []
+    for i in range(1, 40):
+        for j in range(1, 40):
+            if i == j:
+                continue
+            prn = {p["number"] for p in invent.principles_for(i, j)}
+            if not prn:
+                continue
+            cur = len(geo.cell_solutions(i, j, list(prn), limit=10 ** 6))
+            cells.append((i, j, prn, cur))
+    for c in cands:
+        P, I, D = set(c.get("principles", [])), set(c.get("improves", [])), set(c.get("degrades", []))
+        n = thin = 0
+        for i, j, prn, cur in cells:
+            sc = 4 * len(P & prn) + (3 if i in I else 0) - (2 if j in D else 0)
+            if sc > 0:
+                n += 1
+                thin += cur < 3
+        c["impact"] = {"cells": n, "thin": thin}
+    cands.sort(key=lambda c: (-c["impact"]["thin"], -c["impact"]["cells"]))
+
+
 def main():
     t0 = time.time()
+    print(f"DISCIPLINE : {DISCIPLINE} ({len(QUERIES)} requetes)", flush=True)
     papers = harvest()
     print(f"\nPhase A terminee : {len(papers)} articles dedoublonnes "
           f"({time.time()-t0:.0f}s)", flush=True)
     if "--harvest-only" in sys.argv:
-        Path(__file__).with_name("campagne_papers.json").write_text(
+        Path(__file__).with_name(f"campagne_{DISCIPLINE}_papers.json").write_text(
             json.dumps(papers, ensure_ascii=False), encoding="utf-8")
         return
     t1 = time.time()
@@ -249,9 +170,15 @@ def main():
                  for c in cands for s in c.get("sources", []) if s}),
              "duree_harvest_s": round(t1 - t0),
              "duree_extraction_s": round(time.time() - t1)}
-    out = Path(__file__).with_name("campagne_result.json")
+    for c in cands:
+        c["discipline"] = DISCIPLINE
+    annote_impact(cands)
+    stats["discipline"] = DISCIPLINE
+    out = Path(__file__).with_name(f"campagne_{DISCIPLINE}_result.json")
     out.write_text(json.dumps({"stats": stats, "candidates": cands},
                               ensure_ascii=False, indent=1), encoding="utf-8")
+    Path(__file__).with_name(f"campagne_{DISCIPLINE}_candidates.json").write_text(
+        json.dumps(cands, ensure_ascii=False), encoding="utf-8")
     print("\n=== CAMPAGNE TERMINEE ===")
     print(json.dumps(stats, indent=2, ensure_ascii=False))
     print(f"-> {out}")

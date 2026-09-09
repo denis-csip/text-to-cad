@@ -217,6 +217,13 @@ def _norm_source(x):
 
 _CURATED = {s["id"] for s in SOLUTIONS}   # fiches en dur : jamais retirables
 
+# MATRICES DISCIPLINAIRES : chaque solution porte sa discipline et sa portée.
+# Le catalogue historique est la discipline « geometrie », portée « cao ».
+DISC_DEFAUT, PORTEE_DEFAUT = "geometrie", "cao"
+for _s in SOLUTIONS:
+    _s.setdefault("discipline", DISC_DEFAUT)
+    _s.setdefault("portee", PORTEE_DEFAUT)
+
 try:
     for _s in _json.load(open(EXT_PATH, encoding="utf-8")):
         if not _s.get("id"):
@@ -224,6 +231,8 @@ try:
         _cur = next((x for x in SOLUTIONS if x["id"] == _s["id"]), None)
         if _cur is None:                       # solution adoptée par la veille
             _s["sources"] = [_norm_source(x) for x in _s.get("sources", [])]
+            _s.setdefault("discipline", DISC_DEFAUT)
+            _s.setdefault("portee", PORTEE_DEFAUT)
             SOLUTIONS.append(_s)
         elif _s.get("sources"):                # overlay : sources d'une fiche du catalogue
             _cur["sources"] = [_norm_source(x) for x in _s["sources"]]
@@ -231,6 +240,15 @@ except Exception:
     pass
 
 _BY_ID = {s["id"]: s for s in SOLUTIONS}
+
+
+def disciplines_counts():
+    """Nombre de solutions par discipline (pour le sélecteur et le tableau de bord)."""
+    out = {}
+    for s in SOLUTIONS:
+        d = s.get("discipline", DISC_DEFAUT)
+        out[d] = out.get(d, 0) + 1
+    return out
 
 
 def save_sources(sol_id, sources):
@@ -267,6 +285,8 @@ def add_solution(s):
              "principles": s.get("principles", []),
              "improves": s.get("improves", []),
              "degrades": s.get("degrades", []),
+             "discipline": s.get("discipline") or DISC_DEFAUT,
+             "portee": s.get("portee") or PORTEE_DEFAUT,
              "sources": [_norm_source(x) for x in s.get("sources", [])]}
     SOLUTIONS.append(entry)
     _BY_ID[entry["id"]] = entry
@@ -303,13 +323,16 @@ def get(sol_id):
     return _BY_ID.get(sol_id)
 
 
-def cell_solutions(improve, degrade, cell_principles, limit=6):
-    """Remplissage géométrique d'une cellule de la matrice : solutions triées —
-    d'abord celles qui INCARNENT les principes de la cellule (fidélité à la
-    matrice vérifiée), puis par adéquation au paramètre amélioré, en pénalisant
-    celles qui risquent de dégrader le paramètre à préserver."""
+def cell_solutions(improve, degrade, cell_principles, limit=6, discipline=None):
+    """Remplissage d'une cellule de la matrice : solutions triées — d'abord
+    celles qui INCARNENT les principes de la cellule (fidélité à la matrice
+    vérifiée), puis par adéquation au paramètre amélioré, en pénalisant celles
+    qui risquent de dégrader le paramètre à préserver. `discipline` = filtre
+    (None = toutes les matrices disciplinaires superposées)."""
     ranked = []
     for s in SOLUTIONS:
+        if discipline and s.get("discipline", DISC_DEFAUT) != discipline:
+            continue
         score = 0
         score += 4 * len(set(s["principles"]) & set(cell_principles))
         if improve in s["improves"]:
@@ -323,5 +346,7 @@ def cell_solutions(improve, degrade, cell_principles, limit=6):
     ranked.sort(key=lambda x: -x[0])
     return [{"id": s["id"], "name": s["name"], "kind": s["kind"],
              "desc": s["desc"], "principles": s["principles"], "score": sc,
+             "discipline": s.get("discipline", DISC_DEFAUT),
+             "portee": s.get("portee", PORTEE_DEFAUT),
              "lattice": s.get("lattice"), "sources": s.get("sources", [])}
             for sc, s in ranked[:limit]]
