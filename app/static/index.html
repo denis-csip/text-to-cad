@@ -462,6 +462,7 @@
   <div id="adminList"><p class="muted">Chargement…</p></div>
 
   <div class="lbl" style="margin:26px 0 10px">Revue de campagne — candidats moissonnés (littérature → matrice géométrique)</div>
+  <div id="revStats" class="muted" style="display:none; font-size:12.5px; margin:0 0 10px; padding:10px 12px; border:1px dashed var(--line); border-radius:10px; background:var(--panel2)"></div>
   <div id="revBar" class="row" style="align-items:center; gap:8px; margin-bottom:8px; display:none">
     <span id="revCounts" class="muted" style="white-space:nowrap"></span>
     <select id="revDisc" title="matrice disciplinaire" style="background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:8px; padding:7px; font-weight:600"></select>
@@ -2263,8 +2264,24 @@ $('fapply').onclick = async () => {
         }
         revData.catalogue=d.catalogue;
         if(d.catalogue_discipline!=null) revData.catalogue_discipline=d.catalogue_discipline;
-        if(!silent) revRender();
+        if(!silent){ revRender(); loadStats(); }
       }).catch(function(){});
+  }
+
+  /* Fiabilité de l'étiquetage, mesurée sur les décisions de l'expert (mise à jour à chaque décision). */
+  function loadStats(){
+    var disc=(revData&&revData.discipline)||document.getElementById('revDisc').value||'geometrie';
+    fetch('/invent/review/stats?discipline='+encodeURIComponent(disc)).then(function(r){return r.json();}).then(function(s){
+      var box=document.getElementById('revStats'); if(!s||s.error){ box.style.display='none'; return; }
+      var d=s.sur_desaccords||{}, e=s.erreur_gemini_p35||{}, sg=s.suggestions_lexicales||{};
+      var h='<b style="color:var(--txt)">📊 Fiabilité de l\'étiquetage — mesurée sur tes décisions</b> ('+s.adoptees+' adoptées, '+s.rejetees+' rejetées)';
+      if(s.adoptees){ h+='<br>• Étiquette Gemini corrigée par toi sur <b>'+s.fiches_corrigees+'/'+s.adoptees+'</b> fiches (fidélité finale↔Gemini : '+(s.jaccard_final_vs_gemini!=null?s.jaccard_final_vs_gemini:'—')+(s.jaccard_final_vs_jury!=null?' · ↔jury : '+s.jaccard_final_vs_jury:'')+')'; }
+      if(s.desaccords_tranches){ h+='<br>• Sur les <b>'+s.desaccords_tranches+'</b> désaccords du jury que tu as tranchés (P35) : Gemini avait raison <b>'+d.gemini_avait_raison+'</b>, le jury <b>'+d.jury_avait_raison+'</b>, aucun des deux <b>'+d.aucun_des_deux+'</b>'; }
+      if(e.sur_desaccords!=null||e.sur_accords!=null){ h+='<br>• Taux d\'erreur de Gemini sur P35 : <b>'+(e.sur_desaccords!=null?e.sur_desaccords+' %':'—')+'</b> quand le jury le contredit vs <b>'+(e.sur_accords!=null?e.sur_accords+' %':'—')+'</b> quand il l\'approuve ('+s.accords_tranches+' accords tranchés)'; }
+      if(sg.proposees){ h+='<br>• Suggestions lexicales 💡 reprises : <b>'+sg.reprises+'/'+sg.proposees+'</b> ('+sg.taux+' %)'; }
+      if(!s.adoptees) h+='<br>Pas encore de décision dans cette discipline.';
+      box.innerHTML=h; box.style.display='block';
+    }).catch(function(){});
   }
 
   function revBulk(action){
@@ -2288,7 +2305,7 @@ $('fapply').onclick = async () => {
         if(d.error||!d.candidates||!d.candidates.length){ revData=null;
           document.getElementById('revList').innerHTML='<p class="muted">Aucune campagne chargée pour « '+esc(disc)+'» — lance `scripts/campagne_openalex.py --discipline '+esc(disc)+'` puis dépose le fichier de candidats sur le serveur.</p>';
           document.getElementById('revCounts').textContent=''; return; }
-        revData=d; revRender();
+        revData=d; revRender(); loadStats();
       }).catch(function(){ document.getElementById('revList').innerHTML='<p class="muted">Erreur de chargement.</p>'; });
     };
     if(revDiscLoaded){ go(); return; }

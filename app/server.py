@@ -1,5 +1,5 @@
 """Backend text-to-CAD local : texte -> Gemini -> build123d -> STL/STEP/GLB -> slice -> envoi Bambu."""
-import os, re, subprocess, sys, json, threading, queue
+import os, re, subprocess, sys, json, threading, queue, time
 from pathlib import Path
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import FileResponse, JSONResponse
@@ -1342,9 +1342,105 @@ async def invent_review_decide(request: Request):
     rpath.parent.mkdir(parents=True, exist_ok=True)
     json.dump(review, open(rpath, "w", encoding="utf-8"))
     _MATRIX_CACHE.clear()                 # la heatmap doit refléter le catalogue
+    _trace_decision(disc, cid, action, body.get("edits") or {}, cpath)
     return {"ok": True, "status": review.get(cid, "pending"),
             "catalogue": len(_geo.SOLUTIONS),
             "catalogue_discipline": _geo.disciplines_counts().get(disc, 0)}
+
+
+# ---- INSTRUMENTATION DES DÉCISIONS : les décisions de l'expert = vérité de
+# terrain pour mesurer la fiabilité de l'étiquetage LLM (Gemini seul, jury,
+# filet lexical). Journal ajout-seul, une ligne JSON par décision. ------------
+def _decisions_path(disc):
+    return CAMPAIGN_PATH.parent / f"campagne_decisions_{disc}.jsonl"
+
+
+def _trace_decision(disc, cid, action, edits, cpath):
+    try:
+        c = next((x for x in _load_json_file(cpath, []) if x.get("id") == cid), None) or {}
+        final = None
+        if action == "adopt":
+            final = sorted({int(p) for p in (edits.get("principles") or c.get("principles") or [])})
+        rec = {"ts": int(time.time()), "id": cid, "action": action, "discipline": disc,
+               "final": final,
+               "gemini": sorted(c.get("principles") or []),
+               "origine": sorted(c.get("principles_avant") or c.get("principles") or []),
+               "jury": c.get("jury"), "suggestions": c.get("suggestions") or [],
+               "portee_final": (edits.get("portee") or c.get("portee"))}
+        p = _decisions_path(disc)
+        p.parent.mkdir(parents=True, exist_ok=True)
+        with open(p, "a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    except Exception as e:
+        print("trace decision KO:", str(e)[:120], flush=True)
+
+
+@app.get("/invent/review/stats")
+async def invent_review_stats(request: Request, discipline: str | None = None):
+    """Fiabilité de l'étiquetage mesurée sur les décisions de l'expert :
+    qui avait raison sur P35 (Gemini / jury), le désaccord est-il un bon
+    détecteur d'erreur, et les suggestions lexicales sont-elles reprises ?"""
+    if not await _admin(request):
+        return JSONResponse({"error": "forbidden"}, 403)
+    disc, cpath, rpath = _campaign_paths(discipline)
+    cands = {c["id"]: c for c in _load_json_file(cpath, [])}
+    last = {}
+    try:
+        for line in open(_decisions_path(disc), encoding="utf-8"):
+            r = json.loads(line)
+            last[r["id"]] = r
+    except Exception:
+        pass
+    # rattrapage : adoptions faites AVANT l'instrumentation -> principes finaux
+    # lus dans le catalogue vivant (les corrections y ont été appliquées)
+    review = _load_json_file(rpath, {})
+    for cid, st in review.items():
+        if st == "adopted" and cid not in last:
+            s = _geo.get(cid)
+            c = cands.get(cid) or {}
+            if s:
+                last[cid] = {"id": cid, "action": "adopt", "final": sorted(s.get("principles") or []),
+                             "gemini": sorted(c.get("principles") or []),
+                             "origine": sorted(c.get("principles_avant") or c.get("principles") or []),
+                             "jury": c.get("jury"), "suggestions": c.get("suggestions") or [],
+                             "retro": True}
+    adopt = [r for r in last.values() if r.get("action") == "adopt" and r.get("final") is not None]
+    rej = sum(1 for r in last.values() if r.get("action") == "reject")
+    # 1) P35 : qui avait raison, sur les fiches jugées par le jury
+    jug = [r for r in adopt if r.get("jury") and isinstance(r["jury"].get("principles"), list)]
+    des = [r for r in jug if r["jury"].get("accord_p35") is False]
+    acc = [r for r in jug if r["jury"].get("accord_p35") is True]
+
+    def ok35(r, who):
+        src = r["gemini"] if who == "gemini" else r["jury"]["principles"]
+        return (35 in src) == (35 in r["final"])
+    stats = {
+        "discipline": disc, "decisions": len(last), "adoptees": len(adopt), "rejetees": rej,
+        "jugees_par_le_jury": len(jug),
+        "desaccords_tranches": len(des),
+        "sur_desaccords": {"gemini_avait_raison": sum(ok35(r, "gemini") for r in des),
+                           "jury_avait_raison": sum(ok35(r, "jury") for r in des),
+                           "aucun_des_deux": sum((not ok35(r, "gemini")) and (not ok35(r, "jury")) for r in des)},
+        "erreur_gemini_p35": {"sur_desaccords": (round(100 * sum(not ok35(r, "gemini") for r in des) / len(des)) if des else None),
+                              "sur_accords": (round(100 * sum(not ok35(r, "gemini") for r in acc) / len(acc)) if acc else None)},
+        "accords_tranches": len(acc),
+    }
+    # 2) fidélité globale des étiquettes finales à chaque source (Jaccard moyen)
+    def jac(a, b):
+        a, b = set(a), set(b)
+        return len(a & b) / max(1, len(a | b))
+    if adopt:
+        stats["jaccard_final_vs_gemini"] = round(sum(jac(r["final"], r["gemini"]) for r in adopt) / len(adopt), 2)
+    if jug:
+        stats["jaccard_final_vs_jury"] = round(sum(jac(r["final"], r["jury"]["principles"]) for r in jug) / len(jug), 2)
+    # 3) suggestions lexicales reprises par l'expert
+    sug_tot = sum(len(r.get("suggestions") or []) for r in adopt)
+    sug_ok = sum(1 for r in adopt for s in (r.get("suggestions") or []) if s.get("principe") in r["final"])
+    stats["suggestions_lexicales"] = {"proposees": sug_tot, "reprises": sug_ok,
+                                      "taux": (round(100 * sug_ok / sug_tot) if sug_tot else None)}
+    # 4) corrections de l'expert sur l'étiquette Gemini
+    stats["fiches_corrigees"] = sum(1 for r in adopt if sorted(r["final"]) != sorted(r["gemini"]))
+    return stats
 
 
 @app.get("/invent/solution/{sid}")
