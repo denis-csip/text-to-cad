@@ -10,6 +10,51 @@ MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
 # largement pour de la generation de script et divise le temps par ~10.
 THINKING = os.environ.get("GEMINI_THINKING", "low")
 
+# ---- SECOND FOURNISSEUR : OpenCode Zen (passerelle OpenAI-compatible) -------
+# Usage : « jury de modèles » (une autre famille de modèles rejoue l'extraction /
+# le juge P35 ; seuls les DÉSACCORDS remontent aux experts) et banc d'essai sur
+# modèles ouverts. Ne remplace JAMAIS Gemini dans le flux de l'atelier.
+# ⚠ Les modèles « -free » de Zen ne sont utilisables que dans l'appli OpenCode,
+# pas par API (« free tier can only be used in OpenCode ») → via API, le moins
+# cher est deepseek-v4-flash (0,14 $ / 0,28 $ par M tokens).
+ZEN_URL = os.environ.get("OPENCODE_ZEN_URL", "https://opencode.ai/zen/v1/chat/completions")
+ZEN_MODEL = os.environ.get("OPENCODE_ZEN_MODEL", "deepseek-v4-flash")
+
+
+def _zen_key():
+    k = os.environ.get("OPENCODE_ZEN_API_KEY", "").strip()
+    if k:
+        return k
+    vault = os.path.expanduser("~/.secrets/claude.env")   # coffre hors OneDrive
+    try:
+        for line in open(vault, encoding="utf-8"):
+            if line.startswith("OPENCODE_ZEN_API_KEY="):
+                return line.split("=", 1)[1].strip().strip('"').strip("'")
+    except Exception:
+        pass
+    raise RuntimeError("OPENCODE_ZEN_API_KEY absente (env ou ~/.secrets/claude.env).")
+
+
+def zen_chat(system: str, user: str, model: str = None, temperature: float = 0.2,
+             json_mode: bool = True, max_tokens: int = 4000, timeout: int = 120):
+    """Un appel texte→texte via OpenCode Zen. Renvoie (texte, usage)."""
+    import urllib.request
+    body = {"model": model or ZEN_MODEL, "temperature": temperature,
+            "max_tokens": max_tokens,
+            "messages": [{"role": "system", "content": system},
+                         {"role": "user", "content": user}]}
+    if json_mode:
+        body["response_format"] = {"type": "json_object"}
+    req = urllib.request.Request(
+        ZEN_URL, data=json.dumps(body).encode(), method="POST",
+        headers={"Content-Type": "application/json",
+                 "Authorization": f"Bearer {_zen_key()}",
+                 "User-Agent": "text-to-cad/1.0"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        data = json.loads(r.read().decode())
+    text = (data.get("choices") or [{}])[0].get("message", {}).get("content", "") or ""
+    return text, data.get("usage", {})
+
 _client = None
 _client_lock = threading.Lock()
 
