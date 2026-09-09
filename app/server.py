@@ -1492,6 +1492,42 @@ def mechanism(req: MechanismReq):
 class MechTextReq(BaseModel):
     brief: str
     n_poses: int = 16
+    n_essais: int = 3            # essais LLM max (schema + construction + interference)
+
+
+def _diag_interference(r, spec):
+    """Traduit un resultat de balayage en CONSIGNE DE CORRECTION actionnable.
+    Sans pose fautive ni remedes concrets, le LLM re-propose la meme geometrie."""
+    c = r.get("collision") or {}
+    noms = {p.get("id"): p.get("name", p.get("id")) for p in (spec.get("parts") or [])}
+    jn = {j.get("id"): j for j in (spec.get("joints") or [])}
+    a, b = (c.get("paire") or ["?", "?"])[:2]
+    pose = c.get("pose") or {}
+    detail = []
+    for jid, v in pose.items():
+        j = jn.get(jid, {})
+        t = str(j.get("type", "revolute")).lower()
+        unite = "mm" if t.startswith(("prism", "gliss", "slid", "lin")) else "deg"
+        rng = j.get("range") or [0, 0]
+        detail.append(f"« {j.get('name', jid)} » (id {jid}) a {float(v):.1f} {unite} "
+                      f"[course declaree {rng[0]} a {rng[1]}]")
+    return (
+        "ECHEC DE VERIFICATION — le balayage des poses a detecte une INTERFERENCE.\n"
+        f"Les pieces « {noms.get(a, a)} » (id {a}) et « {noms.get(b, b)} » (id {b}) "
+        f"s'interpenetrent de {c.get('volume_mm3')} mm3 sur "
+        f"{r.get('poses_en_conflit')} poses sur {r.get('poses_balayees')}.\n"
+        "Ce volume est mesure EN PLUS du recouvrement present au repos : c'est donc "
+        "le MOUVEMENT qui fait entrer ces deux pieces l'une dans l'autre.\n"
+        + ("Pose fautive : " + " ; ".join(detail) + ".\n" if detail else "")
+        + "CORRIGE LA GEOMETRIE OU LA COURSE, au choix selon ce qui garde la fonction :\n"
+        "- reduire la course ('range') de la liaison en cause jusqu'a ce que les deux "
+        "pieces ne se rencontrent plus ;\n"
+        "- deplacer l'axe de la liaison ('origin') pour degager la trajectoire ;\n"
+        "- raccourcir, amincir ou echancrer la piece qui vient au contact, du cote "
+        "ou elle balaye l'autre ;\n"
+        "- prevoir 0.4 mm de jeu entre les deux pieces sur toute la course.\n"
+        "NE CHANGE PAS la fonction demandee ni le nombre de pieces sans raison. "
+        "Renvoie le JSON COMPLET corrige.")
 
 
 def _valide_spec(spec):
@@ -1535,31 +1571,58 @@ def _valide_spec(spec):
 
 @app.post("/mechanism/from_text")
 def mechanism_from_text(req: MechTextReq):
-    """Brief -> mecanisme declaratif (LLM) -> construction + balayage (deterministe).
-    Une passe de correction si la construction ou la validation echoue."""
+    """Brief -> mecanisme declaratif (LLM) -> construction + BALAYAGE -> si une
+    interference est creee par le mouvement, on renvoie au LLM un diagnostic
+    actionnable et on recommence. Le MEILLEUR essai est conserve (une correction
+    peut degrader : on ne rend jamais pire que ce qu'on avait)."""
     MEC_DIR.mkdir(parents=True, exist_ok=True)
-    spec, err, brut = None, None, None
-    for essai in range(2):
+    n_max = max(1, min(req.n_essais, 4))
+    err, brut, best, hist = None, None, None, []
+    for essai in range(n_max):
         try:
             spec = llm.design_mechanism(req.brief, erreur=err, precedent=brut)
         except Exception as e:
+            if best:
+                break
             return {"ok": False, "error": f"LLM : {str(e)[:200]}"}
         brut = json.dumps(spec, ensure_ascii=False)
         err = _valide_spec(spec)
         if err:
+            hist.append({"essai": essai + 1, "etat": "schema invalide"})
             continue
-        r = WORKER.run_raw({"cmd": "mechanism", "outdir": str(MEC_DIR),
+        outdir = MEC_DIR / f"a{essai}"
+        r = WORKER.run_raw({"cmd": "mechanism", "outdir": str(outdir),
                             "parts": spec["parts"], "joints": spec.get("joints", []),
                             "root": spec.get("root"),
                             "n_poses": max(4, min(req.n_poses, 48))}, timeout=300)
-        if r.get("ok"):
-            r["base_url"] = "/work/variants/mechanism"
-            r["resume"] = spec.get("resume", "")
-            r["spec"] = spec
-            r["essais"] = essai + 1
-            return r
-        err = str(r.get("error", "construction echouee"))
-    return {"ok": False, "error": (err or "echec")[:300]}
+        if not r.get("ok"):
+            err = str(r.get("error", "construction echouee"))
+            hist.append({"essai": essai + 1, "etat": "construction echouee"})
+            continue
+        vol = float((r.get("collision") or {}).get("volume_mm3") or 0.0)
+        hist.append({"essai": essai + 1,
+                     "etat": "vérifié" if vol == 0 else "interférence",
+                     "interference_mm3": vol,
+                     "poses_en_conflit": r.get("poses_en_conflit", 0)})
+        r["spec"], r["resume"] = spec, spec.get("resume", "")
+        if best is None or vol < best[0]:          # on garde le moins mauvais
+            best = (vol, r, outdir)
+        if vol == 0.0:                             # course propre : on s'arrete la
+            break
+        err = _diag_interference(r, spec)          # sinon : correction ciblee
+    if best is None:
+        return {"ok": False, "error": (err or "echec")[:300], "historique": hist}
+    vol, r, outdir = best
+    for f in MEC_DIR.glob("part_*.glb"):           # purge des pieces d'un run precedent
+        f.unlink(missing_ok=True)
+    for f in outdir.iterdir():                     # le gagnant devient le mecanisme courant
+        if f.is_file():
+            shutil.copy2(f, MEC_DIR / f.name)
+    r["base_url"] = "/work/variants/mechanism"
+    r["essais"] = len(hist)
+    r["historique"] = hist
+    r["corrige"] = (len(hist) > 1 and vol == 0.0)  # une correction a bien redresse
+    return r
 
 
 @app.post("/mechanism/adopt")

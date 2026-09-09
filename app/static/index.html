@@ -1414,25 +1414,33 @@ $('mecGo').onclick = async () => {
   if(!brief){ $('mecStatus').textContent = 'décris le mécanisme voulu'; return; }
   mecStop();
   $('mecGo').disabled = true;
-  $('mecStatus').textContent = '⏳ conception + construction + balayage des poses…';
+  $('mecStatus').textContent = '⏳ conception + balayage des poses, correction si interférence (jusqu\'à ~2 min)…';
   try{
     const d = await fetch('/mechanism/from_text', {method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({brief: brief, n_poses: 16})}).then(r => r.json());
+      body: JSON.stringify({brief: brief, n_poses: 16, n_essais: 3})}).then(r => r.json());
     if(!d.ok){ $('mecStatus').textContent = 'échec : ' + String(d.error||'').slice(0,120);
       $('mecGo').disabled = false; return; }
     $('mecPanel').style.display = 'block';
     $('mecResume').innerHTML = '<b>' + (d.parts.length) + ' pièces · '
       + d.joints.length + ' liaison(s)</b> — ' + (d.resume || '');
-    const c = d.collision;
-    $('mecVerdict').innerHTML = c
+    const c = d.collision, ess = d.essais || 1;
+    const suite = (d.historique || []).map(h => h.essai + '. ' + h.etat
+      + (h.interference_mm3 ? ' (' + h.interference_mm3 + ' mm³)' : '')).join(' → ');
+    $('mecVerdict').innerHTML = (c
       ? '<span class="pill err">Interférence</span> <span class="muted">le mouvement crée '
         + c.volume_mm3 + ' mm³ de recouvrement entre « ' + c.paire[0] + ' » et « '
         + c.paire[1] + ' » sur ' + d.poses_en_conflit + '/' + d.poses_balayees
-        + ' poses — la course est à revoir.</span>'
+        + ' poses'
+        + (ess > 1 ? ' — non résolu après ' + ess + ' essais de correction (meilleur essai conservé).'
+                   : ' — la course est à revoir.') + '</span>'
       : '<span class="pill ok">Course vérifiée</span> <span class="muted">'
         + d.poses_balayees + ' poses balayées, aucune interférence créée par le mouvement · '
-        + d.masse_g + ' g</span>';
+        + d.masse_g + ' g'
+        + (d.corrige ? ' — obtenue après correction automatique de l\'interférence.' : '')
+        + '</span>')
+      + (ess > 1 ? '<div class="muted" style="font-size:11.5px; margin-top:3px">🔁 '
+                   + suite + '</div>' : '');
     mecBuildSliders(d);
     await loadMechanism(d);
     addIter('mécanisme : ' + brief);
