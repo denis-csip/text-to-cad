@@ -1,0 +1,106 @@
+DISCIPLINE : plasturgie (103 requetes)
+[1/103] rib design injection molded part sink mark stiffne -> 30 nouveaux (total 30)
+[2/103] boss design screw insert injection molded plastic  -> 27 nouveaux (total 57)
+[3/103] uniform wall thickness injection molding warpage d -> 29 nouveaux (total 86)
+[4/103] draft angle ejection force injection molded part -> 29 nouveaux (total 115)
+[5/103] undercut design collapsible core slider eliminatio -> 7 nouveaux (total 122)
+[6/103] living hinge integral hinge polypropylene design m -> 30 nouveaux (total 152)
+[7/103] snap-fit design injection molded thermoplastic joi -> 27 nouveaux (total 179)
+[8/103] gate location optimization weld line injection mol -> 26 nouveaux (total 205)
+[9/103] weld line strength improvement injection molding d -> 15 nouveaux (total 220)
+[10/103] sink mark prediction elimination injection molding -> 18 nouveaux (total 238)
+[11/103] warpage reduction design injection molded part geo -> 14 nouveaux (total 252)
+[12/103] corner radius stress concentration molded plastic  -> 25 nouveaux (total 277)
+[13/103] thin wall injection molding design flow length rat -> 19 nouveaux (total 296)
+[14/103] part consolidation multifunctional injection molde -> 28 nouveaux (total 324)
+[15/103] metal replacement plastic part design structural i -> 24 nouveaux (total 348)
+[16/103] design for injection molding manufacturability rul -> 19 nouveaux (total 367)
+[17/103] molded-in stress residual stress reduction part de -> 25 nouveaux (total 392)
+[18/103] integrated fastener design molded plastic assembly -> 27 nouveaux (total 419)
+[19/103] press-fit boss plastic part design retention -> 29 nouveaux (total 448)
+[20/103] lattice structure injection molded part lightweigh -> 23 nouveaux (total 471)
+[21/103] conformal cooling channel injection mold cycle tim -> 15 nouveaux (total 486)
+[22/103] additive manufactured mold insert conformal coolin -> 16 nouveaux (total 502)
+[23/103] hot runner system balance injection mold -> 19 nouveaux (total 521)
+[24/103] mold venting design trapped air burn marks -> 24 nouveaux (total 545)
+[25/103] ejection system design ejector pin marks plastic p -> 13 nouveaux (total 558)
+[26/103] collapsible core undercut molding tooling -> 9 nouveaux (total 567)
+[27/103] family mold multi-cavity balance runner design -> 21 nouveaux (total 588)
+[28/103] rapid tooling 3D printed injection mold low volume -> 23 nouveaux (total 611)
+[29/103] mold surface temperature control variotherm heat a -> 21 nouveaux (total 632)
+[30/103] in-mold sensor cavity pressure process monitoring -> 26 nouveaux (total 658)
+[31/103] mold texture laser texturing injection molding sur -> 25 nouveaux (total 683)
+[32/103] mold coating wear release injection molding -> 22 nouveaux (total 705)
+[33/103] gas-assisted injection molding hollow part design -> 15 nouveaux (total 720)
+[34/103] water-assisted injection molding tubular part -> 21 nouveaux (total 741)
+[35/103] microcellular injection molding MuCell foaming wei -> 28 nouveaux (total 769)
+[36/103] injection compression molding thin part optical -> 13 nouveaux (total 782)
+[37/103] two-component injection molding multi-material ove -> 23 nouveaux (total 805)
+[38/103] insert molding metal insert plastic bonding -> 21 nouveaux (total 826)
+[39/103] in-mold decoration in-mold labeling film injection -> 29 nouveaux (total 855)
+[40/103] in-mold assembly integrated joint molding -> 21 nouveaux (total 876)
+[41/103] micro injection molding microfluidic device polyme -> 16 nouveaux (total 892)
+[42/103] co-injection sandwich molding recycled core -> 21 nouveaux (total 913)
+[43/103] long fiber reinforced thermoplastic injection mold -> 25 nouveaux (total 938)
+[44/103] structural foam molding low pressure part design -> 21 nouveaux (total 959)
+[45/103] KO chemical foaming agent injection molding: IncompleteRead(361837 bytes read, 398769 more expected)
+[46/103] KO injection molding fiber orientation pred: <urlopen error [Errno 11001] getaddrinfo failed>
+[47/103] KO thermoforming wall thickness distributio: <urlopen error [Errno 11001] getaddrinfo failed>
+[48/103] KO extrusion blow molding parison thickness: <urlopen error [Errno 11001] getaddrinfo failed>
+[49/103] KO stretch blow molding preform design PET : <urlopen error [Errno 11001] getaddrinfo failed>
+[50/103] KO rotational molding wall thickness design: <urlopen error [Errno 11001] getaddrinfo failed>
+[51/103] KO profile extrusion die design flow balanc: <urlopen error [Errno 11001] getaddrinfo failed>
+[52/103] KO co-extrusion multilayer barrier film pac: <urlopen error [Errno 11001] getaddrinfo failed>
+[53/103] KO compression molding sheet molding compou: <urlopen error [Errno 11001] getaddrinfo failed>
+[54/103] KO resin transfer molding composite part de: <urlopen error [Errno 11001] getaddrinfo failed>
+[55/103] KO thermoplastic composite stamping overmol: <urlopen error [Errno 11001] getaddrinfo failed>
+[56/103] KO large format additive manufacturing poly: <urlopen error [Errno 11001] getaddrinfo failed>
+[57/103] KO ultrasonic welding energy director desig: <urlopen error [Errno 11001] getaddrinfo failed>
+[58/103] KO laser transmission welding plastic joint: <urlopen error [Errno 11001] getaddrinfo failed>
+[59/103] KO vibration welding thermoplastic joint st: <urlopen error [Errno 11001] getaddrinfo failed>
+[60/103] KO hot plate welding plastic joint design: <urlopen error [Errno 11001] getaddrinfo failed>
+[61/103] KO adhesive-free joining polymer parts mech: <urlopen error [Errno 11001] getaddrinfo failed>
+[62/103] KO plastic-metal hybrid joining injection m: <urlopen error [Errno 11001] getaddrinfo failed>
+[63/103] KO heat staking design plastic assembly: <urlopen error [Errno 11001] getaddrinfo failed>
+[64/103] KO screw joint self-tapping screw plastic b: <urlopen error [Errno 11001] getaddrinfo failed>
+[65/103] KO bio-based polymer injection molding prop: <urlopen error [Errno 11001] getaddrinfo failed>
+[66/103] KO recycled polymer mechanical properties i: <urlopen error [Errno 11001] getaddrinfo failed>
+[67/103] KO post-consumer recycled plastic compatibi: <urlopen error [Errno 11001] getaddrinfo failed>
+[68/103] KO polymer blend compatibilization impact s: <urlopen error [Errno 11001] getaddrinfo failed>
+[69/103] KO halogen-free flame retardant thermoplast: <urlopen error [Errno 11001] getaddrinfo failed>
+[70/103] KO thermally conductive polymer composite h: <urlopen error [Errno 11001] getaddrinfo failed>
+[71/103] KO electrically conductive polymer composit: <urlopen error [Errno 11001] getaddrinfo failed>
+[72/103] KO self-reinforced polymer composite: <urlopen error [Errno 11001] getaddrinfo failed>
+[73/103] KO natural fiber reinforced thermoplastic: <urlopen error [Errno 11001] getaddrinfo failed>
+[74/103] KO polymer foam core sandwich lightweight: <urlopen error [Errno 11001] getaddrinfo failed>
+[75/103] KO thermoplastic elastomer overmolding soft: <urlopen error [Errno 11001] getaddrinfo failed>
+[76/103] KO high temperature thermoplastic PEEK PPS : <urlopen error [Errno 11001] getaddrinfo failed>
+[77/103] KO transparent polymer optical part molding: <urlopen error [Errno 11001] getaddrinfo failed>
+[78/103] KO biodegradable polymer processing: <urlopen error [Errno 11001] getaddrinfo failed>
+[79/103] KO polymer nanocomposite mechanical propert: <urlopen error [Errno 11001] getaddrinfo failed>
+[80/103] KO shrinkage prediction injection molding d: <urlopen error [Errno 11001] getaddrinfo failed>
+[81/103] KO post-mold shrinkage annealing dimensiona: <urlopen error [Errno 11001] getaddrinfo failed>
+[82/103] KO flash defect injection molding cause pre: <urlopen error [Errno 11001] getaddrinfo failed>
+[83/103] KO short shot defect flow analysis injectio: <urlopen error [Errno 11001] getaddrinfo failed>
+[84/103] KO jetting flow marks surface defect inject: <urlopen error [Errno 11001] getaddrinfo failed>
+[85/103] KO hygroscopic polymer drying moisture defe: <urlopen error [Errno 11001] getaddrinfo failed>
+[86/103] KO injection molding process parameter opti: <urlopen error [Errno 11001] getaddrinfo failed>
+[87/103] KO surface gloss control injection molding: <urlopen error [Errno 11001] getaddrinfo failed>
+[88/103] KO scratch resistance molded surface textur: <urlopen error [Errno 11001] getaddrinfo failed>
+[89/103] KO design for recycling plastic product mon: <urlopen error [Errno 11001] getaddrinfo failed>
+[90/103] KO design for disassembly plastic product: <urlopen error [Errno 11001] getaddrinfo failed>
+[91/103] KO chemical recycling polymer depolymerizat: <urlopen error [Errno 11001] getaddrinfo failed>
+[92/103] KO plastic part lightweighting design susta: <urlopen error [Errno 11001] getaddrinfo failed>
+[93/103] KO circular economy plastic packaging desig: <urlopen error [Errno 11001] getaddrinfo failed>
+[94/103] KO recycled content injection molding quali: <urlopen error [Errno 11001] getaddrinfo failed>
+[95/103] KO mold flow simulation gate optimization: <urlopen error [Errno 11001] getaddrinfo failed>
+[96/103] KO cooling channel optimization simulation : <urlopen error [Errno 11001] getaddrinfo failed>
+[97/103] KO topology optimization injection molded p: <urlopen error [Errno 11001] getaddrinfo failed>
+[98/103] KO digital twin injection molding process c: <urlopen error [Errno 11001] getaddrinfo failed>
+[99/103] KO molded interconnect device laser direct : <urlopen error [Errno 11001] getaddrinfo failed>
+[100/103] KO in-mold electronics functional film: <urlopen error [Errno 11001] getaddrinfo failed>
+[101/103] KO molded hydrophobic surface microstructur: <urlopen error [Errno 11001] getaddrinfo failed>
+[102/103] KO integrated seal design molded part: <urlopen error [Errno 11001] getaddrinfo failed>
+[103/103] KO flexible living hinge packaging closure : <urlopen error [Errno 11001] getaddrinfo failed>
+
+Phase A terminee : 959 articles dedoublonnes (8204s)

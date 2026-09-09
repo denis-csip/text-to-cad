@@ -1,0 +1,29 @@
+DISCIPLINE : plasturgie (103 requetes)
+corpus recharge : 1225 articles depuis campagne_plasturgie_papers_run3.json
+
+Phase A terminee : 1225 articles dedoublonnes (0s)
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+  extraction 10/103 lots
+  extraction 20/103 lots
+  extraction 30/103 lots
+  extraction 40/103 lots
+  extraction 50/103 lots
+  extraction 60/103 lots
+  extraction 70/103 lots
+  extraction 80/103 lots
+  extraction 90/103 lots
+  extraction 100/103 lots
+
+=== CAMPAGNE TERMINEE ===
+{
+  "papers": 1225,
+  "candidats_bruts": 308,
+  "candidats_dedoublonnes": 308,
+  "articles_sources_distincts": 384,
+  "duree_harvest_s": 0,
+  "duree_extraction_s": 160,
+  "discipline": "plasturgie"
+}
+-> C:\Users\DenisCavallucci\OneDrive - INSA Strasbourg\Bureau\Claude\text-to-cad-proto\scripts\campagne_plasturgie_result.json

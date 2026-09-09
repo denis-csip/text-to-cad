@@ -1,0 +1,123 @@
+DISCIPLINE : plasturgie (103 requetes)
+[1/103] KO rib design injection molded part sink ma: HTTP Error 503: Service Unavailable
+[2/103] KO boss design screw insert injection molde: HTTP Error 503: Service Unavailable
+[3/103] uniform wall thickness injection molding warpage d -> 30 nouveaux (total 30)
+[4/103] KO draft angle ejection force injection mol: HTTP Error 503: Service Unavailable
+[5/103] KO undercut design collapsible core slider : HTTP Error 503: Service Unavailable
+[6/103] KO living hinge integral hinge polypropylen: HTTP Error 503: Service Unavailable
+[7/103] KO snap-fit design injection molded thermop: HTTP Error 503: Service Unavailable
+[8/103] KO gate location optimization weld line inj: HTTP Error 503: Service Unavailable
+[9/103] weld line strength improvement injection molding d -> 25 nouveaux (total 55)
+[10/103] KO sink mark prediction elimination injecti: HTTP Error 503: Service Unavailable
+[11/103] warpage reduction design injection molded part geo -> 19 nouveaux (total 74)
+[12/103] KO corner radius stress concentration molde: HTTP Error 503: Service Unavailable
+[13/103] KO thin wall injection molding design flow : HTTP Error 503: Service Unavailable
+[14/103] KO part consolidation multifunctional injec: HTTP Error 503: Service Unavailable
+[15/103] KO metal replacement plastic part design st: HTTP Error 503: Service Unavailable
+[16/103] KO design for injection molding manufactura: HTTP Error 503: Service Unavailable
+[17/103] KO molded-in stress residual stress reducti: HTTP Error 503: Service Unavailable
+[18/103] KO integrated fastener design molded plasti: HTTP Error 503: Service Unavailable
+[19/103] KO press-fit boss plastic part design reten: HTTP Error 503: Service Unavailable
+[20/103] KO lattice structure injection molded part : HTTP Error 503: Service Unavailable
+[21/103] conformal cooling channel injection mold cycle tim -> 18 nouveaux (total 92)
+[22/103] KO additive manufactured mold insert confor: HTTP Error 503: Service Unavailable
+[23/103] KO hot runner system balance injection mold: HTTP Error 503: Service Unavailable
+[24/103] mold venting design trapped air burn marks -> 28 nouveaux (total 120)
+[25/103] KO ejection system design ejector pin marks: HTTP Error 503: Service Unavailable
+[26/103] KO collapsible core undercut molding toolin: HTTP Error 503: Service Unavailable
+[27/103] KO family mold multi-cavity balance runner : HTTP Error 503: Service Unavailable
+[28/103] KO rapid tooling 3D printed injection mold : HTTP Error 503: Service Unavailable
+[29/103] KO mold surface temperature control varioth: HTTP Error 503: Service Unavailable
+[30/103] KO in-mold sensor cavity pressure process m: HTTP Error 503: Service Unavailable
+[31/103] KO mold texture laser texturing injection m: HTTP Error 503: Service Unavailable
+[32/103] KO mold coating wear release injection mold: HTTP Error 503: Service Unavailable
+[33/103] KO gas-assisted injection molding hollow pa: HTTP Error 503: Service Unavailable
+[34/103] KO water-assisted injection molding tubular: HTTP Error 503: Service Unavailable
+[35/103] KO microcellular injection molding MuCell f: HTTP Error 503: Service Unavailable
+[36/103] KO injection compression molding thin part : HTTP Error 503: Service Unavailable
+[37/103] KO two-component injection molding multi-ma: HTTP Error 503: Service Unavailable
+[38/103] insert molding metal insert plastic bonding -> 28 nouveaux (total 148)
+[39/103] KO in-mold decoration in-mold labeling film: HTTP Error 503: Service Unavailable
+[40/103] in-mold assembly integrated joint molding -> 29 nouveaux (total 177)
+[41/103] KO micro injection molding microfluidic dev: HTTP Error 503: Service Unavailable
+[42/103] KO co-injection sandwich molding recycled c: HTTP Error 503: Service Unavailable
+[43/103] KO long fiber reinforced thermoplastic inje: HTTP Error 503: Service Unavailable
+[44/103] KO structural foam molding low pressure par: HTTP Error 503: Service Unavailable
+[45/103] KO chemical foaming agent injection molding: HTTP Error 503: Service Unavailable
+[46/103] KO injection molding fiber orientation pred: HTTP Error 503: Service Unavailable
+[47/103] KO thermoforming wall thickness distributio: HTTP Error 503: Service Unavailable
+[48/103] KO extrusion blow molding parison thickness: HTTP Error 503: Service Unavailable
+[49/103] stretch blow molding preform design PET bottle -> 30 nouveaux (total 207)
+[50/103] KO rotational molding wall thickness design: HTTP Error 503: Service Unavailable
+[51/103] KO profile extrusion die design flow balanc: HTTP Error 503: Service Unavailable
+[52/103] KO co-extrusion multilayer barrier film pac: HTTP Error 503: Service Unavailable
+[53/103] KO compression molding sheet molding compou: HTTP Error 503: Service Unavailable
+[54/103] KO resin transfer molding composite part de: HTTP Error 503: Service Unavailable
+[55/103] KO thermoplastic composite stamping overmol: HTTP Error 503: Service Unavailable
+[56/103] KO large format additive manufacturing poly: HTTP Error 503: Service Unavailable
+[57/103] ultrasonic welding energy director design thermopl -> 28 nouveaux (total 235)
+[58/103] KO laser transmission welding plastic joint: HTTP Error 503: Service Unavailable
+[59/103] KO vibration welding thermoplastic joint st: HTTP Error 503: Service Unavailable
+[60/103] KO hot plate welding plastic joint design: HTTP Error 503: Service Unavailable
+[61/103] KO adhesive-free joining polymer parts mech: HTTP Error 503: Service Unavailable
+[62/103] KO plastic-metal hybrid joining injection m: HTTP Error 503: Service Unavailable
+[63/103] KO heat staking design plastic assembly: HTTP Error 503: Service Unavailable
+[64/103] KO screw joint self-tapping screw plastic b: HTTP Error 503: Service Unavailable
+[65/103] KO bio-based polymer injection molding prop: HTTP Error 503: Service Unavailable
+[66/103] KO recycled polymer mechanical properties i: HTTP Error 503: Service Unavailable
+[67/103] KO post-consumer recycled plastic compatibi: HTTP Error 503: Service Unavailable
+[68/103] KO polymer blend compatibilization impact s: HTTP Error 503: Service Unavailable
+[69/103] halogen-free flame retardant thermoplastic -> 30 nouveaux (total 265)
+[70/103] KO thermally conductive polymer composite h: HTTP Error 503: Service Unavailable
+[71/103] KO electrically conductive polymer composit: HTTP Error 503: Service Unavailable
+[72/103] KO self-reinforced polymer composite: HTTP Error 503: Service Unavailable
+[73/103] KO natural fiber reinforced thermoplastic: HTTP Error 503: Service Unavailable
+[74/103] KO polymer foam core sandwich lightweight: HTTP Error 503: Service Unavailable
+[75/103] KO thermoplastic elastomer overmolding soft: HTTP Error 503: Service Unavailable
+[76/103] high temperature thermoplastic PEEK PPS injection  -> 25 nouveaux (total 290)
+[77/103] KO transparent polymer optical part molding: HTTP Error 503: Service Unavailable
+[78/103] KO biodegradable polymer processing: HTTP Error 503: Service Unavailable
+[79/103] KO polymer nanocomposite mechanical propert: HTTP Error 503: Service Unavailable
+[80/103] KO shrinkage prediction injection molding d: HTTP Error 503: Service Unavailable
+[81/103] post-mold shrinkage annealing dimensional stabilit -> 28 nouveaux (total 318)
+[82/103] KO flash defect injection molding cause pre: HTTP Error 503: Service Unavailable
+[83/103] short shot defect flow analysis injection molding -> 18 nouveaux (total 336)
+[84/103] jetting flow marks surface defect injection moldin -> 17 nouveaux (total 353)
+[85/103] KO hygroscopic polymer drying moisture defe: HTTP Error 503: Service Unavailable
+[86/103] KO injection molding process parameter opti: HTTP Error 503: Service Unavailable
+[87/103] KO surface gloss control injection molding: HTTP Error 503: Service Unavailable
+[88/103] KO scratch resistance molded surface textur: HTTP Error 503: Service Unavailable
+[89/103] KO design for recycling plastic product mon: HTTP Error 503: Service Unavailable
+[90/103] KO design for disassembly plastic product: HTTP Error 503: Service Unavailable
+[91/103] KO chemical recycling polymer depolymerizat: HTTP Error 503: Service Unavailable
+[92/103] KO plastic part lightweighting design susta: HTTP Error 503: Service Unavailable
+[93/103] KO circular economy plastic packaging desig: HTTP Error 503: Service Unavailable
+[94/103] KO recycled content injection molding quali: HTTP Error 503: Service Unavailable
+[95/103] KO mold flow simulation gate optimization: HTTP Error 503: Service Unavailable
+[96/103] KO cooling channel optimization simulation : HTTP Error 503: Service Unavailable
+[97/103] KO topology optimization injection molded p: HTTP Error 503: Service Unavailable
+[98/103] KO digital twin injection molding process c: HTTP Error 503: Service Unavailable
+[99/103] KO molded interconnect device laser direct : HTTP Error 503: Service Unavailable
+[100/103] KO in-mold electronics functional film: HTTP Error 503: Service Unavailable
+[101/103] KO molded hydrophobic surface microstructur: HTTP Error 503: Service Unavailable
+[102/103] KO integrated seal design molded part: HTTP Error 503: Service Unavailable
+[103/103] KO flexible living hinge packaging closure : HTTP Error 503: Service Unavailable
+
+Phase A terminee : 353 articles dedoublonnes (48s)
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+  extraction 10/30 lots
+  extraction 20/30 lots
+  extraction 30/30 lots
+
+=== CAMPAGNE TERMINEE ===
+{
+  "papers": 353,
+  "candidats_bruts": 93,
+  "candidats_dedoublonnes": 93,
+  "articles_sources_distincts": 115,
+  "duree_harvest_s": 48,
+  "duree_extraction_s": 74,
+  "discipline": "plasturgie"
+}
+-> C:\Users\DenisCavallucci\OneDrive - INSA Strasbourg\Bureau\Claude\text-to-cad-proto\scripts\campagne_plasturgie_result.json

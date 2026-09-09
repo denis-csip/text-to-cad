@@ -207,16 +207,25 @@ def current_user(cookie):
 
 
 # --- Relais IDEAS (porté de ARIZ-Copilot/supabase/functions/ideas-login) ----
-def signin_ideas(email, password):
+def signin_ideas(email, password, totp=None):
     """Valide les identifiants auprès de l'API GraphQL IDEAS.
     On ne demande QUE id/name/email (les champs décoratifs cassaient sur des
     profils incomplets). Réponse partielle tolérée : si signin.email est là,
-    l'auth a réussi même si `errors` est présent."""
-    query = ("mutation Signin($email:String!,$password:String!){"
-             "signin(email:$email,password:$password){id name email}}")
-    body = json.dumps({"query": query,
-                       "variables": {"email": (email or "").strip(),
-                                     "password": password or ""}}).encode()
+    l'auth a réussi même si `errors` est présent.
+    `totp` = code 2FA à 6 chiffres — IDEAS a ajouté la double authentification
+    (argument `signin(..., totp)`) ; sans lui, un compte 2FA échoue avec une
+    erreur interne générique « Unexpected error. »."""
+    totp = (totp or "").strip() or None
+    if totp:
+        query = ("mutation Signin($email:String!,$password:String!,$totp:String){"
+                 "signin(email:$email,password:$password,totp:$totp){id name email}}")
+        variables = {"email": (email or "").strip(), "password": password or "",
+                     "totp": totp}
+    else:
+        query = ("mutation Signin($email:String!,$password:String!){"
+                 "signin(email:$email,password:$password){id name email}}")
+        variables = {"email": (email or "").strip(), "password": password or ""}
+    body = json.dumps({"query": query, "variables": variables}).encode()
     req = urllib.request.Request(
         IDEAS_ENDPOINT, data=body, method="POST",
         headers={"Content-Type": "application/json", "x-application": IDEAS_APP})
@@ -234,5 +243,12 @@ def signin_ideas(email, password):
         return {"user": signin}          # succès (même si `errors` non vide)
     errs = payload.get("errors")
     if errs:
-        return {"error": errs[0].get("message", "Authentication failed")}
+        msg = errs[0].get("message", "Authentication failed")
+        code = ((errs[0].get("extensions") or {}).get("code") or "")
+        # Un refus d'identifiants est explicite (« invalid », « password »…) ;
+        # une erreur INTERNE d'IDEAS n'en est PAS un (2FA manquante, panne).
+        refus = any(k in msg.lower() for k in ("invalid", "incorrect", "password",
+                                                "credential", "not found", "unknown"))
+        return {"error": msg, "code": code,
+                "ideas_internal": (not refus) and ("INTERNAL" in code or "unexpected" in msg.lower())}
     return {"error": "Invalid response from IDEAS API"}

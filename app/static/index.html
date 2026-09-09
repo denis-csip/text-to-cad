@@ -201,6 +201,7 @@
             <div id="agMsg"></div>
             <input id="agEmail" type="email" required autocomplete="username" placeholder="Adresse e-mail IDEAS">
             <input id="agPass" type="password" required autocomplete="current-password" placeholder="Mot de passe IDEAS">
+            <input id="agTotp" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="Code 2FA IDEAS à 6 chiffres (si activé sur ton compte)">
             <button id="agBtn" type="submit">Se connecter</button>
           </form>
         </div></div>
@@ -1993,7 +1994,8 @@ $('fapply').onclick = async () => {
       btn=document.getElementById('agBtn'),
       userBox=document.getElementById('userBox');
   var MSG={
-    IDEAS_AUTH_FAILED:"Identifiants IDEAS incorrects.",
+    IDEAS_AUTH_FAILED:"IDEAS a refusé ces identifiants.",
+    IDEAS_INTERNAL:"IDEAS a répondu par une <b>erreur interne</b>, pas par un refus d'identifiants. Si la double authentification (2FA) est activée sur ton compte IDEAS, saisis le <b>code à 6 chiffres</b> de ton application d'authentification ci-dessous et réessaie. Sinon, la plateforme IDEAS est en défaut : réessaie plus tard.",
     IDEAS_UNAVAILABLE:"Le serveur IDEAS est momentanément injoignable. Réessaie dans un instant.",
     BLOCKED:"Ce compte a été bloqué par un administrateur.",
     AUTH_REQUIRED:"Session expirée, reconnecte-toi."
@@ -2022,14 +2024,18 @@ $('fapply').onclick = async () => {
     e.preventDefault(); btn.disabled=true; msg.innerHTML='';
     fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({email:document.getElementById('agEmail').value,
-                           password:document.getElementById('agPass').value})})
+                           password:document.getElementById('agPass').value,
+                           totp:(document.getElementById('agTotp')||{}).value||''})})
     .then(function(r){ return r.json(); })
     .then(function(d){
       if(d.ok){ location.reload(); return; }
       if(d.pending){ form.style.display='none';
         ok("Bonjour "+(d.name||'')+" — ta demande d'accès est enregistrée. Un administrateur de la Chaire AIARD doit valider ton compte ; tu pourras te connecter dès l'activation.");
         return; }
-      err(MSG[d.error]||d.error||"Échec de la connexion."); btn.disabled=false;
+      var t=MSG[d.error]||d.error||"Échec de la connexion.";
+      if(d.detail && d.error!=='IDEAS_INTERNAL') t+=' <span style="opacity:.7">('+String(d.detail).replace(/</g,'&lt;')+')</span>';
+      err(t); btn.disabled=false;
+      if(d.error==='IDEAS_INTERNAL'){ var tf=document.getElementById('agTotp'); if(tf){ tf.style.borderColor='#d64545'; tf.focus(); } }
     }).catch(function(){ err("Erreur réseau."); btn.disabled=false; });
   });
 })();

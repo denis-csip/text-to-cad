@@ -154,13 +154,21 @@ async def api_login(request: Request):
         body = {}
     email = (body.get("email") or "").strip()
     password = body.get("password") or ""
+    totp = (body.get("totp") or "").strip()
     if not email or not password:
         return JSONResponse({"error": "Email et mot de passe requis."}, 400)
-    res = await run_in_threadpool(auth.signin_ideas, email, password)
+    res = await run_in_threadpool(auth.signin_ideas, email, password, totp)
     if res.get("error") or not res.get("user"):
+        # journal SANS mot de passe : indispensable pour distinguer refus / panne / 2FA
+        print(f"login KO {email}: {res.get('error')} [{res.get('code','')}] totp={'oui' if totp else 'non'}",
+              flush=True)
         if res.get("unreachable"):
             return JSONResponse({"error": "IDEAS_UNAVAILABLE"}, 503)
-        return JSONResponse({"error": "IDEAS_AUTH_FAILED"}, 401)
+        if res.get("ideas_internal"):
+            # IDEAS a planté ou exige la 2FA : ce N'EST PAS un mauvais mot de passe
+            return JSONResponse({"error": "IDEAS_INTERNAL", "detail": res.get("error"),
+                                 "totp_hint": not totp}, 502)
+        return JSONResponse({"error": "IDEAS_AUTH_FAILED", "detail": res.get("error")}, 401)
     u = res["user"]
     user, _is_new = await run_in_threadpool(
         auth.upsert_user, u["email"], u.get("name"), u.get("id"))
