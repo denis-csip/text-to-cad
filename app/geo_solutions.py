@@ -323,6 +323,22 @@ def get(sol_id):
     return _BY_ID.get(sol_id)
 
 
+# Poids d'un principe dans le score de cellule. Le 35 « modification des
+# propriétés » est un FOURRE-TOUT à faible information (48 % des candidats
+# plasturgie, 413 cellules de la matrice) : à poids plein il propulse n'importe
+# quel réglage de procédé ou changement de matière en tête de toutes les
+# cellules. Retour d'expert (Denis, 2026-09-09) : on le garde comme étiquette,
+# on ne le laisse plus dominer le classement.
+PRINCIPLE_WEIGHT = {35: 1}
+PRINCIPLE_WEIGHT_DEFAULT = 4
+
+
+def principle_score(sol_principles, cell_principles):
+    """Somme pondérée des principes de la solution présents dans la cellule."""
+    return sum(PRINCIPLE_WEIGHT.get(p, PRINCIPLE_WEIGHT_DEFAULT)
+               for p in set(sol_principles) & set(cell_principles))
+
+
 def cell_solutions(improve, degrade, cell_principles, limit=6, discipline=None):
     """Remplissage d'une cellule de la matrice : solutions triées — d'abord
     celles qui INCARNENT les principes de la cellule (fidélité à la matrice
@@ -333,8 +349,7 @@ def cell_solutions(improve, degrade, cell_principles, limit=6, discipline=None):
     for s in SOLUTIONS:
         if discipline and s.get("discipline", DISC_DEFAUT) != discipline:
             continue
-        score = 0
-        score += 4 * len(set(s["principles"]) & set(cell_principles))
+        score = principle_score(s["principles"], cell_principles)
         if improve in s["improves"]:
             score += 3
         if degrade in s.get("degrades", []):

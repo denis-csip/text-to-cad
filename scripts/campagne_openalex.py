@@ -156,7 +156,7 @@ def annote_impact(cands):
         P, I, D = set(c.get("principles", [])), set(c.get("improves", [])), set(c.get("degrades", []))
         n = thin = 0
         for i, j, prn, cur in cells:
-            sc = 4 * len(P & prn) + (3 if i in I else 0) - (2 if j in D else 0)
+            sc = geo.principle_score(P, prn) + (3 if i in I else 0) - (2 if j in D else 0)
             if sc > 0:
                 n += 1
                 thin += cur < 3
