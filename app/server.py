@@ -1404,7 +1404,12 @@ async def invent_review_stats(request: Request, discipline: str | None = None):
                              "origine": sorted(c.get("principles_avant") or c.get("principles") or []),
                              "jury": c.get("jury"), "suggestions": c.get("suggestions") or [],
                              "retro": True}
-    adopt = [r for r in last.values() if r.get("action") == "adopt" and r.get("final") is not None]
+    # Les adoptions ANTÉRIEURES à l'instrumentation sont exclues des métriques :
+    # leurs principes au catalogue ont été synchronisés depuis le ré-étiquetage
+    # Gemini (2026-09-09), ils ne reflètent donc PAS un jugement de l'expert.
+    retro = sum(1 for r in last.values() if r.get("retro"))
+    adopt = [r for r in last.values() if r.get("action") == "adopt"
+             and r.get("final") is not None and not r.get("retro")]
     rej = sum(1 for r in last.values() if r.get("action") == "reject")
     # 1) P35 : qui avait raison, sur les fiches jugées par le jury
     jug = [r for r in adopt if r.get("jury") and isinstance(r["jury"].get("principles"), list)]
@@ -1416,6 +1421,7 @@ async def invent_review_stats(request: Request, discipline: str | None = None):
         return (35 in src) == (35 in r["final"])
     stats = {
         "discipline": disc, "decisions": len(last), "adoptees": len(adopt), "rejetees": rej,
+        "anterieures_exclues": retro,
         "jugees_par_le_jury": len(jug),
         "desaccords_tranches": len(des),
         "sur_desaccords": {"gemini_avait_raison": sum(ok35(r, "gemini") for r in des),

@@ -2279,7 +2279,7 @@ $('fapply').onclick = async () => {
       if(s.desaccords_tranches){ h+='<br>• Sur les <b>'+s.desaccords_tranches+'</b> désaccords du jury que tu as tranchés (P35) : Gemini avait raison <b>'+d.gemini_avait_raison+'</b>, le jury <b>'+d.jury_avait_raison+'</b>, aucun des deux <b>'+d.aucun_des_deux+'</b>'; }
       if(e.sur_desaccords!=null||e.sur_accords!=null){ h+='<br>• Taux d\'erreur de Gemini sur P35 : <b>'+(e.sur_desaccords!=null?e.sur_desaccords+' %':'—')+'</b> quand le jury le contredit vs <b>'+(e.sur_accords!=null?e.sur_accords+' %':'—')+'</b> quand il l\'approuve ('+s.accords_tranches+' accords tranchés)'; }
       if(sg.proposees){ h+='<br>• Suggestions lexicales 💡 reprises : <b>'+sg.reprises+'/'+sg.proposees+'</b> ('+sg.taux+' %)'; }
-      if(!s.adoptees) h+='<br>Pas encore de décision dans cette discipline.';
+      if(!s.adoptees) h+='<br>Pas encore de décision instrumentée : les prochaines adoptions/corrections alimentent ces mesures'+(s.anterieures_exclues?' ('+s.anterieures_exclues+' adoptions antérieures exclues : leurs étiquettes ont été synchronisées par la machine, pas tranchées par toi)':'')+'.';
       box.innerHTML=h; box.style.display='block';
     }).catch(function(){});
   }
