@@ -52,7 +52,16 @@ def zen_chat(system: str, user: str, model: str = None, temperature: float = 0.2
                  "User-Agent": "text-to-cad/1.0"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         data = json.loads(r.read().decode())
-    text = (data.get("choices") or [{}])[0].get("message", {}).get("content", "") or ""
+    msg = (data.get("choices") or [{}])[0].get("message", {}) or {}
+    text = msg.get("content") or ""
+    # Modèles « à raisonnement » (DeepSeek V4) : la réflexion est dans
+    # `reasoning_content` et peut épuiser max_tokens avant la réponse → si le
+    # contenu est vide, on tente de récupérer le JSON dans le raisonnement.
+    if not text.strip() and msg.get("reasoning_content"):
+        rc = str(msg["reasoning_content"])
+        i, j = rc.find("{"), rc.rfind("}")
+        if 0 <= i < j:
+            text = rc[i:j + 1]
     return text, data.get("usage", {})
 
 _client = None

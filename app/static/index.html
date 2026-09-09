@@ -2152,7 +2152,7 @@ $('fapply').onclick = async () => {
     var rows=revData.candidates.filter(function(x){
       if(f!=='all' && x.status!==f) return false;
       if(!q) return true;
-      var hay=(x.name+' '+x.desc+' P'+x.principles.join(' P')).toLowerCase();
+      var hay=(x.name+' '+x.desc+' P'+x.principles.join(' P')+(x.jury&&x.jury.accord_p35===false?' désaccord jury':'')).toLowerCase();
       return hay.indexOf(q)>=0;
     });
     var h='';
@@ -2163,12 +2163,17 @@ $('fapply').onclick = async () => {
         return s.url?'<a href="'+esc(s.url)+'" target="_blank" rel="noopener" style="color:var(--acc)">'+t+'</a>':t;
       }).join(' · ');
       var imp=x.impact?('~'+x.impact.cells+' cell. dont '+x.impact.thin+' pauvres en '+esc(x.discipline||revData.discipline||'')):'';
+      // JURY DE MODELES : un second modele (autre famille) a rejoue le juge P35 ;
+      // un desaccord = fiche a examiner en priorite par l'expert humain.
+      var jury=(x.jury&&x.jury.accord_p35===false)
+        ?' <span title="Gemini : P'+x.principles.join(', P')+' — '+esc(x.jury.modele||'jury')+' : P'+(x.jury.principles||[]).join(', P')+' — '+esc(x.jury.motif||'')+'" style="font-size:11px; background:#fef3c7; color:#92400e; border:1px solid #fde68a; border-radius:6px; padding:1px 7px; white-space:nowrap; cursor:help">⚖️ désaccord jury sur P35</span>'
+        :(x.jury?' <span title="'+esc(x.jury.modele||'jury')+' d\'accord : P'+(x.jury.principles||[]).join(', P')+'" style="font-size:11px; color:#15803d; white-space:nowrap">⚖️ accord</span>':'');
       h+='<div class="revRow" data-id="'+esc(x.id)+'" style="border:1px solid var(--line); border-radius:10px; padding:10px 12px; margin-bottom:8px; background:'+bg+'">'
         +'<div style="display:flex; gap:10px; align-items:flex-start">'
         +'<input type="checkbox" class="revChk" style="margin-top:4px"'+(x.status!=='pending'?' disabled':'')+'>'
         +'<div style="flex:1; min-width:0"><b>'+esc(x.name)+'</b> '
         +'<span class="muted" style="font-size:11.5px">P'+x.principles.join(', P')+' · ↑'+x.improves.join(',')+(x.degrades&&x.degrades.length?' · ↓'+x.degrades.join(','):'')+'</span> '
-        +(imp?'<span style="font-size:11px; background:#eef2ff; color:#4338ca; border-radius:6px; padding:1px 7px; white-space:nowrap">'+imp+'</span>':'')
+        +(imp?'<span style="font-size:11px; background:#eef2ff; color:#4338ca; border-radius:6px; padding:1px 7px; white-space:nowrap">'+imp+'</span>':'')+jury
         +'<div class="muted" style="margin-top:2px">'+esc(x.desc)+'</div>'
         +(srcs?'<div style="font-size:11.5px; margin-top:3px">📚 '+srcs+'</div>':'<div style="font-size:11.5px; margin-top:3px; color:var(--warn)">sans source liée</div>')
         +'</div>'

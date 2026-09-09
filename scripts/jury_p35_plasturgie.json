@@ -1,0 +1,2115 @@
+[
+ {
+  "id": "surmoulage_chauffage_interface_localise",
+  "name": "Surmoulage avec préchauffage localisé de l'interface",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   3,
+   10,
+   15
+  ],
+  "minimax-m2.5": [
+   15,
+   35
+  ],
+  "motif_jury": "Préchauffage local modifie température/état de la matière à l'interface.",
+  "motif_gemini": "Chauffage local préalable de la zone d'interface."
+ },
+ {
+  "id": "optimisation_lignes_soudure_pa6_gf",
+  "name": "Régulation thermique et compactage dynamique des lignes de soudure",
+  "origine": [
+   3,
+   15,
+   35
+  ],
+  "gemini": [
+   3,
+   10,
+   15
+  ],
+  "minimax-m2.5": [
+   3,
+   15,
+   35
+  ],
+  "motif_jury": "Température moule modifiée change propriétés thermophysiques du polymère.",
+  "motif_gemini": "Réglage de paramètre procédé (température moule et pression)."
+ },
+ {
+  "id": "chauffage_induction_externe_mobile",
+  "name": "Chauffage d'empreinte par induction externe déportée",
+  "origine": [
+   15,
+   17,
+   35
+  ],
+  "gemini": [
+   10,
+   15,
+   17
+  ],
+  "minimax-m2.5": [
+   15,
+   17,
+   35
+  ],
+  "motif_jury": "Montée en température locale modifie état thermique de surface moule.",
+  "motif_gemini": "Préchauffage du moule par induction, réglage de procédé."
+ },
+ {
+  "id": "dispersion_selective_ath_tpv_elastomer",
+  "name": "Dispersion sélective d'ATH en phase vulcanisée de TPV",
+  "origine": [
+   1,
+   3,
+   35
+  ],
+  "gemini": [
+   1,
+   3,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   1,
+   3,
+   36
+  ],
+  "motif_jury": "Migration sélective d'ATH = qualité locale + transition de phase (réticulation).",
+  "motif_gemini": "Modification de formulation et viscosité des phases de la matière."
+ },
+ {
+  "id": "ccc_outillage_noyau_cire",
+  "name": "Outillage rapide à canaux conformes par noyaux en cire",
+  "origine": [
+   10,
+   29,
+   35
+  ],
+  "gemini": [
+   10,
+   29,
+   35,
+   36
+  ],
+  "minimax-m2.5": [
+   10,
+   29,
+   34
+  ],
+  "motif_jury": "Canaux conformes + élimination cire = action préliminaire + régénération de part",
+  "motif_gemini": "Élimination par changement d'état/dissolution de la cire sacrifiable."
+ },
+ {
+  "id": "moulage_variotherme_lignes_soudure",
+  "name": "Régulation variotherme pour résorption des lignes de soudure",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   10,
+   15,
+   20
+  ],
+  "minimax-m2.5": [
+   15,
+   35
+  ],
+  "motif_jury": "Changement de temperature du moule au-dela de Tg",
+  "motif_gemini": "Cycle thermique du moule, simple réglage de procédé."
+ },
+ {
+  "id": "surmoulage_prechauffage_interdiffusion",
+  "name": "Préchauffage d'interface pour surmoulage polymère/composite",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   10,
+   15
+  ],
+  "minimax-m2.5": [
+   10,
+   15,
+   35
+  ],
+  "motif_jury": "Prechauffage localise modifie etat thermique interface",
+  "motif_gemini": "Préchauffage d'interface et réglage procédé sans modifier la matière."
+ },
+ {
+  "id": "controle_glissement_poincon",
+  "name": "Régulation thermique et frictionnelle du poinçon d'assistance",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   10,
+   15
+  ],
+  "minimax-m2.5": [
+   15,
+   28,
+   35
+  ],
+  "motif_jury": "Reglage friction et temperature = dynamique procede",
+  "motif_gemini": "Réglage de température et frottement du procédé"
+ },
+ {
+  "id": "variothermal_high_gloss_replication",
+  "name": "Moulage variotherme ciblé pour contrôle du brillant et réplication",
+  "origine": [
+   35
+  ],
+  "gemini": [
+   10,
+   15
+  ],
+  "minimax-m2.5": [
+   35
+  ],
+  "motif_jury": "Temperature empreinte au-dela Tg modifie propriete",
+  "motif_gemini": "Pilotage dynamique de la température de l'outillage."
+ },
+ {
+  "id": "recuit_thermique_post_impression_rcf",
+  "name": "Recuit thermique contrôlé de pièces thermoplastiques chargées fibres",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   10,
+   15
+  ],
+  "minimax-m2.5": [
+   15,
+   35
+  ],
+  "motif_jury": "Cycle thermique modifie état physique (Tg+), porosité résorbée.",
+  "motif_gemini": "Traitement thermique de procédé (recuit post-impression)"
+ },
+ {
+  "id": "pp_cnf_nucleation_cellulaire",
+  "name": "Agent de nucléation cellulo-nanofibrillé (CNF) pour mousse PP",
+  "origine": [
+   1,
+   35,
+   40
+  ],
+  "gemini": [
+   1,
+   31,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   1,
+   40
+  ],
+  "motif_jury": "Ajout CNF modifiées = matériau composite, pas changement de propriété.",
+  "motif_gemini": "Modification de la densité et structure cellulaire de la matière."
+ },
+ {
+  "id": "controle_reticulation_interface_refusion",
+  "name": "Optimisation de la re-fusion par contrôle thermique de préformage",
+  "origine": [
+   3,
+   35
+  ],
+  "gemini": [
+   3,
+   10
+  ],
+  "minimax-m2.5": [
+   3,
+   35
+  ],
+  "motif_jury": "Contrôle thermique limite réticulation, modifie état interfacial matière.",
+  "motif_gemini": "Réglage des paramètres de temps/température du procédé."
+ },
+ {
+  "id": "substitution_charge_thermal_black",
+  "name": "Allègement de la viscosité par Thermal Black eco-filler",
+  "origine": [
+   1,
+   35,
+   40
+  ],
+  "gemini": [
+   1,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   1,
+   27,
+   40
+  ],
+  "motif_jury": "Charge alternative economique = composites + bon marche",
+  "motif_gemini": "Changement des propriétés de rhéologie et de viscosité de matière."
+ },
+ {
+  "id": "variotherm_electrique_localise",
+  "name": "Chauffage rapide de surface par résistance sous-cavité",
+  "origine": [
+   15,
+   19,
+   35
+  ],
+  "gemini": [
+   15,
+   19,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   19
+  ],
+  "motif_jury": "Réglage procédé cyclique, pas changement de propriété matière",
+  "motif_gemini": "Changement de température et de cristallinité du polymère."
+ },
+ {
+  "id": "surmoulage_paek_peek_haute_temp_moule",
+  "name": "Surmoulage composite PAEK/PEEK à haute température d'outillage",
+  "origine": [
+   17,
+   35
+  ],
+  "gemini": [
+   10,
+   17
+  ],
+  "minimax-m2.5": [
+   17,
+   35
+  ],
+  "motif_jury": "Température moule élevée modifie état interfacial polymère",
+  "motif_gemini": "Ajustement thermique du moule, simple paramètre procédé."
+ },
+ {
+  "id": "moulage_liner_hydrogene_type4",
+  "name": "Injection stabilisée pour grands liners de réservoirs Hydrogène",
+  "origine": [
+   35,
+   39
+  ],
+  "gemini": [
+   10,
+   39
+  ],
+  "minimax-m2.5": [
+   35,
+   39
+  ],
+  "motif_jury": "Combinaison T° matière/moule modifie retrait volumique PA6",
+  "motif_gemini": "Simple réglage de paramètres de procédé d'injection."
+ },
+ {
+  "id": "gcp_dmtc_mucell_surface",
+  "name": "MuCell assisté par contre-pression gaz et moule dynamique",
+  "origine": [
+   29,
+   35,
+   39
+  ],
+  "gemini": [
+   15,
+   29,
+   39
+  ],
+  "minimax-m2.5": [
+   29,
+   35,
+   39
+  ],
+  "motif_jury": "Contre-pression gaz et T° moule proche Tg modifient état",
+  "motif_gemini": "Réglage de température/pression de procédé, pas de la matière."
+ },
+ {
+  "id": "injection_moussante_micro_cellulaire",
+  "name": "Allègement et suppression des retassures par injection micro-cellulaire",
+  "origine": [
+   31,
+   35,
+   1
+  ],
+  "gemini": [
+   1,
+   31,
+   35
+  ],
+  "minimax-m2.5": [
+   1,
+   31,
+   36
+  ],
+  "motif_jury": "Moussage = transition de phase gazeuse, pas paramètre physique.",
+  "motif_gemini": "Modification de masse volumique et d'état de la matière."
+ },
+ {
+  "id": "consolidation_in_situ_laser",
+  "name": "Consolidation in-situ laser pour stratifiés composites thermoplastiques",
+  "origine": [
+   3,
+   15,
+   35
+  ],
+  "gemini": [
+   3,
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   15,
+   21
+  ],
+  "motif_jury": "Cœur = chauffage local + action rapide, pas changement de propriété.",
+  "motif_gemini": "Chauffage localisé modifiant l'état thermique et la diffusion."
+ },
+ {
+  "id": "laser_transparence_sans_additif",
+  "name": "Soudage laser de thermoplastiques transparents sans absorbeur",
+  "origine": [
+   17,
+   35
+  ],
+  "gemini": [
+   17,
+   28
+  ],
+  "minimax-m2.5": [
+   17,
+   28,
+   35
+  ],
+  "motif_jury": "Longueur d'onde spécifique = paramètre physique du laser, justifié.",
+  "motif_gemini": "Utilisation de la longueur d'onde intrinsèque du laser."
+ },
+ {
+  "id": "moulage_variotherme_micro_features",
+  "name": "Régulation variotherme pour micro-injection",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   19
+  ],
+  "minimax-m2.5": [
+   15,
+   35
+  ],
+  "motif_jury": "Changement d'etat thermique du moule au-dessus Tg/fusion",
+  "motif_gemini": "Cycles thermiques alternés, régulation du procédé"
+ },
+ {
+  "id": "surmoulage_fils_moule_chaud",
+  "name": "Régulation thermique haute contre les retassures sur insert",
+  "origine": [
+   35
+  ],
+  "gemini": [
+   10,
+   37
+  ],
+  "minimax-m2.5": [
+   35
+  ],
+  "motif_jury": "Temperature outillage elevee, propriete thermique",
+  "motif_gemini": "Réglage thermique du procédé pour compenser le retrait."
+ },
+ {
+  "id": "cba_foam_injection_pallet",
+  "name": "Allègement et anti-retassures par agent schématisant chimique (CBA)",
+  "origine": [
+   28,
+   31,
+   35
+  ],
+  "gemini": [
+   28,
+   31,
+   35
+  ],
+  "minimax-m2.5": [
+   28,
+   31
+  ],
+  "motif_jury": "Agent moussant chimique, pas changement propriete",
+  "motif_gemini": "Changement de densité du matériau par moussage."
+ },
+ {
+  "id": "moussage_pp_branche_lcb",
+  "name": "Injection moussée sur PP hautement ramifié",
+  "origine": [
+   1,
+   31,
+   35
+  ],
+  "gemini": [
+   1,
+   31,
+   35
+  ],
+  "minimax-m2.5": [
+   1,
+   31
+  ],
+  "motif_jury": "Substitution grade PP, structure poreuse",
+  "motif_gemini": "Modification de la structure moléculaire et de la densité."
+ },
+ {
+  "id": "ti_mim_precision_molding",
+  "name": "Injection de poudres de titane (Ti-MIM)",
+  "origine": [
+   1,
+   35
+  ],
+  "gemini": [
+   1,
+   35,
+   36
+  ],
+  "minimax-m2.5": [
+   1
+  ],
+  "motif_jury": "Segmentation procede MIM, pas propriete",
+  "motif_gemini": "Changement de densité et d'état physique par frittage."
+ },
+ {
+  "id": "optimisation_soudage_miroir_chaud",
+  "name": "Soudage miroir chaud à paramètres découplés",
+  "origine": [
+   21,
+   35
+  ],
+  "gemini": [
+   10,
+   21
+  ],
+  "minimax-m2.5": [
+   21,
+   35
+  ],
+  "motif_jury": "Température miroir ajustée à Tfusion polymère",
+  "motif_gemini": "Reglage de temps de procede"
+ },
+ {
+  "id": "reticulation_thermoreversible_diels_alder",
+  "name": "Polyuréthane thermo-réticulable Diels-Alder",
+  "origine": [
+   15,
+   35,
+   29
+  ],
+  "gemini": [
+   15,
+   29,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   36
+  ],
+  "motif_jury": "Transition réversible réticulation/fluidification = phase",
+  "motif_gemini": "Changement réversible de la structure chimique et viscosité."
+ },
+ {
+  "id": "optimisation_retrait_preforme_pet",
+  "name": "Réglage optimal anti-retrait préforme PET",
+  "origine": [
+   35,
+   39
+  ],
+  "gemini": [
+   10,
+   21
+  ],
+  "minimax-m2.5": [
+   35,
+   39
+  ],
+  "motif_jury": "Température matière/moule = paramètre physico-chimique",
+  "motif_gemini": "Simple réglage des paramètres de procédé"
+ },
+ {
+  "id": "thermodur_liaisons_dynamiques",
+  "name": "Formulation de thermodurcissables à liaisons chimiques réversibles",
+  "origine": [
+   15,
+   27,
+   35
+  ],
+  "gemini": [
+   15,
+   27,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   36
+  ],
+  "motif_jury": "Liaisons réversibles activées par T = transition de phase",
+  "motif_gemini": "Modification des liaisons covalentes et transition d'état."
+ },
+ {
+  "id": "preimpregne_b_stage_co_moulage",
+  "name": "Localisation rigide par patch B-Stage en co-moulage",
+  "origine": [
+   15,
+   35,
+   40
+  ],
+  "gemini": [
+   15,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   15,
+   40
+  ],
+  "motif_jury": "État B-Stage = viscosité/état matière, pas paramètre",
+  "motif_gemini": "Changement du degré de polymérisation (B-Stage) et viscosité."
+ },
+ {
+  "id": "moussage_supercritique_pla_pbsa_compatibilise",
+  "name": "Moussage physique supercritique de mélanges biopolymères compatibilisés",
+  "origine": [
+   29,
+   35,
+   40
+  ],
+  "gemini": [
+   29,
+   31,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   29,
+   36,
+   40
+  ],
+  "motif_jury": "Transition phase gaz supercritique + composite, pas 35",
+  "motif_gemini": "Modification de densité et état physique par expansion gazeuse."
+ },
+ {
+  "id": "snap_thermo_deverrouillable",
+  "name": "Snap thermo-déverrouillable à détrompage",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   3,
+   15
+  ],
+  "minimax-m2.5": [
+   15,
+   35,
+   36
+  ],
+  "motif_jury": "Zone reactive thermiquement = changement propriete locale",
+  "motif_gemini": "Flexibilité locale/géométrie modifiée par apport de chaleur"
+ },
+ {
+  "id": "polymere_memoire_forme_stimulable",
+  "name": "Composite polymère à mémoire de forme réactif",
+  "origine": [
+   15,
+   35,
+   40
+  ],
+  "gemini": [
+   15,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   15,
+   40
+  ],
+  "motif_jury": "Composite dynamique = matériau composite, pas paramètre physico-chimique",
+  "motif_gemini": "Changement de propriétés physiques de la matrice sous stimulus."
+ },
+ {
+  "id": "polymerisation_in_situ_mift_mma",
+  "name": "Infusion et polymérisation in situ de monomère MMA",
+  "origine": [
+   28,
+   35
+  ],
+  "gemini": [
+   28,
+   35
+  ],
+  "minimax-m2.5": [
+   28
+  ],
+  "motif_jury": "Basse viscosité monomère = substitution mécanique, pas paramètre",
+  "motif_gemini": "Changement d'état chimique (monomère à polymère in situ)."
+ },
+ {
+  "id": "prehenseur_chauffant_ir_integre",
+  "name": "Gripper de transfert à réchauffage IR intégré",
+  "origine": [
+   15,
+   35,
+   17
+  ],
+  "gemini": [
+   15,
+   17,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   17
+  ],
+  "motif_jury": "Chauffage IR = action continue, pas changement de propriété",
+  "motif_gemini": "Maintien de la température du matériau au-dessus de Tf."
+ },
+ {
+  "id": "recyclage_pet_ssp_maintien_viscosite",
+  "name": "Boucle fermée rPET à haute fraction par régénération SSP",
+  "origine": [
+   1,
+   35
+  ],
+  "gemini": [
+   1,
+   35
+  ],
+  "minimax-m2.5": [
+   1
+  ],
+  "motif_jury": "Régénération SSP = segmentation/renouvellement, pas paramètre",
+  "motif_gemini": "Modification chimique de masse molaire et viscosité du polymère."
+ },
+ {
+  "id": "comonomeres_cleavables_reseau_dynamique",
+  "name": "Intégration de comonomères thiolatones pour recyclabilité fermée",
+  "origine": [
+   1,
+   35
+  ],
+  "gemini": [
+   1,
+   35
+  ],
+  "minimax-m2.5": [
+   1
+  ],
+  "motif_jury": "Liaisons clivables = segmentation moléculaire, pas paramètre",
+  "motif_gemini": "Modification de la structure chimique macromoléculaire."
+ },
+ {
+  "id": "dispersion_cnt_pdms_volatil",
+  "name": "Compoundage élastomère/CNT via véhiculation solvant volatil",
+  "origine": [
+   1,
+   35
+  ],
+  "gemini": [
+   1,
+   35
+  ],
+  "minimax-m2.5": [
+   1,
+   10,
+   19
+  ],
+  "motif_jury": "Préparation solvant puis vaporisation = action préliminaire",
+  "motif_gemini": "Changement d'état et évaporation du solvant volatil."
+ },
+ {
+  "id": "impression_4d_stimulable",
+  "name": "Conception multicouche 4D réactive",
+  "origine": [
+   15,
+   17,
+   35
+  ],
+  "gemini": [
+   15,
+   17,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   15,
+   17
+  ],
+  "motif_jury": "Strates d'épaisseur variable = qualité locale et nouvelle dimension",
+  "motif_gemini": "Changement d'état et flexibilité du polymère sous stimulus."
+ },
+ {
+  "id": "orientation_moleculaire_transparence",
+  "name": "Orientation moléculaire pour transparence des semi-cristallins",
+  "origine": [
+   15,
+   17,
+   35
+  ],
+  "gemini": [
+   15,
+   17,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   17,
+   36
+  ],
+  "motif_jury": "Étirage mécanique = transition de phase cristalline",
+  "motif_gemini": "Modification de la cristallinité et structure moléculaire."
+ },
+ {
+  "id": "biocatalyse_pet_directe",
+  "name": "Dépolymérisation enzymatique directe du PET sans pré-traitement thermique",
+  "origine": [
+   28,
+   35
+  ],
+  "gemini": [
+   28,
+   35
+  ],
+  "minimax-m2.5": [
+   10,
+   28
+  ],
+  "motif_jury": "Action enzymatique = substitution mécanique, pré-traitement évité",
+  "motif_gemini": "Dégradation et modification chimique par biocatalyse."
+ },
+ {
+  "id": "matrice_smp_capa_auto_reparante",
+  "name": "Système auto-cicatrisant bistade SMP/CAPA",
+  "origine": [
+   15,
+   35,
+   17
+  ],
+  "gemini": [
+   15,
+   17,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   17,
+   36
+  ],
+  "motif_jury": "Fusion CAPA = transition de phase, SMP = dynamisme",
+  "motif_gemini": "Transition de phase et mémoire de forme du matériau."
+ },
+ {
+  "id": "attenuation_contraintes_moule_chaud",
+  "name": "Atténuation des contraintes par moule chaud et maintien profilé",
+  "origine": [
+   17,
+   35
+  ],
+  "gemini": [
+   17,
+   19
+  ],
+  "minimax-m2.5": [
+   17,
+   35
+  ],
+  "motif_jury": "Température de moule élevée modifie propriétés thermophysiques du polymère",
+  "motif_gemini": "Réglage de procédé et profilage de pression"
+ },
+ {
+  "id": "mousse_multicouche_pbat_emi",
+  "name": "Mousse PBAT structurée multicouche anti-EMI",
+  "origine": [
+   3,
+   35,
+   40
+  ],
+  "gemini": [
+   3,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   3,
+   40
+  ],
+  "motif_jury": "Architecture stratifiée composite, pas paramètre physico-chimique",
+  "motif_gemini": "Changement de densité de structure par moussage supercritique."
+ },
+ {
+  "id": "non_reactive_dopo_hybrids",
+  "name": "Additifs DOPO non-réactifs hybrides pour époxy",
+  "origine": [
+   3,
+   35,
+   40
+  ],
+  "gemini": [
+   3,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   3,
+   40
+  ],
+  "motif_jury": "Hybride organique-inorganique composite, pas changement d'état",
+  "motif_gemini": "Modification chimique de l'additif pour préserver la Tg."
+ },
+ {
+  "id": "tp_rtm_in_situ_polymerization",
+  "name": "Moulage TP-RTM par polymérisation in situ",
+  "origine": [
+   35,
+   29,
+   40
+  ],
+  "gemini": [
+   29,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   29,
+   36,
+   40
+  ],
+  "motif_jury": "Transition de phase monomère→polymère, fluide basse viscosité",
+  "motif_gemini": "Changement d'état chimique monomère vers polymère liquide/solide."
+ },
+ {
+  "id": "copolymere_gbl_recyclable_chimiquement",
+  "name": "Résine bio-sourcée GBL à barrière et recyclabilité chimique intégrale",
+  "origine": [
+   35,
+   34,
+   40
+  ],
+  "gemini": [
+   34,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   34,
+   36,
+   40
+  ],
+  "motif_jury": "Transition de phase (dépolymérisation) et composite, pas 35.",
+  "motif_gemini": "Modification de structure chimique polymère pour recyclabilité intrinsèque."
+ },
+ {
+  "id": "traitement_surface_fibres_naturelles",
+  "name": "Silanisation et alcalinisation des fibres végétales",
+  "origine": [
+   3,
+   35,
+   40
+  ],
+  "gemini": [
+   3,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   3,
+   24,
+   40
+  ],
+  "motif_jury": "Traitement chimique interfacial = action intermédiaire.",
+  "motif_gemini": "Modification chimique des propriétés de surface des fibres."
+ },
+ {
+  "id": "plastronique_3d_mid_lds_additivation",
+  "name": "Plastronique 3D-MID par additivation et structuration laser LDS",
+  "origine": [
+   3,
+   17,
+   35
+  ],
+  "gemini": [
+   3,
+   17,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   5,
+   17
+  ],
+  "motif_jury": "Additivation + structuration = combinaison et géométrie.",
+  "motif_gemini": "Transformation physico-chimique locale de l'additif par laser."
+ },
+ {
+  "id": "ultrafine_bubble_coolant",
+  "name": "Fluidique à micro/nano-bulles pour refroidissement",
+  "origine": [
+   29,
+   35,
+   39
+  ],
+  "gemini": [
+   29,
+   35,
+   39
+  ],
+  "minimax-m2.5": [
+   29,
+   39
+  ],
+  "motif_jury": "Fluide hydraulique, atmosphère modifiée eau",
+  "motif_gemini": "Changement de la densité et structure physique du fluide."
+ },
+ {
+  "id": "cationic_mxene_ps_composite",
+  "name": "Nanocomposite PS / MXène fonctionnalisé par tensioactif",
+  "origine": [
+   17,
+   35,
+   40
+  ],
+  "gemini": [
+   17,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   40
+  ],
+  "motif_jury": "Composite fonctionnalise, modification de surface charge",
+  "motif_gemini": "Fonctionnalisation chimique de surface du nano-renfort."
+ },
+ {
+  "id": "structuration_shish_kebab_injection",
+  "name": "Orientation moléculaire contrôlée par cisaillement dynamique (Shish-Kebab)",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   19
+  ],
+  "motif_jury": "Cisaillement dynamique périodique, pas changement de propriété.",
+  "motif_gemini": "Modification de la structure cristalline et orientation moléculaire"
+ },
+ {
+  "id": "refroidissement_lent_rotomoulage_pa11_barriere",
+  "name": "Refroidissement contrôlé PA11 rotomoulé",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   36
+  ],
+  "motif_jury": "Transition de phase cristalline par refroidissement lent.",
+  "motif_gemini": "Modification du taux de cristallinité et perméabilité"
+ },
+ {
+  "id": "nucleation_supercooling_controle",
+  "name": "Nucléation contrôlée par surfusion extrême",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   36
+  ],
+  "motif_jury": "Transition de phase contrôlée par surfusion/nucleation.",
+  "motif_gemini": "Contrôle de la taille de sphérolites et cristallinité"
+ },
+ {
+  "id": "auto_compatibilisation_ssse_recyclat",
+  "name": "Auto-compatibilisation par pulvérisation à l'état solide (SSSE)",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   28
+  ],
+  "motif_jury": "Cisaillement mécanique extrême = substitution mécanique, pas 35",
+  "motif_gemini": "Réaction mécano-chimique et scission de chaînes"
+ },
+ {
+  "id": "recuit_thermique_pressurise_fused_filament",
+  "name": "Recuit thermique pressurisé des pièces imprimées en polymères techniques",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   36
+  ],
+  "motif_jury": "Transition vitreuse/recristallisation = transition de phase (36)",
+  "motif_gemini": "Recristallisation et modification des propriétés physiques"
+ },
+ {
+  "id": "co_moussage_eau_gaz_contre_pression",
+  "name": "Co-moussage assisté vapeur d'eau et contre-pression de gaz",
+  "origine": [
+   29,
+   35,
+   31
+  ],
+  "gemini": [
+   29,
+   31,
+   35
+  ],
+  "minimax-m2.5": [
+   29,
+   31,
+   36
+  ],
+  "motif_jury": "Transition de phase N2 supercritique, pas paramètre 35",
+  "motif_gemini": "Changement de concentration, solubilité et état fluide du gaz/eau."
+ },
+ {
+  "id": "refroidissement_eau_microbulles",
+  "name": "Refroidissement par eau à ultrafines bulles",
+  "origine": [
+   29,
+   31,
+   35
+  ],
+  "gemini": [
+   29,
+   31,
+   35
+  ],
+  "minimax-m2.5": [
+   29,
+   31
+  ],
+  "motif_jury": "Fluide hydraulique + poreux, pas changement de propriété",
+  "motif_gemini": "Changement de structure et propriétés physiques du fluide caloporteur."
+ },
+ {
+  "id": "graphitisation_laser_polyimide",
+  "name": "Pistes conductrices par laser direct sur Polyimide (LIG)",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   36
+  ],
+  "motif_jury": "Conversion PI→graphène = transition de phase/état matière",
+  "motif_gemini": "Transformation chimique directe du polyimide en graphène par laser."
+ },
+ {
+  "id": "macromonomer_endgroup_depoly",
+  "name": "Dépolymérisation basse température par amorçage terminal",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   10,
+   15
+  ],
+  "motif_jury": "Action préliminaire sur extrémités, abaissement T = procédé",
+  "motif_gemini": "Modification chimique des terminaisons de chaîne polymère."
+ },
+ {
+  "id": "film_nanocomposite_mwcnt_desassemblage",
+  "name": "Film nanocomposite MWCNT pour désassemblage thermique",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   10,
+   15,
+   22
+  ],
+  "motif_jury": "Action préliminaire : film inséré avant soudure",
+  "motif_gemini": "Changement de conductivité et de phase du polymère"
+ },
+ {
+  "id": "co-injection_viscosite_optimisee",
+  "name": "Co-injection à ratio de viscosité ajusté",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   15
+  ],
+  "motif_jury": "Ajustement local de ratio viscosité, paramètre procédé",
+  "motif_gemini": "Ajustement de la viscosité dynamique de la matière"
+ },
+ {
+  "id": "depolymerisation_chimique_bouts_de_chaine",
+  "name": "Formulation à dépolymérisation thermique basse température par macromonomères",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   36
+  ],
+  "motif_jury": "Transition de phase : débouclage thermique contrôlé",
+  "motif_gemini": "Modification de la structure chimique pour dégradation ciblée"
+ },
+ {
+  "id": "reseaux_thermodurcissables_amidation_reversible",
+  "name": "Réseaux réticulés à liaisons dynamiques amides tertiaires",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   36
+  ],
+  "motif_jury": "Liaisons dynamiques = transition réversible d'état",
+  "motif_gemini": "Liaisons chimiques dynamiques modifiant la structure macromoléculaire"
+ },
+ {
+  "id": "granules_impregnes_co2_pba",
+  "name": "Injection de granules polymères pré-imprégnés au CO2",
+  "origine": [
+   29,
+   35
+  ],
+  "gemini": [
+   29,
+   35
+  ],
+  "minimax-m2.5": [
+   10,
+   29
+  ],
+  "motif_jury": "Pré-conditionnement gazeux, action préalable pneumatique",
+  "motif_gemini": "Saturation de la matière en gaz sous pression"
+ },
+ {
+  "id": "film_nanocomposite_demontable_effet_joule",
+  "name": "Interface nanocomposite pour assemblage et désassemblage par effet Joule",
+  "origine": [
+   15,
+   35
+  ],
+  "gemini": [
+   15,
+   35
+  ],
+  "minimax-m2.5": [
+   15,
+   21
+  ],
+  "motif_jury": "Chauffage résistif rapide = action accélérée, pas changement de propriété",
+  "motif_gemini": "Modification des propriétés électriques de la matrice."
+ },
+ {
+  "id": "functionalisation_hdpe_macromonomeres",
+  "name": "Polyéthylène téléchélique réticulable par transestérification",
+  "origine": [
+   3,
+   35
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   34,
+   40
+  ],
+  "motif_jury": "Aminolyse crée macromonomère régénérable = régénération/composite",
+  "motif_gemini": "Modification de la structure chimique du polymère."
+ },
+ {
+  "id": "nanoclay_oleic_acid_modification",
+  "name": "Argile organophile à l'acide oléique",
+  "origine": [
+   3,
+   35
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   24
+  ],
+  "motif_jury": "Modification de surface = traitement interfacial, pas changement de propriété ma",
+  "motif_gemini": "Modification chimique de surface de l'argile."
+ },
+ {
+  "id": "oleic_acid_modified_clay_nanocomposite",
+  "name": "Nanocomposite PET/argile exfoliée à l'acide oléique",
+  "origine": [
+   3,
+   35
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   24
+  ],
+  "motif_jury": "Greffage de surface = interface, non propriété intrinsèque argile",
+  "motif_gemini": "Fonctionnalisation chimique de l'argile."
+ },
+ {
+  "id": "activation_plasma_surmoulage_abs_pa6",
+  "name": "Activation plasma atmosphérique pour surmoulage multimatière incompatible",
+  "origine": [
+   3,
+   35
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   10
+  ],
+  "motif_jury": "Traitement de surface préalable local, action préliminaire",
+  "motif_gemini": "Modification chimique des groupements fonctionnels."
+ },
+ {
+  "id": "pc_pet_chain_extender_compatibilization",
+  "name": "Régénération et compatibilisation réactive de mélanges PC/PET par allongeurs de chaîne",
+  "origine": [
+   35,
+   3
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   34
+  ],
+  "motif_jury": "Régénération de chaînes = reconstitution, non paramètre physico-chimique",
+  "motif_gemini": "Recombinaison chimique modifiant les propriétés de la matière"
+ },
+ {
+  "id": "optimisation_laser_semicristallin_charge",
+  "name": "Formulation polymère chargée adaptée au soudage laser TTLW",
+  "origine": [
+   3,
+   35
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   32
+  ],
+  "motif_jury": "Optimisation formulation/transmittance, pas changement de propriété",
+  "motif_gemini": "Modification de la cristallinité et de la transmissibilité opticale"
+ },
+ {
+  "id": "polymerisation_in_situ_arop_lactame",
+  "name": "Inclusion polymérique in-situ à basse viscosité (AROP)",
+  "origine": [
+   29,
+   35
+  ],
+  "gemini": [
+   29,
+   35
+  ],
+  "minimax-m2.5": [
+   29,
+   36
+  ],
+  "motif_jury": "Transition de phase monomère→polymère, basse viscosité fluide",
+  "motif_gemini": "Changement d'état physique et viscosité par réaction"
+ },
+ {
+  "id": "charge_coeur_ecorce_bagasse_pani",
+  "name": "Fibres biosourcées cœur-écorce Bagasse/PANI",
+  "origine": [
+   7,
+   35,
+   40
+  ],
+  "gemini": [
+   7,
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   7,
+   40
+  ],
+  "motif_jury": "Composite cœur-écorce, imbrication de couches, pas paramètre matière",
+  "motif_gemini": "Modification des propriétés électriques du matériau"
+ },
+ {
+  "id": "pha_greffe_mah_couche_liaison",
+  "name": "Greffage MAH sur PHA pour co-extrusion barrière PVOH",
+  "origine": [
+   3,
+   35
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   5,
+   40
+  ],
+  "motif_jury": "Greffage = combinaison de polymères, pas changement de propriété.",
+  "motif_gemini": "Modification chimique des paramètres de la résine"
+ },
+ {
+  "id": "exfoliation_flhbn_isolation_thermique",
+  "name": "Intégration de nanofeuillets h-BN exfoliés (FLh-BN)",
+  "origine": [
+   35,
+   3
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   31,
+   40
+  ],
+  "motif_jury": "Exfoliation = matériau poreux/feuilleté, composite, pas 35.",
+  "motif_gemini": "Modification des paramètres de conductivité thermique"
+ },
+ {
+  "id": "compatibilizer_water_uptake_control",
+  "name": "Additivation agent de couplage anti-reprise d'humidité",
+  "origine": [
+   3,
+   35
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   40
+  ],
+  "motif_jury": "Agent de couplage = composite/qualité locale, pas 35.",
+  "motif_gemini": "Altération chimique de l'absorbance d'eau des fibres"
+ },
+ {
+  "id": "optimisation_profil_nanocomposites",
+  "name": "Réglage thermique court pour nanocomposites",
+  "origine": [
+   35,
+   3
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   10,
+   19,
+   21
+  ],
+  "motif_jury": "Réglage procédé = action préliminaire/périodique, pas 35.",
+  "motif_gemini": "Changement de température/viscosité pour modifier la rigidité."
+ },
+ {
+  "id": "formulation_pbat_resine_pins",
+  "name": "Additivation du PBAT par dérivé de résine de pin",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   27,
+   40
+  ],
+  "motif_jury": "Ajout d'un additif bon marché, pas un changement de propriété intrinsèque",
+  "motif_gemini": "Modification de viscosité et stabilité par additivation."
+ },
+ {
+  "id": "rotomoulage_reactif_systeme_liquide",
+  "name": "Rotomoulage réactif de systèmes polymères liquides",
+  "origine": [
+   3,
+   35
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   36
+  ],
+  "motif_jury": "Basse viscosité = changement d'état physique du système réactif",
+  "motif_gemini": "Passage de phase solide/poudre à phase liquide."
+ },
+ {
+  "id": "traitement_plasma_bioplastique_conducteur",
+  "name": "Film bioplastique PLA/PHB fonctionnalisé plasma et SWCNT",
+  "origine": [
+   3,
+   35
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   30
+  ],
+  "motif_jury": "Traitement plasma modifie la surface, pas un paramètre matière bulk",
+  "motif_gemini": "Modification chimique et physique de surface par plasma."
+ },
+ {
+  "id": "soudage_vibration_pp_cristallisation_beta",
+  "name": "Soudage par vibration optimisé sur PP à nucléation Bêta",
+  "origine": [
+   35,
+   3
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   36
+  ],
+  "motif_jury": "Nucléation bêta = transition de phase cristalline, pas paramètre physique",
+  "motif_gemini": "Changement de structure cristalline (phase bêta)."
+ },
+ {
+  "id": "activation_uv_composites_thermoplastiques",
+  "name": "Activation de surface flash par UV haute puissance",
+  "origine": [
+   3,
+   35
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   10
+  ],
+  "motif_jury": "UV = action préliminaire de traitement de surface",
+  "motif_gemini": "Modification photochimique de surface du matériau."
+ },
+ {
+  "id": "poincon_regule_tg_thermoformage",
+  "name": "Poinçon de thermoformage régulé à T_g",
+  "origine": [
+   3,
+   35
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   37
+  ],
+  "motif_jury": "Régulation thermique = expansion/contraction thermique du poinçon",
+  "motif_gemini": "Ajustement de la température au-dessus de Tg."
+ },
+ {
+  "id": "extrusion_cryogenique_structure_poreuse",
+  "name": "Extrusion cryogénique de polymères poreux",
+  "origine": [
+   31,
+   35,
+   39
+  ],
+  "gemini": [
+   31,
+   35,
+   39
+  ],
+  "minimax-m2.5": [
+   31,
+   36,
+   39
+  ],
+  "motif_jury": "Lyophilisation = transition de phase solide→gaz, pas paramètre physique",
+  "motif_gemini": "Changement de température et état via lyophilisation"
+ },
+ {
+  "id": "charges_plastiques_recyclees_aggregats",
+  "name": "Formulation de composites thermoplastiques fortement chargés en broyés",
+  "origine": [
+   31,
+   35,
+   22
+  ],
+  "gemini": [
+   22,
+   31,
+   35
+  ],
+  "minimax-m2.5": [
+   22,
+   27,
+   31
+  ],
+  "motif_jury": "Broyés recyclés = alternative gratuite, pas paramètre physico-chimique",
+  "motif_gemini": "Modification chimique de surface des particules"
+ },
+ {
+  "id": "polymere_biosource_degradable_milieu_marin",
+  "name": "Plastique biosourcé à dégradation contrôlée en milieu aquatique",
+  "origine": [
+   35,
+   3
+  ],
+  "gemini": [
+   3,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   36
+  ],
+  "motif_jury": "Dégradation = transition de phase/état chimique du matériau",
+  "motif_gemini": "Changement de composition chimique pour la dégradabilité"
+ },
+ {
+  "id": "moussage_hybride_pba_cba_caco3",
+  "name": "Moussage hybride physique/chimique avec nucléation CaCO3",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   5,
+   40
+  ],
+  "motif_jury": "Combinaison d'agents moussants chimique et physique",
+  "motif_gemini": "Réaction chimique de moussage et nucléation"
+ },
+ {
+  "id": "traitement_surface_biofibres_interphase",
+  "name": "Traitements de surface des bio-fibres pour composites polymères",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   2,
+   40
+  ],
+  "motif_jury": "Traitement chimique de surface = extraction/élimination de composés, pas paramèt",
+  "motif_gemini": "Modification chimique des propriétés de surface"
+ },
+ {
+  "id": "elastomere_hybride_hydrogene",
+  "name": "Élastomère à réticulation mixte pour pièces souples haute ténacité",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   6,
+   40
+  ],
+  "motif_jury": "Réseau hybride covalent/hydrogène, universalité fonctionnelle",
+  "motif_gemini": "Modulation de flexibilité par liaisons physiques supramoléculaires."
+ },
+ {
+  "id": "pla_pbat_stereocomplex_compatibilization",
+  "name": "Compatibilisation in-situ PLA/PBAT par cristallites stéréocomplexes",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   3,
+   40
+  ],
+  "motif_jury": "Cristallites d'interface localisées, qualité locale",
+  "motif_gemini": "Modification de structure cristalline et état de phase."
+ },
+ {
+  "id": "depolymerisable_trans_gbl",
+  "name": "Polybutyrolactone trans-fused à recyclage fermé",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   36,
+   40
+  ],
+  "motif_jury": "Transition de phase polymère/monomère au recyclage",
+  "motif_gemini": "Dépolymérisation et modification de la structure chimique du matériau."
+ },
+ {
+  "id": "rallongeur_chaine_bisoxazoline_pet_recycle",
+  "name": "Rallongement de chaîne bisoxazoline pour rPET",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   34,
+   40
+  ],
+  "motif_jury": "Régénération de la masse moléculaire dégradée",
+  "motif_gemini": "Restauration de la masse moléculaire et viscosité du polymère."
+ },
+ {
+  "id": "heat_set_soufflage_moule_chaud",
+  "name": "Soufflage Heat-Set sur moule chaud pour Hot-Fill",
+  "origine": [
+   17,
+   35
+  ],
+  "gemini": [
+   17,
+   35
+  ],
+  "minimax-m2.5": [
+   17,
+   37
+  ],
+  "motif_jury": "Expansion thermique contrôlée pour cristallisation",
+  "motif_gemini": "Modification de la cristallinité et relaxation de phase thermique."
+ },
+ {
+  "id": "polythioesters_biosources_haute_molarite",
+  "name": "Matériaux résine polythioester (PTE) à dépolymérisation intégrale",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   36,
+   40
+  ],
+  "motif_jury": "Choix de grade polymère, transition de phase réversible",
+  "motif_gemini": "Modification de la masse molaire et réversibilité chimique."
+ },
+ {
+  "id": "pp_nucleation_beta_soudage_vibration",
+  "name": "Polypropylène nucléé Bêta pour soudage vibration",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   36,
+   40
+  ],
+  "motif_jury": "Additif nucléant, changement de phase cristalline",
+  "motif_gemini": "Changement de la structure cristalline (phase alpha vers bêta)."
+ },
+ {
+  "id": "reticulation_peroxyde_biopolymeres_pla_phb",
+  "name": "Réticulation réactive DCP pour bio-nanocomposites PLA/PHB",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   36,
+   40
+  ],
+  "motif_jury": "Réticulation chimique, transition de phase cristalline",
+  "motif_gemini": "Modification du taux de cristallinité et réticulation chimique."
+ },
+ {
+  "id": "dilatation_accordee_charge",
+  "name": "Accord des coefficients de dilatation thermique filler/matrice",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   37,
+   40
+  ],
+  "motif_jury": "Expansion thermique, composite à CTE ajusté",
+  "motif_gemini": "Ajustement de la concentration pour modifier le paramètre CTE."
+ },
+ {
+  "id": "cnt_secondary_network_structuring",
+  "name": "Structuration par réseau secondaire de NTC",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   31,
+   40
+  ],
+  "motif_jury": "Réseau poreux/aggloméré, composite conducteur",
+  "motif_gemini": "Changement d'état d'agglomération des NTC dans le polymère."
+ },
+ {
+  "id": "mxene_surface_functionalization",
+  "name": "Nanofeuijllets de MXène fonctionnalisés par tensioactifs",
+  "origine": [
+   14,
+   35
+  ],
+  "gemini": [
+   14,
+   35
+  ],
+  "minimax-m2.5": [
+   14,
+   32
+  ],
+  "motif_jury": "Traitement de surface, modification chimique tensioactif",
+  "motif_gemini": "Modification des propriétés physico-chimiques de surface du MXène."
+ },
+ {
+  "id": "biocomposites_lignocellulosiques_injectes",
+  "name": "Renforcement polymère par agro-fibres lignocellulosiques modifiées",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   27,
+   40
+  ],
+  "motif_jury": "Greffage de surface = substitution/composite, pas paramètre physico-chimique",
+  "motif_gemini": "Greffage et modification chimique de surface des fibres."
+ },
+ {
+  "id": "optimisation_interface_surmoulage_hybride",
+  "name": "Interpénétration macromoléculaire en surmoulage hybride",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   10,
+   40
+  ],
+  "motif_jury": "Réglage T/pression = action préliminaire procédé, pas changement de propriété",
+  "motif_gemini": "Diffusion et interpénétration macromoléculaire des chaînes."
+ },
+ {
+  "id": "polymeres_soufres_haut_indice",
+  "name": "Polymeres soufrés à haut indice de réfraction",
+  "origine": [
+   35,
+   40
+  ],
+  "gemini": [
+   35,
+   40
+  ],
+  "minimax-m2.5": [
+   27,
+   40
+  ],
+  "motif_jury": "Dopage par groupes soufrés = composite/substitution, pas paramètre matière",
+  "motif_gemini": "Modification de l'indice de réfraction du polymère"
+ },
+ {
+  "id": "mg_oh2_tpe_flame_retardant",
+  "name": "TPE ignifugé à l'hydroxide de magnésium",
+  "origine": [
+   35,
+   39
+  ],
+  "gemini": [
+   35,
+   39
+  ],
+  "minimax-m2.5": [
+   27,
+   39,
+   40
+  ],
+  "motif_jury": "Charge Mg(OH)2 = composite + atmosphère inerte, pas paramètre matière",
+  "motif_gemini": "Modification de propriété ignifuge du matériau"
+ },
+ {
+  "id": "reseau_polymerique_hydrophobe_insitu",
+  "name": "Réseau hydrophobe barrière polymérisé in-situ",
+  "origine": [
+   30,
+   35
+  ],
+  "gemini": [
+   30,
+   35
+  ],
+  "minimax-m2.5": [
+   10,
+   30
+  ],
+  "motif_jury": "Film mince polymérisé in-situ, action préliminaire UV",
+  "motif_gemini": "Changement de structure chimique par réticulation"
+ },
+ {
+  "id": "pla_ramifie_haute_viscosite_moussage",
+  "name": "PLA modifié chimiquement par ramification pour le moussage",
+  "origine": [
+   31,
+   35
+  ],
+  "gemini": [
+   31,
+   35
+  ],
+  "minimax-m2.5": [
+   31,
+   36
+  ],
+  "motif_jury": "Chaîne ramifiée change phase moussage, transition visco",
+  "motif_gemini": "Modification de la tenue à chaud du polymère"
+ },
+ {
+  "id": "electrofilage_recuit_phbv_eugenol",
+  "name": "Interlayer PHBV/Eugénol électrofilé puis recuit",
+  "origine": [
+   31,
+   35
+  ],
+  "gemini": [
+   30,
+   35
+  ],
+  "minimax-m2.5": [
+   30,
+   31
+  ],
+  "motif_jury": "Couche mince poreuse électrofilée, film intermédiaire",
+  "motif_gemini": "Changement de densite par recuit"
+ },
+ {
+  "id": "starch_hydrogel_conductive_insert",
+  "name": "Biopolymère conducteur à base d'amidon pour surmoulage électronique",
+  "origine": [
+   35,
+   30
+  ],
+  "gemini": [
+   30,
+   35
+  ],
+  "minimax-m2.5": [
+   30,
+   33
+  ],
+  "motif_jury": "Hydrogel mince homogène conducteur, film flexible",
+  "motif_gemini": "Modification de la conductivité électrique du matériau"
+ },
+ {
+  "id": "mucell_pc_notch_toughness",
+  "name": "Moussage microcellulaire pour élimination de la fragilité à l'entaille du PC",
+  "origine": [
+   31,
+   35
+  ],
+  "gemini": [
+   31,
+   35
+  ],
+  "minimax-m2.5": [
+   31,
+   36
+  ],
+  "motif_jury": "Moussage = transition de phase gazeuse, porosité = principe 31/36",
+  "motif_gemini": "Modification de structure physique interne"
+ },
+ {
+  "id": "moussage_supercritique_silice",
+  "name": "Moussage microcellulaire chargé en silice",
+  "origine": [
+   31,
+   35
+  ],
+  "gemini": [
+   31,
+   35
+  ],
+  "minimax-m2.5": [
+   31,
+   36,
+   40
+  ],
+  "motif_jury": "Moussage supercritique = transition de phase + composite silice",
+  "motif_gemini": "Modification du taux de cristallinite"
+ },
+ {
+  "id": "pretraitement_fongique_biomasse_straw",
+  "name": "Prétraitement fongique des fibres naturelles",
+  "origine": [
+   35,
+   31
+  ],
+  "gemini": [
+   31,
+   35
+  ],
+  "minimax-m2.5": [
+   10,
+   31
+  ],
+  "motif_jury": "Prétraitement biologique préalable = action préliminaire, pas paramètre matière",
+  "motif_gemini": "Modification de composition chimique biologique"
+ },
+ {
+  "id": "moule_sacrificiel_poreux_reticulation",
+  "name": "Moulage par matrice poreuse à diffusion d'agent réticulant",
+  "origine": [
+   31,
+   35
+  ],
+  "gemini": [
+   31,
+   35
+  ],
+  "minimax-m2.5": [
+   3,
+   31
+  ],
+  "motif_jury": "Porosité contrôlée = qualité locale du moule poreux",
+  "motif_gemini": "Reticulation chimique par diffusion"
+ }
+]

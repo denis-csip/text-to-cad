@@ -1,0 +1,3 @@
+plasturgie : 308 candidats a soumettre au jury (deepseek-v4-flash)
+  lot 1/39 — 2.5 min ecoulees, fin estimee dans 95.2 min
+  lot 2/39 — 2.7 min ecoulees, fin estimee dans 50.1 min
