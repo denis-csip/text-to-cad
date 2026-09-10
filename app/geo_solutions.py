@@ -32,37 +32,57 @@ ADAPT = [35]
 COMPLEX_ = [36]
 PROD = [39]
 
+# RÈGLE D'ÉTIQUETAGE (revue Denis, 2026-09-10) — à respecter pour toute fiche ajoutée.
+#
+# N'inscrire un paramètre dans `improves` / `degrades` que si la transformation
+# géométrique agit DIRECTEMENT et GÉNÉRALEMENT sur lui — pas si elle PERMET à un
+# concepteur de l'améliorer dans certains cas. La revue du catalogue a montré que
+# plusieurs fiches déclaraient des conséquences possibles plutôt que l'effet propre de
+# la transformation (les lattices annonçaient un gain de VOLUME alors que le volume
+# enveloppe ne diminue pas ; l'arc annonçait un gain de POIDS qui n'est vrai qu'à
+# performance donnée ; le pli annonçait un gain de SURFACE alors qu'il réduit
+# l'encombrement projeté, pas la surface matérielle). Ces étiquettes alimentant
+# automatiquement les 1248 cellules, une conséquence prise pour un effet s'y propage
+# et produit des propositions étonnantes, très loin de leur origine.
+#
+# CONVENTION DE SENS : figurer dans `improves` signifie « rend ce paramètre MEILLEUR ».
+# Pour les paramètres dont la valeur souhaitable est basse — 36 Complexité du
+# dispositif, 37 Complexité du contrôle, 23/26 Substance — cela veut donc dire
+# la RÉDUIRE. `degrades` dit l'inverse. La charnière vivante améliore 36 parce
+# qu'elle supprime un assemblage ; le lattice à gradient dégrade 32 parce qu'il
+# complique la fabrication.
+
 # kind: 'llm' (instruction d'opérateur) | 'lattice' (générateur déterministe)
 SOLUTIONS = [
     dict(id="lattice_gyroid", kind="lattice", name="Âme lattice gyroïde",
-         principles=[31, 40, 1], improves=W + VOL + WASTE, degrades=STRENGTH,
+         principles=[31, 40], improves=W + WASTE, degrades=STRENGTH,
          desc="Remplacer le volume interne par un gyroïde TPMS (peau conservée) : "
               "-30 à -60 % de masse, rigidité contrôlée par cellule/brin.",
          lattice=dict(kind="gyroid")),
     dict(id="lattice_gradient", kind="lattice", name="Lattice à GRADIENT de densité",
-         principles=[3, 31, 35], improves=W + STRENGTH + WASTE, degrades=[],
+         principles=[3, 31, 35], improves=W + STRENGTH + WASTE, degrades=MANUF,
          desc="Gyroïde plus DENSE près de la zone chargée/encastrée et aéré ailleurs "
               "— la matière uniquement là où elle travaille (Qualité locale).",
          lattice=dict(kind="gyroid", gradient="z")),
     dict(id="lattice_schwarz", kind="lattice", name="Âme Schwarz-P",
-         principles=[31, 40], improves=W + VOL + WASTE, degrades=STRENGTH,
+         principles=[31, 40], improves=W + WASTE, degrades=STRENGTH,
          desc="TPMS Schwarz-P : canaux orthogonaux traversants (drainage, "
               "échange thermique) + allègement.",
          lattice=dict(kind="schwarz")),
     dict(id="lattice_diamond", kind="lattice", name="Âme diamant (TPMS)",
-         principles=[31, 40], improves=W + STRENGTH, degrades=[],
+         principles=[31], improves=W + STRENGTH + WASTE, degrades=[],
          desc="TPMS diamant : le plus isotrope des treillis, bon ratio "
               "rigidité/masse.",
          lattice=dict(kind="diamond")),
     dict(id="shell_ribs", kind="llm", name="Coque + nervures croisées",
-         principles=[30, 40, 1], improves=W + STRENGTH + WASTE, degrades=COMPLEX_,
+         principles=[1, 3], improves=W + STRENGTH + WASTE, degrades=COMPLEX_,
          desc="Remplacer les volumes massifs par des parois de 1.6-2.4 mm raidies "
               "par un quadrillage de nervures.",
          instruction="Transforme les volumes massifs en COQUES de 1.6-2.4 mm "
                      "raidies par un QUADRILLAGE de nervures internes (rib) "
                      "perpendiculaires, hauteur ~40-60% de la profondeur locale."),
     dict(id="pockets", kind="llm", name="Poches d'évidement",
-         principles=[2, 31], improves=W + WASTE, degrades=STRENGTH,
+         principles=[2], improves=W + WASTE, degrades=STRENGTH,
          desc="Creuser des poches là où la matière ne travaille pas, en gardant "
               "cadres et membrures continus.",
          instruction="Creuse des POCHES d'évidement (profondeur 60-80% de "
@@ -70,28 +90,28 @@ SOLUTIONS = [
                      "des efforts, en conservant un cadre périphérique d'au moins "
                      "4 mm et les bossages autour des trous."),
     dict(id="gussets", kind="llm", name="Goussets aux jonctions",
-         principles=[40, 3], improves=STRENGTH + STAB + RELIAB, degrades=W,
+         principles=[3], improves=STRENGTH + STAB + RELIAB, degrades=W + WASTE,
          desc="Ajouter des goussets triangulaires à chaque jonction orthogonale "
               "(le point faible classique).",
          instruction="Ajoute des GOUSSETS triangulaires (gusset) à CHAQUE jonction "
                      "orthogonale entre deux parois/ailes, épaisseur égale aux "
                      "parois, cathètes ~40-60% de la hauteur de la jonction."),
     dict(id="arches", kind="llm", name="Arcs et voûtes",
-         principles=[14], improves=STRENGTH + W, degrades=SHAPE,
+         principles=[14], improves=STRENGTH, degrades=SHAPE,
          desc="Courber ce qui est droit : un arc transmet en compression ce qu'une "
               "poutre droite subit en flexion.",
          instruction="REMPLACE les éléments droits travaillant en flexion par des "
                      "ARCS/VOÛTES (profils courbes pleins ou évidés) reliant les "
                      "mêmes points fonctionnels ; conserve les interfaces."),
     dict(id="tubular", kind="llm", name="Sections tubulaires",
-         principles=[14, 7], improves=STRENGTH + W, degrades=[],
+         principles=[14], improves=STRENGTH + W + WASTE, degrades=[],
          desc="Remplacer les sections pleines par des sections creuses (tube) : "
               "même inertie, bien moins de matière.",
          instruction="REMPLACE les sections pleines (barres, montants, bras) par "
                      "des SECTIONS TUBULAIRES ou en caisson (paroi 2-3 mm), de "
                      "même encombrement extérieur."),
     dict(id="local_bosses", kind="llm", name="Bossages et surépaisseurs locales",
-         principles=[3], improves=STRENGTH + RELIAB, degrades=W,
+         principles=[3], improves=STRENGTH + RELIAB, degrades=W + [26],
          desc="Épaissir UNIQUEMENT autour des trous, appuis et zones chargées.",
          instruction="Ajoute des BOSSAGES locaux (surépaisseur 50-100%) autour de "
                      "chaque trou de fixation, appui et zone d'effort ; amincis "
@@ -104,7 +124,7 @@ SOLUTIONS = [
                      "TOUS les raccordements et angles rentrants (try/except par "
                      "congé, réduis le rayon en repli)."),
     dict(id="fold_3d", kind="llm", name="Repli en 3D",
-         principles=[17, 7], improves=LEN + AREA + VOL, degrades=COMPLEX_,
+         principles=[17, 7], improves=LEN + VOL, degrades=COMPLEX_,
          desc="Sortir du plan : plier/superposer la géométrie pour réduire "
               "l'encombrement.",
          instruction="RÉORGANISE la géométrie EN 3D : plie/replie les éléments "
@@ -112,58 +132,58 @@ SOLUTIONS = [
                      "la hauteur pour réduire l'emprise au sol, à fonctions et "
                      "interfaces conservées."),
     dict(id="nesting", kind="llm", name="Emboîtement télescopique",
-         principles=[7], improves=LEN + VOL + ADAPT, degrades=COMPLEX_,
+         principles=[7, 15], improves=LEN + VOL + ADAPT, degrades=COMPLEX_,
          desc="Loger un volume dans un autre (rangement, course télescopique).",
          instruction="EMBOÎTE les volumes : structure en éléments concentriques "
                      "coulissants ou logés l'un dans l'autre (jeu 0.4 mm), pour "
                      "réduire l'encombrement replié."),
     dict(id="asym", kind="llm", name="Asymétrie fonctionnelle",
-         principles=[4], improves=STRENGTH + W + STAB, degrades=[],
+         principles=[4], improves=STRENGTH + W, degrades=COMPLEX_,
          desc="Adapter chaque côté à son rôle réel au lieu d'une symétrie de "
               "confort.",
          instruction="DISSYMÉTRISE : renforce le côté chargé (triangulation, "
                      "surépaisseur), allège le côté libre ; adapte la forme de "
                      "chaque côté à sa fonction réelle."),
     dict(id="living_hinge", kind="llm", name="Charnière vivante",
-         principles=[15, 1], improves=ADAPT + [36], degrades=DURAB,
+         principles=[15], improves=ADAPT + [36], degrades=DURAB,
          desc="Zone flexible imprimée (0.8-1.2 mm) : articulation sans "
               "assemblage.",
          instruction="INTRODUIS une CHARNIÈRE VIVANTE (lame flexible 0.8-1.2 mm "
                      "d'épaisseur, longueur >= 5 mm) là où une articulation ou une "
                      "flexion est utile, au lieu d'une liaison rigide."),
     dict(id="snapfit", kind="llm", name="Assemblage snap-fit",
-         principles=[1, 15], improves=REPAIR + EASE + PROD, degrades=RELIAB,
+         principles=[1, 15], improves=REPAIR + EASE + PROD + COMPLEX_, degrades=RELIAB,
          desc="Rendre démontable sans visserie : languettes élastiques.",
          instruction="REND la pièce DÉMONTABLE : sépare-la en 2 sous-ensembles "
                      "assemblés par languettes SNAP-FIT (snap_tab, jeu 0.3 mm) et "
                      "queues d'aronde (dovetail_rail/slot)."),
     dict(id="dovetail_mod", kind="llm", name="Modularité queue d'aronde",
-         principles=[1, 6], improves=ADAPT + REPAIR + [37], degrades=STRENGTH,
+         principles=[1, 6], improves=ADAPT + REPAIR, degrades=STRENGTH,
          desc="Segmenter en modules interchangeables sur rail.",
          instruction="SEGMENTE la pièce en MODULES le long d'un RAIL en queue "
                      "d'aronde (dovetail_rail sur l'un, dovetail_slot dans "
                      "l'autre, jeu +0.6 mm) pour les rendre interchangeables."),
     dict(id="flat_print", kind="llm", name="Mise à plat d'impression",
-         principles=[17, 13], improves=MANUF + PROD + RELIAB, degrades=[],
+         principles=[17, 13], improves=MANUF + PROD + [23], degrades=[],
          desc="Réorienter/décomposer pour imprimer sans supports.",
          instruction="RÉORIENTE la géométrie pour imprimer SANS SUPPORTS : grandes "
                      "faces à plat sur Z=0, surplombs <= 45°, remplace les "
                      "porte-à-faux par des chanfreins d'impression."),
     dict(id="draft_chamfers", kind="llm", name="Chanfreins d'impression",
-         principles=[16], improves=MANUF + [30], degrades=[],
+         principles=[16], improves=MANUF + EASE, degrades=[],
          desc="Chanfreiner premières couches et bords : anti-warping, "
               "anti-coupure.",
          instruction="CHANFREINE la première couche (chanfrein 0.6-1 mm sur le "
                      "pourtour bas) et casse tous les bords vifs accessibles "
                      "(chanfrein 1 mm, try/except)."),
     dict(id="compliant", kind="llm", name="Mécanisme compliant",
-         principles=[15, 32], improves=[36] + PROD + RELIAB, degrades=DURAB,
+         principles=[15, 6], improves=[36] + PROD + RELIAB, degrades=DURAB,
          desc="Remplacer un assemblage articulé par une pièce monobloc flexible.",
          instruction="REMPLACE les liaisons articulées par un MÉCANISME COMPLIANT "
                      "monobloc : lames élancées (0.8-1.5 mm) jouant le rôle de "
                      "pivots, imprimé en une seule pièce."),
     dict(id="counterweight_geom", kind="llm", name="Report de masse stabilisant",
-         principles=[8], improves=STAB, degrades=W,
+         principles=[3], improves=STAB, degrades=[],
          desc="Déplacer/étaler la matière pour abaisser et recentrer le centre "
               "de gravité.",
          instruction="STABILISE par la géométrie : élargis et alourdis la BASE "
@@ -182,7 +202,7 @@ SOLUTIONS = [
                      "extrémités, reliés à un réservoir ou à la surface à "
                      "alimenter."),
     dict(id="conformal", kind="llm", name="Épouser la forme (contact conforme)",
-         principles=[14, 3], improves=FORCE + RELIAB + EASE, degrades=COMPLEX_,
+         principles=[14, 3], improves=FORCE + RELIAB + EASE + STAB, degrades=COMPLEX_,
          desc="Faire épouser à la pièce la forme de l'objet qu'elle tient "
               "(berceau conforme).",
          instruction="RENDS le contact CONFORME : la surface d'accueil épouse la "

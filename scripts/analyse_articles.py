@@ -65,8 +65,20 @@ def main():
     if excl:
         ec = json.load(io.open(ROOT / "scripts" / excl, encoding="utf-8"))
         avant = len(todo)
-        todo = [p for p in todo if (ec.get((p.get("doi") or p.get("title") or "").lower().strip()) or {}).get("keep", True)]
-        print(f"ecremage : {avant - len(todo)} articles ecartes avant analyse", flush=True)
+        keyf = lambda p: (ec.get((p.get("doi") or p.get("title") or "").lower().strip()) or {}).get("keep", True)
+        if "--recall-check" in sys.argv:
+            # CONTROLE DU RAPPEL de l'ecremage : analyser un echantillon ALEATOIRE
+            # des articles ECARTES pour mesurer combien etaient en fait exploitables
+            import random
+            random.seed(int(_arg("--seed", "7")))
+            exclus = [p for p in todo if not keyf(p)]
+            todo = random.sample(exclus, min(int(_arg("--recall-check", "100")), len(exclus)))
+            for p in todo:
+                p["_recall_check"] = True
+            print(f"controle du rappel : {len(todo)} articles ECARTES tires au sort sur {len(exclus)}", flush=True)
+        else:
+            todo = [p for p in todo if keyf(p)]
+            print(f"ecremage : {avant - len(todo)} articles ecartes avant analyse", flush=True)
     if LIMIT:
         todo = todo[:LIMIT]
     print(f"{DISC} : {len(papers)} articles, {len(deja)} déjà analysés, {len(todo)} à traiter "
@@ -98,7 +110,8 @@ def main():
             rec = {"key": key, "paper": {"title": p.get("title"), "year": p.get("year"),
                                          "url": p.get("url")},
                    "analyse": an, "concordance": A.concordance(an) if an.get("exploitable") else None,
-                   "usage": usage, "ts": int(time.time())}
+                   "usage": usage, "ts": int(time.time()),
+                   "recall_check": bool(p.get("_recall_check"))}
             with open(OUT, "a", encoding="utf-8") as f:
                 f.write(json.dumps(rec, ensure_ascii=False) + "\n")
             if etat["done"] % 5 == 0 or etat["done"] == len(todo):

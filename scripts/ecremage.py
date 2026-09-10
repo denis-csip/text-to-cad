@@ -69,8 +69,10 @@ def main():
     todo = []
     for p in papers:
         k = cle(p)
-        if not k or k in done:
+        if not k:
             continue
+        if k in done and not (USE_LLM and str(done[k].get("reason", "")).startswith("non tranche")):
+            continue                      # deja tranche (sauf « non tranche » a re-trier par --llm)
         txt = (p.get("title") or "") + " " + (p.get("abstract") or "")
         m = EXCLURE.search(p.get("title") or "")
         h = HORS_DISC.get(DISC)
