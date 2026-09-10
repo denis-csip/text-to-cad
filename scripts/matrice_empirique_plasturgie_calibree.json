@@ -1,0 +1,414 @@
+{
+ "VALIDATED_BY": "Denis Cavallucci, 2026-09-10 — « je valide les 8 verdicts, protocole stabilisé »",
+ "PER_ARTICLE": {
+  "https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    25,
+    14
+   ],
+   "confidence": 0.75,
+   "family": "FAMILY_CONFORMAL_COOLING"
+  },
+  "https://doi.org/10.1016/j.promfg.2017.07.020": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    25,
+    14
+   ],
+   "confidence": 0.75,
+   "family": "FAMILY_CONFORMAL_COOLING"
+  },
+  "https://doi.org/10.1063/1.5084861": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    25,
+    14
+   ],
+   "confidence": 0.75,
+   "family": "FAMILY_CONFORMAL_COOLING"
+  },
+  "https://doi.org/10.3390/app13137437": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    25,
+    14
+   ],
+   "confidence": 0.75,
+   "family": "FAMILY_CONFORMAL_COOLING"
+  },
+  "https://doi.org/10.3390/app8122567": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    25,
+    14
+   ],
+   "confidence": 0.75,
+   "family": "FAMILY_CONFORMAL_COOLING"
+  },
+  "https://doi.org/10.1016/j.matdes.2020.109147": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    25,
+    14
+   ],
+   "confidence": 0.75,
+   "family": "FAMILY_CONFORMAL_COOLING"
+  },
+  "https://doi.org/10.1155/2014/968484": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    25,
+    14
+   ],
+   "confidence": 0.75,
+   "family": "FAMILY_CONFORMAL_COOLING"
+  },
+  "https://doi.org/10.1590/0104-1428.2047": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    25,
+    14
+   ],
+   "confidence": 0.75,
+   "family": "FAMILY_CONFORMAL_COOLING"
+  },
+  "https://doi.org/10.3390/polym9020077": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    25,
+    14
+   ],
+   "confidence": 0.75,
+   "family": "FAMILY_CONFORMAL_COOLING"
+  },
+  "https://doi.org/10.21203/rs.3.rs-3081027/v1": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    25,
+    14
+   ],
+   "confidence": 0.75,
+   "family": "FAMILY_CONFORMAL_COOLING"
+  },
+  "https://doi.org/10.1002/mawe.202300157": {
+   "status": "VALID_PROBLEM_FAMILY_NO_ALTSHULLER_CELL",
+   "cell": null,
+   "confidence": null,
+   "family": "FAMILY_SIMULATION_OPTIMIZATION_TIME"
+  },
+  "https://doi.org/10.1007/s00170-020-06511-3": {
+   "status": "VALID_PROBLEM_FAMILY_NO_ALTSHULLER_CELL",
+   "cell": null,
+   "confidence": null,
+   "family": "FAMILY_SIMULATION_OPTIMIZATION_TIME"
+  },
+  "https://doi.org/10.3390/s22072704": {
+   "status": "VALID_PROBLEM_FAMILY_NO_ALTSHULLER_CELL",
+   "cell": null,
+   "confidence": null,
+   "family": "FAMILY_SIMULATION_OPTIMIZATION_TIME"
+  },
+  "http://hdl.handle.net/1822/173": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    28,
+    13
+   ],
+   "confidence": 0.6,
+   "family": "FAMILY_IN_MOLD_SENSING"
+  },
+  "https://doi.org/10.1155/2019/3720127": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    28,
+    13
+   ],
+   "confidence": 0.6,
+   "family": "FAMILY_IN_MOLD_SENSING"
+  },
+  "https://doi.org/10.1016/j.ijlmm.2021.11.005": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    2,
+    12
+   ],
+   "confidence": 0.65,
+   "family": "FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY"
+  },
+  "https://doi.org/10.3390/ma15207079": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    2,
+    12
+   ],
+   "confidence": 0.65,
+   "family": "FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY"
+  },
+  "https://doi.org/10.1016/j.promfg.2018.10.128": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    2,
+    12
+   ],
+   "confidence": 0.65,
+   "family": "FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY"
+  },
+  "https://doi.org/10.1007/s10163-022-01588-2": {
+   "status": "VALID_PROBLEM_FAMILY_NO_ALTSHULLER_CELL",
+   "cell": null,
+   "confidence": null,
+   "family": "FAMILY_RECYCLED_PLASTICS_STRENGTH"
+  },
+  "https://doi.org/10.1016/j.matdes.2021.109576": {
+   "status": "VALID_PROBLEM_FAMILY_NO_ALTSHULLER_CELL",
+   "cell": null,
+   "confidence": null,
+   "family": "FAMILY_RECYCLED_PLASTICS_STRENGTH"
+  },
+  "http://etheses.bham.ac.uk/3184/2/collins_11_PhD.pdf": {
+   "status": "EXCLUDED_OUT_OF_DISCIPLINE",
+   "cell": null,
+   "confidence": null,
+   "family": null
+  },
+  "https://scholar.uwindsor.ca/etd/5355": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    2,
+    14
+   ],
+   "confidence": 0.85,
+   "family": "FAMILY_LIGHTWEIGHT_STRUCTURE_STRENGTH"
+  },
+  "http://hdl.handle.net/10106/11909": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    14,
+    32
+   ],
+   "confidence": 0.7,
+   "family": "FAMILY_SHORT_FIBRE_MOULDABILITY"
+  },
+  "https://doi.org/10.1115/cie1995-0804": {
+   "status": "NO_TECHNICAL_CONTRADICTION",
+   "cell": null,
+   "confidence": null,
+   "family": null
+  },
+  "https://doi.org/10.4995/jarte.2023.18810": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": [
+    32,
+    25
+   ],
+   "confidence": 0.7,
+   "family": "FAMILY_DFMA_ASSEMBLY_TIME"
+  }
+ },
+ "CALIBRATED_CELLS": [
+  {
+   "CELL": [
+    25,
+    14
+   ],
+   "improve": "Perte de temps",
+   "worsening": "Résistance",
+   "N_ARTICLES": 10,
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_CONFORMAL_COOLING"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P17 Nouvelle dimension": 4,
+    "P14 Courbure": 3,
+    "P3 Qualité locale": 2,
+    "P40 Matériaux composites": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P3 Qualité locale": 6,
+    "P17 Nouvelle dimension": 3,
+    "P14 Courbure": 2,
+    "P31 Matériaux poreux": 1,
+    "P35 Modification des paramètres physiques/chimiques": 1,
+    "P23 Rétroaction": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    29,
+    3,
+    28,
+    18
+   ],
+   "OVERLAP_DOMINANT": [
+    3
+   ],
+   "OVERLAP_ANY": [
+    3
+   ],
+   "STATUS": "EMERGING",
+   "MAPPING_CONFIDENCE": 0.75
+  },
+  {
+   "CELL": [
+    2,
+    12
+   ],
+   "improve": "Poids de l'objet stationnaire",
+   "worsening": "Forme",
+   "N_ARTICLES": 3,
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P31 Matériaux poreux": 2,
+    "P5 Combinaison": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P35 Modification des paramètres physiques/chimiques": 2,
+    "P10 Action préliminaire": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    13,
+    10,
+    29,
+    14
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [
+    10
+   ],
+   "STATUS": "EMERGING",
+   "MAPPING_CONFIDENCE": 0.65
+  },
+  {
+   "CELL": [
+    28,
+    13
+   ],
+   "improve": "Précision de la mesure",
+   "worsening": "Stabilité de l'objet",
+   "N_ARTICLES": 2,
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_IN_MOLD_SENSING"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P23 Rétroaction": 2
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P28 Substitution du principe mécanique": 2
+   },
+   "HISTORICAL_PRINCIPLES": [
+    32,
+    35,
+    13
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "STATUS": "EMERGING",
+   "MAPPING_CONFIDENCE": 0.6
+  },
+  {
+   "CELL": [
+    2,
+    14
+   ],
+   "improve": "Poids de l'objet stationnaire",
+   "worsening": "Résistance",
+   "N_ARTICLES": 1,
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_LIGHTWEIGHT_STRUCTURE_STRENGTH"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P40 Matériaux composites": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {},
+   "HISTORICAL_PRINCIPLES": [
+    28,
+    2,
+    10,
+    27
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "STATUS": "ANECDOTAL",
+   "MAPPING_CONFIDENCE": 0.85
+  },
+  {
+   "CELL": [
+    14,
+    32
+   ],
+   "improve": "Résistance",
+   "worsening": "Fabricabilité",
+   "N_ARTICLES": 1,
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_SHORT_FIBRE_MOULDABILITY"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P40 Matériaux composites": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P1 Segmentation": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    11,
+    3,
+    10,
+    32
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "STATUS": "ANECDOTAL",
+   "MAPPING_CONFIDENCE": 0.7
+  },
+  {
+   "CELL": [
+    32,
+    25
+   ],
+   "improve": "Fabricabilité",
+   "worsening": "Perte de temps",
+   "N_ARTICLES": 1,
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_DFMA_ASSEMBLY_TIME"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P1 Segmentation": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P34 Élimination/régénération de parties": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    35,
+    28,
+    34,
+    4
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [
+    34
+   ],
+   "STATUS": "ANECDOTAL",
+   "MAPPING_CONFIDENCE": 0.7
+  }
+ ],
+ "SUMMARY": {
+  "articles_in_families": 25,
+  "status": {
+   "VALID_MATRIX_CELL": 18,
+   "VALID_PROBLEM_FAMILY_NO_ALTSHULLER_CELL": 5,
+   "EXCLUDED_OUT_OF_DISCIPLINE": 1,
+   "NO_TECHNICAL_CONTRADICTION": 1
+  },
+  "cells": 6,
+  "no_altshuller_cell_families": [
+   "FAMILY_RECYCLED_PLASTICS_STRENGTH",
+   "FAMILY_SIMULATION_OPTIMIZATION_TIME"
+  ]
+ }
+}

@@ -75,8 +75,39 @@ le temps). Si la contradiction physique est forte et que le mapping 39x39 est
 artificiel -> statut PHYSICAL_CONTRADICTION_ONLY (l'article ne peuple pas de
 cellule). Ce n'est pas un echec.
 
+PROTOCOLE STABILISE (calibration validee par l'expert le 2026-09-10) :
+- A = une PERFORMANCE (reduire la duree de refroidissement, augmenter la
+  resistance, reduire la masse, ameliorer la precision de mesure...), JAMAIS un
+  moyen (creer des canaux conformes, utiliser un composite, augmenter la fraction
+  recyclee, appliquer un algorithme).
+- B est INVALIDE s'il n'est qu'un cout de la solution nouvelle, une complexite
+  apparue apres l'invention, une difficulte de fabrication de la solution
+  nouvelle, une condition geometrique preexistante, ou un parametre mentionne
+  sans etre causalement deteriore.
+- CONDITION IMPOSEE ≠ PARAMETRE DEGRADE : geometrie complexe, forme requise,
+  recyclabilite, usage de matiere recyclee, reglementation, environnement
+  corrosif, peu de donnees = CONTEXTE du probleme, pas un parametre qui « se
+  deteriore ». Ne les transforme pas en 12 Forme, 26 Quantite de substance,
+  32 Fabricabilite. Ex. valide : « fraction recyclee » n'a PAS de correspondant
+  canonique (26 = consommation de materiaux) -> pas de cellule.
+- MAPPING : pour chaque parametre donne SEMANTIC_DISTANCE LOW/MEDIUM/HIGH par
+  rapport a la DEFINITION canonique. Si HIGH pour l'un des deux -> statut
+  E VALID_PROBLEM_FAMILY_NO_ALTSHULLER_CELL (probleme legitime, pas de cellule).
+- IA / logiciel / mesure : temps de calcul, volume de donnees, complexite
+  algorithmique, automatisation, precision de PREDICTION (≠ 28 precision de
+  MESURE) ne se forcent pas dans 25, 28, 36, 37 -> statut E.
+- Hors discipline (biologie, microfluidique, fabrication metallique...) ->
+  statut F EXCLUDED_OUT_OF_DISCIPLINE.
+- Exemple calibre : refroidissement conforme = UNE contradiction « pour reduire
+  la duree de refroidissement (25) il faudrait rapprocher/multiplier les canaux,
+  mais la paroi canal-cavite amincie deteriore la tenue du moule (14) » ->
+  [25,14] ; « les canaux conformes deforment la piece » [17,12] est un
+  inconvenient induit = INTERDIT.
+
 STATUT final : A VALID_MATRIX_CELL | B PHYSICAL_CONTRADICTION_ONLY |
-C NO_TECHNICAL_CONTRADICTION | D NOT_ENOUGH_EVIDENCE.
+C NO_TECHNICAL_CONTRADICTION | D NOT_ENOUGH_EVIDENCE |
+E VALID_PROBLEM_FAMILY_NO_ALTSHULLER_CELL | F EXCLUDED_OUT_OF_DISCIPLINE.
+Ajoute dans improve/worsen le champ "semantic_distance": "LOW|MEDIUM|HIGH".
 
 Reponds UNIQUEMENT en JSON :
 {"objectif_A": "...", "action_X": "...", "consequence_B": "...",
@@ -105,12 +136,24 @@ Passage GLOBAL obligatoire :
    la mieux justifiee. Signale chaque fusion.
 3. COHERENCE_WARNINGS : familles qui restent ambigues (mapping discutable,
    parametre sur-utilise, articles a cheval sur deux familles).
+4. AUDIT DE CHAQUE FAMILLE (protocole stabilise) : A = performance (pas un
+   moyen) ; action conventionnelle ; B causalement deteriore AVANT l'invention
+   (jamais un inconvenient induit par la solution) ; SEMANTIC_DISTANCE des deux
+   parametres (HIGH -> famille VALID_PROBLEM_FAMILY_NO_ALTSHULLER_CELL, sans
+   cellule) ; condition imposee (recycle, geometrie complexe, reglementation)
+   ≠ parametre degrade. Deux familles au meme probleme initial (ex. refroidissement
+   conforme « tenue du moule » vs « geometrie ») DOIVENT fusionner si la seconde
+   n'est qu'un inconvenient induit.
 N'invente jamais de contradiction pour remplir davantage la matrice.
+Une matrice de 15 cellules solides vaut mieux que 30 cellules fabriquees.
 
 Reponds UNIQUEMENT en JSON :
 {"families": [{"family_id": "FAMILY_CONTRADICTION_XXX1", "generic_problem": "...",
    "generic_contradiction": "Pour ameliorer ... il faudrait ... mais ... deteriore ...",
-   "improve": n, "worsen": n, "article_ids": ["..."],
+   "improve": n|null, "worsen": n|null, "article_ids": ["..."],
+   "status": "VALID_MATRIX_CELL|VALID_PROBLEM_FAMILY_NO_ALTSHULLER_CELL|PHYSICAL_CONTRADICTION_ONLY",
+   "semantic_distance": {"improve": "LOW|MEDIUM|HIGH", "worsen": "LOW|MEDIUM|HIGH"},
+   "mapping_confidence": 0-1,
    "merged_from_cells": [[i,j], ...], "merge_justification": "..."}],
  "kept_distinct": [{"article_ids": ["...","..."], "why_cells_differ": "justification physique"}],
  "coherence_warnings": ["..."]}"""
