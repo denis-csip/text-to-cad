@@ -252,11 +252,55 @@ def main():
                        "worsen_reason": (d.get("worsen") or {}).get("reason")})
     stage2 = {}
     if lignes and not etat["stop"]:
-        user = "PARAMETRES : " + " ; ".join(f"{n} {PN[n]}" for n in PN) + "\n\nARTICLES (statut A) :\n" + json.dumps(lignes, ensure_ascii=False)
-        try:
-            stage2 = call(P2_SYSTEM, user)
-        except Exception as e:
-            print("  passage 2 KO", str(e)[:90], flush=True)
+        params_txt = "PARAMETRES : " + " ; ".join(f"{n} {PN[n]}" for n in PN)
+        # MODE CORPUS : un seul appel ne peut pas tenir 1 000+ articles. On regroupe
+        # par BLOCS de ~90 articles tries par cellule (les problemes voisins tombent
+        # ensemble), puis un appel de FUSION rapproche les familles entre blocs.
+        lignes.sort(key=lambda l: (tuple(l["cell"]) if l["cell"] else (99, 99)))
+        blocs = [lignes[i:i + 90] for i in range(0, len(lignes), 90)]
+        fam_all, warn_all, kept_all = [], [], []
+        for bi, bloc in enumerate(blocs):
+            if etat["stop"]:
+                break
+            try:
+                d2 = call(P2_SYSTEM, params_txt + "\n\nARTICLES (statut A) :\n" + json.dumps(bloc, ensure_ascii=False))
+            except Exception as e:
+                print(f"  passage 2 bloc {bi+1} KO", str(e)[:90], flush=True); continue
+            for f in d2.get("families") or []:
+                f["family_id"] = f"{f.get('family_id') or 'FAMILY'}__B{bi+1}"
+                fam_all.append(f)
+            warn_all += d2.get("coherence_warnings") or []
+            kept_all += d2.get("kept_distinct") or []
+            print(f"  passage 2 : bloc {bi+1}/{len(blocs)} -> {len(d2.get('families') or [])} familles — cumul {etat['cout']:.3f} $", flush=True)
+        # FUSION inter-blocs : meme probleme generique -> une seule famille
+        if len(blocs) > 1 and fam_all and not etat["stop"]:
+            resume = [{"family_id": f["family_id"], "generic_problem": f.get("generic_problem"),
+                       "improve": f.get("improve"), "worsen": f.get("worsen"), "n": len(f.get("article_ids") or [])} for f in fam_all]
+            MERGE = ("Tu es un expert TRIZ. Voici des FAMILLES DE CONTRADICTION obtenues par blocs independants. "
+                     "Fusionne celles qui decrivent le MEME conflit d'ingenierie (meme probleme initial, memes exigences "
+                     "en conflit), meme si le vocabulaire differe. Ne fusionne pas sur la seule technologie. "
+                     "Pour chaque groupe fusionne, choisis la cellule [improve, worsen] la mieux justifiee et un "
+                     "family_id canonique. Reponds UNIQUEMENT en JSON : {\"merges\": [{\"family_id\": \"CANON\", "
+                     "\"generic_problem\": \"...\", \"generic_contradiction\": \"...\", \"improve\": n, \"worsen\": n, "
+                     "\"members\": [\"id_bloc1\", \"id_bloc2\"]}]} — ne liste que les groupes de >= 2 membres.")
+            try:
+                dm = call(MERGE, params_txt + "\n\nFAMILLES :\n" + json.dumps(resume, ensure_ascii=False))
+                by_id = {f["family_id"]: f for f in fam_all}
+                for m in dm.get("merges") or []:
+                    membres = [x for x in (m.get("members") or []) if x in by_id]
+                    if len(membres) < 2:
+                        continue
+                    ids = [a for x in membres for a in (by_id[x].get("article_ids") or [])]
+                    cells_src = [[by_id[x].get("improve"), by_id[x].get("worsen")] for x in membres]
+                    fam_all = [f for f in fam_all if f["family_id"] not in membres]
+                    fam_all.append({"family_id": m.get("family_id") or membres[0], "generic_problem": m.get("generic_problem"),
+                                    "generic_contradiction": m.get("generic_contradiction"),
+                                    "improve": m.get("improve"), "worsen": m.get("worsen"), "article_ids": ids,
+                                    "merged_from_cells": cells_src, "merge_justification": "fusion inter-blocs (meme probleme generique)"})
+                print(f"  fusion inter-blocs : {len(dm.get('merges') or [])} groupes -> {len(fam_all)} familles", flush=True)
+            except Exception as e:
+                print("  fusion inter-blocs KO", str(e)[:90], flush=True)
+        stage2 = {"families": fam_all, "coherence_warnings": warn_all, "kept_distinct": kept_all}
     # ---------------- passage 3 : deterministe ----------------
     fam_of = {}
     families = stage2.get("families") or []

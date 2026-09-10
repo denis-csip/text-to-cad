@@ -162,14 +162,24 @@ def vers_solution(analyse, paper, discipline_id, sid):
     prins, conf = [], {}
     if d.get("numero") and float(d.get("confiance", 0) or 0) >= 0.6:
         prins.append(int(d["numero"])); conf[int(d["numero"])] = float(d["confiance"])
-    for s in (analyse.get("secondaires") or [])[:2]:
-        if s.get("numero") and float(s.get("confiance", 0) or 0) >= 0.6:
-            n = int(s["numero"]); prins.append(n); conf[n] = float(s["confiance"])
-    pairs = [{"up": int(c["ameliore"]), "down": int(c["degrade"]),
-              "confiance": float(c.get("confiance", 0) or 0), "phrase": c.get("phrase", ""),
-              "preuve": c.get("preuve", "")}
-             for c in (analyse.get("contradictions") or [])
-             if c.get("ameliore") and c.get("degrade")][:3]
+    # robustesse : le LLM renvoie parfois des chaines a la place d'objets
+    for s in [x for x in (analyse.get("secondaires") or []) if isinstance(x, dict)][:2]:
+        try:
+            if s.get("numero") and float(s.get("confiance", 0) or 0) >= 0.6:
+                n = int(s["numero"]); prins.append(n); conf[n] = float(s["confiance"])
+        except (TypeError, ValueError):
+            continue
+    pairs = []
+    for c in (analyse.get("contradictions") or []):
+        if not isinstance(c, dict) or not (c.get("ameliore") and c.get("degrade")):
+            continue
+        try:
+            pairs.append({"up": int(c["ameliore"]), "down": int(c["degrade"]),
+                          "confiance": float(c.get("confiance", 0) or 0), "phrase": c.get("phrase", ""),
+                          "preuve": c.get("preuve", "")})
+        except (TypeError, ValueError):
+            continue
+    pairs = pairs[:3]
     conc = concordance(analyse)
     return {"id": sid, "kind": "llm", "discipline": discipline_id,
             "name": analyse.get("nom_solution") or (paper.get("title") or sid)[:80],

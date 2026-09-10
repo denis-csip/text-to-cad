@@ -6,3 +6,63 @@ Direct use of automatic function calling (AFC) in Models.generate_content is not
   5/408 — exploitables 5 — cumul 0.014 $ (3085/806 tok)
   10/408 — exploitables 10 — cumul 0.028 $ (3056/836 tok)
   15/408 — exploitables 15 — cumul 0.042 $ (3167/774 tok)
+  20/408 — exploitables 20 — cumul 0.057 $ (3068/856 tok)
+  KO: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The service is currently unavailable.', 'status
+  25/408 — exploitables 25 — cumul 0.071 $ (3077/568 tok)
+  30/408 — exploitables 30 — cumul 0.086 $ (2991/662 tok)
+  35/408 — exploitables 35 — cumul 0.099 $ (3070/705 tok)
+  40/408 — exploitables 40 — cumul 0.115 $ (3139/768 tok)
+  45/408 — exploitables 44 — cumul 0.127 $ (3075/725 tok)
+  50/408 — exploitables 49 — cumul 0.141 $ (3093/808 tok)
+  55/408 — exploitables 53 — cumul 0.154 $ (3060/761 tok)
+  60/408 — exploitables 58 — cumul 0.169 $ (3071/986 tok)
+  65/408 — exploitables 63 — cumul 0.183 $ (3044/691 tok)
+  70/408 — exploitables 68 — cumul 0.198 $ (3052/608 tok)
+  75/408 — exploitables 73 — cumul 0.213 $ (3020/863 tok)
+  80/408 — exploitables 78 — cumul 0.228 $ (3059/788 tok)
+  85/408 — exploitables 83 — cumul 0.241 $ (3068/704 tok)
+  90/408 — exploitables 87 — cumul 0.254 $ (3084/916 tok)
+  95/408 — exploitables 92 — cumul 0.268 $ (3108/752 tok)
+  100/408 — exploitables 97 — cumul 0.283 $ (3084/788 tok)
+  105/408 — exploitables 102 — cumul 0.297 $ (3072/856 tok)
+  110/408 — exploitables 107 — cumul 0.312 $ (3118/866 tok)
+  115/408 — exploitables 112 — cumul 0.326 $ (3047/845 tok)
+  120/408 — exploitables 117 — cumul 0.339 $ (3073/797 tok)
+  125/408 — exploitables 122 — cumul 0.354 $ (3100/802 tok)
+  130/408 — exploitables 127 — cumul 0.367 $ (2938/846 tok)
+  135/408 — exploitables 131 — cumul 0.380 $ (3095/62 tok)
+  140/408 — exploitables 136 — cumul 0.395 $ (3117/690 tok)
+  145/408 — exploitables 141 — cumul 0.409 $ (3096/681 tok)
+  150/408 — exploitables 146 — cumul 0.424 $ (3108/836 tok)
+  155/408 — exploitables 151 — cumul 0.439 $ (3099/759 tok)
+  160/408 — exploitables 156 — cumul 0.453 $ (3100/591 tok)
+  165/408 — exploitables 161 — cumul 0.467 $ (3061/829 tok)
+  170/408 — exploitables 166 — cumul 0.482 $ (2981/634 tok)
+Traceback (most recent call last):
+  File "C:\Users\DenisCavallucci\OneDrive - INSA Strasbourg\Bureau\Claude\text-to-cad-proto\scripts\analyse_articles.py", line 145, in <module>
+    # apport de revue : nb de cellules déclarées (paires) — plus de propagation cartésienne
+    ^^^^^^
+  File "C:\Users\DenisCavallucci\OneDrive - INSA Strasbourg\Bureau\Claude\text-to-cad-proto\scripts\analyse_articles.py", line 114, in main
+    "recall_check": bool(p.get("_recall_check"))}
+^^^^^^^^^^^^^^^^
+  File "C:\Users\DenisCavallucci\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DenisCavallucci\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DenisCavallucci\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DenisCavallucci\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\DenisCavallucci\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DenisCavallucci\OneDrive - INSA Strasbourg\Bureau\Claude\text-to-cad-proto\scripts\analyse_articles.py", line 100, in run
+    except Exception as e:
+                           
+  File "C:\Users\DenisCavallucci\OneDrive - INSA Strasbourg\Bureau\Claude\text-to-cad-proto\app\analyse_triz.py", line 139, in concordance
+    if s.get("numero") and float(s.get("confiance", 0) or 0) >= 0.6][:2]
+       ^^^^^
+AttributeError: 'str' object has no attribute 'get'

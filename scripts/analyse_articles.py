@@ -43,6 +43,13 @@ OUT = ROOT / "scripts" / f"analyses_{DISC}.jsonl"
 CANDS = ROOT / "scripts" / f"campagne_{DISC}_candidates.json"
 
 
+def _safe(fn, *a):
+    try:
+        return fn(*a)
+    except Exception as e:
+        return {"erreur": str(e)[:80]}
+
+
 def slug(t):
     s = re.sub(r"[^a-z0-9]+", "_", (t or "").lower()).strip("_")
     return s[:48] or "article"
@@ -101,6 +108,12 @@ def main():
             with lock:
                 print("  KO:", str(e)[:100], flush=True)
             return None
+        # ROBUSTESSE : une réponse non structurée (chaîne, liste) ne doit jamais
+        # tuer le lot entier (crash du 2026-09-10 à 170/408 : 'str' has no 'get')
+        if not isinstance(an, dict):
+            an = {"exploitable": False, "raison": "réponse LLM non structurée"}
+        if not isinstance(usage, dict):
+            usage = {"in": 0, "out": 0}
         with lock:
             etat["in"] += usage["in"]; etat["out"] += usage["out"]
             etat["cout"] += usage["in"] * PIN / 1e6 + usage["out"] * POUT / 1e6
@@ -109,7 +122,7 @@ def main():
                 etat["expl"] += 1
             rec = {"key": key, "paper": {"title": p.get("title"), "year": p.get("year"),
                                          "url": p.get("url")},
-                   "analyse": an, "concordance": A.concordance(an) if an.get("exploitable") else None,
+                   "analyse": an, "concordance": (_safe(A.concordance, an) if an.get("exploitable") else None),
                    "usage": usage, "ts": int(time.time()),
                    "recall_check": bool(p.get("_recall_check"))}
             with open(OUT, "a", encoding="utf-8") as f:

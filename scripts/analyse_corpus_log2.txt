@@ -1,0 +1,61 @@
+ecremage : 1576 articles ecartes avant analyse
+plasturgie : 2184 articles, 378 déjà analysés, 230 à traiter | plafond 0.90 $
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+  5/230 — exploitables 5 — cumul 0.014 $ (3032/784 tok)
+  10/230 — exploitables 10 — cumul 0.028 $ (3092/775 tok)
+  15/230 — exploitables 15 — cumul 0.042 $ (3088/736 tok)
+  20/230 — exploitables 20 — cumul 0.057 $ (3059/745 tok)
+  25/230 — exploitables 25 — cumul 0.071 $ (3080/676 tok)
+  30/230 — exploitables 30 — cumul 0.085 $ (3092/740 tok)
+  35/230 — exploitables 35 — cumul 0.099 $ (3044/779 tok)
+  40/230 — exploitables 40 — cumul 0.113 $ (3103/887 tok)
+  45/230 — exploitables 45 — cumul 0.127 $ (3085/762 tok)
+  50/230 — exploitables 50 — cumul 0.142 $ (3138/732 tok)
+  55/230 — exploitables 55 — cumul 0.155 $ (3039/513 tok)
+  60/230 — exploitables 60 — cumul 0.169 $ (3089/608 tok)
+  65/230 — exploitables 65 — cumul 0.182 $ (3050/709 tok)
+  70/230 — exploitables 70 — cumul 0.195 $ (3107/603 tok)
+  75/230 — exploitables 75 — cumul 0.209 $ (3104/889 tok)
+  80/230 — exploitables 80 — cumul 0.223 $ (3053/676 tok)
+  85/230 — exploitables 85 — cumul 0.237 $ (3035/870 tok)
+  90/230 — exploitables 90 — cumul 0.250 $ (3079/678 tok)
+  95/230 — exploitables 95 — cumul 0.264 $ (3061/738 tok)
+  100/230 — exploitables 100 — cumul 0.279 $ (3071/806 tok)
+  105/230 — exploitables 105 — cumul 0.292 $ (3108/730 tok)
+  110/230 — exploitables 110 — cumul 0.307 $ (3105/738 tok)
+  115/230 — exploitables 115 — cumul 0.322 $ (3086/780 tok)
+  120/230 — exploitables 120 — cumul 0.336 $ (3096/724 tok)
+  125/230 — exploitables 125 — cumul 0.350 $ (3157/855 tok)
+  130/230 — exploitables 130 — cumul 0.365 $ (3142/924 tok)
+  135/230 — exploitables 135 — cumul 0.380 $ (3190/837 tok)
+  140/230 — exploitables 140 — cumul 0.394 $ (3097/736 tok)
+  145/230 — exploitables 145 — cumul 0.409 $ (3039/792 tok)
+  150/230 — exploitables 150 — cumul 0.423 $ (3048/840 tok)
+  155/230 — exploitables 155 — cumul 0.438 $ (3049/905 tok)
+  KO: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The service is currently unavailable.', 'status
+  160/230 — exploitables 160 — cumul 0.452 $ (3085/788 tok)
+  165/230 — exploitables 165 — cumul 0.465 $ (3092/540 tok)
+  170/230 — exploitables 170 — cumul 0.479 $ (3011/671 tok)
+  175/230 — exploitables 175 — cumul 0.493 $ (3129/754 tok)
+  180/230 — exploitables 180 — cumul 0.507 $ (3106/774 tok)
+  185/230 — exploitables 185 — cumul 0.522 $ (3040/871 tok)
+  190/230 — exploitables 190 — cumul 0.537 $ (3032/796 tok)
+  195/230 — exploitables 195 — cumul 0.551 $ (3096/680 tok)
+  200/230 — exploitables 200 — cumul 0.564 $ (3074/871 tok)
+  205/230 — exploitables 205 — cumul 0.578 $ (3099/781 tok)
+  210/230 — exploitables 210 — cumul 0.593 $ (3094/774 tok)
+  215/230 — exploitables 215 — cumul 0.607 $ (3084/762 tok)
+  220/230 — exploitables 220 — cumul 0.621 $ (3066/783 tok)
+  225/230 — exploitables 225 — cumul 0.635 $ (3055/762 tok)
+Traceback (most recent call last):
+  File "C:\Users\DenisCavallucci\OneDrive - INSA Strasbourg\Bureau\Claude\text-to-cad-proto\scripts\analyse_articles.py", line 171, in <module>
+    main()
+  File "C:\Users\DenisCavallucci\OneDrive - INSA Strasbourg\Bureau\Claude\text-to-cad-proto\scripts\analyse_articles.py", line 154, in main
+    s = A.vers_solution(an, rec["paper"], DISC, sid)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DenisCavallucci\OneDrive - INSA Strasbourg\Bureau\Claude\text-to-cad-proto\app\analyse_triz.py", line 166, in vers_solution
+    if s.get("numero") and float(s.get("confiance", 0) or 0) >= 0.6:
+       ^^^^^
+AttributeError: 'str' object has no attribute 'get'
