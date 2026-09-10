@@ -1,0 +1,4865 @@
+{
+ "MATRIX_ASSIGNMENTS": [
+  {
+   "article_id": "https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082",
+   "title": "Design and fabrication of conformal cooling channels in molds: Review and progress updates",
+   "year": 2021,
+   "doi_or_url": "https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082",
+   "improve_parameter": {
+    "id": 39,
+    "canonical_name": "Productivité"
+   },
+   "worsening_parameter": {
+    "id": 14,
+    "canonical_name": "Résistance"
+   },
+   "contradiction_sentence": "Si nous améliorons la vitesse de refroidissement et la productivité en augmentant la conformité et le réseau des canaux, alors la résistance mécanique de l'outillage se détériore.",
+   "contradiction_evidence": "To achieve a uniform and rapid cooling, some key design parameters [...] have to be calculated [...] taking into account the cooling performance, mechanical strength...",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Cette solution remplace les canaux de refroidissement droits percés traditionnels par des canaux de refroidissement conformes (CC) qui épousent la géométrie tridimensionnelle de la cavité. Cette disposition tridimensionnelle permet un refroidissement uniforme et accéléré, réduisant fortement le temps de cycle et les déformations thermiques.",
+   "dominant_principle": {
+    "id": 17,
+    "name": "Nouvelle dimension",
+    "confidence": 0.95
+   },
+   "secondary_principles": [
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "confidence": 0.8
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Les canaux doivent être proches de la cavité pour refroidir efficacement, et éloignés de la cavité pour maintenir la résistance mécanique du moule.",
+    "separation": "space"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    29,
+    28,
+    10,
+    18
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082",
+   "title": "Design and fabrication of conformal cooling channels in molds: Review and progress updates",
+   "year": 2021,
+   "doi_or_url": "https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082",
+   "improve_parameter": {
+    "id": 39,
+    "canonical_name": "Productivité"
+   },
+   "worsening_parameter": {
+    "id": 36,
+    "canonical_name": "Complexité du dispositif"
+   },
+   "contradiction_sentence": "Si nous améliorons l'homogénéité du refroidissement (productivité), alors la complexité de fabrication de l'outillage augmente.",
+   "contradiction_evidence": "CC systems show great promise [...] lower cycle time [...] basic type, more complex types, and hybrid straight-drilled-CC molds",
+   "contradiction_confidence": 0.8,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Cette solution remplace les canaux de refroidissement droits percés traditionnels par des canaux de refroidissement conformes (CC) qui épousent la géométrie tridimensionnelle de la cavité. Cette disposition tridimensionnelle permet un refroidissement uniforme et accéléré, réduisant fortement le temps de cycle et les déformations thermiques.",
+   "dominant_principle": {
+    "id": 17,
+    "name": "Nouvelle dimension",
+    "confidence": 0.95
+   },
+   "secondary_principles": [
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "confidence": 0.8
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Les canaux doivent être proches de la cavité pour refroidir efficacement, et éloignés de la cavité pour maintenir la résistance mécanique du moule.",
+    "separation": "space"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    12,
+    17,
+    28,
+    24
+   ],
+   "historical_status": "OK",
+   "match_status": "strong"
+  },
+  {
+   "article_id": "https://doi.org/10.1016/j.matdes.2021.109576",
+   "title": "Learnings about design from recycling by using post-consumer polypropylene as a core layer in a co-injection molded sandwich structure product",
+   "year": 2021,
+   "doi_or_url": "https://doi.org/10.1016/j.matdes.2021.109576",
+   "improve_parameter": {
+    "id": 26,
+    "canonical_name": "Quantité de substance"
+   },
+   "worsening_parameter": {
+    "id": 14,
+    "canonical_name": "Résistance"
+   },
+   "contradiction_sentence": "Si nous augmentons le taux de matière recyclée incorporée pour favoriser l'économie circulaire, alors la résistance mécanique et la qualité d'impact se détériorent à cause des impuretés.",
+   "contradiction_evidence": "While these contaminants had no deteriorative effect on stiffness-controlled performance, a strong influence on strength-controlled and impact-related properties was observed.",
+   "contradiction_confidence": 0.9,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Afin d'incorporer du polypropylène recyclé contaminé sans dégrader l'aspect visuel ni la rigidité de la pièce, la structure est co-injectée sous forme de sandwich. Le matériau recyclé est confiné au cœur de la pièce tandis qu'une peau en matériau vierge garantit l'esthétique et la finition extérieure.",
+   "dominant_principle": {
+    "id": 3,
+    "name": "Qualité locale",
+    "confidence": 0.95
+   },
+   "secondary_principles": [
+    {
+     "id": 40,
+     "name": "Matériaux composites",
+     "confidence": 0.85
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "La surface/structure doit être en matériau vierge pour conserver l'esthétique et l'impact, et doit être en matériau recyclé pour intégrer des déchets plastiques.",
+    "separation": "space"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.1016/j.matdes.2021.109576",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    14,
+    35,
+    34,
+    10
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.3390/ma15207079",
+   "title": "Post-Molding Shrinkage, Structure and Properties of Cellular Injection-Molded Polypropylene",
+   "year": 2022,
+   "doi_or_url": "https://doi.org/10.3390/ma15207079",
+   "improve_parameter": {
+    "id": 26,
+    "canonical_name": "Quantité de substance"
+   },
+   "worsening_parameter": {
+    "id": 14,
+    "canonical_name": "Résistance"
+   },
+   "contradiction_sentence": "Si nous générons une structure alvéolaire pour réduire la quantité de matière injectée, alors la résistance mécanique de la pièce se détériore.",
+   "contradiction_evidence": "Cellular injection molding is a common method... reducing their weight. However, mechanical properties after injection molding change as a result of re-crystallization.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'injection de polypropylène cellulaire remplace la structure interne massive par une matrice poreuse microcellulaire. Cela élimine les retassures de surface et réduit le poids des pièces tout en maîtrisant le retrait postérieur à la cristallisation.",
+   "dominant_principle": {
+    "id": 31,
+    "name": "Matériaux poreux",
+    "confidence": 0.95
+   },
+   "secondary_principles": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le polymère doit être dense pour maintenir les propriétés mécaniques, et doit être poreux/cellulaire pour absorber le retrait et supprimer les retassures.",
+    "separation": "whole-parts"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.3390/ma15207079",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    14,
+    35,
+    34,
+    10
+   ],
+   "historical_status": "OK",
+   "match_status": "partial"
+  },
+  {
+   "article_id": "https://doi.org/10.3390/ma15207079",
+   "title": "Post-Molding Shrinkage, Structure and Properties of Cellular Injection-Molded Polypropylene",
+   "year": 2022,
+   "doi_or_url": "https://doi.org/10.3390/ma15207079",
+   "improve_parameter": {
+    "id": 31,
+    "canonical_name": "Effets secondaires nuisibles"
+   },
+   "worsening_parameter": {
+    "id": 13,
+    "canonical_name": "Stabilité de l'objet"
+   },
+   "contradiction_sentence": "Si nous réduisons la densité du matériau pour éliminer les retassures, alors la stabilité dimensionnelle au cours du temps s'en trouve dégradée.",
+   "contradiction_evidence": "assess the changes in the value of processing shrinkage and the size of the sink marks of porous PP moldings depending on the degree of porosity and the time",
+   "contradiction_confidence": 0.8,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'injection de polypropylène cellulaire remplace la structure interne massive par une matrice poreuse microcellulaire. Cela élimine les retassures de surface et réduit le poids des pièces tout en maîtrisant le retrait postérieur à la cristallisation.",
+   "dominant_principle": {
+    "id": 31,
+    "name": "Matériaux poreux",
+    "confidence": 0.95
+   },
+   "secondary_principles": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le polymère doit être dense pour maintenir les propriétés mécaniques, et doit être poreux/cellulaire pour absorber le retrait et supprimer les retassures.",
+    "separation": "whole-parts"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.3390/ma15207079",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    35,
+    40,
+    27,
+    39
+   ],
+   "historical_status": "OK",
+   "match_status": "partial"
+  },
+  {
+   "article_id": "https://doi.org/10.1016/j.promfg.2018.10.128",
+   "title": "Injection mold design for a plastic component with blowing agent",
+   "year": 2018,
+   "doi_or_url": "https://doi.org/10.1016/j.promfg.2018.10.128",
+   "improve_parameter": {
+    "id": 26,
+    "canonical_name": "Quantité de substance"
+   },
+   "worsening_parameter": {
+    "id": 31,
+    "canonical_name": "Effets secondaires nuisibles"
+   },
+   "contradiction_sentence": "Si nous réduisons la quantité de matière (26) pour alléger la pièce et raccourcir le cycle, alors les retassures et le gauchissement (31) se détériorent dans une injection conventionnelle.",
+   "contradiction_evidence": "The CBA enables obtaining parts with smaller warp in a shorter cycle [...] save in raw material, with a considerable reduction of weight.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'incorporation d'un agent gonflant chimique (CBA) lors du moulage par injection crée une structure cellulaire poreuse au cœur de la pièce. Cela supprime les retassures et le gauchissement tout en réduisant la quantité de matière, le temps de cycle et la taille de presse requise.",
+   "dominant_principle": {
+    "id": 31,
+    "name": "Matériaux poreux",
+    "confidence": 0.95
+   },
+   "secondary_principles": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "La pièce doit être massive pour occuper tout le volume de la cavité sans retassure, et doit être non-massive (poreuse) pour réduire la quantité de matière et le poids.",
+    "separation": "whole-parts"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.1016/j.promfg.2018.10.128",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    3,
+    35,
+    40,
+    39
+   ],
+   "historical_status": "OK",
+   "match_status": "partial"
+  },
+  {
+   "article_id": "https://doi.org/10.1063/1.5084861",
+   "title": "Experimental analysis of conformal cooling in SLM produced injection moulds: Effects on process and product quality",
+   "year": 2019,
+   "doi_or_url": "https://doi.org/10.1063/1.5084861",
+   "improve_parameter": {
+    "id": 25,
+    "canonical_name": "Perte de temps"
+   },
+   "worsening_parameter": {
+    "id": 32,
+    "canonical_name": "Fabricabilité"
+   },
+   "contradiction_sentence": "Si nous conformons la trajectoire des canaux de refroidissement aux contours complexes de la pièce pour réduire le temps de cycle, alors la fabricabilité de l'outillage par usinage traditionnel se détériore.",
+   "contradiction_evidence": "These often curved cooling channels are difficult or even impossible to produce with conventional techniques such as milling, drilling and EDM.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Cette solution remplace les canaux de refroidissement droits conventionnels par des canaux conformes tridimensionnels imprimés en 3D par SLM. En épousant la géométrie complexe de la cavité, le réseau de refroidissement réduit le temps de cycle tout en éliminant les défauts de gauchissement.",
+   "dominant_principle": {
+    "id": 17,
+    "name": "Nouvelle dimension",
+    "confidence": 0.9
+   },
+   "secondary_principles": [
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "confidence": 0.8
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Les trajectoires de refroidissement doivent être droites pour être exécutées par perçage classique et non-droites (incurvées 3D) pour suivre la forme de la pièce.",
+    "separation": "space"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.1063/1.5084861",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    35,
+    28,
+    34,
+    4
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.3389/fmats.2020.00027",
+   "title": "Analysis of the Thermoplastic Composite Overmolding Process: Interface Strength",
+   "year": 2020,
+   "doi_or_url": "https://doi.org/10.3389/fmats.2020.00027",
+   "improve_parameter": {
+    "id": 14,
+    "canonical_name": "Résistance"
+   },
+   "worsening_parameter": {
+    "id": 37,
+    "canonical_name": "Complexité du contrôle"
+   },
+   "contradiction_sentence": "Si nous améliorons la résistance mécanique de l'interface (14) en maximisant la fusion et l'interdiffusion à l'interface composite/résine, alors la complexité du réglage et du contrôle du procédé (37) augmente.",
+   "contradiction_evidence": "Un modèle rudimentaire du degré de fusion en fonction de l'historique thermo-mécanique a dû être développé pour prédire la résistance d'interface.",
+   "contradiction_confidence": 0.75,
+   "assignment_status": "secondary",
+   "parameter_corrected": false,
+   "inventive_summary": "Modélisation de l'adhésion à l'interface de surmoulage composite en intégrant le degré de fusion locale des polymères semi-cristallins. Cette approche dépasse les modèles classiques d'amorphes en prédisant la résistance mécanique selon l'historique thermo-mécanique.",
+   "dominant_principle": {
+    "id": 36,
+    "name": "Transitions de phase",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le matériau d'interface doit être fondu (pour permettre la reptation et la soudure) et ne pas être excessivement déformé ou dégradé (pour préserver la structure composite).",
+    "separation": "time"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.3389/fmats.2020.00027",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    27,
+    3,
+    15,
+    40
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.3390/polym15132841",
+   "title": "Thermoelasticity of Injection-Molded Parts",
+   "year": 2023,
+   "doi_or_url": "https://doi.org/10.3390/polym15132841",
+   "improve_parameter": {
+    "id": 28,
+    "canonical_name": "Précision de la mesure"
+   },
+   "worsening_parameter": {
+    "id": 37,
+    "canonical_name": "Complexité du contrôle"
+   },
+   "contradiction_sentence": "Si nous améliorons la précision de mesure des retassures locales par la modélisation à l'état caoutchoutique, alors la complexité du calcul numérique augmente.",
+   "contradiction_evidence": "In our methodology, two treatments of the molten core are considered... the rubbery state treatment provides higher accuracy in predicting the deformation results",
+   "contradiction_confidence": 0.75,
+   "assignment_status": "secondary",
+   "parameter_corrected": false,
+   "inventive_summary": "Cette méthode améliore la prédiction numérique des retassures en modélisant le cœur fondu comme un état caoutchoutique plutôt que liquide. Cela permet d'empêcher la dissipation artificielle des contraintes thermiques locales dans la simulation.",
+   "dominant_principle": {
+    "id": 35,
+    "name": "Modification des paramètres physiques/chimiques",
+    "confidence": 0.85
+   },
+   "secondary_principles": [],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le cœur de la matière doit être considéré comme liquide pour refléter la phase fondue réelle, et non-liquide (caoutchoutique) pour transmettre et localiser le champ de déformation thermique.",
+    "separation": "conditions"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.3390/polym15132841",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    26,
+    24,
+    32,
+    28
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "http://hdl.handle.net/1903/15172",
+   "title": "Thermal and Manufacturing Design of Polymer Composite Heat Exchangers",
+   "year": 2014,
+   "doi_or_url": "http://hdl.handle.net/1903/15172",
+   "improve_parameter": {
+    "id": 31,
+    "canonical_name": "Effets secondaires nuisibles"
+   },
+   "worsening_parameter": {
+    "id": 32,
+    "canonical_name": "Fabricabilité"
+   },
+   "contradiction_sentence": "Si nous améliorons les propriétés thermiques et la résistance à la corrosion en utilisant un composite polymère thermiquement chargé, alors la fabricabilité par moulage des structures minces se détériore.",
+   "contradiction_evidence": "The widespread use of seawater as a coolant can be made possible by [...] thermally-enhanced polymer composites [...] However, thermally enhanced polymer composites behave differently [...] thin walled large structures are expected to pose challenges during the molding process.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'utilisation de polymères non chargés pour les échangeurs thermiques évite la corrosion mais souffre d'une faible conductivité thermique, tandis que les métaux résistent mal aux milieux agressifs comme l'eau de mer. La solution consiste à élaborer un matériau composite polymère renforcé thermiquement pour combiner résistance à la corrosion et haute conductivité thermique.",
+   "dominant_principle": {
+    "id": 40,
+    "name": "Matériaux composites",
+    "confidence": 0.95
+   },
+   "secondary_principles": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "confidence": 0.7
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le matériau de l'échangeur doit être non métallique pour éviter la corrosion et métallique pour conduire efficacement la chaleur.",
+    "separation": "whole-parts"
+   },
+   "scope": "matiere",
+   "solution_family": "ART:http://hdl.handle.net/1903/15172",
+   "family_provisional": true,
+   "historical_matrix_principles": [],
+   "historical_status": "EMPTY_IN_SOURCE_MATRIX",
+   "match_status": "historical_cell_empty"
+  },
+  {
+   "article_id": "http://hdl.handle.net/10106/11909",
+   "title": "Design And Analysis Of A Compression Molded Carbon Composite Wheel Center",
+   "year": 2013,
+   "doi_or_url": "http://hdl.handle.net/10106/11909",
+   "improve_parameter": {
+    "id": 32,
+    "canonical_name": "Fabricabilité"
+   },
+   "worsening_parameter": {
+    "id": 14,
+    "canonical_name": "Résistance"
+   },
+   "contradiction_sentence": "Si nous améliorons la fabricabilité et la productivité en utilisant un moulage par compression de fibres courtes, alors la résistance mécanique risque de se détériorer par rapport aux composites à fibres continues.",
+   "contradiction_evidence": "production of near net shape parts eliminating secondary operations [...] Compression molding process is the most preferred process as this addresses the problems of fiber damage effectively",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Cette solution remplace la fabrication conventionnelle de pièces métalliques ou composites continus par un procédé de moulage par compression utilisant un composite à fibres courtes de carbone orientées aléatoirement. Cette transformation permet d'obtenir directement la forme quasi-finale (near-net-shape) avec des propriétés mécaniques quasi-isotropes tout en supprimant les opérations d'usinage secondaires.",
+   "dominant_principle": {
+    "id": 40,
+    "name": "Matériaux composites",
+    "confidence": 0.9
+   },
+   "secondary_principles": [
+    {
+     "id": 1,
+     "name": "Segmentation",
+     "confidence": 0.85
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Les fibres doivent être courtes pour s'écouler sans casse dans le moule et doivent être longues pour assurer la reprise des efforts mécaniques.",
+    "separation": "whole-parts"
+   },
+   "scope": "procede",
+   "solution_family": "ART:http://hdl.handle.net/10106/11909",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    1,
+    3,
+    10,
+    32
+   ],
+   "historical_status": "OK",
+   "match_status": "partial"
+  },
+  {
+   "article_id": "https://doi.org/10.1115/cie1995-0804",
+   "title": "A Systematic Approach to Support Design for Manufacturability in Injection Molding and Die Casting",
+   "year": 1995,
+   "doi_or_url": "https://doi.org/10.1115/cie1995-0804",
+   "improve_parameter": {
+    "id": 32,
+    "canonical_name": "Fabricabilité"
+   },
+   "worsening_parameter": {
+    "id": 36,
+    "canonical_name": "Complexité du dispositif"
+   },
+   "contradiction_sentence": "Si nous améliorons la fabricabilité et la vitesse de conception par la segmentation du modèle géométrique, alors la complexité du dispositif informatique/modèle augmente.",
+   "contradiction_evidence": "The typical design cycle is iterative, laborious and time-consuming... The resulting specification is stored in a segment structure which provides a flexible parting description and fits within the B-rep hierarchy.",
+   "contradiction_confidence": 0.75,
+   "assignment_status": "secondary",
+   "parameter_corrected": false,
+   "inventive_summary": "L'article propose de découper les surfaces géométriques du modèle CAO (B-rep) en structures de segments dédiées aux lignes de plan de joint. Cette intégration directe de la topologie de démoulage dans l'arbre géométrique accélère la conception des moules d'injection et de fonderie.",
+   "dominant_principle": {
+    "id": 1,
+    "name": "Segmentation",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 5,
+     "name": "Combinaison",
+     "confidence": 0.7
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": "",
+    "separation": "aucune"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.1115/cie1995-0804",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    27,
+    26,
+    1
+   ],
+   "historical_status": "OK",
+   "match_status": "strong"
+  },
+  {
+   "article_id": "https://doi.org/10.1016/j.ijlmm.2021.11.005",
+   "title": "Production of microcellular lightweight components with improved surface finish by technology combination: A review",
+   "year": 2021,
+   "doi_or_url": "https://doi.org/10.1016/j.ijlmm.2021.11.005",
+   "improve_parameter": {
+    "id": 26,
+    "canonical_name": "Quantité de substance"
+   },
+   "worsening_parameter": {
+    "id": 29,
+    "canonical_name": "Précision de la fabrication"
+   },
+   "contradiction_sentence": "Si nous réduisons la masse de la pièce par injection microcellulaire, alors l'état de surface et la précision d'aspect se détériorent.",
+   "contradiction_evidence": "MIM is used to manufacture plastic components with reduced weight, however this technology is characterized for producing components with a poor surface finish.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Le moulage par injection microcellulaire permet d'alléger les pièces mais dégrade fortement leur état de surface. La solution consiste à combiner au sein du même procédé le moussage microcellulaire avec des technologies de finition et de décoration en moule.",
+   "dominant_principle": {
+    "id": 5,
+    "name": "Combinaison",
+    "confidence": 0.9
+   },
+   "secondary_principles": [
+    {
+     "id": 10,
+     "name": "Action préliminaire",
+     "confidence": 0.7
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "La structure du polymère doit être moussée et alvéolaire pour réduire le poids, et totalement dense et lisse en surface pour l'aspect esthétique.",
+    "separation": "whole-parts"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.1016/j.ijlmm.2021.11.005",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    33,
+    30
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1007/s10163-022-01588-2",
+   "title": "FDM-based additive manufacturing of recycled thermoplastics and associated composites",
+   "year": 2023,
+   "doi_or_url": "https://doi.org/10.1007/s10163-022-01588-2",
+   "improve_parameter": {
+    "id": 26,
+    "canonical_name": "Quantité de substance"
+   },
+   "worsening_parameter": {
+    "id": 14,
+    "canonical_name": "Résistance"
+   },
+   "contradiction_sentence": "Si nous augmentons le taux de matière plastique recyclée dans le filament d'impression FDM, alors la résistance mécanique de la pièce se détériore en raison de la scission des chaînes polymères.",
+   "contradiction_evidence": "The strength of FDM components produced from thermoplastic waste is lower than that of virgin plastic FDM counterparts... due to chain scission, change in viscosity and breaking strength.",
+   "contradiction_confidence": 0.9,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'utilisation de thermoplastiques recyclés pour l'impression FDM entraîne une chute de viscosité et de résistance mécanique due à la scission des chaînes polymères. L'incorporation d'additifs et de charges de renfort au plastique recyclé forme un matériau composite qui restaure les propriétés mécaniques du produit final.",
+   "dominant_principle": {
+    "id": 40,
+    "name": "Matériaux composites",
+    "confidence": 0.95
+   },
+   "secondary_principles": [
+    {
+     "id": 22,
+     "name": "Transformation du mal en bien",
+     "confidence": 0.85
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le polymère du filament doit être recyclé (pour réutiliser les déchets) et ne doit pas être dégradé par le recyclage (pour garantir la résistance mécanique).",
+    "separation": "whole-parts"
+   },
+   "scope": "matiere",
+   "solution_family": "ART:https://doi.org/10.1007/s10163-022-01588-2",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    14,
+    35,
+    34,
+    10
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1002/aidi.202500107",
+   "title": "Toward Knowledge‐Guided AI for Inverse Design in Manufacturing: A Perspective on Domain, Physics, and Human–AI Synergy",
+   "year": 2025,
+   "doi_or_url": "https://doi.org/10.1002/aidi.202500107",
+   "improve_parameter": {
+    "id": 35,
+    "canonical_name": "Adaptabilité"
+   },
+   "worsening_parameter": {
+    "id": 37,
+    "canonical_name": "Complexité du contrôle"
+   },
+   "contradiction_sentence": "Si nous améliorons la précision et la capacité à explorer de grands espaces de conception par des modèles d'IA complexes, alors le besoin en données et la complexité du contrôle du procédé se détériorent.",
+   "contradiction_evidence": "purely data-driven approaches often struggle in realistic manufacturing settings characterized by sparse data, high-dimensional design spaces, and complex constraints",
+   "contradiction_confidence": 0.8,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'article propose une approche de conception inverse intégrant les connaissances du domaine et la physique au sein des modèles d'apprentissage automatique. Cette synergie permet de restreindre l'espace de recherche et de garantir le respect des contraintes physiques même avec des données rares.",
+   "dominant_principle": {
+    "id": 5,
+    "name": "Combinaison",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 10,
+     "name": "Action préliminaire",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "L'espace de recherche de conception doit être vaste pour trouver des solutions optimales inédites, et restraint/étroit pour être exploitable rapidement avec peu de données.",
+    "separation": "conditions"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.1002/aidi.202500107",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    1
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1002/pen.760351005",
+   "title": "Dilatometric study of low profile unsaturated polyester resins",
+   "year": 1995,
+   "doi_or_url": "https://doi.org/10.1002/pen.760351005",
+   "improve_parameter": {
+    "id": 14,
+    "canonical_name": "Résistance"
+   },
+   "worsening_parameter": {
+    "id": 29,
+    "canonical_name": "Précision de la fabrication"
+   },
+   "contradiction_sentence": "Si nous augmentons la réticulation pour améliorer la durabilité/résistance, alors le retrait volumique dégrade la précision dimensionnelle.",
+   "contradiction_evidence": "L'article étudie l'effet de la concentration d'additif et de la température de cuisson sur le contrôle du retrait volumique lors de la polymérisation.",
+   "contradiction_confidence": 0.8,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'incorporation d'additifs à faible retrait (LPA) dans des résines polyesters insaturées permet de compenser le retrait volumique lors du thermodurcissement. Un suivi dilatométrique et morphologique permet d'ajuster la concentration de l'additif et la température de cuisson pour éliminer la déformation des pièces.",
+   "dominant_principle": {
+    "id": 35,
+    "name": "Modification des paramètres physiques/chimiques",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 40,
+     "name": "Matériaux composites",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": "",
+    "separation": "aucune"
+   },
+   "scope": "matiere",
+   "solution_family": "ART:https://doi.org/10.1002/pen.760351005",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    3,
+    27
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "http://hdl.handle.net/1807/43608",
+   "title": "Development of Innovative Gas-assisted Foam Injection Molding Technology",
+   "year": 2014,
+   "doi_or_url": "http://hdl.handle.net/1807/43608",
+   "improve_parameter": {
+    "id": 8,
+    "canonical_name": "Volume de l'objet stationnaire"
+   },
+   "worsening_parameter": {
+    "id": 31,
+    "canonical_name": "Effets secondaires nuisibles"
+   },
+   "contradiction_sentence": "Si nous réduisons le volume et l'épaisseur de la pièce (8) pour économiser de la matière, alors l'absorption des nuisances acoustiques (31) se détériore.",
+   "contradiction_evidence": "The foam structure manufactured by GAFIM consists of a solid skin layer, a foam layer, and a hollow core; and its 6.4-mm thick sample outperformed the conventional 22-mm thick polyurethane foam in terms of the acoustic absorption coefficient.",
+   "contradiction_confidence": 0.9,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Cette étude combine le moulage par injection avec agent de foisonnement (FIM) et l'injection assistée par gaz (GAIM) en un procédé unique (GAFIM). La structure résultante comporte une peau solide, une couche moussée et un cœur creux, offrant une excellente absorption acoustique pour une épaisseur fortement réduite.",
+   "dominant_principle": {
+    "id": 5,
+    "name": "Combinaison",
+    "confidence": 0.95
+   },
+   "secondary_principles": [
+    {
+     "id": 1,
+     "name": "Segmentation",
+     "confidence": 0.85
+    },
+    {
+     "id": 31,
+     "name": "Matériaux poreux",
+     "confidence": 0.8
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "La section de la pièce doit être dense et pleine pour garantir la rigidité de surface, et poreuse/creuse pour absorber le son et réduire la masse.",
+    "separation": "space"
+   },
+   "scope": "procede",
+   "solution_family": "ART:http://hdl.handle.net/1807/43608",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    30,
+    18,
+    35,
+    4
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://dspace.lboro.ac.uk/2134/10338",
+   "title": "A manufacturing model to capture injection moulding process capabilities to support design for manufacture",
+   "year": 1994,
+   "doi_or_url": "https://dspace.lboro.ac.uk/2134/10338",
+   "improve_parameter": {
+    "id": 35,
+    "canonical_name": "Adaptabilité"
+   },
+   "worsening_parameter": {
+    "id": 37,
+    "canonical_name": "Complexité du contrôle"
+   },
+   "contradiction_sentence": "Si nous améliorons la précision des règles de conception et l'aide à la décision (35) par l'intégration d'un modèle complet, alors la complexité de gestion de l'information et du contrôle de conception (37) augmente.",
+   "contradiction_evidence": "To explore the use of the Manufacturing Model information to support Design for Manufacturing applications, the resulting model must provide a common source of information to a range of interacting DFM applications.",
+   "contradiction_confidence": 0.7,
+   "assignment_status": "secondary",
+   "parameter_corrected": false,
+   "inventive_summary": "Cette étude structure les capacités du procédé d'injection sous forme d'un modèle de données unifié (EXPRESS/Objet) divisé en caractéristiques de moulabilité, éléments de moule et de presse. Ce modèle alimente en temps réel des outils DFM pour fournir un retour d'information continu aux concepteurs dès la phase de modélisation.",
+   "dominant_principle": {
+    "id": 23,
+    "name": "Rétroaction",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 1,
+     "name": "Segmentation",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": "",
+    "separation": "aucune"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://dspace.lboro.ac.uk/2134/10338",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    1
+   ],
+   "historical_status": "OK",
+   "match_status": "partial"
+  },
+  {
+   "article_id": "https://doi.org/10.3390/designs7030068",
+   "title": "A Novel Feature-Based Manufacturability Assessment System for Evaluating Selective Laser Melting and Subtractive Manufacturing Injection Moulding Tool Inserts",
+   "year": 2023,
+   "doi_or_url": "https://doi.org/10.3390/designs7030068",
+   "improve_parameter": {
+    "id": 12,
+    "canonical_name": "Forme"
+   },
+   "worsening_parameter": {
+    "id": 29,
+    "canonical_name": "Précision de la fabrication"
+   },
+   "contradiction_sentence": "Si nous augmentons la complexité géométrique de l'insert par la fabrication additive, alors la précision de fabrication et l'état de surface se détériorent.",
+   "contradiction_evidence": "Additive manufacturing is capable of fabricating complex shapes, yet there are limiting aspects to surface integrity, dimensional accuracy.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'article présente un système d'évaluation de la fabriquabilité basé sur les entités géométriques (FBMAS) pour la réalisation d'inserts de moules d'injection. Il permet d'associer localement la fabrication additive par fusion laser (SLM) et l'usinage soustractif selon la complexité des zones.",
+   "dominant_principle": {
+    "id": 3,
+    "name": "Qualité locale",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 5,
+     "name": "Combinaison",
+     "confidence": 0.75
+    },
+    {
+     "id": 1,
+     "name": "Segmentation",
+     "confidence": 0.65
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "L'insert de moule doit être fabriqué par impression 3D (SLM) pour réaliser des formes complexes et ne doit pas être fabriqué par impression 3D pour garantir la précision dimensionnelle et l'état de surface.",
+    "separation": "space"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.3390/designs7030068",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    32,
+    30,
+    40
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.4995/jarte.2023.18810",
+   "title": "Re-designing of hair clipper using design for manufacturing and assembly",
+   "year": 2023,
+   "doi_or_url": "https://doi.org/10.4995/jarte.2023.18810",
+   "improve_parameter": {
+    "id": 25,
+    "canonical_name": "Perte de temps"
+   },
+   "worsening_parameter": {
+    "id": 12,
+    "canonical_name": "Forme"
+   },
+   "contradiction_sentence": "Si nous réduisons le nombre de pièces et la complexité d'assemblage pour diminuer le temps de cycle, alors la complexité de forme de certaines pièces individuelles réinventées peut augmenter.",
+   "contradiction_evidence": "L'application du DFMA a permis de réduire le temps d'assemblage de 322.91s à 163.81s en reconcevant l'architecture globale des composants.",
+   "contradiction_confidence": 0.7,
+   "assignment_status": "secondary",
+   "parameter_corrected": false,
+   "inventive_summary": "Redesign d'une tondeuse à cheveux en appliquant les méthodologies DFMA pour simplifier la structure du produit. L'intégration et la réduction du nombre de pièces permettent de diminuer le temps et les coûts d'assemblage.",
+   "dominant_principle": {
+    "id": 1,
+    "name": "Segmentation",
+    "confidence": 0.75
+   },
+   "secondary_principles": [
+    {
+     "id": 34,
+     "name": "Élimination/régénération de parties",
+     "confidence": 0.85
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Les composants doivent être multiples pour assurer des fonctions distinctes et uniques pour être faciles à assembler et fabriquer.",
+    "separation": "whole-parts"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.4995/jarte.2023.18810",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    4,
+    10,
+    34,
+    17
+   ],
+   "historical_status": "OK",
+   "match_status": "partial"
+  },
+  {
+   "article_id": "https://scholar.uwindsor.ca/etd/5355",
+   "title": "Innovative composite materials application in the design of seats and interior parts",
+   "year": 2012,
+   "doi_or_url": "https://scholar.uwindsor.ca/etd/5355",
+   "improve_parameter": {
+    "id": 2,
+    "canonical_name": "Poids de l'objet stationnaire"
+   },
+   "worsening_parameter": {
+    "id": 14,
+    "canonical_name": "Résistance"
+   },
+   "contradiction_sentence": "Si nous réduisons la masse de la structure par l'emploi de composites légers, alors la résistance mécanique et la rigidité risquent de se détériorer.",
+   "contradiction_evidence": "the substitution of a current rear seat back steel structure, meeting stringent weight and stiffness requirements.",
+   "contradiction_confidence": 0.9,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Substitution d'une structure métallique de dossier de siège par une structure en composite thermoplastique. Cela permet de réduire significativement la masse tout en conservant la rigidité mécanique nécessaire.",
+   "dominant_principle": {
+    "id": 40,
+    "name": "Matériaux composites",
+    "confidence": 0.95
+   },
+   "secondary_principles": [],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le matériau doit être dense/rigide pour résister aux efforts mécaniques, et peu dense/léger pour minimiser la consommation de carburant.",
+    "separation": "whole-parts"
+   },
+   "scope": "matiere",
+   "solution_family": "ART:https://scholar.uwindsor.ca/etd/5355",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    28,
+    2,
+    10,
+    27
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.31390/gradschool_dissertations.2083",
+   "title": "Development of micropump for microfluidic applications",
+   "year": 2006,
+   "doi_or_url": "https://doi.org/10.31390/gradschool_dissertations.2083",
+   "improve_parameter": {
+    "id": 9,
+    "canonical_name": "Vitesse"
+   },
+   "worsening_parameter": {
+    "id": 31,
+    "canonical_name": "Effets secondaires nuisibles"
+   },
+   "contradiction_sentence": "Si l'on augmente la force d'actionnement électrique du fluide en courant continu, alors la génération de bulles de gaz par électrolyse augmente, dégradant le fonctionnement.",
+   "contradiction_evidence": "The AC-type MHD micropump was designed and analyzed as a solution to the bubble formation problem encountered in DC-type MHD micropump.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Un micropompe magnétohydrodynamique (MHD) utilise un courant alternatif (AC) au lieu d'un courant continu (DC) pour actionner le fluide conducteur par la force de Lorentz. Ce changement de régime électrique élimine l'électrolyse continue et prévient la formation de bulles qui bloquait le fonctionnement du système.",
+   "dominant_principle": {
+    "id": 19,
+    "name": "Action périodique",
+    "confidence": 0.9
+   },
+   "secondary_principles": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le champ électrique doit être continu pour maintenir une force unidirectionnelle continue sur le fluide, et ne doit pas être continu pour éviter l'électrolyse et la formation de bulles.",
+    "separation": "time"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.31390/gradschool_dissertations.2083",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    2,
+    24,
+    35,
+    21
+   ],
+   "historical_status": "OK",
+   "match_status": "partial"
+  },
+  {
+   "article_id": "https://doi.org/10.21203/rs.3.rs-3081027/v1",
+   "title": "Generative design of conformal cooling channels for hybrid-manufactured injection moulding tools",
+   "year": 2023,
+   "doi_or_url": "https://doi.org/10.21203/rs.3.rs-3081027/v1",
+   "improve_parameter": {
+    "id": 39,
+    "canonical_name": "Productivité"
+   },
+   "worsening_parameter": {
+    "id": 36,
+    "canonical_name": "Complexité du dispositif"
+   },
+   "contradiction_sentence": "Si nous optimisons localement le tracé des canaux de refroidissement pour accélérer le refroidissement, alors la complexité de conception et de l'outillage augmente.",
+   "contradiction_evidence": "Effective cooling systems for injection moulding tools are critical to reducing manufacturing costs & cycle time... adjustable CCC design in response to spatial variability... driven by a genetic algorithm.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Cette étude présente un algorithme génétique de conception générative ajustant automatiquement la géométrie et le tracé des canaux de refroidissement conformes (CCC) en fonction de la variabilité thermique locale à l'interface moule-pièce. L'adaptation locale des canaux permet d'optimiser l'évacuation de la chaleur et de réduire significativement le temps de cycle.",
+   "dominant_principle": {
+    "id": 3,
+    "name": "Qualité locale",
+    "confidence": 0.9
+   },
+   "secondary_principles": [
+    {
+     "id": 23,
+     "name": "Rétroaction",
+     "confidence": 0.8
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": "",
+    "separation": "aucune"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.21203/rs.3.rs-3081027/v1",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    12,
+    17,
+    28,
+    24
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.18725/oparu-2603",
+   "title": "Metabolic engineering of the Colombian strain Clostridium sp. IBUN 158B in order to improve the bioconversion of glycerol into 1,3-propanediol",
+   "year": 2013,
+   "doi_or_url": "https://doi.org/10.18725/oparu-2603",
+   "improve_parameter": {
+    "id": 39,
+    "canonical_name": "Productivité"
+   },
+   "worsening_parameter": {
+    "id": 23,
+    "canonical_name": "Gaspillage de substance"
+   },
+   "contradiction_sentence": "Si l'on cherche à augmenter la productivité en 1,3-propanediol, alors le gaspillage de substrat et de cofacteurs NADH augmente dans les voies métaboliques secondaires.",
+   "contradiction_evidence": "In order to reach an industrially efficient 1,3-PD production level (...) more NADH generated during the oxidative metabolism should be available for 1,3-PD production",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Modification génétique de la souche Clostridium sp. IBUN 158B pour optimiser la conversion du glycérol en 1,3-propanediol. La stratégie combine l'inactivation de gènes de voies métaboliques secondaires concurrentes et la surexpression des gènes clés de la voie de réduction du glycérol.",
+   "dominant_principle": {
+    "id": 2,
+    "name": "Extraction",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 34,
+     "name": "Élimination/régénération de parties",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": "",
+    "separation": "aucune"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.18725/oparu-2603",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    28,
+    10,
+    35,
+    23
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "http://etheses.bham.ac.uk/3184/2/collins_11_PhD.pdf",
+   "title": "Construction of novel tissue engineering scaffolds using supercritical fluid gas foaming",
+   "year": 2011,
+   "doi_or_url": "http://etheses.bham.ac.uk/3184/2/collins_11_PhD.pdf",
+   "improve_parameter": {
+    "id": 14,
+    "canonical_name": "Résistance"
+   },
+   "worsening_parameter": {
+    "id": 26,
+    "canonical_name": "Quantité de substance"
+   },
+   "contradiction_sentence": "Si nous améliorons la résistance mécanique par l'ajout de silice dans le polymère, alors la porosité globale et la taille des pores diminuent.",
+   "contradiction_evidence": "silica incorporation increased the load tolerated at yield by up to 60N [...] pore diameters in the range of 0.088-0.924 mm (0% silica) to 0.044–0.342 mm (33.3% silica)",
+   "contradiction_confidence": 0.82,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'incorporation de particules de silice minérale dans une matrice de polylactide (PLA) traitée par fluide supercritique (SCF) permet de structurer précisément la porosité du biomatériau. Cette combinaison améliore significativement la résistance mécanique à la limite d'élasticité tout en contrôlant la taille et la connectivité des pores.",
+   "dominant_principle": {
+    "id": 40,
+    "name": "Matériaux composites",
+    "confidence": 0.88
+   },
+   "secondary_principles": [
+    {
+     "id": 31,
+     "name": "Matériaux poreux",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": "",
+    "separation": "aucune"
+   },
+   "scope": "matiere",
+   "solution_family": "ART:http://etheses.bham.ac.uk/3184/2/collins_11_PhD.pdf",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    29,
+    10,
+    27
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1080/03602559708000661",
+   "title": "Variation of Part Wall Thicknesses to Reduce Warpage of Injection-Molded Part: Robust Design Against Process Variability",
+   "year": 1997,
+   "doi_or_url": "https://doi.org/10.1080/03602559708000661",
+   "improve_parameter": {
+    "id": 13,
+    "canonical_name": "Stabilité de l'objet"
+   },
+   "worsening_parameter": {
+    "id": 12,
+    "canonical_name": "Forme"
+   },
+   "contradiction_sentence": "Si nous faisons varier localement l'épaisseur de paroi pour compenser le retrait thermique, alors la stabilité dimensionnelle de la pièce se trouve améliorée, mais la complexité de la forme géométrique s'en trouve augmentée.",
+   "contradiction_evidence": "Varying wall thicknesses exhibits better warpage characteristics in terms of warpage mean and variance compared to constant wall thicknesses that comply with uniform wall thickness rules.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Afin d'atténuer le gauchissement des pièces injectées causé par les variations du procédé, la règle conventionnelle d'épaisseur de paroi constante est abandonnée. L'épaisseur de paroi est modifiée localement dans les limites de tolérance autorisées pour compenser les déformations thermiques et stabiliser la géométrie finale.",
+   "dominant_principle": {
+    "id": 3,
+    "name": "Qualité locale",
+    "confidence": 0.95
+   },
+   "secondary_principles": [
+    {
+     "id": 4,
+     "name": "Asymétrie",
+     "confidence": 0.7
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "L'épaisseur de la pièce doit être constante pour respecter les règles de conception conventionnelles et non constante (variable) pour compenser le gauchissement local.",
+    "separation": "space"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.1080/03602559708000661",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    22,
+    1,
+    18,
+    4
+   ],
+   "historical_status": "OK",
+   "match_status": "partial"
+  },
+  {
+   "article_id": "https://doi.org/10.1155/2014/968484",
+   "title": "Cycle Time Reduction in Injection Molding Process by Selection of Robust Cooling Channel Design",
+   "year": 2014,
+   "doi_or_url": "https://doi.org/10.1155/2014/968484",
+   "improve_parameter": {
+    "id": 39,
+    "canonical_name": "Productivité"
+   },
+   "worsening_parameter": {
+    "id": 13,
+    "canonical_name": "Stabilité de l'objet"
+   },
+   "contradiction_sentence": "Si nous réduisons le temps de refroidissement pour augmenter la productivité, alors le gradient thermique s'accentue et dégrade la stabilité dimensionnelle (gauchissement) de la pièce.",
+   "contradiction_evidence": "whereas the cycle time of a part can be reduced by reducing the cooling time which can only be achieved by the uniform temperature distribution in the molded part [...] minimum time to reach ejection temperature, uniform temperature distribution, and minimum warpage of part",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Remplacement des canaux de refroidissement droits conventionnels par des canaux de refroidissement conformels qui épousent la géométrie 3D de la cavité du moule. Cette modification permet une dissipation thermique uniforme, réduisant ainsi le temps de cycle et le gauchissement de la pièce.",
+   "dominant_principle": {
+    "id": 17,
+    "name": "Nouvelle dimension",
+    "confidence": 0.9
+   },
+   "secondary_principles": [
+    {
+     "id": 14,
+     "name": "Courbure",
+     "confidence": 0.8
+    },
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "confidence": 0.7
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": "",
+    "separation": "aucune"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.1155/2014/968484",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    35,
+    3,
+    22,
+    39
+   ],
+   "historical_status": "OK",
+   "match_status": "partial"
+  },
+  {
+   "article_id": "https://doi.org/10.1155/2019/3720127",
+   "title": "Quality Indexes Design for Online Monitoring Polymer Injection Molding",
+   "year": 2019,
+   "doi_or_url": "https://doi.org/10.1155/2019/3720127",
+   "improve_parameter": {
+    "id": 28,
+    "canonical_name": "Précision de la mesure"
+   },
+   "worsening_parameter": {
+    "id": 36,
+    "canonical_name": "Complexité du dispositif"
+   },
+   "contradiction_sentence": "Si nous améliorons la précision du suivi de qualité en temps réel par l'instrumentation de la presse, alors la complexité du dispositif de mesure augmente.",
+   "contradiction_evidence": "The study proposes a quality index based on the clamping force increment... providing a feasible basis for the realization of an on-line quality monitoring.",
+   "contradiction_confidence": 0.75,
+   "assignment_status": "secondary",
+   "parameter_corrected": false,
+   "inventive_summary": "Un système de contrôle qualité en ligne mesure l'allongement des colonnes de la presse via des jauges de déformation pour évaluer l'évolution de la force de verrouillage. Cette mesure indirecte, combinée aux profils de pression de la buse et de la cavité, permet un suivi prédictif de la qualité de la pièce moulée sans modifier l'outillage.",
+   "dominant_principle": {
+    "id": 23,
+    "name": "Rétroaction",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 28,
+     "name": "Substitution du principe mécanique",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": "",
+    "separation": "aucune"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.1155/2019/3720127",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    27,
+    35,
+    10,
+    34
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1007/s00170-020-06511-3",
+   "title": "Induced network-based transfer learning in injection molding for process modelling and optimization with artificial neural networks",
+   "year": 2021,
+   "doi_or_url": "https://doi.org/10.1007/s00170-020-06511-3",
+   "improve_parameter": {
+    "id": 25,
+    "canonical_name": "Perte de temps"
+   },
+   "worsening_parameter": {
+    "id": 27,
+    "canonical_name": "Fiabilité"
+   },
+   "contradiction_sentence": "Si nous réduisons le nombre d'essais expérimentaux pour diminuer le temps de mise au point (25), alors la précision et la fiabilité du modèle prédictif du procédé (27) se détériorent.",
+   "contradiction_evidence": "The necessity of an abundance of training data commonly hinders the broad use of machine learning... For the right source domain, only 4 sample points of the new process need to be generated to train a model... with a degree of determination R2 of 0.9 or higher.",
+   "contradiction_confidence": 0.9,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Afin d'éviter le besoin d'un grand nombre d'essais coûteux pour modéliser le procédé d'injection d'une nouvelle pièce par réseau de neurones, la solution applique le transfert d'apprentissage à partir de modèles préalablement entraînés sur d'autres pièces. Cela permet d'obtenir un modèle prédictif très précis avec seulement quatre points de données d'essai.",
+   "dominant_principle": {
+    "id": 10,
+    "name": "Action préliminaire",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 6,
+     "name": "Universalité",
+     "confidence": 0.65
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le jeu de données d'apprentissage doit être volumineux pour garantir la précision du modèle et très réduit pour minimiser le temps et les coûts d'essais.",
+    "separation": "time"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.1007/s00170-020-06511-3",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    10,
+    30,
+    4
+   ],
+   "historical_status": "OK",
+   "match_status": "strong"
+  },
+  {
+   "article_id": "https://doi.org/10.3390/s22072704",
+   "title": "Machine Learning in Injection Molding: An Industry 4.0 Method of Quality Prediction",
+   "year": 2022,
+   "doi_or_url": "https://doi.org/10.3390/s22072704",
+   "improve_parameter": {
+    "id": 27,
+    "canonical_name": "Fiabilité"
+   },
+   "worsening_parameter": {
+    "id": 37,
+    "canonical_name": "Complexité du contrôle"
+   },
+   "contradiction_sentence": "Si nous améliorons la fiabilité de la prédiction de qualité par l'intégration d'algorithmes d'apprentissage machine, alors la complexité du traitement des données et le temps d'apprentissage se détériorent.",
+   "contradiction_evidence": "The decision tree algorithm was the most accurate one, with a computational time of only 8-10 s... exceeded 90%, even for very little training data.",
+   "contradiction_confidence": 0.8,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Cette étude remplace l'inspection physique directe des pièces injectées par un modèle virtuel prédictif (Arbre de Décision) fondé sur l'extraction d'indices de pression en empreinte. Cette approche permet d'obtenir une précision de prédiction de qualité supérieure à 90 % en seulement quelques secondes d'apprentissage avec très peu de données.",
+   "dominant_principle": {
+    "id": 26,
+    "name": "Copie",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 23,
+     "name": "Rétroaction",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": null,
+    "separation": "aucune"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.3390/s22072704",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    27,
+    40,
+    28
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.3390/mi9120653",
+   "title": "Manufacturing Signatures of Injection Molding and Injection Compression Molding for Micro-Structured Polymer Fresnel Lens Production",
+   "year": 2018,
+   "doi_or_url": "https://doi.org/10.3390/mi9120653",
+   "improve_parameter": {
+    "id": 29,
+    "canonical_name": "Précision de la fabrication"
+   },
+   "worsening_parameter": {
+    "id": 31,
+    "canonical_name": "Effets secondaires nuisibles"
+   },
+   "contradiction_sentence": "Si nous augmentons la fidélité de réplication des micro-structures par une augmentation de la pression, alors le gauchissement et la biréfringence augmentent.",
+   "contradiction_evidence": "ICM provides enhanced optical performances (...) in terms of birefringence and transmission (...) while ensuring required high accuracy geometrical replication.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'injection-compression (ICM) remplace l'injection conventionnelle à volume fixe en introduisant une phase de compression dynamique pendant le moulage des lentilles de Fresnel. Cette transformation permet d'obtenir une réplication micrométrique ultra-précise tout en réduisant la biréfringence et le gauchissement de la pièce.",
+   "dominant_principle": {
+    "id": 15,
+    "name": "Dynamisme",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "confidence": 0.65
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "La cavité de moulage doit être ouverte/large pour permettre l'écoulement sans contrainte du polymère et fermée/étroite pour compacter très fortement les micro-détails.",
+    "separation": "time"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.3390/mi9120653",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    4,
+    17,
+    34,
+    26
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.3390/polym9020077",
+   "title": "Enhanced Injection Molding Simulation of Advanced Injection Molds",
+   "year": 2017,
+   "doi_or_url": "https://doi.org/10.3390/polym9020077",
+   "improve_parameter": {
+    "id": 25,
+    "canonical_name": "Perte de temps"
+   },
+   "worsening_parameter": {
+    "id": 36,
+    "canonical_name": "Complexité du dispositif"
+   },
+   "contradiction_sentence": "Si nous réduisons le temps de cycle en complexifiant le réseau de refroidissement avec des canaux conformes, alors la complexité de conception et d'outillage du moule augmente.",
+   "contradiction_evidence": "The most time-consuming phase of the injection molding cycle is cooling... Designing optimal cooling systems is a complex process; a proper design requires injection molding simulations",
+   "contradiction_confidence": 0.8,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "La solution remplace les canaux de refroidissement droits conventionnels par des canaux conformes épousant la géométrie de la pièce, combinés à l'utilisation d'inserts en alliage de cuivre à haute conductivité thermique (Ampcoloy 940). Cela permet d'uniformiser le retrait thermique et de réduire drastiquement le temps de refroidissement du cycle d'injection.",
+   "dominant_principle": {
+    "id": 14,
+    "name": "Courbure",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "confidence": 0.8
+    },
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": "",
+    "separation": "aucune"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.3390/polym9020077",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    6,
+    29
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1016/j.promfg.2017.07.020",
+   "title": "Development of a Smart Plastic Injection Mold with Conformal Cooling Channels",
+   "year": 2017,
+   "doi_or_url": "https://doi.org/10.1016/j.promfg.2017.07.020",
+   "improve_parameter": {
+    "id": 25,
+    "canonical_name": "Perte de temps"
+   },
+   "worsening_parameter": {
+    "id": 32,
+    "canonical_name": "Fabricabilité"
+   },
+   "contradiction_sentence": "Si l'on cherche à accélérer la cadence de production (réduire le temps de cycle) en réduisant le temps de refroidissement (25), alors la régularité dimensionnelle et la fabricabilité de l'outillage (32/12) se détériorent avec des moyens de perçage conventionnels.",
+   "contradiction_evidence": "conformal cooling channels reduce the cycle time approximately 30% compared to conventional cooling channels [en contournant la limitation du perçage droit].",
+   "contradiction_confidence": 0.75,
+   "assignment_status": "secondary",
+   "parameter_corrected": false,
+   "inventive_summary": "Un outillage d'injection intègre des empreintes rapportées imprimées par fabrication additive (SLM) avec des canaux de refroidissement hélicoïdaux au plus près de la matière plastique. Cette modification géométrique ciblée réduit le temps de refroidissement tout en évitant le piégeage thermique au niveau des surépaisseurs de la pièce.",
+   "dominant_principle": {
+    "id": 3,
+    "name": "Qualité locale",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 17,
+     "name": "Nouvelle dimension",
+     "confidence": 0.8
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": null,
+    "separation": "aucune"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.1016/j.promfg.2017.07.020",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    35,
+    28,
+    34,
+    4
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1002/mawe.202300157",
+   "title": "Using Bayesian optimization for warpage compensation in injection molding",
+   "year": 2024,
+   "doi_or_url": "https://doi.org/10.1002/mawe.202300157",
+   "improve_parameter": {
+    "id": 12,
+    "canonical_name": "Forme"
+   },
+   "worsening_parameter": {
+    "id": 25,
+    "canonical_name": "Perte de temps"
+   },
+   "contradiction_sentence": "Si nous améliorons la précision de la forme de la cavité par des simulations numériques itératives, alors les pertes de temps de calcul augmentent fortement.",
+   "contradiction_evidence": "Shape optimization usually requires a sequence of forward simulations, which can be computationally expensive. To reduce this computational cost, we use Bayesian optimization...",
+   "contradiction_confidence": 0.88,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Cette étude remplace les simulations éléments finis répétitives et coûteuses en temps par un modèle surrogate basé sur la régression par processus gaussien. Associé à l'optimisation bayésienne, ce modèle permet de compenser le gauchissement des pièces injectées en optimisant la forme de la cavité à moindre coût numérique.",
+   "dominant_principle": {
+    "id": 26,
+    "name": "Copie",
+    "confidence": 0.92
+   },
+   "secondary_principles": [
+    {
+     "id": 23,
+     "name": "Rétroaction",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le modèle numérique doit être complexe et complet pour être précis, et doit être simple et léger pour calculer rapidement les itérations d'optimisation.",
+    "separation": "conditions"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.1002/mawe.202300157",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    14,
+    10,
+    34,
+    17
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.3390/app13137437",
+   "title": "Design and Optimization of Conformal Cooling Channels for Increasing Cooling Efficiency in Injection Molding",
+   "year": 2023,
+   "doi_or_url": "https://doi.org/10.3390/app13137437",
+   "improve_parameter": {
+    "id": 25,
+    "canonical_name": "Perte de temps"
+   },
+   "worsening_parameter": {
+    "id": 36,
+    "canonical_name": "Complexité du dispositif"
+   },
+   "contradiction_sentence": "Si nous améliorons le temps de cycle (réduction des pertes de temps) par l'intégration de canaux conformes complexes, alors la complexité de l'outillage augmente.",
+   "contradiction_evidence": "Conformal cooling channels substantially reduce cooling time [...] while their design process is more intricate than that of conventional channels due to complex geometry.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "La conception de canaux de refroidissement conformes réalisés par fabrication additive permet de suivre la géométrie complexe 3D de la pièce. Cela optimise l'évacuation de la chaleur, réduisant considérablement le temps de cycle et le gauchissement.",
+   "dominant_principle": {
+    "id": 17,
+    "name": "Nouvelle dimension",
+    "confidence": 0.9
+   },
+   "secondary_principles": [
+    {
+     "id": 14,
+     "name": "Courbure",
+     "confidence": 0.8
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": null,
+    "separation": "aucune"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.3390/app13137437",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    6,
+    29
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1016/j.matdes.2020.109147",
+   "title": "Design and additive manufacturing of novel conformal cooling molds",
+   "year": 2020,
+   "doi_or_url": "https://doi.org/10.1016/j.matdes.2020.109147",
+   "improve_parameter": {
+    "id": 25,
+    "canonical_name": "Perte de temps"
+   },
+   "worsening_parameter": {
+    "id": 32,
+    "canonical_name": "Fabricabilité"
+   },
+   "contradiction_sentence": "Si nous augmentons le diamètre des canaux de refroidissement pour accélérer le refroidissement des pièces (25 Perte de temps), alors la fabricabilité par LPBF (32 Fabricabilité) se détériore à cause de l'affaissement des plafonds de canaux.",
+   "contradiction_evidence": "The optimized internal supports suppressed the collapse and warpage of large channels, which improves the manufacturability... self-supporting 13 mm channel reduces the cooling time of more than 20%.",
+   "contradiction_confidence": 0.9,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Cette étude conçoit un moule de refroidissement conformant combinant des canaux autoportants de grand diamètre et une structure cœur-coquille à cœur poreux. L'architecture permet d'augmenter l'efficacité thermique tout en réduisant le temps d'impression LPBF et la quantité de matière consommée.",
+   "dominant_principle": {
+    "id": 40,
+    "name": "Matériaux composites",
+    "confidence": 0.9
+   },
+   "secondary_principles": [
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "confidence": 0.85
+    },
+    {
+     "id": 31,
+     "name": "Matériaux poreux",
+     "confidence": 0.8
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le corps du moule doit être poreux pour réduire la matière et le temps de fabrication, et doit être dense pour garantir la résistance aux efforts de moulage.",
+    "separation": "space"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.1016/j.matdes.2020.109147",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    35,
+    28,
+    34,
+    4
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1016/j.matdes.2020.109147",
+   "title": "Design and additive manufacturing of novel conformal cooling molds",
+   "year": 2020,
+   "doi_or_url": "https://doi.org/10.1016/j.matdes.2020.109147",
+   "improve_parameter": {
+    "id": 26,
+    "canonical_name": "Quantité de substance"
+   },
+   "worsening_parameter": {
+    "id": 14,
+    "canonical_name": "Résistance"
+   },
+   "contradiction_sentence": "Si nous évidons le corps du moule avec des structures poreuses pour réduire la matière utilisée (26 Quantité de substance), alors la résistance mécanique du moule (14 Résistance) se détériore.",
+   "contradiction_evidence": "the porous diamond structure was designated in the assembly part of the mold to save the materials... To tune the strength, a core-shell composite structure with solid shell surrounding inner porous structures is designed.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Cette étude conçoit un moule de refroidissement conformant combinant des canaux autoportants de grand diamètre et une structure cœur-coquille à cœur poreux. L'architecture permet d'augmenter l'efficacité thermique tout en réduisant le temps d'impression LPBF et la quantité de matière consommée.",
+   "dominant_principle": {
+    "id": 40,
+    "name": "Matériaux composites",
+    "confidence": 0.9
+   },
+   "secondary_principles": [
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "confidence": 0.85
+    },
+    {
+     "id": 31,
+     "name": "Matériaux poreux",
+     "confidence": 0.8
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le corps du moule doit être poreux pour réduire la matière et le temps de fabrication, et doit être dense pour garantir la résistance aux efforts de moulage.",
+    "separation": "space"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.1016/j.matdes.2020.109147",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    14,
+    35,
+    34,
+    10
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1029/95wr00171",
+   "title": "Two‐Phase Flow Visualization and Relative Permeability Measurement in Natural Rough‐Walled Rock Fractures",
+   "year": 1995,
+   "doi_or_url": "https://doi.org/10.1029/95wr00171",
+   "improve_parameter": {
+    "id": 28,
+    "canonical_name": "Précision de la mesure"
+   },
+   "worsening_parameter": {
+    "id": 36,
+    "canonical_name": "Complexité du dispositif"
+   },
+   "contradiction_sentence": "Si l'on cherche à visualiser la distribution interne des fluides pour améliorer la précision de mesure (28), alors la complexité du dispositif d'essai (36) augmente en raison de la nécessité de concevoir et fabriquer des répliques transparentes à rugosité contrôlée.",
+   "contradiction_evidence": "Experiments at carefully controlled flow rate and pressure conditions have been performed using a natural fracture and three transparent fracture replicas. Visual observations of changes in pore occupancy showed that the instabilities could be explained...",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Pour observer les écoulements diphasiques à l'intérieur de fractures de roches opaques, le système utilise des répliques transparentes reproduisant fidèlement la géométrie rugueuse interne. Cela permet la visualisation optique directe des motifs d'occupation des pores tout en mesurant simultanément les variations de pression et de perméabilité.",
+   "dominant_principle": {
+    "id": 26,
+    "name": "Copie",
+    "confidence": 0.9
+   },
+   "secondary_principles": [
+    {
+     "id": 32,
+     "name": "Changement de couleur",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "La paroi de la fracture doit être opaque (pour conserver la composition de la roche naturelle) et doit être transparente (pour permettre la visualisation optique de l'écoulement).",
+    "separation": "conditions"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.1029/95wr00171",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    27,
+    35,
+    10,
+    34
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1088/0960-1317/17/6/r02",
+   "title": "Microinjection molding of thermoplastic polymers: a review",
+   "year": 2007,
+   "doi_or_url": "https://doi.org/10.1088/0960-1317/17/6/r02",
+   "improve_parameter": {
+    "id": 32,
+    "canonical_name": "Fabricabilité"
+   },
+   "worsening_parameter": {
+    "id": 25,
+    "canonical_name": "Perte de temps"
+   },
+   "contradiction_sentence": "Si l'on augmente la température du moule pour améliorer la faisabilité du remplissage des micro-cavités, alors le temps de cycle se détériore.",
+   "contradiction_evidence": "Un moule chaud empêche le figeage prématuré du polymère fluide dans les micro-canaux, mais rallonge la durée nécessaire au refroidissement avant l'éjection de la pièce.",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'injection de micro-pièces thermoplastiques nécessite d'éviter la solidification prématurée du polymère dans des cavités à très fort rapport surface/volume. L'utilisation d'un système variotherme permet de chauffer rapidement le moule pendant le remplissage puis de le refroidir efficacement avant l'éjection.",
+   "dominant_principle": {
+    "id": 15,
+    "name": "Dynamisme",
+    "confidence": 0.9
+   },
+   "secondary_principles": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "Le moule doit être chaud lors de l'injection pour fluidifier le polymère et froid lors du maintien/refroidissement pour solidifier la pièce.",
+    "separation": "time"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.1088/0960-1317/17/6/r02",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    35,
+    28,
+    34,
+    4
+   ],
+   "historical_status": "OK",
+   "match_status": "partial"
+  },
+  {
+   "article_id": "https://doi.org/10.3390/app8122567",
+   "title": "A Thermomechanical Analysis of Conformal Cooling Channels in 3D Printed Plastic Injection Molds",
+   "year": 2018,
+   "doi_or_url": "https://doi.org/10.3390/app8122567",
+   "improve_parameter": {
+    "id": 39,
+    "canonical_name": "Productivité"
+   },
+   "worsening_parameter": {
+    "id": 32,
+    "canonical_name": "Fabricabilité"
+   },
+   "contradiction_sentence": "Si nous réduisons le temps de refroidissement pour améliorer la productivité, alors la complexité de fabrication du moule augmente.",
+   "contradiction_evidence": "The traditional die design is limited to straight (drilled) cooling channels [...] With the advent of additive manufacturing technology, injection molding tools with conformal cooling channels are now possible.",
+   "contradiction_confidence": 0.9,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Remplace les canaux de refroidissement droits usinés par des canaux conformes épousant la géométrie complexe de la empreinte grâce à la fabrication additive. Cette approche optimise l'efficacité thermique et réduit les déformations thermiques et le temps de cycle.",
+   "dominant_principle": {
+    "id": 14,
+    "name": "Courbure",
+    "confidence": 0.95
+   },
+   "secondary_principles": [
+    {
+     "id": 17,
+     "name": "Nouvelle dimension",
+     "confidence": 0.85
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "La trajectoire des canaux de refroidissement doit être droite pour permettre leur usinage par perçage mécanique traditionnel, et doit être non-droite (courbe) pour maintenir une distance constante avec la surface complexe de la pièce.",
+    "separation": "space"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.3390/app8122567",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    35,
+    28,
+    2,
+    24
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1080/00207540110091875",
+   "title": "Layer thickness and draft angle selection for stereolithography injection mould tooling",
+   "year": 2002,
+   "doi_or_url": "https://doi.org/10.1080/00207540110091875",
+   "improve_parameter": {
+    "id": 32,
+    "canonical_name": "Fabricabilité"
+   },
+   "worsening_parameter": {
+    "id": 29,
+    "canonical_name": "Précision de la fabrication"
+   },
+   "contradiction_sentence": "Si l'on augmente l'angle de dépouille et réduit l'épaisseur des couches pour diminuer l'effort d'éjection, alors la conformité géométrique de la pièce ou le temps de fabrication du moule se détériore.",
+   "contradiction_evidence": "SL tools may break under the force exerted by part ejection when the friction between a moulding and a core is greater than the tensile strength of the core",
+   "contradiction_confidence": 0.75,
+   "assignment_status": "secondary",
+   "parameter_corrected": false,
+   "inventive_summary": "L'adaptation conjointe de l'angle de dépouille et de l'épaisseur des couches d'impression SLA permet de réduire les forces de frottement lors de l'éjection. Cela prévient la rupture par traction des noyaux de moule en résine lors du démoulage des pièces plastique.",
+   "dominant_principle": {
+    "id": 3,
+    "name": "Qualité locale",
+    "confidence": 0.72
+   },
+   "secondary_principles": [
+    {
+     "id": 15,
+     "name": "Dynamisme",
+     "confidence": 0.65
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "L'épaisseur de couche doit être grande pour fabriquer le moule rapidement, et faible pour réduire l'effet d'escalier et les frottements à l'éjection.",
+    "separation": "conditions"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.1080/00207540110091875",
+   "family_provisional": true,
+   "historical_matrix_principles": [],
+   "historical_status": "EMPTY_IN_SOURCE_MATRIX",
+   "match_status": "historical_cell_empty"
+  },
+  {
+   "article_id": "https://doi.org/10.21741/9781644903131-294",
+   "title": "Analysis of the effect of draft angle and surface roughness on ejection forces in micro injection molding",
+   "year": 2024,
+   "doi_or_url": "https://doi.org/10.21741/9781644903131-294",
+   "improve_parameter": {
+    "id": 32,
+    "canonical_name": "Fabricabilité"
+   },
+   "worsening_parameter": {
+    "id": 10,
+    "canonical_name": "Force"
+   },
+   "contradiction_sentence": "Si nous augmentons la température du moule pour améliorer la mise en forme du matériau COC, alors la force nécessaire à l'éjection augmente fortement, risquant d'endommager la pièce.",
+   "contradiction_evidence": "Specifically, an increase in mold temperature led to an 88% increase in ejection force for COC, while resulting in a 63% decrease for PP.",
+   "contradiction_confidence": 0.8,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'étude adapte spécifiquement les paramètres de température du moule et de rugosité de surface en fonction de la nature du polymère (PP ou COC) pour réduire la force d'éjection. Cette optimisation ciblée des paramètres physico-chimiques et de l'état de surface prévient la détérioration des micro-pièces lors du démoulage.",
+   "dominant_principle": {
+    "id": 35,
+    "name": "Modification des paramètres physiques/chimiques",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "confidence": 0.65
+    }
+   ],
+   "physical_contradiction": {
+    "present": true,
+    "statement": "La température du moule doit être élevée pour faciliter le remplissage/fluidité du polymère, et basse pour réduire la force d'éjection dans le cas du COC.",
+    "separation": "conditions"
+   },
+   "scope": "procede",
+   "solution_family": "ART:https://doi.org/10.21741/9781644903131-294",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    35,
+    12
+   ],
+   "historical_status": "OK",
+   "match_status": "strong"
+  },
+  {
+   "article_id": "http://hdl.handle.net/1822/173",
+   "title": "Shrinkage and ejection forces in injection moulded products",
+   "year": 2002,
+   "doi_or_url": "http://hdl.handle.net/1822/173",
+   "improve_parameter": {
+    "id": 28,
+    "canonical_name": "Précision de la mesure"
+   },
+   "worsening_parameter": {
+    "id": 36,
+    "canonical_name": "Complexité du dispositif"
+   },
+   "contradiction_sentence": "Si nous améliorons la précision de mesure (28) par l'intégration de capteurs au cœur du moule, alors la complexité du dispositif (36) augmente.",
+   "contradiction_evidence": "The mould has the means to measure the pressure and temperature histories, and the force evolution during the ejection process.",
+   "contradiction_confidence": 0.8,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "L'article présente la conception d'un moule d'injection instrumenté spécifique pour mesurer en temps réel l'évolution des forces d'éjection, de la pression et de la température. Cette instrumentation intégrée permet de caractériser précisément le comportement des pièces sur noyaux profonds et d'optimiser le démoulage.",
+   "dominant_principle": {
+    "id": 23,
+    "name": "Rétroaction",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 28,
+     "name": "Substitution du principe mécanique",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": null,
+    "separation": "aucune"
+   },
+   "scope": "procede",
+   "solution_family": "ART:http://hdl.handle.net/1822/173",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    27,
+    35,
+    10,
+    34
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.1590/0104-1428.2047",
+   "title": "Design of conformal cooling for plastic injection moulding by heat transfer simulation",
+   "year": 2015,
+   "doi_or_url": "https://doi.org/10.1590/0104-1428.2047",
+   "improve_parameter": {
+    "id": 13,
+    "canonical_name": "Stabilité de l'objet"
+   },
+   "worsening_parameter": {
+    "id": 32,
+    "canonical_name": "Fabricabilité"
+   },
+   "contradiction_sentence": "Si nous améliorons la stabilité dimensionnelle de la pièce par un réseau de refroidissement conformel adapté aux contours, alors la complexité de fabrication du moule augmente.",
+   "contradiction_evidence": "The deformation of the product can be reduced significantly [...] However, conventional methods to manufacture cooling channels (drilling) can only produce linear holes. Selective laser melting (SLM) is an additive manufacturing technique capable to manufacture complex cooling channels... because of the high costs of SLM...",
+   "contradiction_confidence": 0.85,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Remplacement des canaux de refroidissement droits forés mécaniquement par des circuits de refroidissement conformels qui épousent la géométrie complexe de la pièce injectée. Cette transformation géométrique permet d'homogénéiser le transfert thermique et d'extirper les contraintes résiduelles de déformation.",
+   "dominant_principle": {
+    "id": 14,
+    "name": "Courbure",
+    "confidence": 0.9
+   },
+   "secondary_principles": [
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "confidence": 0.8
+    },
+    {
+     "id": 17,
+     "name": "Nouvelle dimension",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": "",
+    "separation": "aucune"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.1590/0104-1428.2047",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    35,
+    19
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  },
+  {
+   "article_id": "https://doi.org/10.18494/sam.2019.2357",
+   "title": "Development of Mold for Demolding Resistance Measurement in Polymer Injection Molding",
+   "year": 2019,
+   "doi_or_url": "https://doi.org/10.18494/sam.2019.2357",
+   "improve_parameter": {
+    "id": 28,
+    "canonical_name": "Précision de la mesure"
+   },
+   "worsening_parameter": {
+    "id": 36,
+    "canonical_name": "Complexité du dispositif"
+   },
+   "contradiction_sentence": "Si nous améliorons la précision de la mesure des forces d'éjection par l'intégration de capteurs à quartz dans le moule, alors la complexité du dispositif augmente.",
+   "contradiction_evidence": "In this study, we designed and fabricated a mold equipped with high-sensitivity quartz force sensors for demolding resistance measurement...",
+   "contradiction_confidence": 0.8,
+   "assignment_status": "validated",
+   "parameter_corrected": false,
+   "inventive_summary": "Intégration de capteurs de force à quartz haute sensibilité directement au sein de la structure du moule pour mesurer précisément les efforts de démoulage des lentilles. Cette instrumentation intégrée permet d'isoler et d'analyser l'influence des paramètres de procédé sur les forces d'éjection.",
+   "dominant_principle": {
+    "id": 28,
+    "name": "Substitution du principe mécanique",
+    "confidence": 0.85
+   },
+   "secondary_principles": [
+    {
+     "id": 23,
+     "name": "Rétroaction",
+     "confidence": 0.75
+    }
+   ],
+   "physical_contradiction": {
+    "present": false,
+    "statement": "",
+    "separation": "aucune"
+   },
+   "scope": "cao",
+   "solution_family": "ART:https://doi.org/10.18494/sam.2019.2357",
+   "family_provisional": true,
+   "historical_matrix_principles": [
+    27,
+    35,
+    10,
+    34
+   ],
+   "historical_status": "OK",
+   "match_status": "none"
+  }
+ ],
+ "EMPIRICAL_MATRIX": {
+  "39,14": {
+   "cell": [
+    39,
+    14
+   ],
+   "improve": "Productivité",
+   "worsening": "Résistance",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P17": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P17": {
+     "name": "Nouvelle dimension",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P3": {
+     "name": "Qualité locale",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 17,
+     "name": "Nouvelle dimension",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    29,
+    28,
+    10,
+    18
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    17,
+    3
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "39,36": {
+   "cell": [
+    39,
+    36
+   ],
+   "improve": "Productivité",
+   "worsening": "Complexité du dispositif",
+   "N_ARTICLES": 2,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 2,
+   "articles": [
+    "https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082",
+    "https://doi.org/10.21203/rs.3.rs-3081027/v1"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082",
+    "ART:https://doi.org/10.21203/rs.3.rs-3081027/v1"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P17": {
+     "articles": 1,
+     "pct": 50
+    },
+    "P3": {
+     "articles": 1,
+     "pct": 50
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P3": {
+     "name": "Qualité locale",
+     "ARTICLE_SUPPORT": 2,
+     "FAMILY_SUPPORT": 2,
+     "pct_articles": 100
+    },
+    "P17": {
+     "name": "Nouvelle dimension",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 50
+    },
+    "P23": {
+     "name": "Rétroaction",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 50
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "FAMILY_SUPPORT": 2,
+     "ARTICLE_SUPPORT": 2
+    },
+    {
+     "id": 17,
+     "name": "Nouvelle dimension",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 23,
+     "name": "Rétroaction",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    12,
+    17,
+    28,
+    24
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    3,
+    17,
+    23
+   ],
+   "OVERLAP": [
+    17
+   ],
+   "overlap_rate_historical": 0.25,
+   "overlap_rate_empirical": 0.33,
+   "confidence_level": "moyen"
+  },
+  "26,14": {
+   "cell": [
+    26,
+    14
+   ],
+   "improve": "Quantité de substance",
+   "worsening": "Résistance",
+   "N_ARTICLES": 4,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 4,
+   "articles": [
+    "https://doi.org/10.1016/j.matdes.2021.109576",
+    "https://doi.org/10.3390/ma15207079",
+    "https://doi.org/10.1007/s10163-022-01588-2",
+    "https://doi.org/10.1016/j.matdes.2020.109147"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1007/s10163-022-01588-2",
+    "ART:https://doi.org/10.1016/j.matdes.2020.109147",
+    "ART:https://doi.org/10.1016/j.matdes.2021.109576",
+    "ART:https://doi.org/10.3390/ma15207079"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P40": {
+     "articles": 2,
+     "pct": 50
+    },
+    "P3": {
+     "articles": 1,
+     "pct": 25
+    },
+    "P31": {
+     "articles": 1,
+     "pct": 25
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P40": {
+     "name": "Matériaux composites",
+     "ARTICLE_SUPPORT": 3,
+     "FAMILY_SUPPORT": 3,
+     "pct_articles": 75
+    },
+    "P3": {
+     "name": "Qualité locale",
+     "ARTICLE_SUPPORT": 2,
+     "FAMILY_SUPPORT": 2,
+     "pct_articles": 50
+    },
+    "P31": {
+     "name": "Matériaux poreux",
+     "ARTICLE_SUPPORT": 2,
+     "FAMILY_SUPPORT": 2,
+     "pct_articles": 50
+    },
+    "P35": {
+     "name": "Modification des paramètres physiques/chimiques",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 25
+    },
+    "P22": {
+     "name": "Transformation du mal en bien",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 25
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 40,
+     "name": "Matériaux composites",
+     "FAMILY_SUPPORT": 3,
+     "ARTICLE_SUPPORT": 3
+    },
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "FAMILY_SUPPORT": 2,
+     "ARTICLE_SUPPORT": 2
+    },
+    {
+     "id": 31,
+     "name": "Matériaux poreux",
+     "FAMILY_SUPPORT": 2,
+     "ARTICLE_SUPPORT": 2
+    },
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    14,
+    35,
+    34,
+    10
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    40,
+    3,
+    31,
+    35,
+    22
+   ],
+   "OVERLAP": [
+    35
+   ],
+   "overlap_rate_historical": 0.25,
+   "overlap_rate_empirical": 0.2,
+   "confidence_level": "fort"
+  },
+  "31,13": {
+   "cell": [
+    31,
+    13
+   ],
+   "improve": "Effets secondaires nuisibles",
+   "worsening": "Stabilité de l'objet",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.3390/ma15207079"
+   ],
+   "families": [
+    "ART:https://doi.org/10.3390/ma15207079"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P31": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P35": {
+     "name": "Modification des paramètres physiques/chimiques",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P31": {
+     "name": "Matériaux poreux",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 31,
+     "name": "Matériaux poreux",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    35,
+    40,
+    27,
+    39
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    35,
+    31
+   ],
+   "OVERLAP": [
+    35
+   ],
+   "overlap_rate_historical": 0.25,
+   "overlap_rate_empirical": 0.5,
+   "confidence_level": "faible"
+  },
+  "26,31": {
+   "cell": [
+    26,
+    31
+   ],
+   "improve": "Quantité de substance",
+   "worsening": "Effets secondaires nuisibles",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.1016/j.promfg.2018.10.128"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1016/j.promfg.2018.10.128"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P31": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P35": {
+     "name": "Modification des paramètres physiques/chimiques",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P31": {
+     "name": "Matériaux poreux",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 31,
+     "name": "Matériaux poreux",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    3,
+    35,
+    40,
+    39
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    35,
+    31
+   ],
+   "OVERLAP": [
+    35
+   ],
+   "overlap_rate_historical": 0.25,
+   "overlap_rate_empirical": 0.5,
+   "confidence_level": "faible"
+  },
+  "25,32": {
+   "cell": [
+    25,
+    32
+   ],
+   "improve": "Perte de temps",
+   "worsening": "Fabricabilité",
+   "N_ARTICLES": 2,
+   "N_SECONDARY": 1,
+   "N_SOLUTION_FAMILIES": 2,
+   "articles": [
+    "https://doi.org/10.1063/1.5084861",
+    "https://doi.org/10.1016/j.matdes.2020.109147"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1016/j.matdes.2020.109147",
+    "ART:https://doi.org/10.1063/1.5084861"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P17": {
+     "articles": 1,
+     "pct": 50
+    },
+    "P40": {
+     "articles": 1,
+     "pct": 50
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P3": {
+     "name": "Qualité locale",
+     "ARTICLE_SUPPORT": 2,
+     "FAMILY_SUPPORT": 2,
+     "pct_articles": 100
+    },
+    "P17": {
+     "name": "Nouvelle dimension",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 50
+    },
+    "P40": {
+     "name": "Matériaux composites",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 50
+    },
+    "P31": {
+     "name": "Matériaux poreux",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 50
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "FAMILY_SUPPORT": 2,
+     "ARTICLE_SUPPORT": 2
+    },
+    {
+     "id": 17,
+     "name": "Nouvelle dimension",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 40,
+     "name": "Matériaux composites",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 31,
+     "name": "Matériaux poreux",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    35,
+    28,
+    34,
+    4
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    3,
+    17,
+    40,
+    31
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "moyen"
+  },
+  "14,37": {
+   "cell": [
+    14,
+    37
+   ],
+   "improve": "Résistance",
+   "worsening": "Complexité du contrôle",
+   "N_ARTICLES": 0,
+   "N_SECONDARY": 1,
+   "N_SOLUTION_FAMILIES": 0,
+   "articles": [],
+   "families": [],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {},
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {},
+   "TOP_EMPIRICAL_PRINCIPLES": [],
+   "HISTORICAL": [
+    27,
+    3,
+    15,
+    40
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": null,
+   "confidence_level": "faible"
+  },
+  "28,37": {
+   "cell": [
+    28,
+    37
+   ],
+   "improve": "Précision de la mesure",
+   "worsening": "Complexité du contrôle",
+   "N_ARTICLES": 0,
+   "N_SECONDARY": 1,
+   "N_SOLUTION_FAMILIES": 0,
+   "articles": [],
+   "families": [],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {},
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {},
+   "TOP_EMPIRICAL_PRINCIPLES": [],
+   "HISTORICAL": [
+    26,
+    24,
+    32,
+    28
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": null,
+   "confidence_level": "faible"
+  },
+  "31,32": {
+   "cell": [
+    31,
+    32
+   ],
+   "improve": "Effets secondaires nuisibles",
+   "worsening": "Fabricabilité",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "http://hdl.handle.net/1903/15172"
+   ],
+   "families": [
+    "ART:http://hdl.handle.net/1903/15172"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P40": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P40": {
+     "name": "Matériaux composites",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P35": {
+     "name": "Modification des paramètres physiques/chimiques",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 40,
+     "name": "Matériaux composites",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [],
+   "historical_status": "EMPTY_IN_SOURCE_MATRIX",
+   "EMPIRICAL": [
+    40,
+    35
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": null,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "32,14": {
+   "cell": [
+    32,
+    14
+   ],
+   "improve": "Fabricabilité",
+   "worsening": "Résistance",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "http://hdl.handle.net/10106/11909"
+   ],
+   "families": [
+    "ART:http://hdl.handle.net/10106/11909"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P40": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P40": {
+     "name": "Matériaux composites",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P1": {
+     "name": "Segmentation",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 40,
+     "name": "Matériaux composites",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 1,
+     "name": "Segmentation",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    1,
+    3,
+    10,
+    32
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    40,
+    1
+   ],
+   "OVERLAP": [
+    1
+   ],
+   "overlap_rate_historical": 0.25,
+   "overlap_rate_empirical": 0.5,
+   "confidence_level": "faible"
+  },
+  "32,36": {
+   "cell": [
+    32,
+    36
+   ],
+   "improve": "Fabricabilité",
+   "worsening": "Complexité du dispositif",
+   "N_ARTICLES": 0,
+   "N_SECONDARY": 1,
+   "N_SOLUTION_FAMILIES": 0,
+   "articles": [],
+   "families": [],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {},
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {},
+   "TOP_EMPIRICAL_PRINCIPLES": [],
+   "HISTORICAL": [
+    27,
+    26,
+    1
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": null,
+   "confidence_level": "faible"
+  },
+  "26,29": {
+   "cell": [
+    26,
+    29
+   ],
+   "improve": "Quantité de substance",
+   "worsening": "Précision de la fabrication",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.1016/j.ijlmm.2021.11.005"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1016/j.ijlmm.2021.11.005"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P5": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P10": {
+     "name": "Action préliminaire",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P5": {
+     "name": "Combinaison",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 10,
+     "name": "Action préliminaire",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 5,
+     "name": "Combinaison",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    33,
+    30
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    10,
+    5
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "35,37": {
+   "cell": [
+    35,
+    37
+   ],
+   "improve": "Adaptabilité",
+   "worsening": "Complexité du contrôle",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 1,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.1002/aidi.202500107"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1002/aidi.202500107"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P5": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P10": {
+     "name": "Action préliminaire",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P5": {
+     "name": "Combinaison",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 10,
+     "name": "Action préliminaire",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 5,
+     "name": "Combinaison",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    1
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    10,
+    5
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "14,29": {
+   "cell": [
+    14,
+    29
+   ],
+   "improve": "Résistance",
+   "worsening": "Précision de la fabrication",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.1002/pen.760351005"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1002/pen.760351005"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P35": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P40": {
+     "name": "Matériaux composites",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P35": {
+     "name": "Modification des paramètres physiques/chimiques",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 40,
+     "name": "Matériaux composites",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    3,
+    27
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    40,
+    35
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "8,31": {
+   "cell": [
+    8,
+    31
+   ],
+   "improve": "Volume de l'objet stationnaire",
+   "worsening": "Effets secondaires nuisibles",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "http://hdl.handle.net/1807/43608"
+   ],
+   "families": [
+    "ART:http://hdl.handle.net/1807/43608"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P5": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P1": {
+     "name": "Segmentation",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P5": {
+     "name": "Combinaison",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P31": {
+     "name": "Matériaux poreux",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 1,
+     "name": "Segmentation",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 5,
+     "name": "Combinaison",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 31,
+     "name": "Matériaux poreux",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    30,
+    18,
+    35,
+    4
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    1,
+    5,
+    31
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "12,29": {
+   "cell": [
+    12,
+    29
+   ],
+   "improve": "Forme",
+   "worsening": "Précision de la fabrication",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.3390/designs7030068"
+   ],
+   "families": [
+    "ART:https://doi.org/10.3390/designs7030068"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P3": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P1": {
+     "name": "Segmentation",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P3": {
+     "name": "Qualité locale",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P5": {
+     "name": "Combinaison",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 1,
+     "name": "Segmentation",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 5,
+     "name": "Combinaison",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    32,
+    30,
+    40
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    1,
+    3,
+    5
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "25,12": {
+   "cell": [
+    25,
+    12
+   ],
+   "improve": "Perte de temps",
+   "worsening": "Forme",
+   "N_ARTICLES": 0,
+   "N_SECONDARY": 1,
+   "N_SOLUTION_FAMILIES": 0,
+   "articles": [],
+   "families": [],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {},
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {},
+   "TOP_EMPIRICAL_PRINCIPLES": [],
+   "HISTORICAL": [
+    4,
+    10,
+    34,
+    17
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": null,
+   "confidence_level": "faible"
+  },
+  "2,14": {
+   "cell": [
+    2,
+    14
+   ],
+   "improve": "Poids de l'objet stationnaire",
+   "worsening": "Résistance",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://scholar.uwindsor.ca/etd/5355"
+   ],
+   "families": [
+    "ART:https://scholar.uwindsor.ca/etd/5355"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P40": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P40": {
+     "name": "Matériaux composites",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 40,
+     "name": "Matériaux composites",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    28,
+    2,
+    10,
+    27
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    40
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "9,31": {
+   "cell": [
+    9,
+    31
+   ],
+   "improve": "Vitesse",
+   "worsening": "Effets secondaires nuisibles",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.31390/gradschool_dissertations.2083"
+   ],
+   "families": [
+    "ART:https://doi.org/10.31390/gradschool_dissertations.2083"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P19": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P35": {
+     "name": "Modification des paramètres physiques/chimiques",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P19": {
+     "name": "Action périodique",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 19,
+     "name": "Action périodique",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    2,
+    24,
+    35,
+    21
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    35,
+    19
+   ],
+   "OVERLAP": [
+    35
+   ],
+   "overlap_rate_historical": 0.25,
+   "overlap_rate_empirical": 0.5,
+   "confidence_level": "faible"
+  },
+  "39,23": {
+   "cell": [
+    39,
+    23
+   ],
+   "improve": "Productivité",
+   "worsening": "Gaspillage de substance",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.18725/oparu-2603"
+   ],
+   "families": [
+    "ART:https://doi.org/10.18725/oparu-2603"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P2": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P2": {
+     "name": "Extraction",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P34": {
+     "name": "Élimination/régénération de parties",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 2,
+     "name": "Extraction",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 34,
+     "name": "Élimination/régénération de parties",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    28,
+    10,
+    35,
+    23
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    2,
+    34
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "14,26": {
+   "cell": [
+    14,
+    26
+   ],
+   "improve": "Résistance",
+   "worsening": "Quantité de substance",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "http://etheses.bham.ac.uk/3184/2/collins_11_PhD.pdf"
+   ],
+   "families": [
+    "ART:http://etheses.bham.ac.uk/3184/2/collins_11_PhD.pdf"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P40": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P40": {
+     "name": "Matériaux composites",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P31": {
+     "name": "Matériaux poreux",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 40,
+     "name": "Matériaux composites",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 31,
+     "name": "Matériaux poreux",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    29,
+    10,
+    27
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    40,
+    31
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "13,12": {
+   "cell": [
+    13,
+    12
+   ],
+   "improve": "Stabilité de l'objet",
+   "worsening": "Forme",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.1080/03602559708000661"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1080/03602559708000661"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P3": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P3": {
+     "name": "Qualité locale",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P4": {
+     "name": "Asymétrie",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 4,
+     "name": "Asymétrie",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    22,
+    1,
+    18,
+    4
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    3,
+    4
+   ],
+   "OVERLAP": [
+    4
+   ],
+   "overlap_rate_historical": 0.25,
+   "overlap_rate_empirical": 0.5,
+   "confidence_level": "faible"
+  },
+  "39,13": {
+   "cell": [
+    39,
+    13
+   ],
+   "improve": "Productivité",
+   "worsening": "Stabilité de l'objet",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.1155/2014/968484"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1155/2014/968484"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P17": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P17": {
+     "name": "Nouvelle dimension",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P3": {
+     "name": "Qualité locale",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P14": {
+     "name": "Courbure",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 17,
+     "name": "Nouvelle dimension",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 14,
+     "name": "Courbure",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    35,
+    3,
+    22,
+    39
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    17,
+    3,
+    14
+   ],
+   "OVERLAP": [
+    3
+   ],
+   "overlap_rate_historical": 0.25,
+   "overlap_rate_empirical": 0.33,
+   "confidence_level": "faible"
+  },
+  "28,36": {
+   "cell": [
+    28,
+    36
+   ],
+   "improve": "Précision de la mesure",
+   "worsening": "Complexité du dispositif",
+   "N_ARTICLES": 3,
+   "N_SECONDARY": 1,
+   "N_SOLUTION_FAMILIES": 3,
+   "articles": [
+    "https://doi.org/10.1029/95wr00171",
+    "http://hdl.handle.net/1822/173",
+    "https://doi.org/10.18494/sam.2019.2357"
+   ],
+   "families": [
+    "ART:http://hdl.handle.net/1822/173",
+    "ART:https://doi.org/10.1029/95wr00171",
+    "ART:https://doi.org/10.18494/sam.2019.2357"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P26": {
+     "articles": 1,
+     "pct": 33
+    },
+    "P23": {
+     "articles": 1,
+     "pct": 33
+    },
+    "P28": {
+     "articles": 1,
+     "pct": 33
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P28": {
+     "name": "Substitution du principe mécanique",
+     "ARTICLE_SUPPORT": 2,
+     "FAMILY_SUPPORT": 2,
+     "pct_articles": 67
+    },
+    "P23": {
+     "name": "Rétroaction",
+     "ARTICLE_SUPPORT": 2,
+     "FAMILY_SUPPORT": 2,
+     "pct_articles": 67
+    },
+    "P32": {
+     "name": "Changement de couleur",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 33
+    },
+    "P26": {
+     "name": "Copie",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 33
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 28,
+     "name": "Substitution du principe mécanique",
+     "FAMILY_SUPPORT": 2,
+     "ARTICLE_SUPPORT": 2
+    },
+    {
+     "id": 23,
+     "name": "Rétroaction",
+     "FAMILY_SUPPORT": 2,
+     "ARTICLE_SUPPORT": 2
+    },
+    {
+     "id": 32,
+     "name": "Changement de couleur",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 26,
+     "name": "Copie",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    27,
+    35,
+    10,
+    34
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    28,
+    23,
+    32,
+    26
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "fort"
+  },
+  "25,27": {
+   "cell": [
+    25,
+    27
+   ],
+   "improve": "Perte de temps",
+   "worsening": "Fiabilité",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.1007/s00170-020-06511-3"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1007/s00170-020-06511-3"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P10": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P10": {
+     "name": "Action préliminaire",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P6": {
+     "name": "Universalité",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 10,
+     "name": "Action préliminaire",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 6,
+     "name": "Universalité",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    10,
+    30,
+    4
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    10,
+    6
+   ],
+   "OVERLAP": [
+    10
+   ],
+   "overlap_rate_historical": 0.33,
+   "overlap_rate_empirical": 0.5,
+   "confidence_level": "faible"
+  },
+  "27,37": {
+   "cell": [
+    27,
+    37
+   ],
+   "improve": "Fiabilité",
+   "worsening": "Complexité du contrôle",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.3390/s22072704"
+   ],
+   "families": [
+    "ART:https://doi.org/10.3390/s22072704"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P26": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P26": {
+     "name": "Copie",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P23": {
+     "name": "Rétroaction",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 26,
+     "name": "Copie",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 23,
+     "name": "Rétroaction",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    27,
+    40,
+    28
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    26,
+    23
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "29,31": {
+   "cell": [
+    29,
+    31
+   ],
+   "improve": "Précision de la fabrication",
+   "worsening": "Effets secondaires nuisibles",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.3390/mi9120653"
+   ],
+   "families": [
+    "ART:https://doi.org/10.3390/mi9120653"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P15": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P35": {
+     "name": "Modification des paramètres physiques/chimiques",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P15": {
+     "name": "Dynamisme",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 15,
+     "name": "Dynamisme",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    4,
+    17,
+    34,
+    26
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    35,
+    15
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "25,36": {
+   "cell": [
+    25,
+    36
+   ],
+   "improve": "Perte de temps",
+   "worsening": "Complexité du dispositif",
+   "N_ARTICLES": 2,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 2,
+   "articles": [
+    "https://doi.org/10.3390/polym9020077",
+    "https://doi.org/10.3390/app13137437"
+   ],
+   "families": [
+    "ART:https://doi.org/10.3390/app13137437",
+    "ART:https://doi.org/10.3390/polym9020077"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P14": {
+     "articles": 1,
+     "pct": 50
+    },
+    "P17": {
+     "articles": 1,
+     "pct": 50
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P14": {
+     "name": "Courbure",
+     "ARTICLE_SUPPORT": 2,
+     "FAMILY_SUPPORT": 2,
+     "pct_articles": 100
+    },
+    "P35": {
+     "name": "Modification des paramètres physiques/chimiques",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 50
+    },
+    "P3": {
+     "name": "Qualité locale",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 50
+    },
+    "P17": {
+     "name": "Nouvelle dimension",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 50
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 14,
+     "name": "Courbure",
+     "FAMILY_SUPPORT": 2,
+     "ARTICLE_SUPPORT": 2
+    },
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 17,
+     "name": "Nouvelle dimension",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    6,
+    29
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    14,
+    35,
+    3,
+    17
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "moyen"
+  },
+  "12,25": {
+   "cell": [
+    12,
+    25
+   ],
+   "improve": "Forme",
+   "worsening": "Perte de temps",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.1002/mawe.202300157"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1002/mawe.202300157"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P26": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P26": {
+     "name": "Copie",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P23": {
+     "name": "Rétroaction",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 26,
+     "name": "Copie",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 23,
+     "name": "Rétroaction",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    14,
+    10,
+    34,
+    17
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    26,
+    23
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "32,25": {
+   "cell": [
+    32,
+    25
+   ],
+   "improve": "Fabricabilité",
+   "worsening": "Perte de temps",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.1088/0960-1317/17/6/r02"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1088/0960-1317/17/6/r02"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P15": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P35": {
+     "name": "Modification des paramètres physiques/chimiques",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P15": {
+     "name": "Dynamisme",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 15,
+     "name": "Dynamisme",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    35,
+    28,
+    34,
+    4
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    35,
+    15
+   ],
+   "OVERLAP": [
+    35
+   ],
+   "overlap_rate_historical": 0.25,
+   "overlap_rate_empirical": 0.5,
+   "confidence_level": "faible"
+  },
+  "39,32": {
+   "cell": [
+    39,
+    32
+   ],
+   "improve": "Productivité",
+   "worsening": "Fabricabilité",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.3390/app8122567"
+   ],
+   "families": [
+    "ART:https://doi.org/10.3390/app8122567"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P14": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P17": {
+     "name": "Nouvelle dimension",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P14": {
+     "name": "Courbure",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 17,
+     "name": "Nouvelle dimension",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 14,
+     "name": "Courbure",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    35,
+    28,
+    2,
+    24
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    17,
+    14
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  },
+  "32,29": {
+   "cell": [
+    32,
+    29
+   ],
+   "improve": "Fabricabilité",
+   "worsening": "Précision de la fabrication",
+   "N_ARTICLES": 0,
+   "N_SECONDARY": 1,
+   "N_SOLUTION_FAMILIES": 0,
+   "articles": [],
+   "families": [],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {},
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {},
+   "TOP_EMPIRICAL_PRINCIPLES": [],
+   "HISTORICAL": [],
+   "historical_status": "EMPTY_IN_SOURCE_MATRIX",
+   "EMPIRICAL": [],
+   "OVERLAP": [],
+   "overlap_rate_historical": null,
+   "overlap_rate_empirical": null,
+   "confidence_level": "faible"
+  },
+  "32,10": {
+   "cell": [
+    32,
+    10
+   ],
+   "improve": "Fabricabilité",
+   "worsening": "Force",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.21741/9781644903131-294"
+   ],
+   "families": [
+    "ART:https://doi.org/10.21741/9781644903131-294"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P35": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P3": {
+     "name": "Qualité locale",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P35": {
+     "name": "Modification des paramètres physiques/chimiques",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 35,
+     "name": "Modification des paramètres physiques/chimiques",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    35,
+    12
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    3,
+    35
+   ],
+   "OVERLAP": [
+    35
+   ],
+   "overlap_rate_historical": 0.5,
+   "overlap_rate_empirical": 0.5,
+   "confidence_level": "faible"
+  },
+  "13,32": {
+   "cell": [
+    13,
+    32
+   ],
+   "improve": "Stabilité de l'objet",
+   "worsening": "Fabricabilité",
+   "N_ARTICLES": 1,
+   "N_SECONDARY": 0,
+   "N_SOLUTION_FAMILIES": 1,
+   "articles": [
+    "https://doi.org/10.1590/0104-1428.2047"
+   ],
+   "families": [
+    "ART:https://doi.org/10.1590/0104-1428.2047"
+   ],
+   "DOMINANT_PRINCIPLE_DISTRIBUTION": {
+    "P14": {
+     "articles": 1,
+     "pct": 100
+    }
+   },
+   "ALL_OBSERVED_PRINCIPLES_DISTRIBUTION": {
+    "P17": {
+     "name": "Nouvelle dimension",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P3": {
+     "name": "Qualité locale",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    },
+    "P14": {
+     "name": "Courbure",
+     "ARTICLE_SUPPORT": 1,
+     "FAMILY_SUPPORT": 1,
+     "pct_articles": 100
+    }
+   },
+   "TOP_EMPIRICAL_PRINCIPLES": [
+    {
+     "id": 17,
+     "name": "Nouvelle dimension",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 3,
+     "name": "Qualité locale",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    },
+    {
+     "id": 14,
+     "name": "Courbure",
+     "FAMILY_SUPPORT": 1,
+     "ARTICLE_SUPPORT": 1
+    }
+   ],
+   "HISTORICAL": [
+    35,
+    19
+   ],
+   "historical_status": "OK",
+   "EMPIRICAL": [
+    17,
+    3,
+    14
+   ],
+   "OVERLAP": [],
+   "overlap_rate_historical": 0.0,
+   "overlap_rate_empirical": 0.0,
+   "confidence_level": "faible"
+  }
+ },
+ "UNASSIGNED_ARTICLES": [
+  {
+   "article_id": "https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=osu1487677267728058&disposition=inline",
+   "title": "Sink mark modeling of injection molded parts",
+   "year": 1990,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni ne contient aucun contenu technique explicatif, résumé ou description de solution permettant d'analyser le problème, la transformation ou les principes TRIZ mis en œuvre."
+  },
+  {
+   "article_id": "https://doi.org/10.23860/thesis-archer-david-1988",
+   "title": "Early Cost Estimation of Injection Molded Components",
+   "year": 1988,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article décrit une méthodologie d'estimation financière et un modèle technico-économique au stade du concept, et non une transformation technique ou une innovation matérielle sur un produit ou un procédé d'injection plastique."
+  },
+  {
+   "article_id": "https://tigerprints.clemson.edu/cgi/viewcontent.cgi?article=1427&context=all_theses",
+   "title": "Reduction of sink marks in wire insert molded parts",
+   "year": 2008,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente une étude paramétrique et une simulation (plan d'expériences Taguchi L9) visant à optimiser des paramètres de réglage du procédé de moulage par injection (température du moule, température de matière, temps de maintien) sans introduire de transformation structurelle, géométrique ou matérielle inventive."
+  },
+  {
+   "article_id": "https://doi.org/10.3390/jcs4030130",
+   "title": "Mechanisms of Origin and Classification of Out-of-Plane Fiber Waviness in Composite Materials—A Review",
+   "year": 2020,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article est une revue de littérature et une étude de classification des mécanismes d'ondulation des fibres (wrinkling) dans les matériaux composites. Il ne présente aucune solution technique inventive ou transformation d'un procédé/produit spécifique."
+  },
+  {
+   "article_id": "https://doi.org/10.3390/polym12040889",
+   "title": "Shrinkage and Warpage Minimization of Glass-Fiber-Reinforced Polyamide 6 Parts by Microcellular Foam Injection Molding",
+   "year": 2020,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente uniquement une optimisation de paramètres du procédé de moulage par injection microcellulaire via une méthodologie statistique (plan d'expériences Taguchi, ANOVA, RSM). Aucune transformation architecturale, matérielle ou modification d'un principe physique n'est introduite par rapport au procédé d'injection sous gaz existant."
+  },
+  {
+   "article_id": "https://doi.org/10.1155/2019/9012085",
+   "title": "Multiobjective Optimization Method for Polymer Injection Molding Based on a Genetic Algorithm",
+   "year": 2019,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente une méthodologie d'optimisation numérique des paramètres de réglage du procédé d'injection (algorithme génétique, plans d'expérience, RSM) sans modifier l'architecture physique de la pièce, du moule ou du matériau. Il s'agit d'une optimisation de paramètres de procédé et non d'une transformation inventive TRIZ."
+  },
+  {
+   "article_id": "https://monarch.qucosa.de/id/qucosa%3A18623",
+   "title": "Characterization and Simulation of Material Distribution and Fiber Orientation in Sandwich Injection Molded Parts",
+   "year": 2006,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente uniquement une étude expérimentale, une modélisation analytique et des simulations numériques de la distribution du matériau et de l'orientation des fibres dans des procédés existants (moulage sandwich et push-pull), sans introduire de nouvelle transformation technique inventive."
+  },
+  {
+   "article_id": "https://doi.org/10.21203/rs.3.rs-4091451/v1",
+   "title": "A Multifaceted Approach to Injection Mold Design, Analysis and Manufacturing",
+   "year": 2024,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article décrit une méthodologie classique d'optimisation de moule par simulation numérique (Moldflow) pour ajuster la position des seuils d'injection et des évents. Il s'agit d'une démarche standard de mise au point d'outillage sans transformation structurelle ni mécanisme inventif particulier permettant de résoudre une contradiction technique."
+  },
+  {
+   "article_id": "https://doi.org/10.1088/1757-899x/100/1/012050",
+   "title": "Design consideration for design a flat and ring plastics part using Solidworks software",
+   "year": 2015,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article décrit une démarche standard de conception CAO (application d'angles de dépouille, de rayons de raccordement et choix du point d'injection) pour modéliser des éprouvettes de test. Il s'agit d'une application classique des règles de l'art sans transformation inventive ni résolution de contradiction technique."
+  },
+  {
+   "article_id": "https://doi.org/10.5772/13670",
+   "title": "Optimization of Injection Moulded Polymer Automotive Components",
+   "year": 2011,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni est une introduction générale sur les avantages de l'utilisation des polymères dans l'automobile (gain de poids, liberté de design, coût) sans décrire de problème technique précis, ni de solution spécifique ou de transformation concrète issue d'une étude."
+  },
+  {
+   "article_id": "https://etd.ohiolink.edu/acprod/odb_etd/ws/send_file/send?accession=osu1487861396026928&disposition=inline",
+   "title": "An investigation of gas-assisted injection molding : effects of process variables on gas bubble formation /",
+   "year": 1994,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni ne contient que le titre et le début d'un extrait incomplet sans description de la solution technique, du problème ni de la transformation effectuée."
+  },
+  {
+   "article_id": "https://doi.org/10.1002/9781118899595.app1",
+   "title": "Appendix A: Injection Molding",
+   "year": 2014,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni est une description pédagogique générale du fonctionnement standard de la moulage par injection (vis, fourreau, zones d'alimentation et de dosage) sans présenter d'invention, de problème technique spécifique résolu ni de transformation d'un système existant."
+  },
+  {
+   "article_id": "https://doi.org/10.1088/0965-0393/11/2/307",
+   "title": "Finite element analysis and simulation of polymers an addendum: a bibliography (1996 2002)",
+   "year": 2003,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article est une revue bibliographique récapitulant 880 références sur la simulation par éléments finis des polymères. Il ne présente aucune solution technique inventive ni transformation d'ingénierie spécifique à analyser."
+  },
+  {
+   "article_id": "http://resolver.tudelft.nl/uuid:99bea5ae-a78b-4965-84c4-2230f7f364c3",
+   "title": "Micromilling of hardened tool steels",
+   "year": 2009,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni est tronqué au milieu d'une phrase et ne décrit que l'état de l'art (comparaison entre l'électroérosion EDM et le micro-fraisage) sans expliciter la transformation technique spécifique ni la solution proposée par l'article."
+  },
+  {
+   "article_id": "https://doi.org/10.29114/ajtuv.vol1.iss1.37",
+   "title": "Application of SolidWorks Plastic in the Training in Mechanical Engineering",
+   "year": 2017,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article décrit une application pédagogique d'un logiciel de simulation (SolidWorks Plastics) pour la formation en génie mécanique et ne présente aucune transformation technique inventive ni innovation concrète sur un produit ou un procédé."
+  },
+  {
+   "article_id": "https://doi.org/10.1051/matecconf/202133503009",
+   "title": "Community Waste Plastic Recycling System Through Plastic Injection Molding",
+   "year": 2021,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article décrit une sélection de méthodes conventionnelles de caractérisation et de tri (tri manuel et mesure du débit de matière fondue MFR) pour optimiser le recyclage, sans présenter de transformation physique, structurale ou fonctionnelle inventive du procédé d'injection ou du produit."
+  },
+  {
+   "article_id": "http://hdl.handle.net/1826/4478",
+   "title": "Micro-injection moulding of three-dimensional integrated microfluidic devices",
+   "year": 2009,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni est un extrait d'abstract de thèse décrivant une démarche générale d'optimisation de procédé (plan d'expériences DOE, évaluation du gauchissement et de la masse) sans expliciter la transformation inventive ou l'architecture spécifique permettant de résoudre un problème technique précis."
+  },
+  {
+   "article_id": "https://doi.org/10.3791/51745",
+   "title": "Rapid and Low-cost Prototyping of Medical Devices Using 3D Printed Molds for Liquid Injection Molding",
+   "year": 2014,
+   "reason": "NO_MATRIX_CELL",
+   "note": "aucune contradiction technique Altshuller suffisamment démontrée"
+  },
+  {
+   "article_id": "https://drum.lib.umd.edu/bitstreams/768b3c11-4e74-47f0-a125-dd2e87dbff5d/download",
+   "title": "COST AND PERFORMANCE EVALUATION MODELS FOR COMPARING MULTI-SHOT AND TRADITIONAL INJECTION MOLDING",
+   "year": 2004,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article est une étude comparative et méthodologique proposant des modèles d'évaluation des coûts et des performances pour comparer le moulage multi-matière au moulage traditionnel. Il ne présente pas de transformation technique ou d'invention spécifique répondant à un problème d'ingénierie physique ou procédé inédit."
+  },
+  {
+   "article_id": "http://hdl.handle.net/1721.1/78210",
+   "title": "Efficient design of precision medical robotics",
+   "year": 2012,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni est une simple référence bibliographique (titre et métadonnées de thèse) sans description explicite du problème technique, des mécanismes employés ou de la solution proposée."
+  },
+  {
+   "article_id": "https://doi.org/10.5281/zenodo.7106284",
+   "title": "Guidelines for injection molding mold design",
+   "year": 2022,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni présente des directives générales de conception de moules (choix du sens d'ouverture et de la ligne de joint) sans expliciter de problème technique spécifique ni de transformation inventive permettant de dépasser une contradiction."
+  },
+  {
+   "article_id": "https://tigerprints.clemson.edu/all_theses/1170",
+   "title": "A tool for selection of design for manufacturing and assembly rules during product design stage while considering end of life conditions",
+   "year": 2012,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente un outil logiciel de base de données et une méthodologie pour sélectionner des règles de conception (DFM/DFA/DFD) et identifier leurs conflits. Il ne s'agit pas d'une transformation physique ou technique concrète appliquée à un produit, un procédé de fabrication ou un matériau."
+  },
+  {
+   "article_id": "https://doi.org/10.2172/1038533",
+   "title": "United States Automotive Materials Partnership LLC (USAMP) (Final Report Compilation)",
+   "year": 2011,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni est un résumé institutionnel d'un rapport final décrivant les objectifs généraux d'un partenariat (USAMP) et un programme de recherche (ALM), sans présenter de solution technique spécifique ni de transformation physique/procédé explicite."
+  },
+  {
+   "article_id": "http://hdl.handle.net/10400.8/2148",
+   "title": "Subtractive and additive manufacturing technology in moulding industry",
+   "year": 2016,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article est une revue générale sur l'évolution de la fabrication additive et soustractive sans présenter de solution technique spécifique, de transformation concrète ni d'invention précise à analyser."
+  },
+  {
+   "article_id": "https://doi.org/10.21236/ada210937",
+   "title": "Aerospace System Unified Life Cycle Engineering Producibility Measurement Issues",
+   "year": 1989,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni contient uniquement un extrait corrompu par un mauvais OCR de la page de garde/avertissement d'un rapport IDA de 1989, sans description d'une solution technique ou d'une transformation d'ingénierie."
+  },
+  {
+   "article_id": "http://hdl.handle.net/1721.1/50442",
+   "title": "Feature based variation modeling of preliminary injection molded parts",
+   "year": 1998,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni ne contient que le titre et une référence bibliographique de thèse sans description du contenu technique ou de la solution développée."
+  },
+  {
+   "article_id": "https://doi.org/10.18260/1-2--7243",
+   "title": "Introducing Plastic Product Design Into The Machine Design Curriculum",
+   "year": 2020,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article est une publication pédagogique décrivant l'intégration de la conception de produits en plastique dans un programme universitaire d'ingénierie mécanique. Il ne présente aucune solution technique, invention ou innovation industrielle portant sur un produit ou un procédé de fabrication."
+  },
+  {
+   "article_id": "http://www.lib.ncsu.edu/resolver/1840.16/9882",
+   "title": "Development and Experimental Evaluation of a Novel, Patient Specific Implant for Limb Sparing Surgery",
+   "year": 2014,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le résumé ne fournit aucune donnée technique ni description de la solution, du problème ou de la transformation permettant d'effectuer une analyse TRIZ."
+  },
+  {
+   "article_id": "https://doi.org/10.11606/t.3.2022.tde-07072022-112403",
+   "title": "A new method of rigid assemblies stochastic 3D tolerance analysis including thermal performance.",
+   "year": 2022,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente une méthode numérique et statistique d'analyse de tolérances 3D (intégrant la simulation de Monte Carlo et la dilatation thermique) et non une transformation physique ou structurelle d'un produit ou d'un procédé de fabrication."
+  },
+  {
+   "article_id": "https://research.thea.ie/bitstream/20.500.12065/407/1/Keith_Vaugh_20130911151539.pdf",
+   "title": "An integrated design and manufacture methodology for injection moulded components",
+   "year": 2002,
+   "reason": "NO_MATRIX_CELL",
+   "note": "aucune contradiction technique Altshuller suffisamment démontrée"
+  },
+  {
+   "article_id": "https://spectrum.library.concordia.ca/979485/1/NR71155.pdf",
+   "title": "Development of dynamic pressure sensor for high temperature applications",
+   "year": 2010,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni est tronqué au milieu d'une phrase finale ('Improvement in the durab') et ne décrit pas la solution technique ni la transformation appliquée au capteur pour résoudre le problème posé."
+  },
+  {
+   "article_id": "http://hdl.handle.net/2060/19710029182",
+   "title": "Retention and application of Saturn experiences to future programs",
+   "year": 1971,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le résumé fournit uniquement un chiffre statistique sur des rapports de conditions insatisfaisantes (UCR) du programme Saturn, sans décrire de solution technique, de problème ingénierie précis, ni de transformation concrète."
+  },
+  {
+   "article_id": "http://hdl.handle.net/1721.1/50403",
+   "title": "Leveraging manufacturing process capability in integrated product development",
+   "year": 1998,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni contient uniquement les métadonnées de titre et de dépôt de thèse (MIT, 1998) sans description de la solution technique, du problème spécifique ni de la transformation apportée."
+  },
+  {
+   "article_id": "https://doi.org/10.31390/gradschool_dissertations.2106",
+   "title": "The iconography of nationalism: icons, popular culture, and American nationalism",
+   "year": 2005,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article est une étude de sociologie et d'analyse culturelle/politique sur les icônes du nationalisme américain. Il ne présente aucune solution technique, procédé industriel ou innovation d'ingénierie matérielle transposable via les principes TRIZ."
+  },
+  {
+   "article_id": "https://doi.org/10.3390/s19163551",
+   "title": "In-Mold Sensors for Injection Molding: On the Way to Industry 4.0",
+   "year": 2019,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article est une revue de la littérature (survey/review) présentant un état de l'art global sur les capteurs en moule pour l'injection plastique, sans proposer une solution technique ou une transformation inventive spécifique."
+  },
+  {
+   "article_id": "https://doi.org/10.3390/ma16175802",
+   "title": "Advanced Injection Molding Methods: Review",
+   "year": 2023,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni est un résumé général d'un article de revue (review) sur les méthodes avancées de moulage par injection, sans détailler une solution technique spécifique, une transformation concrète ou une invention précise à analyser."
+  },
+  {
+   "article_id": "https://doi.org/10.1155/2020/7023616",
+   "title": "Intelligent Injection Molding on Sensing, Optimization, and Control",
+   "year": 2020,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article est une revue de littérature générale sur la détection, l'optimisation et le contrôle dans le moulage par injection intelligent, sans présenter de solution technique ou de transformation géométrique/procédé spécifique et concrète."
+  },
+  {
+   "article_id": "https://doi.org/10.1155/2022/1949061",
+   "title": "A Review on Machine Learning Models in Injection Molding Machines",
+   "year": 2022,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article est une revue générale (review) portant sur l'état de l'art de l'utilisation de l'apprentissage automatique dans l'injection plastique. Il ne présente pas une transformation technique ou une solution inventive spécifique et concrète développée par les auteurs."
+  },
+  {
+   "article_id": "https://doi.org/10.5772/35212",
+   "title": "PVT Properties of Polymers for Injection Molding",
+   "year": 2012,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Le texte fourni est incomplet et ne contient aucune description d'une solution technique, d'un problème ou d'une transformation réels à analyser."
+  },
+  {
+   "article_id": "https://doi.org/10.1002/app.35564",
+   "title": "A study on the distinguishing responses of shrinkage and warpage to processing conditions in injection molding",
+   "year": 2011,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente une étude expérimentale et statistique (ANOVA) identifiant l'impact respectif de la pression et du temps de maintien sur le retrait et le gauchissement, sans proposer de transformation structurelle, matérielle ou fonctionnelle de la pièce ou du procédé d'injection."
+  },
+  {
+   "article_id": "https://doi.org/10.1016/j.susmat.2015.07.001",
+   "title": "Sustainable injection moulding: The impact of materials selection and gate location on part warpage and injection pressure",
+   "year": 2015,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente une étude d'optimisation classique de paramètres de conception (choix de l'emplacement du point d'injection et sélection d'un matériau parmi trois existants) par simulation numérique, sans introduire de transformation structurelle ou de principe inventif modifiant l'architecture du produit ou du procédé."
+  },
+  {
+   "article_id": "https://doi.org/10.1155/2020/2914801",
+   "title": "Experimental and Numerical Study Determining the Warpage Phenomenon of Thin-Wall Injection Molding",
+   "year": 2020,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente une étude expérimentale et numérique visant à optimiser les paramètres du procédé d'injection plastique (notamment le temps de maintien) pour réduire le gauchissement de pièces à parois minces en ABS/PC. Il s'agit d'une recherche empirique de réglages optimaux (plan d'expériences / Moldflow) sans transformation inventive du système, de la pièce ou du procédé."
+  },
+  {
+   "article_id": "https://doi.org/10.1155/2020/3481752",
+   "title": "Study of Residual Wall Thickness and Multiobjective Optimization for Process Parameters of Water-Assisted Injection Molding",
+   "year": 2020,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article décrit une démarche purement mathématique d'optimisation numérique des paramètres du procédé (volume de pré-injection, pression de l'eau, température du fondu) par des modèles métasurrogats (RBF, PSO) sans introduire de transformation structurelle, matérielle ou fonctionnelle inventive dans le système de moulage par injection assistée d'eau (WAIM)."
+  },
+  {
+   "article_id": "https://doi.org/10.1016/j.polymertesting.2021.107393",
+   "title": "Prediction and validation of the specific volume for inline warpage control in injection molding",
+   "year": 2021,
+   "reason": "NO_MATRIX_CELL",
+   "note": "aucune contradiction technique Altshuller suffisamment démontrée"
+  },
+  {
+   "article_id": "https://doi.org/10.4314/ijest.v2i2.59133",
+   "title": "Minimization of sink mark defects in injection molding process – Taguchi approach",
+   "year": 2010,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente uniquement une méthodologie d'optimisation statistique des paramètres de réglage du procédé d'injection (méthode Taguchi) pour réduire les retassures. Il n'y a aucune modification architecturale, physique ou matérielle du produit ou du procédé constituant une transformation inventive au sens de TRIZ."
+  },
+  {
+   "article_id": "https://doi.org/10.3390/polym14091845",
+   "title": "Analysis of the Warpage Phenomenon of Micro-Sized Parts with Precision Injection Molding by Experiment, Numerical Simulation, and Grey Theory",
+   "year": 2022,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente une étude d'optimisation paramétrique conventionnelle (méthode Taguchi, théorie Grise et simulation Moldflow) pour réduire le gauchissement en identifiant la température du moule comme paramètre le plus influent. Il n'y a aucune transformation structurale, matérielle ou fonctionnelle inventive de la pièce ou du procédé."
+  },
+  {
+   "article_id": "https://doi.org/10.3144/expresspolymlett.2009.79",
+   "title": "Taguchi analysis of shrinkage and warpage of injection-moulded polypropylene/multiwall carbon nanotubes nanocomposites",
+   "year": 2009,
+   "reason": "NO_MATRIX_CELL",
+   "note": "aucune contradiction technique Altshuller suffisamment démontrée"
+  },
+  {
+   "article_id": "https://doi.org/10.3390/polym15214220",
+   "title": "Approaches for Numerical Modeling and Simulation of the Filling Phase in Injection Molding: A Review",
+   "year": 2023,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article est une revue de littérature (review paper) qui catégorise et résume les méthodes numériques existantes et les modèles rhéologiques pour la simulation de la phase de remplissage. Il ne présente pas de solution technique nouvelle ni de transformation inventive spécifique."
+  },
+  {
+   "article_id": "https://doi.org/10.1155/2020/1309209",
+   "title": "Experimental-Based Optimization of Injection Molding Process Parameters for Short Product Cycle Time",
+   "year": 2020,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente une méthodologie d'optimisation numérique/statistique (plan d'expériences et métamodèle Kriging) pour régler des paramètres de traitement existants (temps de refroidissement, températures, pressions). Il s'agit d'une recherche de compromis opérationnel par optimisation de paramètres et non d'une transformation inventive de la structure, de la matière ou du principe d'injection."
+  },
+  {
+   "article_id": "https://doi.org/10.1088/1757-899x/688/3/033027",
+   "title": "Warpage analysis and optimization of thin-walled injection molding parts based on numerical simulation and orthogonal experiment",
+   "year": 2019,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article décrit uniquement une optimisation classique de paramètres de procédé (plan d'expériences orthogonal / Taguchi sur les températures, pressions et temps d'injection) sans aucune modification architecturale, géométrique, matérielle ou fonctionnelle de la pièce ou du moule. Il s'agit d'un réglage de procédé conventionnel et non d'une transformation inventive TRIZ."
+  },
+  {
+   "article_id": "https://doi.org/10.1002/pen.20275",
+   "title": "Ejection force of tubular injection moldings. Part II: A prediction model",
+   "year": 2005,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente un modèle de simulation numérique et un algorithme de prédiction des forces d'éjection basés sur un modèle thermomécanique. Il s'agit d'une démarche d'analyse et de modélisation mathématique/logicielle sans transformation inventive physique apportée à la pièce, au moule ou au procédé d'injection."
+  },
+  {
+   "article_id": "https://doi.org/10.1002/pen.11288",
+   "title": "Draft angle and surface roughness effects on stereolithography molds",
+   "year": 2000,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente une étude expérimentale et un modèle mathématique prédictif du compromis entre dépouille et rugosité de surface, sans introduire de transformation structurelle ou inventive du procédé ou du moule pour dépasser cette contrainte."
+  },
+  {
+   "article_id": "https://doi.org/10.1088/0960-1317/21/4/043001",
+   "title": "A review of micro-powder injection moulding as a microfabrication technique",
+   "year": 2011,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article est une revue de littérature générale sur le moulage par injection de micro-poudres (µPIM) synthétisant l'état de l'art, les variantes et les défis de la filière, sans présenter de solution technique spécifique ou de transformation inventive unique à analyser."
+  },
+  {
+   "article_id": "https://doi.org/10.1016/j.jma.2013.02.002",
+   "title": "Magnesium casting technology for structural applications",
+   "year": 2013,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "Il s'agit d'un article de synthèse (review) retraçant l'historique, les procédés généraux de fonderie et les applications du magnésium, sans présenter une solution technique spécifique ni une transformation inventive précise."
+  },
+  {
+   "article_id": "https://doi.org/10.3311/ppme.18246",
+   "title": "The Effect of Processing Parameters and Calcium-stearate on the Ejection Process of Injection Molded Poly(Lactic Acid) Products",
+   "year": 2021,
+   "reason": "NO_MATRIX_CELL",
+   "note": "aucune contradiction technique Altshuller suffisamment démontrée"
+  },
+  {
+   "article_id": "https://doi.org/10.3390/polym11101667",
+   "title": "Fiber-Reinforced Polymer Composites: Manufacturing, Properties, and Applications",
+   "year": 2019,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article est une revue générale sur les matériaux composites à matrice polymère renforcée de fibres, présentant un panorama global des technologies, propriétés et procédés existants sans exposer une transformation inventive spécifique ou une solution technique nouvelle précise."
+  },
+  {
+   "article_id": "https://doi.org/10.1088/0965-0393/12/3/s12",
+   "title": "Modelling and verification of ejection forces in thermoplastic injection moulding",
+   "year": 2004,
+   "reason": "NOT_EXPLOITABLE",
+   "note": "L'article présente uniquement une étude de modélisation analytique, de simulation et de vérification expérimentale des forces d'éjection pour optimiser le temps de cycle. Il ne propose aucune transformation inventive ou modification structurelle/procédé du système d'injection."
+  },
+  {
+   "article_id": "https://doi.org/10.4236/jsea.2017.101005",
+   "title": "Automatic Recognition and Construction of Draft Angle for Injection Mold Design",
+   "year": 2017,
+   "reason": "NO_MATRIX_CELL",
+   "note": "aucune contradiction technique Altshuller suffisamment démontrée"
+  }
+ ],
+ "QUALITY_REPORT": {
+  "discipline": "plasturgie",
+  "total_articles": 100,
+  "exploitable_analyses": 48,
+  "assigned_articles": 42,
+  "unassigned_articles": 58,
+  "unassigned_by_reason": {
+   "NOT_EXPLOITABLE": 52,
+   "NO_MATRIX_CELL": 6
+  },
+  "assignments_validated": 37,
+  "assignments_secondary": 8,
+  "articles_in_two_cells": 3,
+  "distinct_cells_populated": 29,
+  "mean_articles_per_cell": 1.28,
+  "mean_families_per_cell": 1.28,
+  "families_provisional": true,
+  "contradictions_corrected_at_normalisation": 0,
+  "no_cell_retries_recovered": 0,
+  "historical_lookup_errors": 0,
+  "historical_cells_empty_in_source": 1,
+  "dominant_principle_distribution": {
+   "P40 Matériaux composites": 7,
+   "P17 Nouvelle dimension": 5,
+   "P3 Qualité locale": 4,
+   "P31 Matériaux poreux": 3,
+   "P5 Combinaison": 3,
+   "P26 Copie": 3,
+   "P14 Courbure": 3,
+   "P35 Modification des paramètres physiques/chimiques": 2,
+   "P15 Dynamisme": 2,
+   "P19 Action périodique": 1,
+   "P2 Extraction": 1,
+   "P10 Action préliminaire": 1,
+   "P23 Rétroaction": 1,
+   "P28 Substitution du principe mécanique": 1
+  },
+  "match_status_distribution": {
+   "none": 25,
+   "strong": 3,
+   "partial": 8,
+   "historical_cell_empty": 1
+  },
+  "global_overlap_rate_historical": 0.11,
+  "cells_with_zero_overlap": 17
+ }
+}
