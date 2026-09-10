@@ -1,0 +1,3092 @@
+{
+ "RECLASSIFICATION_SUMMARY": {
+  "ancien_articles_affectes": 34,
+  "anciennes_cellules": 28,
+  "nouveaux_articles_affectes": 34,
+  "nouvelles_cellules": 17,
+  "physical_contradiction_only": 1,
+  "no_technical_contradiction": 3,
+  "not_enough_evidence": 0,
+  "articles_sans_reponse_llm": 0,
+  "familles": 8,
+  "fusions": 10,
+  "cout_reel": 0.0944,
+  "duree_s": 111,
+  "singletons": 9
+ },
+ "NORMALIZED_CONTRADICTION_FAMILIES": [
+  {
+   "FAMILY_ID": "FAMILY_CONFORMAL_COOLING_STRENGTH",
+   "GENERIC_PROBLEM": "Optimiser l'efficacité de l'échange thermique dans le moule sans fragiliser sa résistance mécanique sous pression d'injection.",
+   "GENERIC_CONTRADICTION": "Pour améliorer la température (17), il faudrait multiplier ou rapprocher les canaux de refroidissement de la cavité, mais cela détériore la résistance (14) de la structure de l'outillage.",
+   "IMPROVE_PARAMETER": {
+    "id": 17,
+    "name": "Température"
+   },
+   "WORSENING_PARAMETER": {
+    "id": 14,
+    "name": "Résistance"
+   },
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082",
+    "https://doi.org/10.1016/j.promfg.2017.07.020",
+    "https://doi.org/10.1063/1.5084861",
+    "https://doi.org/10.3390/app13137437",
+    "https://doi.org/10.3390/app8122567"
+   ],
+   "DOMINANT_PRINCIPLES_OBSERVED": {
+    "P17 Nouvelle dimension": 3,
+    "P3 Qualité locale": 1,
+    "P14 Courbure": 1
+   },
+   "justification": "Maintien de la famille existante pour le compromis thermique vs résistance structurelle des moules."
+  },
+  {
+   "FAMILY_ID": "FAMILY_CONFORMAL_COOLING_GEOMETRY",
+   "GENERIC_PROBLEM": "Adapter la géométrie des circuits de refroidissement aux formes complexes de la cavité sans provoquer de déformations géométriques de la pièce ou du canal.",
+   "GENERIC_CONTRADICTION": "Pour améliorer la température et l'évacuation thermique (17), il faudrait conformer les canaux aux contours complexes, mais cela détériore la forme (12) lors du procédé.",
+   "IMPROVE_PARAMETER": {
+    "id": 17,
+    "name": "Température"
+   },
+   "WORSENING_PARAMETER": {
+    "id": 12,
+    "name": "Forme"
+   },
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1016/j.matdes.2020.109147",
+    "https://doi.org/10.1155/2014/968484",
+    "https://doi.org/10.1590/0104-1428.2047",
+    "https://doi.org/10.3390/polym9020077",
+    "https://doi.org/10.21203/rs.3.rs-3081027/v1"
+   ],
+   "DOMINANT_PRINCIPLES_OBSERVED": {
+    "P14 Courbure": 2,
+    "P40 Matériaux composites": 1,
+    "P17 Nouvelle dimension": 1,
+    "P3 Qualité locale": 1
+   },
+   "justification": "Maintien de la famille existante traitant de la déformation géométrique liée à la température/refroidissement."
+  },
+  {
+   "FAMILY_ID": "FAMILY_SIMULATION_OPTIMIZATION_TIME",
+   "GENERIC_PROBLEM": "Obtenir une modélisation ou un paramétrage de précision du procédé de moulage sans occasionner une perte de temps inacceptable en calculs ou essais répétitifs.",
+   "GENERIC_CONTRADICTION": "Pour améliorer la précision de la mesure ou de la prédiction (28), il faudrait exécuter de nombreuses simulations ou essais, mais cela détériore la perte de temps (25).",
+   "IMPROVE_PARAMETER": {
+    "id": 28,
+    "name": "Précision de la mesure"
+   },
+   "WORSENING_PARAMETER": {
+    "id": 25,
+    "name": "Perte de temps"
+   },
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1002/mawe.202300157",
+    "https://doi.org/10.1007/s00170-020-06511-3",
+    "https://doi.org/10.3390/s22072704"
+   ],
+   "DOMINANT_PRINCIPLES_OBSERVED": {
+    "P26 Copie": 2,
+    "P10 Action préliminaire": 1
+   },
+   "justification": "Maintien de la famille sur l'arbitrage précision de prédiction vs temps de calcul."
+  },
+  {
+   "FAMILY_ID": "FAMILY_IN_MOLD_SENSING",
+   "GENERIC_PROBLEM": "Instrumenter directement l'intérieur du moule en temps réel sans accroître la complexité du contrôle ni générer de risques d'endommagement.",
+   "GENERIC_CONTRADICTION": "Pour améliorer la précision de la mesure (28) des paramètres physiques in situ, il faudrait placer des capteurs dans la cavité, mais cela détériore la complexité du contrôle (37) et l'intégrité de l'outillage.",
+   "IMPROVE_PARAMETER": {
+    "id": 28,
+    "name": "Précision de la mesure"
+   },
+   "WORSENING_PARAMETER": {
+    "id": 37,
+    "name": "Complexité du contrôle"
+   },
+   "ARTICLE_IDS": [
+    "http://hdl.handle.net/1822/173",
+    "https://doi.org/10.1155/2019/3720127"
+   ],
+   "DOMINANT_PRINCIPLES_OBSERVED": {
+    "P23 Rétroaction": 2
+   },
+   "justification": "Maintien de la famille liée à l'instrumentation in situ des moules."
+  },
+  {
+   "FAMILY_ID": "FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY",
+   "GENERIC_PROBLEM": "Alléger les pièces injectées par moussage ou réduction de matière sans dégrader l'aspect de surface ou la conformité géométrique.",
+   "GENERIC_CONTRADICTION": "Pour améliorer le poids/masse (2), il faudrait introduire un agent de moussage ou réduire le polymère, me cela détériore la forme ou la qualité de surface (12).",
+   "IMPROVE_PARAMETER": {
+    "id": 2,
+    "name": "Poids de l'objet stationnaire"
+   },
+   "WORSENING_PARAMETER": {
+    "id": 12,
+    "name": "Forme"
+   },
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1016/j.ijlmm.2021.11.005",
+    "https://doi.org/10.3390/ma15207079",
+    "https://doi.org/10.1016/j.promfg.2018.10.128"
+   ],
+   "DOMINANT_PRINCIPLES_OBSERVED": {
+    "P31 Matériaux poreux": 2,
+    "P5 Combinaison": 1
+   },
+   "justification": "Rattachement de 10.1016/j.promfg.2018.10.128 : le conflit initial porte sur l'allègement de la structure (poids 2 vs forme/précision 12) via la réduction de matière/l'agent de moussage. Fusion vers la cellule [2, 12] pour éviter l'usage abusif des paramètres 26 et 29."
+  },
+  {
+   "FAMILY_ID": "FAMILY_RECYCLED_PLASTICS_STRENGTH",
+   "GENERIC_PROBLEM": "Augmenter la fraction de polymères recyclés ou supporter la dégradation due au recyclage tout en préservant les propriétés mécaniques de la pièce.",
+   "GENERIC_CONTRADICTION": "Pour améliorer la quantité de matière recyclée ou la durabilité écologique (26/14), il faudrait augmenter le taux de recyclé, mais cela détériore la résistance mécanique (14).",
+   "IMPROVE_PARAMETER": {
+    "id": 26,
+    "name": "Quantité de substance"
+   },
+   "WORSENING_PARAMETER": {
+    "id": 14,
+    "name": "Résistance"
+   },
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1007/s10163-022-01588-2",
+    "https://doi.org/10.1016/j.matdes.2021.109576"
+   ],
+   "DOMINANT_PRINCIPLES_OBSERVED": {
+    "P40 Matériaux composites": 1,
+    "P3 Qualité locale": 1
+   },
+   "justification": "Création de la famille RECYCLE1 regroupant les deux articles sur l'utilisation de polymères recyclés au détriment de la tenue mécanique. Le conflit physique sous-jacent est identique (dégradation des chaînes moléculaires nuisant à la tenue sous charge)."
+  },
+  {
+   "FAMILY_ID": "FAMILY_LIGHTWEIGHT_STRUCTURE_STRENGTH",
+   "GENERIC_PROBLEM": "Réduire la masse d'une structure porteuse sans compromettre sa résistance mécanique.",
+   "GENERIC_CONTRADICTION": "Pour améliorer le poids/masse (2), il faudrait réduire les sections ou augmenter la porosité, mais cela détériore la résistance mécanique (14).",
+   "IMPROVE_PARAMETER": {
+    "id": 2,
+    "name": "Poids de l'objet stationnaire"
+   },
+   "WORSENING_PARAMETER": {
+    "id": 14,
+    "name": "Résistance"
+   },
+   "ARTICLE_IDS": [
+    "http://etheses.bham.ac.uk/3184/2/collins_11_PhD.pdf",
+    "https://scholar.uwindsor.ca/etd/5355"
+   ],
+   "DOMINANT_PRINCIPLES_OBSERVED": {
+    "P40 Matériaux composites": 2
+   },
+   "justification": "Regroupement des deux articles sur le compromis classique TRIZ masse (2) vs résistance mécanique (14). La nature applicative (biomédicale vs automobile) ne justifie pas une cellule séparée car la contradiction physique fondamentale est stricto sensu identique."
+  },
+  {
+   "FAMILY_ID": "FAMILY_DFMA_ASSEMBLY_TIME",
+   "GENERIC_PROBLEM": "Optimiser la conception des composants ou l'automatisation de leur analyse sans augmenter le temps de traitement et d'assemblage.",
+   "GENERIC_CONTRADICTION": "Pour améliorer la fabricabilité ou le niveau d'automatisation (32/38), il faudrait multiplier les étapes de décomposition ou de saisie, mais cela détériore le temps de réalisation (25).",
+   "IMPROVE_PARAMETER": {
+    "id": 32,
+    "name": "Fabricabilité"
+   },
+   "WORSENING_PARAMETER": {
+    "id": 25,
+    "name": "Perte de temps"
+   },
+   "ARTICLE_IDS": [
+    "http://hdl.handle.net/10106/11909",
+    "https://doi.org/10.1115/cie1995-0804",
+    "https://doi.org/10.4995/jarte.2023.18810"
+   ],
+   "DOMINANT_PRINCIPLES_OBSERVED": {
+    "P1 Segmentation": 2,
+    "P40 Matériaux composites": 1
+   },
+   "justification": "Création d'une famille regroupant les compromis de conception/fabrication d'outillages ou mécanismes se traduisant par un temps excessif de cycle, d'assemblage ou de préparation."
+  }
+ ],
+ "COHERENCE_WARNINGS": [
+  "Les articles sur le temps de calcul / conception (10.1115/cie1995-0804, 10.4995/jarte.2023.18810, 10.10106/11909) partagent tous la détérioration du temps (25) mais traitent de leviers d'ingénierie différents (automatisation, assemblage, usinage). Ils ont été maintenus isolés pour éviter des regroupements abusifs.",
+  "Le paramètre 12 (Forme) est fortement sollicité à la fois comme cause (géométrie complexe imposant des contraintes) et comme conséquence (gauchissement/déformation de la pièce).",
+  "Fusion de l'article 10.1016/j.promfg.2018.10.128 dans FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY pour remplacer la cellule trop spécifique [26, 29] par le conflit physique générique [2, 12].",
+  "Regroupement des articles précédemment gardés distincts (collins_11_PhD.pdf et scholar.uwindsor.ca/etd/5355) dans FAMILY_LIGHTWEIGHT_STRUCTURE_STRENGTH [2, 14] car la contradiction physique fondamentale d'allègement mécanique est identique."
+ ],
+ "KEPT_DISTINCT": [
+  {
+   "article_ids": [
+    "http://etheses.bham.ac.uk/3184/2/collins_11_PhD.pdf",
+    "https://scholar.uwindsor.ca/etd/5355"
+   ],
+   "why_cells_differ": "L'article collins_11_PhD.pdf traite de la résistance mécanique liée à l'architecture poreuse d'un échafaudage biomédical [14, 12], tandis que scholar.uwindsor.ca/etd/5355 traite du compromis classique de masse vs résistance structurelle d'un siège automobile [2, 14]."
+  },
+  {
+   "article_ids": [
+    "https://doi.org/10.1007/s10163-022-01588-2",
+    "https://doi.org/10.1016/j.matdes.2021.109576"
+   ],
+   "why_cells_differ": "L'article 10.1007/s10163-022-01588-2 modélise la perte de résistance due aux cycles de recyclage répétés du matériau [14, 13], alors que 10.1016/j.matdes.2021.109576 modélise l'incorporation d'un taux maximum de matière recyclée dans la structure [26, 14]."
+  }
+ ],
+ "PROPOSED_EMPIRICAL_CELLS": [
+  {
+   "CELL": [
+    17,
+    14
+   ],
+   "improve": "Température",
+   "worsening": "Résistance",
+   "GENERIC_CONTRADICTION": "Pour améliorer la température (17), il faudrait multiplier ou rapprocher les canaux de refroidissement de la cavité, mais cela détériore la résistance (14) de la structure de l'outillage.",
+   "N_ARTICLES": 5,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082",
+    "https://doi.org/10.1016/j.promfg.2017.07.020",
+    "https://doi.org/10.1063/1.5084861",
+    "https://doi.org/10.3390/app13137437",
+    "https://doi.org/10.3390/app8122567"
+   ],
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_CONFORMAL_COOLING_STRENGTH"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P17 Nouvelle dimension": 3,
+    "P3 Qualité locale": 1,
+    "P14 Courbure": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P3 Qualité locale": 2,
+    "P17 Nouvelle dimension": 2,
+    "P14 Courbure": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    10,
+    30,
+    22,
+    40
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "CONFIDENCE": "MEDIUM",
+   "STATUS": "EMERGING"
+  },
+  {
+   "CELL": [
+    17,
+    12
+   ],
+   "improve": "Température",
+   "worsening": "Forme",
+   "GENERIC_CONTRADICTION": "Pour améliorer la température et l'évacuation thermique (17), il faudrait conformer les canaux aux contours complexes, mais cela détériore la forme (12) lors du procédé.",
+   "N_ARTICLES": 5,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1016/j.matdes.2020.109147",
+    "https://doi.org/10.1155/2014/968484",
+    "https://doi.org/10.1590/0104-1428.2047",
+    "https://doi.org/10.21203/rs.3.rs-3081027/v1",
+    "https://doi.org/10.3390/polym9020077"
+   ],
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_CONFORMAL_COOLING_GEOMETRY"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P14 Courbure": 2,
+    "P40 Matériaux composites": 1,
+    "P17 Nouvelle dimension": 1,
+    "P3 Qualité locale": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P3 Qualité locale": 4,
+    "P31 Matériaux poreux": 1,
+    "P14 Courbure": 1,
+    "P17 Nouvelle dimension": 1,
+    "P23 Rétroaction": 1,
+    "P35 Modification des paramètres physiques/chimiques": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    14,
+    22,
+    19,
+    32
+   ],
+   "OVERLAP_DOMINANT": [
+    14
+   ],
+   "OVERLAP_ANY": [
+    14
+   ],
+   "CONFIDENCE": "MEDIUM",
+   "STATUS": "EMERGING"
+  },
+  {
+   "CELL": [
+    32,
+    25
+   ],
+   "improve": "Fabricabilité",
+   "worsening": "Perte de temps",
+   "GENERIC_CONTRADICTION": "Pour améliorer la fabricabilité ou le niveau d'automatisation (32/38), il faudrait multiplier les étapes de décomposition ou de saisie, mais cela détériore le temps de réalisation (25).",
+   "N_ARTICLES": 3,
+   "ARTICLE_IDS": [
+    "http://hdl.handle.net/10106/11909",
+    "https://doi.org/10.1115/cie1995-0804",
+    "https://doi.org/10.4995/jarte.2023.18810"
+   ],
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_DFMA_ASSEMBLY_TIME"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P1 Segmentation": 2,
+    "P40 Matériaux composites": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P1 Segmentation": 1,
+    "P5 Combinaison": 1,
+    "P34 Élimination/régénération de parties": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    35,
+    28,
+    34,
+    4
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [
+    34
+   ],
+   "CONFIDENCE": "MEDIUM",
+   "STATUS": "EMERGING"
+  },
+  {
+   "CELL": [
+    28,
+    25
+   ],
+   "improve": "Précision de la mesure",
+   "worsening": "Perte de temps",
+   "GENERIC_CONTRADICTION": "Pour améliorer la précision de la mesure ou de la prédiction (28), il faudrait exécuter de nombreuses simulations ou essais, mais cela détériore la perte de temps (25).",
+   "N_ARTICLES": 3,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1002/mawe.202300157",
+    "https://doi.org/10.1007/s00170-020-06511-3",
+    "https://doi.org/10.3390/s22072704"
+   ],
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_SIMULATION_OPTIMIZATION_TIME"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P26 Copie": 2,
+    "P10 Action préliminaire": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P23 Rétroaction": 2,
+    "P6 Universalité": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    24,
+    34,
+    28,
+    32
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "CONFIDENCE": "MEDIUM",
+   "STATUS": "EMERGING"
+  },
+  {
+   "CELL": [
+    2,
+    12
+   ],
+   "improve": "Poids de l'objet stationnaire",
+   "worsening": "Forme",
+   "GENERIC_CONTRADICTION": "Pour améliorer le poids/masse (2), il faudrait introduire un agent de moussage ou réduire le polymère, me cela détériore la forme ou la qualité de surface (12).",
+   "N_ARTICLES": 3,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1016/j.ijlmm.2021.11.005",
+    "https://doi.org/10.1016/j.promfg.2018.10.128",
+    "https://doi.org/10.3390/ma15207079"
+   ],
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P31 Matériaux poreux": 2,
+    "P5 Combinaison": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P35 Modification des paramètres physiques/chimiques": 2,
+    "P10 Action préliminaire": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    13,
+    10,
+    29,
+    14
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [
+    10
+   ],
+   "CONFIDENCE": "MEDIUM",
+   "STATUS": "EMERGING"
+  },
+  {
+   "CELL": [
+    2,
+    14
+   ],
+   "improve": "Poids de l'objet stationnaire",
+   "worsening": "Résistance",
+   "GENERIC_CONTRADICTION": "Pour améliorer le poids/masse (2), il faudrait réduire les sections ou augmenter la porosité, mais cela détériore la résistance mécanique (14).",
+   "N_ARTICLES": 2,
+   "ARTICLE_IDS": [
+    "http://etheses.bham.ac.uk/3184/2/collins_11_PhD.pdf",
+    "https://scholar.uwindsor.ca/etd/5355"
+   ],
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_LIGHTWEIGHT_STRUCTURE_STRENGTH"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P40 Matériaux composites": 2
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P31 Matériaux poreux": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    28,
+    2,
+    10,
+    27
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "CONFIDENCE": "MEDIUM",
+   "STATUS": "EMERGING"
+  },
+  {
+   "CELL": [
+    28,
+    37
+   ],
+   "improve": "Précision de la mesure",
+   "worsening": "Complexité du contrôle",
+   "GENERIC_CONTRADICTION": "Pour améliorer la précision de la mesure (28) des paramètres physiques in situ, il faudrait placer des capteurs dans la cavité, mais cela détériore la complexité du contrôle (37) et l'intégrité de l'outillage.",
+   "N_ARTICLES": 2,
+   "ARTICLE_IDS": [
+    "http://hdl.handle.net/1822/173",
+    "https://doi.org/10.1155/2019/3720127"
+   ],
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_IN_MOLD_SENSING"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P23 Rétroaction": 2
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P28 Substitution du principe mécanique": 2
+   },
+   "HISTORICAL_PRINCIPLES": [
+    26,
+    24,
+    32,
+    28
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [
+    28
+   ],
+   "CONFIDENCE": "MEDIUM",
+   "STATUS": "EMERGING"
+  },
+  {
+   "CELL": [
+    26,
+    14
+   ],
+   "improve": "Quantité de substance",
+   "worsening": "Résistance",
+   "GENERIC_CONTRADICTION": "Pour améliorer la quantité de matière recyclée ou la durabilité écologique (26/14), il faudrait augmenter le taux de recyclé, mais cela détériore la résistance mécanique (14).",
+   "N_ARTICLES": 2,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1007/s10163-022-01588-2",
+    "https://doi.org/10.1016/j.matdes.2021.109576"
+   ],
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_RECYCLED_PLASTICS_STRENGTH"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P40 Matériaux composites": 1,
+    "P3 Qualité locale": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P22 Transformation du mal en bien": 1,
+    "P40 Matériaux composites": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    14,
+    35,
+    34,
+    10
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "CONFIDENCE": "MEDIUM",
+   "STATUS": "EMERGING"
+  },
+  {
+   "CELL": [
+    30,
+    2
+   ],
+   "improve": "Facteurs nuisibles agissant sur l'objet",
+   "worsening": "Poids de l'objet stationnaire",
+   "GENERIC_CONTRADICTION": "Pour améliorer l'isolation acoustique, il faudrait augmenter l'épaisseur et le volume de matériau, mais faire cela détériore la masse de l'objet.",
+   "N_ARTICLES": 1,
+   "ARTICLE_IDS": [
+    "http://hdl.handle.net/1807/43608"
+   ],
+   "N_PROBLEM_FAMILIES": 0,
+   "families": [],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P5 Combinaison": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P1 Segmentation": 1,
+    "P31 Matériaux poreux": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    2,
+    22,
+    13,
+    24
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "CONFIDENCE": "LOW",
+   "STATUS": "ANECDOTAL"
+  },
+  {
+   "CELL": [
+    12,
+    14
+   ],
+   "improve": "Forme",
+   "worsening": "Résistance",
+   "GENERIC_CONTRADICTION": "Pour améliorer la stabilité dimensionnelle, il faudrait réduire le niveau de réticulation ou modifier la cuisson, mais cela détériore la tenue mécanique du matériau.",
+   "N_ARTICLES": 1,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1002/pen.760351005"
+   ],
+   "N_PROBLEM_FAMILIES": 0,
+   "families": [],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P35 Modification des paramètres physiques/chimiques": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P40 Matériaux composites": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    30,
+    14,
+    10,
+    40
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [
+    40
+   ],
+   "CONFIDENCE": "LOW",
+   "STATUS": "ANECDOTAL"
+  },
+  {
+   "CELL": [
+    28,
+    24
+   ],
+   "improve": "Précision de la mesure",
+   "worsening": "Perte d'information",
+   "GENERIC_CONTRADICTION": "Pour améliorer la précision de la mesure de la distribution des fluides, il faudrait utiliser des échantillons de roche naturelle réelle, mais utiliser de la roche naturelle détériore l'accès aux données d'observation en raison de son opacité.",
+   "N_ARTICLES": 1,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1029/95wr00171"
+   ],
+   "N_PROBLEM_FAMILIES": 0,
+   "families": [],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P26 Copie": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P32 Changement de couleur": 1
+   },
+   "HISTORICAL_PRINCIPLES": [],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "CONFIDENCE": "LOW",
+   "STATUS": "ANECDOTAL"
+  },
+  {
+   "CELL": [
+    14,
+    29
+   ],
+   "improve": "Résistance",
+   "worsening": "Précision de la fabrication",
+   "GENERIC_CONTRADICTION": "Pour améliorer la résistance à la rupture du noyau, il faudrait augmenter l'angle de dépouille, mais faire X détériore la précision dimensionnelle.",
+   "N_ARTICLES": 1,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1080/00207540110091875"
+   ],
+   "N_PROBLEM_FAMILIES": 0,
+   "families": [],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P3 Qualité locale": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P15 Dynamisme": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    3,
+    27
+   ],
+   "OVERLAP_DOMINANT": [
+    3
+   ],
+   "OVERLAP_ANY": [
+    3
+   ],
+   "CONFIDENCE": "LOW",
+   "STATUS": "ANECDOTAL"
+  },
+  {
+   "CELL": [
+    30,
+    12
+   ],
+   "improve": "Facteurs nuisibles agissant sur l'objet",
+   "worsening": "Forme",
+   "GENERIC_CONTRADICTION": "Pour améliorer la stabilité géométrique face aux variations de procédé, il faudrait maintenir une épaisseur de paroi uniforme, mais faire cela empêche la compensation des retraits locaux et détériore la forme finale de la pièce.",
+   "N_ARTICLES": 1,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1080/03602559708000661"
+   ],
+   "N_PROBLEM_FAMILIES": 0,
+   "families": [],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P3 Qualité locale": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P4 Asymétrie": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    22,
+    1,
+    3,
+    35
+   ],
+   "OVERLAP_DOMINANT": [
+    3
+   ],
+   "OVERLAP_ANY": [
+    3
+   ],
+   "CONFIDENCE": "LOW",
+   "STATUS": "ANECDOTAL"
+  },
+  {
+   "CELL": [
+    23,
+    31
+   ],
+   "improve": "Gaspillage de substance",
+   "worsening": "Effets secondaires nuisibles",
+   "GENERIC_CONTRADICTION": "Pour améliorer la conversion efficace du substrat, il faudrait augmenter l'activité métabolique du glycérol, mais faire cela détériore la sélectivité en générant des effets secondaires nuisibles sous forme de sous-produits.",
+   "N_ARTICLES": 1,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.18725/oparu-2603"
+   ],
+   "N_PROBLEM_FAMILIES": 0,
+   "families": [],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P2 Extraction": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P34 Élimination/régénération de parties": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    10,
+    1,
+    34,
+    29
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [
+    34
+   ],
+   "CONFIDENCE": "LOW",
+   "STATUS": "ANECDOTAL"
+  },
+  {
+   "CELL": [
+    10,
+    31
+   ],
+   "improve": "Force",
+   "worsening": "Effets secondaires nuisibles",
+   "GENERIC_CONTRADICTION": "Pour améliorer la force (10) d'entraînement du fluide, il faudrait appliquer un courant continu puissant, mais faire cela détériore les effets secondaires nuisibles (31) générés par l'électrolyse.",
+   "N_ARTICLES": 1,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.31390/gradschool_dissertations.2083"
+   ],
+   "N_PROBLEM_FAMILIES": 0,
+   "families": [],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P19 Action périodique": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P35 Modification des paramètres physiques/chimiques": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    13,
+    3,
+    36,
+    24
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "CONFIDENCE": "LOW",
+   "STATUS": "ANECDOTAL"
+  },
+  {
+   "CELL": [
+    12,
+    29
+   ],
+   "improve": "Forme",
+   "worsening": "Précision de la fabrication",
+   "GENERIC_CONTRADICTION": "Pour améliorer la capacité à fabriquer des géométries internes complexes, il faudrait recourir à la fabrication additive (SLM) pour l'ensemble du composant, mais faire cela détériore la précision de fabrication et l'état de surface global.",
+   "N_ARTICLES": 1,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.3390/designs7030068"
+   ],
+   "N_PROBLEM_FAMILIES": 0,
+   "families": [],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P3 Qualité locale": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P5 Combinaison": 1,
+    "P1 Segmentation": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    32,
+    30,
+    40
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "CONFIDENCE": "LOW",
+   "STATUS": "ANECDOTAL"
+  },
+  {
+   "CELL": [
+    29,
+    31
+   ],
+   "improve": "Précision de la fabrication",
+   "worsening": "Effets secondaires nuisibles",
+   "GENERIC_CONTRADICTION": "Pour améliorer la précision de réplication des micro-structures, il faudrait augmenter la pression de maintien, mais faire cela détériore la qualité géométrique et optique de la pièce en engendrant des contraintes et déformations.",
+   "N_ARTICLES": 1,
+   "ARTICLE_IDS": [
+    "https://doi.org/10.3390/mi9120653"
+   ],
+   "N_PROBLEM_FAMILIES": 0,
+   "families": [],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P15 Dynamisme": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P35 Modification des paramètres physiques/chimiques": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    4,
+    17,
+    34,
+    26
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "CONFIDENCE": "LOW",
+   "STATUS": "ANECDOTAL"
+  }
+ ],
+ "PER_ARTICLE": {
+  "http://etheses.bham.ac.uk/3184/2/collins_11_PhD.pdf": {
+   "status": "A",
+   "cell": [
+    2,
+    14
+   ],
+   "family": "FAMILY_LIGHTWEIGHT_STRUCTURE_STRENGTH",
+   "phrase": "Pour améliorer la résistance mécanique de l'échafaudage poreux, il faudrait augmenter la densité du polymère en réduisant la porosité, mais faire cela détériore la structure et l'architecture poreuse nécessaire à l'ingénierie tissulaire.",
+   "probleme_generique": "Augmenter la tenue mécanique d'une structure alvéolaire réduit la porosité globale et altère sa géométrie interne.",
+   "physical": {
+    "present": true,
+    "statement": "L'échafaudage doit être dense (plein) pour résister aux charges mécaniques, et doit être creux (poreux) pour permettre la migration et le développement cellulaire.",
+    "separation": "whole-parts"
+   },
+   "status_reason": "Le conflit initial oppose clairement la résistance mécanique (14) et l'architecture géométrique/forme des pores (12).",
+   "improve": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "Capacité du matériau poreux à résister aux contraintes et efforts mécaniques sans s'effondrer.",
+    "confidence": 0.95
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "La configuration géométrique complexe et la micro-architecture des pores (taille, parois, connectivité).",
+    "confidence": 0.85
+   }
+  },
+  "http://hdl.handle.net/10106/11909": {
+   "status": "A",
+   "cell": [
+    32,
+    25
+   ],
+   "family": "FAMILY_DFMA_ASSEMBLY_TIME",
+   "phrase": "Pour améliorer la précision de la forme complexe de la pièce, il faudrait effectuer des reprises d'usinage secondaires systématiques, mais cela détériore la durée globale du processus de fabrication.",
+   "probleme_generique": "L'obtention de formes géométriques complexes et précises nécessite des opérations de parachèvement qui allongent la durée de fabrication.",
+   "physical": {
+    "present": true,
+    "statement": "L'usinage secondaire de la pièce doit être présent pour garantir la forme et la précision géométrique, et doit être absent pour minimiser le temps de cycle.",
+    "separation": "conditions"
+   },
+   "status_reason": "La contradiction technique initiale est clairement identifiée entre la précision géométrique (Forme) et le temps de cycle (Perte de temps), permettant un mapping direct sur la matrice.",
+   "improve": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "Il s'agit d'obtenir la géométrie complexe et définie de la pièce de roue aux cotes voulues.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 25,
+    "name": "Perte de temps",
+    "reason": "L'ajout d'étapes d'usinage secondaires entraîne une perte de temps significative dans le cycle de fabrication.",
+    "confidence": 0.9
+   }
+  },
+  "http://hdl.handle.net/1807/43608": {
+   "status": "A",
+   "cell": [
+    30,
+    2
+   ],
+   "family": null,
+   "phrase": "Pour améliorer l'isolation acoustique, il faudrait augmenter l'épaisseur et le volume de matériau, mais faire cela détériore la masse de l'objet.",
+   "probleme_generique": "L'augmentation de l'épaisseur du composant nécessaire pour étouffer le bruit augmente indésirablement la masse globale de la structure et la quantité de matière requise.",
+   "physical": {
+    "present": true,
+    "statement": "La couche de matériau doit être épaisse pour garantir l'absorption acoustique, et doit être mince pour limiter la masse et le temps de cycle.",
+    "separation": "whole-parts"
+   },
+   "status_reason": "Contradiction technique claire et classique entre la performance d'isolation (30) et la masse résultante (2), traduisible directement dans la matrice d'Altshuller.",
+   "improve": {
+    "id": 30,
+    "name": "Facteurs nuisibles agissant sur l'objet",
+    "reason": "L'isolation acoustique vise à protéger l'environnement ou le système contre la perturbation sonore (facteur nuisible extérieur/externe).",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 2,
+    "name": "Masse de l'objet stationnaire",
+    "reason": "L'augmentation du volume et de l'épaisseur pour absorber le son alourdit directement la pièce.",
+    "confidence": 0.95
+   }
+  },
+  "http://hdl.handle.net/1822/173": {
+   "status": "A",
+   "cell": [
+    28,
+    37
+   ],
+   "family": "FAMILY_IN_MOLD_SENSING",
+   "phrase": "Pour améliorer la précision des mesures et prédictions des contraintes, il faudrait effectuer un suivi direct en temps réel au cœur du moule, mais faire cela augmente la complexité du contrôle et de la surveillance du procédé.",
+   "probleme_generique": "L'optimisation des tolérances et l'évitement des défauts nécessitent une acquisition d'informations en temps réel au sein d'un environnement fermé et sous contraintes, ce qui rend l'observation du procédé extrêmement difficile.",
+   "physical": {
+    "present": true,
+    "statement": "L'espace interne du moule doit contenir des dispositifs de mesure pour capter les contraintes réelles, et doit être libre de tout obstacle pour ne pas perturber le moulage et l'éjection.",
+    "separation": "space"
+   },
+   "status_reason": "Le conflit initial exprime clairement un compromis entre la précision d'acquisition des données du procédé et la difficulté/complexité de surveiller/mesurer ces grandeurs en temps réel dans un milieu fermé.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "L'objectif initial est d'éliminer les erreurs d'estimation théorique et d'obtenir des données exactes sur les contraintes thermomécaniques réelles.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 37,
+    "name": "Complexité du contrôle",
+    "reason": "La recherche d'une mesure directe en temps réel pendant le cycle d'injection accroît la difficulté à instrumenter et surveiller un système opérant dans une cavité fermée sous haute pression.",
+    "confidence": 0.8
+   }
+  },
+  "http://hdl.handle.net/1903/15172": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": null,
+   "family": null,
+   "phrase": "Pour améliorer la résistance à la corrosion, il faudrait utiliser des polymères, mais cela détériore le transfert thermique.",
+   "probleme_generique": "Le choix d'un matériau chimiquement inerte pour résister aux fluides agressifs compromet l'efficacité des échanges de chaleur du système.",
+   "physical": {
+    "present": true,
+    "statement": "Le matériau de l'échangeur doit être conducteur thermique (caractéristique métallique) pour transférer la chaleur et non conducteur/inerte (caractéristique polymère) pour résister à la corrosion.",
+    "separation": "whole-parts"
+   },
+   "status_reason": "Le conflit entre l'inertie chimique (résistance à la corrosion) et l'échange de chaleur se mappe directement sur les paramètres canoniques 30 et 17 sans invoquer la solution composite.",
+   "improve": {
+    "id": 30,
+    "name": "Sensibilité aux facteurs nuisibles externes",
+    "reason": "Le problème initial cherche à prémunir l'échangeur contre l'action chimique nocive de l'eau de mer (corrosion).",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Ce paramètre sert à évaluer les caractéristiques d'échange de chaleur du système, fortement dégradées lors de l'emploi de polymères classiques.",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.1002/aidi.202500107": {
+   "status": "PHYSICAL_CONTRADICTION_ONLY",
+   "cell": null,
+   "family": null,
+   "phrase": "Pour améliorer la fiabilité et la conformité physique des modèles de conception, il faudrait augmenter la quantité de données d'apprentissage et d'essais, mais cela exige des volumes de données indisponibles en pratique.",
+   "probleme_generique": "Augmenter la couverture expérimentale pour garantir la fiabilité physique d'un modèle d'optimisation entraîne une exigence irréaliste en quantité de données d'apprentissage.",
+   "physical": {
+    "present": true,
+    "statement": "L'espace de données d'apprentissage doit être large pour garantir le respect des lois physiques, et restreint en raison de la rareté des données réelles disponibles.",
+    "separation": "conditions"
+   },
+   "status_reason": "Le conflit porte sur l'apprentissage guidé par les données (volume de données vs conformité aux lois physiques), ce qui formule une contradiction physique claire (espace de recherche vaste vs restreint), mais ne se prête pas à un mapping rigoureux sur la matrice 39x39 classique sans forcer artificiellement les paramètres.",
+   "improve": {
+    "id": 27,
+    "name": "Fiabilité",
+    "reason": "Capacité du modèle de conception inverse à produire des résultats valides et respectant les lois physiques.",
+    "confidence": 0.7
+   },
+   "worsen": {
+    "id": null,
+    "name": "NO_MATRIX_MAPPING",
+    "reason": "La quantité de données d'apprentissage et la rareté des données industrielles ne correspondent à aucun paramètre physique canonique (la matière/énergie ne s'appliquant pas aux données virtuelles).",
+    "confidence": 0.0
+   }
+  },
+  "https://doi.org/10.1002/mawe.202300157": {
+   "status": "A",
+   "cell": [
+    28,
+    25
+   ],
+   "family": "FAMILY_SIMULATION_OPTIMIZATION_TIME",
+   "phrase": "Pour améliorer la précision de fabrication de la cavité, il faudrait exécuter de nombreuses simulations éléments finis directes, mais faire cela détériore la perte de temps.",
+   "probleme_generique": "Augmenter la précision de la recherche d'une forme optimale exige la répétition de calculs numériques lourds, ce qui engendre une durée d'évaluation inacceptable.",
+   "physical": {
+    "present": true,
+    "statement": "L'évaluation numérique de la déformation doit être complexe et détaillée pour être exacte, et doit être simple et rapide pour permettre une optimisation efficace.",
+    "separation": "conditions"
+   },
+   "status_reason": "La contradiction technique initiale oppose la précision recherchée de la géométrie (paramètre 29) au temps de calcul excessif qu'exige la méthode directe (paramètre 25).",
+   "improve": {
+    "id": 29,
+    "name": "Précision de fabrication",
+    "reason": "L'objectif initial est d'obtenir une géométrie de cavité exacte pour compenser précisément le retrait et le gauchissement de la pièce finale.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 25,
+    "name": "Perte de temps",
+    "reason": "L'enchaînement de simulations éléments finis lourdes consomme un temps de calcul considérable, ce qui constitue le problème principal identifié.",
+    "confidence": 0.95
+   }
+  },
+  "https://doi.org/10.1002/pen.760351005": {
+   "status": "A",
+   "cell": [
+    12,
+    14
+   ],
+   "family": null,
+   "phrase": "Pour améliorer la stabilité dimensionnelle, il faudrait réduire le niveau de réticulation ou modifier la cuisson, mais cela détériore la tenue mécanique du matériau.",
+   "probleme_generique": "Prévenir la variation de volume lors de la polymérisation d'un matériau sans dégrader ses propriétés mécaniques finales.",
+   "physical": {
+    "present": true,
+    "statement": "Le matériau doit présenter une réticulation dense pour assurer la tenue mécanique, tout en évitant la densification pour ne pas subir de retrait volumique.",
+    "separation": "conditions"
+   },
+   "status_reason": "La contradiction technique initiale est nettement établie entre la préservation de la forme (paramètre 12) et le maintien de la résistance mécanique (paramètre 14).",
+   "improve": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "Le problème initial est la déformation et le retrait géométrique affectant la forme finale de l'objet.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "La contrainte explicitée exige de ne pas altérer la tenue mécanique (résistance aux contraintes) de la résine.",
+    "confidence": 0.9
+   }
+  },
+  "https://doi.org/10.1007/s00170-020-06511-3": {
+   "status": "A",
+   "cell": [
+    28,
+    25
+   ],
+   "family": "FAMILY_SIMULATION_OPTIMIZATION_TIME",
+   "phrase": "Pour améliorer la précision de la modélisation du procédé, il faudrait réaliser un grand nombre d'essais expérimentaux, mais faire cela détériore le temps disponible et consomme inutilement de la matière.",
+   "probleme_generique": "L'obtention d'un modèle prédictif fiable pour une nouvelle configuration nécessite un échantillonnage expérimental massif qui pénalise le temps d'immobilisation des équipements et la consommation de matière.",
+   "physical": {
+    "present": true,
+    "statement": "Le volume de données d'essais expérimentaux collectées sur la nouvelle pièce doit être GRAND (pour garantir la précision du modèle) et PETIT (pour minimiser le temps de réglage et le gaspillage de matière).",
+    "separation": "conditions"
+   },
+   "status_reason": "Une contradiction d'ingénierie claire oppose la précision de la modélisation (28) aux pertes de temps d'essai (25), doublée d'une contradiction physique nette sur la quantité de données d'essai.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "L'objectif est de réduire l'écart entre le comportement prédit par le réseau de neurones et la réalité physique du moulage d'une nouvelle pièce.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 25,
+    "name": "Perte de temps",
+    "reason": "La collecte de nombreuses données d'essais immobilise inutilement la presse à injecter et rallonge la phase de mise au point.",
+    "confidence": 0.9
+   }
+  },
+  "https://doi.org/10.1007/s10163-022-01588-2": {
+   "status": "A",
+   "cell": [
+    26,
+    14
+   ],
+   "family": "FAMILY_RECYCLED_PLASTICS_STRENGTH",
+   "phrase": "Pour améliorer la résistance à la rupture des pièces, il faudrait augmenter le taux de recyclage du thermoplastique pur, mais le recyclage répété détériore la résistance à la rupture du matériau.",
+   "probleme_generique": "L'utilisation de polymères recyclés dégrade la cohésion moléculaire et les propriétés mécaniques du matériau extrudé.",
+   "physical": {
+    "present": true,
+    "statement": "Les chaînes polymères doivent être dégradées/raccourcies (état inhérent au recyclage thermique/mécanique) et non-dégradées/longues (pour conserver la résistance mécanique).",
+    "separation": "conditions"
+   },
+   "status_reason": "Une contradiction d'ingénierie claire existe entre le maintien des propriétés mécaniques (14) et la dégradation de la structure moléculaire due au recyclage (13), assortie d'une contradiction physique sous-jacente.",
+   "improve": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "L'objectif est d'obtenir des pièces imprimées capables de supporter des contraintes mécaniques élevées.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 13,
+    "name": "Stabilité / Intégrité",
+    "reason": "Les cycles de recyclage provoquent une scission des chaînes polymères, diminuant la cohésion et la viscosité du matériau.",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082": {
+   "status": "A",
+   "cell": [
+    17,
+    14
+   ],
+   "family": "FAMILY_CONFORMAL_COOLING_STRENGTH",
+   "phrase": "Pour améliorer la température et l'homogénéité thermique, il faudrait rapprocher les perçages de la cavité, mais faire cela détériore la résistance de la structure du moule.",
+   "probleme_generique": "Augmenter l'efficacité de l'échange thermique sur une surface complexe sans compromettre la résistance mécanique de la structure.",
+   "physical": {
+    "present": true,
+    "statement": "Les canaux de refroidissement doivent être rectilignes (pour être usinables par perçage classique) et non-rectilignes (pour épouser les contours 3D de la cavité).",
+    "separation": "space"
+   },
+   "status_reason": "La contradiction technique s'exprime clairement entre le contrôle thermique (17) et la résistance mécanique de la structure (14), complétée par une contradiction physique de forme résolue dans l'espace.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Le besoin fondamental est d'optimiser le transfert thermique et l'homogénéité de la température dans la pièce moulée.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance / Solidité",
+    "reason": "Rapprocher des perçages rectilignes d'une surface courbe diminue l'épaisseur de paroi par endroits, réduisant la résistance aux pressions d'injection.",
+    "confidence": 0.8
+   }
+  },
+  "https://doi.org/10.1016/j.ijlmm.2021.11.005": {
+   "status": "A",
+   "cell": [
+    2,
+    12
+   ],
+   "family": "FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY",
+   "phrase": "Pour améliorer la masse de la pièce, il faudrait utiliser un moussage microcellulaire, mais faire cela détériore la qualité de surface en générant des effets nuisibles visuels.",
+   "probleme_generique": "L'allègement de la structure interne par expansion gazeuse génère des imperfections de surface inacceptables sur le produit.",
+   "physical": {
+    "present": true,
+    "statement": "Le gaz/moussage doit être présent pour alléger la structure interne de la pièce, et doit être absent à l'interface moule/matière pour garantir une surface lisse.",
+    "separation": "space"
+   },
+   "status_reason": "Contradiction d'ingénierie classique très nette entre l'allègement (paramètre 2) et la génération de défauts de surface (paramètre 31), avec une contradiction physique évidente séparable dans l'espace (cœur vs peau).",
+   "improve": {
+    "id": 2,
+    "name": "Masse de l'objet stationnaire",
+    "reason": "L'objectif initial du procédé microcellulaire est de réduire le poids/masse de la pièce injectée.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles engendrés par l'objet ou le système",
+    "reason": "Le dégazage et la formation d'alvéoles créent des traces de swirl et une rugosité de surface non désirées.",
+    "confidence": 0.95
+   }
+  },
+  "https://doi.org/10.1016/j.matdes.2020.109147": {
+   "status": "A",
+   "cell": [
+    17,
+    12
+   ],
+   "family": "FAMILY_CONFORMAL_COOLING_GEOMETRY",
+   "phrase": "Pour améliorer l'efficacité du transfert thermique, il faudrait augmenter le diamètre des canaux de refroidissement, mais faire cela détériore la forme et la tenue géométrique du canal lors de l'impression.",
+   "probleme_generique": "L'agrandissement de la section de passage du fluide caloporteur nuit à la tenue géométrique de la cavité lors de sa mise en forme.",
+   "physical": {
+    "present": true,
+    "statement": "Le canal doit avoir un grand diamètre pour maximiser le débit thermique et un petit diamètre (ou une structure étroite) pour éviter l'effondrement structural lors de l'impression.",
+    "separation": "whole-parts"
+   },
+   "status_reason": "La contradiction technique classique oppose la capacité thermique (17) à la déformation/forme du composant (12), ce qui correspond à une cellule valide de la matrice TRIZ.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Le paramètre 17 évalue les capacités d'échange thermique et le refroidissement de l'outillage.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "L'augmentation du diamètre entraîne l'effondrement de la voûte du canal, altérant la forme géométrique requise.",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.1016/j.matdes.2021.109576": {
+   "status": "A",
+   "cell": [
+    26,
+    14
+   ],
+   "family": "FAMILY_RECYCLED_PLASTICS_STRENGTH",
+   "phrase": "Pour améliorer la quantité de matière recyclée utilisée, il faudrait utiliser du polypropylène recyclé, mais faire cela détériore la résistance mécanique.",
+   "probleme_generique": "L'incorporation de matériaux recyclés économiquement avantageux altère la résistance mécanique et la qualité globale de la pièce moulée.",
+   "physical": {
+    "present": true,
+    "statement": "Le matériau constitutif doit être du plastique recyclé pour économiser les ressources, et ne doit pas être du plastique recyclé (doit être du plastique vierge) pour maintenir la résistance et l'aspect.",
+    "separation": "space"
+   },
+   "status_reason": "La contradiction technique entre l'incorporation de matière recyclée (26) et la perte de résistance mécanique (14) s'aligne parfaitement sur la matrice d'Altshuller.",
+   "improve": {
+    "id": 26,
+    "name": "Quantité de substance/matière",
+    "reason": "L'objectif est de maximiser la proportion de matière recyclée intégrée dans le produit pour réduire la consommation de matière vierge.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "L'introduction de contaminants via le plastique recyclé dégrade fortement la résistance mécanique globale et la tenue à l'impact.",
+    "confidence": 0.95
+   }
+  },
+  "https://doi.org/10.1016/j.promfg.2017.07.020": {
+   "status": "A",
+   "cell": [
+    17,
+    14
+   ],
+   "family": "FAMILY_CONFORMAL_COOLING_STRENGTH",
+   "phrase": "Pour améliorer le transfert thermique et réduire le temps de refroidissement, il faudrait rapprocher les canaux de la cavité, mais faire cela détériore la résistance mécanique de l'outillage.",
+   "probleme_generique": "L'approche des fluides de refroidissement au plus près des zones épaisses améliore l'évacuation calorifique mais fragilise la tenue mécanique de l'outillage sous pression.",
+   "physical": {
+    "present": true,
+    "statement": "Les canaux de refroidissement doivent être proches de la cavité pour évacuer la chaleur rapidement, et doivent être éloignés de la cavité pour préserver la résistance mécanique du moule.",
+    "separation": "space"
+   },
+   "status_reason": "La contradiction technique s'exprime clairement entre le transfert thermique (17) et la résistance mécanique (14), résoluble par séparation spatiale via la géométrie conforme.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Le problème initial concerne l'efficacité et la vitesse de transfert thermique (refroidissement) de la matière injectée.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "Mettre des perçages trop proches de la cavité d'injection sous forte pression diminue la tenue mécanique du moule.",
+    "confidence": 0.8
+   }
+  },
+  "https://doi.org/10.1016/j.promfg.2018.10.128": {
+   "status": "A",
+   "cell": [
+    2,
+    12
+   ],
+   "family": "FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY",
+   "phrase": "Pour améliorer la quantité de matière consommée, il faudrait réduire la quantité de polymère injecté, mais cela détériore la précision dimensionnelle de la pièce moulée.",
+   "probleme_generique": "La diminution de la quantité de matière injectée pour alléger la structure provoque des déformations géométriques et des retassures lors du refroidissement.",
+   "physical": {
+    "present": true,
+    "statement": "La quantité de matière dans la cavité doit être faible pour alléger la pièce, et élevée pour maintenir la pression et éviter le retrait/gauchissement.",
+    "separation": "conditions"
+   },
+   "status_reason": "Contradiction d'ingénierie clairement identifiable et transposable sans ambiguïté sur la matrice TRIZ (26 vs 29).",
+   "improve": {
+    "id": 26,
+    "name": "Quantité de substance/matière",
+    "reason": "L'objectif initial est de réduire la quantité de matière plastique consommée pour fabriquer la palette.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 29,
+    "name": "Précision de fabrication",
+    "reason": "La réduction de matière/pression crée des écarts géométriques inacceptables par rapport aux spécifications (gauchissement et retassures).",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.1029/95wr00171": {
+   "status": "A",
+   "cell": [
+    28,
+    24
+   ],
+   "family": null,
+   "phrase": "Pour améliorer la précision de la mesure de la distribution des fluides, il faudrait utiliser des échantillons de roche naturelle réelle, mais utiliser de la roche naturelle détériore l'accès aux données d'observation en raison de son opacité.",
+   "probleme_generique": "Conserver le matériau naturel réel pour représenter fidèlement le milieu rend impossible l'acquisition d'informations visuelles sur l'état interne du système.",
+   "physical": {
+    "present": true,
+    "statement": "La paroi de la fracture doit être opaque (pour conserver la nature minérale réelle de la roche) et transparente (pour laisser passer la lumière et permettre la visualisation optique).",
+    "separation": "conditions"
+   },
+   "status_reason": "La contradiction technique s'exprime clairement entre le besoin de mesure précise en milieu réel (28) et la perte d'informations optiques due à l'opacité (24), doublée d'une contradiction physique nette sur la transparence de la paroi.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "L'objectif est d'observer et mesurer précisément la distribution et l'occupation des pores par les fluides.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 24,
+    "name": "Perte d'information",
+    "reason": "L'opacité de la roche naturelle masque l'intérieur du système et empêche la collecte des données visuelles d'écoulement.",
+    "confidence": 0.9
+   }
+  },
+  "https://doi.org/10.1063/1.5084861": {
+   "status": "A",
+   "cell": [
+    17,
+    14
+   ],
+   "family": "FAMILY_CONFORMAL_COOLING_STRENGTH",
+   "phrase": "Pour améliorer l'état thermique de l'outillage, il faudrait multiplier et rapprocher les perçages de refroidissement des parois complexes, mais faire cela détériore la résistance mécanique de la structure.",
+   "probleme_generique": "L'intensification de l'évacuation thermique par perçage mécanique direct fragilise la structure de l'outillage à proximité des géométries complexes.",
+   "physical": {
+    "present": true,
+    "statement": "Les canaux de refroidissement doivent être rectilignes (pour être usinables par perçage traditionnel) et non-rectilignes (pour suivre la géométrie tridimensionnelle complexe de la pièce).",
+    "separation": "space"
+   },
+   "status_reason": "La contradiction technique initiale s'exprime clairement par un compromis entre l'optimisation thermique (17) et la tenue mécanique du moule (14).",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Le besoin principal est d'harmoniser l'état thermique et le transfert de chaleur autour de la cavité.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance / Solide",
+    "reason": "La multiplication de perçages rectilignes proches des surfaces de moulage fragilise la structure du moule sous pression d'injection.",
+    "confidence": 0.8
+   }
+  },
+  "https://doi.org/10.1080/00207540110091875": {
+   "status": "A",
+   "cell": [
+    14,
+    29
+   ],
+   "family": null,
+   "phrase": "Pour améliorer la résistance à la rupture du noyau, il faudrait augmenter l'angle de dépouille, mais faire X détériore la précision dimensionnelle.",
+   "probleme_generique": "Augmenter l'inclinaison des parois pour réduire l'effort de démoulage dégrade la conformité géométrique de la pièce finale.",
+   "physical": {
+    "present": true,
+    "statement": "L'angle de dépouille doit être grand pour minimiser les forces de frottement lors de l'éjection, et petit pour respecter la géométrie cible de la pièce.",
+    "separation": "conditions"
+   },
+   "status_reason": "La contradiction d'ingénierie classique entre la démoulabilité (résistance du noyau) et le respect des spécifications géométriques (précision) correspond bien au modèle TRIZ.",
+   "improve": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "Capacité du noyau en résine à résister aux contraintes de traction exercées lors de l'éjection sans se rompre.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 29,
+    "name": "Précision de fabrication",
+    "reason": "L'augmentation excessive de la dépouille pour faciliter le démoulage crée un écart par rapport à la forme et aux tolérances géométriques initialement requises pour la pièce.",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.1080/03602559708000661": {
+   "status": "A",
+   "cell": [
+    30,
+    12
+   ],
+   "family": null,
+   "phrase": "Pour améliorer la stabilité géométrique face aux variations de procédé, il faudrait maintenir une épaisseur de paroi uniforme, mais faire cela empêche la compensation des retraits locaux et détériore la forme finale de la pièce.",
+   "probleme_generique": "Le maintien d'une géométrie de paroi uniforme pour éviter le retrait inégal empêche l'adaptation aux variations de procédé, provoquant la déformation de la pièce.",
+   "physical": {
+    "present": true,
+    "statement": "L'épaisseur de la paroi doit être uniforme (selon les règles de l'art pour éviter les retraits différentiels) et non-uniforme (modulée localement pour compenser les variations de procédé).",
+    "separation": "space"
+   },
+   "status_reason": "La contradiction technique s'exprime clairement entre la sensibilité aux facteurs nuisibles de procédé (30) et la dégradation de la forme/stabilité géométrique (12), assortie d'une contradiction physique d'espace nette.",
+   "improve": {
+    "id": 30,
+    "name": "Facteurs nuisibles agissant sur l'objet",
+    "reason": "Il s'agit de réduire la sensibilité de la pièce moulée aux fluctuations inévitables des conditions du procédé d'injection.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "La rigidité de la règle de conception d'épaisseur uniforme entraîne des déformations géométriques et du gauchissement hors tolérance.",
+    "confidence": 0.8
+   }
+  },
+  "https://doi.org/10.1088/0960-1317/17/6/r02": {
+   "status": "VALID_MATRIX_CELL",
+   "cell": null,
+   "family": null,
+   "phrase": "Pour améliorer la fidélité de remplissage des micro-détails, il faudrait maintenir la cavité du moule à haute température, mais faire cela détériore le temps de cycle global par un refroidissement excessif.",
+   "probleme_generique": "L'augmentation de la température de la cavité nécessaire au maintien de la fluidité à l'échelle micrométrique compromet la vitesse de solidification de la pièce.",
+   "physical": {
+    "present": true,
+    "statement": "La paroi de la cavité du moule doit être chaude (au-dessus de Tg) pendant la phase d'injection pour empêcher le figeage, et froide (sous Tg) pendant la phase de solidification pour permettre le démoulage.",
+    "separation": "time"
+   },
+   "status_reason": "Le conflit s'exprime clairement sous forme d'une contradiction technique (température/maintien en forme vs gestion thermique/temps) et d'une contradiction physique marquée, résoluble par séparation dans le temps.",
+   "improve": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "Le problème fondamental est l'incapacité du fluide figeant à épouser la forme géométrique exacte des micro-détails de la cavité.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Maintenir un niveau thermique élevé pour la fluidité empêche l'abaissement thermique nécessaire à la solidification rapide.",
+    "confidence": 0.8
+   }
+  },
+  "https://doi.org/10.1115/cie1995-0804": {
+   "status": "A",
+   "cell": [
+    32,
+    25
+   ],
+   "family": "FAMILY_DFMA_ASSEMBLY_TIME",
+   "phrase": "Pour améliorer le degré d'automatisation de l'analyse de moulabilité, il faudrait définir manuellement toutes les lignes de plan de joint sur le modèle, mais cela entraîne une importante perte de temps en itérations laborieuses.",
+   "probleme_generique": "L'automatisation du contrôle de fabricabilité requiert la saisie d'informations topologiques spécifiques, ce qui alourdit le processus de conception par des étapes manuelles répétitives.",
+   "physical": {
+    "present": true,
+    "statement": "L'information sur le plan de joint doit être présente dans le modèle géométrique (pour permettre l'analyse automatique) et absente/indépendante (pour ne pas alourdir la création géométrique initiale de la maquette B-rep).",
+    "separation": "conditions"
+   },
+   "status_reason": "Contradiction technique valide et causalement établie entre le besoin d'automatisation (paramètre 38) et la perte de temps due aux itérations manuelles (paramètre 25).",
+   "improve": {
+    "id": 38,
+    "name": "Degré d'automatisation",
+    "reason": "Le problème explicite le besoin d'automatiser l'analyse de moulabilité et l'association des entités géométriques de moulage sans intervention humaine.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 25,
+    "name": "Perte de temps",
+    "reason": "La méthode conventionnelle exige des itérations manuelle lentes et répétitives qui retardent le processus de conception.",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.1155/2014/968484": {
+   "status": "A",
+   "cell": [
+    17,
+    12
+   ],
+   "family": "FAMILY_CONFORMAL_COOLING_GEOMETRY",
+   "phrase": "Pour améliorer l'état thermique et limiter le gauchissement de la pièce, il faudrait multiplier les perçages rectilignes au plus près des parois, mais la géométrie rigide des canaux droits détériore l'uniformité du refroidissement sur les formes complexes.",
+   "probleme_generique": "Améliorer l'évacuation thermique d'un composant aux formes tridimensionnelles complexes sans provoquer de déformations dues à la rigidité géométrique des circuits de refroidissement traditionnels.",
+   "physical": {
+    "present": true,
+    "statement": "Le canal de refroidissement doit être droit (pour être facilement percé de manière conventionnelle) et non-droit / conforme (pour suivre les contours 3D de la cavité).",
+    "separation": "space"
+   },
+   "status_reason": "Contradiction technique bien établie entre la gestion thermique (17) et la limitation de forme/géométrie du canal (12), doublée d'une contradiction physique nette sur la forme du canal.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Recherche d'une évacuation uniforme de la chaleur sur toute la surface de la cavité.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "La trajectoire exclusivement rectiligne imposée par le perçage conventionnel limite l'adaptation à la géométrie complexe de la cavité.",
+    "confidence": 0.8
+   }
+  },
+  "https://doi.org/10.1155/2019/3720127": {
+   "status": "A",
+   "cell": [
+    28,
+    37
+   ],
+   "family": "FAMILY_IN_MOLD_SENSING",
+   "phrase": "Pour améliorer la précision de la mesure de la qualité en temps réel, il faudrait installer des capteurs directement dans la cavité du moule, mais cela engendre des effets secondaires nuisibles sur la durabilité et l'intégrité du moule.",
+   "probleme_generique": "L'acquisition directe de données physiques au cœur de la zone opérationnelle augmente les risques de dégradation et d'effets nuisibles sur la structure.",
+   "physical": {
+    "present": true,
+    "statement": "Le capteur doit être présent dans la cavité pour mesurer la pression au plus près du procédé, et doit être absent de la cavité pour éviter de fragiliser et d'endommager le moule.",
+    "separation": "space"
+   },
+   "status_reason": "La contradiction technique s'exprime clairement entre la précision de mesure (28) et l'apparition d'effets secondaires nuisibles (31), avec une contradiction physique associée résoluble par séparation dans l'espace.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "L'objectif est d'obtenir des données précises et immédiates sur la pression en cavité pour surveiller la qualité des pièces.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles",
+    "reason": "L'insertion d'éléments de mesure intrusifs génère des risques d'endommagement, de panne et de complexité de maintenance pour le moule.",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.1590/0104-1428.2047": {
+   "status": "A",
+   "cell": [
+    17,
+    12
+   ],
+   "family": "FAMILY_CONFORMAL_COOLING_GEOMETRY",
+   "phrase": "Pour améliorer la distribution de température et limiter le gauchissement, il faudrait approcher les canaux de refroidissement au plus près des contours complexes, mais faire cela fragilise la structure du moule avec les méthodes de perçage conventionnelles.",
+   "probleme_generique": "Le transfert thermique uniforme exige des canaux épousant les contours complexes de la pièce, mais la contrainte de perçage mécanique impose des géométries droites situées à distance de la cavité.",
+   "physical": {
+    "present": true,
+    "statement": "Le canal de refroidissement doit être droit (pour permettre le perçage mécanique usuel) et non droit / tridimensionnel (pour épouser les contours complexes de la cavité).",
+    "separation": "space"
+   },
+   "status_reason": "La contradiction technique initiale est clairement établie entre le transfert thermique uniforme (17 Température) et la contrainte géométrique d'usinage rectiligne des canaux (12 Forme).",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "On cherche à contrôler l'état thermique et à évacuer la chaleur de manière uniforme pour éviter le gauchissement.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "La configuration géométrique rectiligne des canaux imposée par perçage mécanique limite l'aptitude à suivre la forme complexe de l'empreinte.",
+    "confidence": 0.8
+   }
+  },
+  "https://doi.org/10.18494/sam.2019.2357": {
+   "status": "C",
+   "cell": null,
+   "family": null,
+   "phrase": "Pour améliorer la précision de mesure des efforts de démoulage, il faudrait placer des dispositifs de mesure directement au niveau de la cavité d'éjection, mais cela perturbe la structure et le contrôle du moule.",
+   "probleme_generique": "L'absence de mesure directe et précise des efforts mécaniques lors du démoulage empêche l'optimisation du procédé sans risquer d'endommager la pièce.",
+   "physical": {
+    "present": false,
+    "statement": "Aucune contradiction physique claire ('être A et non-A') n'est formulée explicitement dans le problème initial.",
+    "separation": "none"
+   },
+   "status_reason": "Le problème initial exprime un besoin de mesure/caractérisation non satisfait, mais ne présente pas de compromis de construction ou de conflit causal entre deux paramètres techniques formulé avant l'invention.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "Le besoin initial est d'obtenir une valeur exacte et localisée de la force de démoulage réelle.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": null,
+    "name": "NO_MATRIX_MAPPING",
+    "reason": "Le texte 'AVANT/PROBLEME' décrit un manque de capacité de mesure sans expliciter quel paramètre physique ou technique se détériore dans une solution conventionnelle.",
+    "confidence": 0.0
+   }
+  },
+  "https://doi.org/10.18725/oparu-2603": {
+   "status": "A",
+   "cell": [
+    23,
+    31
+   ],
+   "family": null,
+   "phrase": "Pour améliorer la conversion efficace du substrat, il faudrait augmenter l'activité métabolique du glycérol, mais faire cela détériore la sélectivité en générant des effets secondaires nuisibles sous forme de sous-produits.",
+   "probleme_generique": "L'augmentation du traitement de la matière première entraîne une dissipation indésirable de cette ressource et des cofacteurs dans des réactions secondaires parasites.",
+   "physical": {
+    "present": true,
+    "statement": "Les voies métaboliques secondaires doivent être présentes pour le fonctionnement biologique naturel de la souche, et doivent être absentes pour consacrer l'intégralité des ressources au produit ciblé.",
+    "separation": "whole-parts"
+   },
+   "status_reason": "Le conflit entre l'efficacité d'utilisation de la substance (23) et la génération de produits secondaires nuisibles (31) s'inscrit directement dans une matrice de contradiction classique.",
+   "improve": {
+    "id": 23,
+    "name": "Perte de substance",
+    "reason": "Il s'agit de réduire le gaspillage et le détournement du substrat (glycérol) et des cofacteurs (NADH) vers des voies métaboliques non souhaitées.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles engendrés par l'objet",
+    "reason": "L'activité métabolique génère simultanément des métabolites secondaires indésirables (hydrogène, butyrate, lactate) qui polluent le milieu.",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.21203/rs.3.rs-3081027/v1": {
+   "status": "A",
+   "cell": [
+    17,
+    12
+   ],
+   "family": "FAMILY_CONFORMAL_COOLING_GEOMETRY",
+   "phrase": "Pour ameliorer l'efficacité et l'homogénéité du refroidissement thermique du moule, il faudrait adapter manuellement le tracé des canaux aux zones de forte chaleur, mais faire cela deteriore la précision du contrôle de la température locale.",
+   "probleme_generique": "La recherche d'une répartition thermique homogène par ajustement des canaux de refroidissement se heurte aux limites de précision de la conception géométrique manuelle.",
+   "physical": {
+    "present": true,
+    "statement": "Le réseau de canaux de refroidissement doit avoir une géométrie simple (droite) pour être concevable manuellement, et une géométrie complexe (conforme) pour épouser les variations thermiques locales.",
+    "separation": "whole-parts"
+   },
+   "status_reason": "Une contradiction d'ingénierie classique est identifiée entre la maîtrise de l'état thermique (17) et la précision du contrôle local de la géométrie thermique (28) avant l'apport du design génératif.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "L'objectif premier est d'optimiser et d'homogénéiser le transfert thermique au sein de l'outillage.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 28,
+    "name": "Précision de la mesure / du contrôle",
+    "reason": "La conception conventionnelle ne permet pas d'ajuster avec précision le flux thermique aux variations spatiales locales de la pièce.",
+    "confidence": 0.75
+   }
+  },
+  "https://doi.org/10.21741/9781644903131-294": {
+   "status": "A_VALID_MATRIX_CELL",
+   "cell": null,
+   "family": null,
+   "phrase": "Pour améliorer l'intégrité des micro-pièces lors du démoulage, il faudrait augmenter l'angle de dépouille de la cavité, mais faire cela détériore la forme géométrique requise du composant.",
+   "probleme_generique": "L'augmentation de la dépouille pour réduire les forces d'éjection destructrices altère la fidélité de la forme du composant micrométrique.",
+   "physical": {
+    "present": true,
+    "statement": "L'angle de dépouille de la cavité doit être grand pour minimiser les forces d'éjection et nul ou très faible pour conserver la forme exacte de la micro-pièce.",
+    "separation": "conditions"
+   },
+   "status_reason": "Contradiction technique d'ingénierie classique basée sur le compromis géométrie/démoulage, parfaitement traduisible par les paramètres canoniques 13 (Intégrité) et 12 (Forme).",
+   "improve": {
+    "id": 13,
+    "name": "Intégrité",
+    "reason": "Prévenir la rupture, la déformation ou la dégradation physique de la micro-pièce fragile lors du démoulage.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "L'augmentation des angles de dépouille modifie la configuration géométrique extérieure stricte de la pièce.",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.31390/gradschool_dissertations.2083": {
+   "status": "A",
+   "cell": [
+    10,
+    31
+   ],
+   "family": null,
+   "phrase": "Pour améliorer la force (10) d'entraînement du fluide, il faudrait appliquer un courant continu puissant, mais faire cela détériore les effets secondaires nuisibles (31) générés par l'électrolyse.",
+   "probleme_generique": "L'augmentation de l'intensité d'actionnement électromagnétique d'un fluide conducteur provoque une réaction chimique indésirable générant des bulles qui bloquent le canal.",
+   "physical": {
+    "present": true,
+    "statement": "Le courant électrique doit être continu (DC) pour générer une force de Lorentz unidirectionnelle constante, et ne doit pas être continu (AC) pour éviter la polarisation électrochimique et l'électrolyse.",
+    "separation": "time"
+   },
+   "status_reason": "La contradiction technique associe clairement l'amélioration de la force d'actionnement (10) à la dégradation via des effets secondaires nuisibles (31), avec une contradiction physique résoluble par séparation dans le temps.",
+   "improve": {
+    "id": 10,
+    "name": "Force",
+    "reason": "On cherche à maximiser la force de Lorentz exercée sur le fluide pour assurer son déplacement.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles engendrés par l'objet",
+    "reason": "L'application du courant continu produit une électrolyse indésirable et la formation de bulles de gaz qui perturbent le fonctionnement.",
+    "confidence": 0.95
+   }
+  },
+  "https://doi.org/10.3389/fmats.2020.00027": {
+   "status": "C",
+   "cell": null,
+   "family": null,
+   "phrase": "Pour améliorer la précision de mesure (28), il faudrait appliquer la théorie classique de la reptation, mais cela détériore la fiabilité (27) des prédictions pour les polymères semi-cristallins.",
+   "probleme_generique": "Le problème concerne l'incohérence d'un modèle théorique de prédiction et ne décrit pas un conflit entre deux paramètres physiques d'un système technique.",
+   "physical": {
+    "present": false,
+    "statement": "Aucune contradiction physique sur l'état d'un paramètre (ex: chaud/froid, grand/petit) n'est exprimée dans la situation initiale.",
+    "separation": "none"
+   },
+   "status_reason": "Le problème décrit une insuffisance théorique/modèle de calcul pour prédire un comportement matériau, et non une contradiction d'ingénierie où la modification d'un paramètre physique détériore un autre paramètre du procédé/produit.",
+   "improve": null,
+   "worsen": null
+  },
+  "https://doi.org/10.3390/app13137437": {
+   "status": "A",
+   "cell": [
+    17,
+    14
+   ],
+   "family": "FAMILY_CONFORMAL_COOLING_STRENGTH",
+   "phrase": "Pour améliorer la température, il faudrait rapprocher et multiplier les perçages rectilignes de refroidissement près de la surface de l'empreinte, mais cela détériore la résistance.",
+   "probleme_generique": "L'intensification de l'extraction thermique par des conduits droits à proximité des zones complexes compromet la tenue structurelle du outillage.",
+   "physical": {
+    "present": true,
+    "statement": "La trajectoire du canal de refroidissement doit être rectiligne (pour permettre le perçage mécanique traditionnel) et non-rectiligne (pour suivre la géométrie complexe de la cavité).",
+    "separation": "space"
+   },
+   "status_reason": "La contradiction technique entre l'échange thermique (17) et la résistance du moule (14) s'inscrit clairement dans le tableau 39x39, doublée d'une contradiction physique nette de forme/trajectoire.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Il s'agit d'optimiser l'état thermique et la dissipation uniforme de la chaleur dans le moule.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "La proximité excessive de perçages rectilignes par rapport aux surfaces complexes de la cavité fragilise la structure mécanique du moule.",
+    "confidence": 0.8
+   }
+  },
+  "https://doi.org/10.3390/app8122567": {
+   "status": "A",
+   "cell": [
+    17,
+    14
+   ],
+   "family": "FAMILY_CONFORMAL_COOLING_STRENGTH",
+   "phrase": "Pour améliorer l'uniformité du refroidissement et la précision géométrique de la pièce moulée, il faudrait rapprocher et multiplier les usinages de perçage droit au plus près des cavités complexes, mais faire cela détériore la résistance mécanique et la tenue structurelle du moule.",
+   "probleme_generique": "Un refroidissement homogène de surfaces complexes exige une géométrie de canaux proche des cavités, ce qui fragilise la structure mécanique du moule si l'on utilise des perçages rigides.",
+   "physical": {
+    "present": true,
+    "statement": "La trajectoire des canaux de refroidissement doit être droite (pour permettre le perçage mécanique) et non-droite / courbe (pour suivre la géométrie 3D de la cavité).",
+    "separation": "space"
+   },
+   "status_reason": "Une contradiction d'ingénierie classique est clairement identifiée entre la qualité thermique/géométrique de la pièce (31) et la tenue mécanique de l'outillage (14).",
+   "improve": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles engendrés par l'objet",
+    "reason": "Le problème initial cherche à éliminer les déformations thermiques, retraits et contraintes induites sur la pièce moulée.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance / Solidité",
+    "reason": "Multiplier les perçages droits à proximité des contours concentre les contraintes et fragilise la structure du moule sous pression.",
+    "confidence": 0.8
+   }
+  },
+  "https://doi.org/10.3390/designs7030068": {
+   "status": "A",
+   "cell": [
+    12,
+    29
+   ],
+   "family": null,
+   "phrase": "Pour améliorer la capacité à fabriquer des géométries internes complexes, il faudrait recourir à la fabrication additive (SLM) pour l'ensemble du composant, mais faire cela détériore la précision de fabrication et l'état de surface global.",
+   "probleme_generique": "L'obtention de formes géométriques internes complexes par impression additive nuit à la précision dimensionnelle et à la qualité de surface globales de la pièce.",
+   "physical": {
+    "present": true,
+    "statement": "L'insert doit être fabriqué de manière additive pour intégrer des formes complexes et de manière soustractive pour garantir une haute précision dimensionnelle.",
+    "separation": "whole-parts"
+   },
+   "status_reason": "La contradiction technique classique entre la complexité de forme accessible (12) et la précision de fabrication (29) est clairement identifiée et transposable dans la matrice d'Altshuller.",
+   "improve": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "Capacité à obtenir des configurations et géométries intérieures complexes sans restriction géométrique.",
+    "confidence": 0.8
+   },
+   "worsen": {
+    "id": 29,
+    "name": "Précision de fabrication",
+    "reason": "Dégradation de l'état de surface et des tolérances dimensionnelles inhérente au procédé SLM global.",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.3390/ma15207079": {
+   "status": "A",
+   "cell": [
+    2,
+    12
+   ],
+   "family": "FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY",
+   "phrase": "Pour améliorer la masse de l'objet, il faudrait réduire la quantité de polymère injectée, mais faire cela détériore la forme et l'état de surface de la pièce.",
+   "probleme_generique": "L'allègement d'une pièce moulée par réduction de matière provoque des déformations géométriques de surface à la solidification.",
+   "physical": {
+    "present": true,
+    "statement": "Le matériau doit être dense pour éviter le retrait volumique et préserver la surface, et non-dense (poreux) pour être léger et économe en matière.",
+    "separation": "whole-parts"
+   },
+   "status_reason": "La contradiction d'ingénierie classique entre la masse (2) et la forme/surface (12) est clairement établie avant l'invention et se mappe parfaitement sur la matrice 39x39.",
+   "improve": {
+    "id": 2,
+    "name": "Masse de l'objet stationnaire",
+    "reason": "L'objectif initial est de réduire le poids total de la pièce moulée en polypropylène.",
+    "confidence": 0.95
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "La réduction de matière entraîne la formation de retassures de surface qui altèrent la configuration géométrique de la pièce.",
+    "confidence": 0.9
+   }
+  },
+  "https://doi.org/10.3390/mi9120653": {
+   "status": "A",
+   "cell": [
+    29,
+    31
+   ],
+   "family": null,
+   "phrase": "Pour améliorer la précision de réplication des micro-structures, il faudrait augmenter la pression de maintien, mais faire cela détériore la qualité géométrique et optique de la pièce en engendrant des contraintes et déformations.",
+   "probleme_generique": "L'augmentation de la pression d'empreinte indispensable au remplissage des micro-détails engendre des déformations et des contraintes internes inacceptables dans le matériau synthétique.",
+   "physical": {
+    "present": true,
+    "statement": "La pression appliquée au polymère doit être forte pour empreindre les micro-structures et faible (ou uniforme) pour ne pas créer de contraintes internes et de gauchissement.",
+    "separation": "conditions"
+   },
+   "status_reason": "Contradiction d'ingénierie classique entre l'augmentation de la pression pour la précision de moulage et l'apparition d'effets nuisibles structurels/optiques.",
+   "improve": {
+    "id": 29,
+    "name": "Précision de fabrication",
+    "reason": "Il s'agit de réduire l'écart entre les dimensions/formes des micro-structures fabriquées et le profil théorique requis pour la lentille.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles",
+    "reason": "La forte pression génère des effets indésirables internes et parasites (contraintes résiduelles, biréfringence optique, gauchissement).",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.3390/polym15132841": {
+   "status": "B",
+   "cell": null,
+   "family": null,
+   "phrase": "Pour améliorer la précision de la mesure (précision du modèle), il faudrait modéliser finement le comportement mécanique local du cœur, mais cela augmente la complexité du contrôle et du calcul.",
+   "probleme_generique": "Augmenter la fidélité de la prédiction des déformations locales sans rendre la modélisation mathématique du comportement de la matière trop complexe à calculer.",
+   "physical": {
+    "present": true,
+    "statement": "Le cœur de la pièce dans la simulation doit être traité comme un fluide parfait (pour simplifier le comportement hydrostatique) et non comme un fluide parfait (état caoutchoutique) pour conserver la mémoire des déformations locales.",
+    "separation": "conditions"
+   },
+   "status_reason": "La contradiction repose principalement sur le comportement dual (fluide vs caoutchoutique) attribué au cœur fondu dans le modèle. Le mapping sur la matrice 39x39 appliquée à un modèle de simulation numérique reste artificiel.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "Capacité du modèle numérique à prédire sans écart les retassures réelles et leur localisation.",
+    "confidence": 0.8
+   },
+   "worsen": {
+    "id": 37,
+    "name": "Complexité du contrôle",
+    "reason": "Difficulté d'évaluer et de calculer la distribution spatio-temporelle des contraintes et déformations locales.",
+    "confidence": 0.6
+   }
+  },
+  "https://doi.org/10.3390/polym9020077": {
+   "status": "A",
+   "cell": [
+    17,
+    12
+   ],
+   "family": "FAMILY_CONFORMAL_COOLING_GEOMETRY",
+   "phrase": "Pour améliorer l'évacuation de la chaleur, il faudrait augmenter le flux de refroidissement, mais cela détériore la forme de la pièce en la déformant.",
+   "probleme_generique": "L'accélération du transfert thermique pour réduire le temps de cycle génère un refroidissement asymétrique qui altère la géométrie de la pièce moulée.",
+   "physical": {
+    "present": true,
+    "statement": "Le refroidissement doit être rapide pour minimiser le temps de cycle et lent/modéré pour éviter les contraintes thermiques et déformations.",
+    "separation": "conditions"
+   },
+   "status_reason": "Contradiction d'ingénierie clairement identifiable entre l'échange thermique (17) et la stabilité géométrique/forme de la pièce (12).",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Concerne la capacité à gérer l'état thermique et les échanges de chaleur du système pour refroidir la pièce.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "Le refroidissement non uniforme entraîne des déformations géométriques de la pièce moulée.",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.3390/s22072704": {
+   "status": "A",
+   "cell": [
+    28,
+    25
+   ],
+   "family": "FAMILY_SIMULATION_OPTIMIZATION_TIME",
+   "phrase": "Pour améliorer la précision de mesure, il faudrait analyser un grand volume de paramètres machine, mais faire cela détériore la perte de temps.",
+   "probleme_generique": "L'augmentation du nombre de paramètres analysés pour garantir la précision de la détection de qualité entraîne un temps de traitement des données trop important.",
+   "physical": {
+    "present": true,
+    "statement": "Le nombre de données/paramètres de réglage à analyser doit être grand pour assurer une prédiction précise, et petit pour limiter le temps de calcul.",
+    "separation": "whole-parts"
+   },
+   "status_reason": "La contradiction technique s'exprime clairement entre la précision de mesure (28) et la perte de temps de calcul (25), couplée à une contradiction physique nette sur la quantité de paramètres analysés.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de mesure",
+    "reason": "L'objectif initial est d'évaluer et prédire correctement la qualité/conformité des pièces fabriquées.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 25,
+    "name": "Perte de temps",
+    "reason": "L'augmentation du volume de données et de paramètres à traiter nécessite un temps de calcul élevé.",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.4995/jarte.2023.18810": {
+   "status": "A",
+   "cell": [
+    32,
+    25
+   ],
+   "family": "FAMILY_DFMA_ASSEMBLY_TIME",
+   "phrase": "Pour améliorer la facilité de fabrication de chaque fonction, il faudrait diviser la tondeuse en un grand nombre de pièces distinctes et spécialisées, mais faire cela détériore le temps nécessaire à l'assemblage.",
+   "probleme_generique": "Le découpage d'un mécanisme en pièces élémentaires simples à fabriquer individuellement augmente le temps et la complexité de son assemblage final.",
+   "physical": {
+    "present": true,
+    "statement": "Le système mécanique doit contenir plusieurs pièces distinctes (pour séparer les fonctions et faciliter leur fabrication) et ne doit contenir qu'une seule pièce intégrée (pour annuler le temps d'assemblage).",
+    "separation": "whole-parts"
+   },
+   "status_reason": "Le conflit initial s'exprime clairement entre la simplicité de fabrication des pièces séparées (32) et le temps perdu lors de l'assemblage (25).",
+   "improve": {
+    "id": 32,
+    "name": "Facilité de fabrication",
+    "reason": "La conception initiale cherche à simplifier l'usinage/moulage de chaque fonction en créant des sous-composants dédiés et simples.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 25,
+    "name": "Perte de temps",
+    "reason": "La multiplication des pièces indépendantes augmente directement le temps requis pour manipuler et assembler le produit.",
+    "confidence": 0.9
+   }
+  },
+  "https://dspace.lboro.ac.uk/2134/10338": {
+   "status": "C",
+   "cell": null,
+   "family": null,
+   "phrase": "Pour améliorer la prise en compte des contraintes de moulabilité dès la conception, il faudrait vérifier manuellement toutes les contraintes du procédé à chaque étape, mais cela détériore la complexité de contrôle du processus de conception.",
+   "probleme_generique": "L'accès à une évaluation précise du procédé au cours de la conception nécessite des vérifications exhaustives complexes qui alourdissent et ralentissent le processus de contrôle.",
+   "physical": {
+    "present": false,
+    "statement": "Aucune contradiction physique sur un élément matériel unique n'est directement formulée.",
+    "separation": "none"
+   },
+   "status_reason": "Le problème décrit relève de la gestion de l'information et de l'ingénierie logicielle (DFM) plutôt d'un conflit physique/technique irréductible entre deux grandeurs physiques mesurables.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "Capacité à évaluer correctement et précisément la moulabilité d'une pièce dès la phase de conception.",
+    "confidence": 0.6
+   },
+   "worsen": {
+    "id": 37,
+    "name": "Complexité du contrôle",
+    "reason": "La recherche et la vérification manuelle d'informations dispersées rendent le suivi du processus de conception difficile et sujet aux erreurs.",
+    "confidence": 0.6
+   }
+  },
+  "https://scholar.uwindsor.ca/etd/5355": {
+   "status": "A",
+   "cell": [
+    2,
+    14
+   ],
+   "family": "FAMILY_LIGHTWEIGHT_STRUCTURE_STRENGTH",
+   "phrase": "Pour améliorer la masse de l'objet stationnaire, il faudrait réduire l'épaisseur de la structure, mais cela détériore la résistance.",
+   "probleme_generique": "Alléger une structure porteuse en réduisant sa section détériore sa tenue mécanique sous charge.",
+   "physical": {
+    "present": true,
+    "statement": "L'armature du siège doit être dense/épaisse pour assurer la rigidité mécanique, et non dense/fine pour être légère.",
+    "separation": "whole-parts"
+   },
+   "status_reason": "La contradiction technique classique entre masse (paramètre 2) et résistance (paramètre 14) s'applique directement sans ambiguïté.",
+   "improve": {
+    "id": 2,
+    "name": "Masse de l'objet stationnaire",
+    "reason": "L'objectif initial est de réduire le poids d'un composant fixe du véhicule (dossier de siège) pour abaisser la consommation.",
+    "confidence": 0.95
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "Une réduction conventionnelle de matière sur l'armature affaiblit sa capacité à résister aux contraintes mécaniques et aux chocs.",
+    "confidence": 0.95
+   }
+  }
+ },
+ "STAGE1": {
+  "http://etheses.bham.ac.uk/3184/2/collins_11_PhD.pdf": {
+   "objectif_A": "la résistance mécanique de l'échafaudage poreux",
+   "action_X": "augmenter la densité du polymère ou réduire la taille/volume des pores",
+   "consequence_B": "la structure et l'architecture poreuse nécessaire à l'ingénierie tissulaire",
+   "phrase": "Pour améliorer la résistance mécanique de l'échafaudage poreux, il faudrait augmenter la densité du polymère en réduisant la porosité, mais faire cela détériore la structure et l'architecture poreuse nécessaire à l'ingénierie tissulaire.",
+   "probleme_generique": "Augmenter la tenue mécanique d'une structure alvéolaire réduit la porosité globale et altère sa géométrie interne.",
+   "improve": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "Capacité du matériau poreux à résister aux contraintes et efforts mécaniques sans s'effondrer.",
+    "confidence": 0.95
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "La configuration géométrique complexe et la micro-architecture des pores (taille, parois, connectivité).",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "L'échafaudage doit être dense (plein) pour résister aux charges mécaniques, et doit être creux (poreux) pour permettre la migration et le développement cellulaire.",
+    "separation": "whole-parts"
+   },
+   "status": "A",
+   "status_reason": "Le conflit initial oppose clairement la résistance mécanique (14) et l'architecture géométrique/forme des pores (12)."
+  },
+  "http://hdl.handle.net/10106/11909": {
+   "objectif_A": "la précision de la forme complexe de la pièce",
+   "action_X": "effectuer des reprises d'usinage secondaires systématiques",
+   "consequence_B": "la durée globale du processus de fabrication",
+   "phrase": "Pour améliorer la précision de la forme complexe de la pièce, il faudrait effectuer des reprises d'usinage secondaires systématiques, mais cela détériore la durée globale du processus de fabrication.",
+   "probleme_generique": "L'obtention de formes géométriques complexes et précises nécessite des opérations de parachèvement qui allongent la durée de fabrication.",
+   "improve": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "Il s'agit d'obtenir la géométrie complexe et définie de la pièce de roue aux cotes voulues.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 25,
+    "name": "Perte de temps",
+    "reason": "L'ajout d'étapes d'usinage secondaires entraîne une perte de temps significative dans le cycle de fabrication.",
+    "confidence": 0.9
+   },
+   "physical": {
+    "present": true,
+    "statement": "L'usinage secondaire de la pièce doit être présent pour garantir la forme et la précision géométrique, et doit être absent pour minimiser le temps de cycle.",
+    "separation": "conditions"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique initiale est clairement identifiée entre la précision géométrique (Forme) et le temps de cycle (Perte de temps), permettant un mapping direct sur la matrice."
+  },
+  "http://hdl.handle.net/1807/43608": {
+   "objectif_A": "l'isolation acoustique (absorption du bruit)",
+   "action_X": "augmenter l'épaisseur et le volume de matériau de la pièce",
+   "consequence_B": "la masse de l'objet et la consommation de matière",
+   "phrase": "Pour améliorer l'isolation acoustique, il faudrait augmenter l'épaisseur et le volume de matériau, mais faire cela détériore la masse de l'objet.",
+   "probleme_generique": "L'augmentation de l'épaisseur du composant nécessaire pour étouffer le bruit augmente indésirablement la masse globale de la structure et la quantité de matière requise.",
+   "improve": {
+    "id": 30,
+    "name": "Facteurs nuisibles agissant sur l'objet",
+    "reason": "L'isolation acoustique vise à protéger l'environnement ou le système contre la perturbation sonore (facteur nuisible extérieur/externe).",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 2,
+    "name": "Masse de l'objet stationnaire",
+    "reason": "L'augmentation du volume et de l'épaisseur pour absorber le son alourdit directement la pièce.",
+    "confidence": 0.95
+   },
+   "physical": {
+    "present": true,
+    "statement": "La couche de matériau doit être épaisse pour garantir l'absorption acoustique, et doit être mince pour limiter la masse et le temps de cycle.",
+    "separation": "whole-parts"
+   },
+   "status": "A",
+   "status_reason": "Contradiction technique claire et classique entre la performance d'isolation (30) et la masse résultante (2), traduisible directement dans la matrice d'Altshuller."
+  },
+  "http://hdl.handle.net/1822/173": {
+   "objectif_A": "la précision de la prédiction des contraintes thermomécaniques et la conformité dimensionnelle des pièces",
+   "action_X": "effectuer des mesures et un suivi en direct des grandeurs physiques à l'intérieur du moule pendant le cycle d'injection",
+   "consequence_B": "la complexité de mesure et de surveillance du procédé en cours de fonctionnement",
+   "phrase": "Pour améliorer la précision des mesures et prédictions des contraintes, il faudrait effectuer un suivi direct en temps réel au cœur du moule, mais faire cela augmente la complexité du contrôle et de la surveillance du procédé.",
+   "probleme_generique": "L'optimisation des tolérances et l'évitement des défauts nécessitent une acquisition d'informations en temps réel au sein d'un environnement fermé et sous contraintes, ce qui rend l'observation du procédé extrêmement difficile.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "L'objectif initial est d'éliminer les erreurs d'estimation théorique et d'obtenir des données exactes sur les contraintes thermomécaniques réelles.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 37,
+    "name": "Complexité du contrôle",
+    "reason": "La recherche d'une mesure directe en temps réel pendant le cycle d'injection accroît la difficulté à instrumenter et surveiller un système opérant dans une cavité fermée sous haute pression.",
+    "confidence": 0.8
+   },
+   "physical": {
+    "present": true,
+    "statement": "L'espace interne du moule doit contenir des dispositifs de mesure pour capter les contraintes réelles, et doit être libre de tout obstacle pour ne pas perturber le moulage et l'éjection.",
+    "separation": "space"
+   },
+   "status": "A",
+   "status_reason": "Le conflit initial exprime clairement un compromis entre la précision d'acquisition des données du procédé et la difficulté/complexité de surveiller/mesurer ces grandeurs en temps réel dans un milieu fermé."
+  },
+  "http://hdl.handle.net/1903/15172": {
+   "objectif_A": "la résistance du système à la corrosion en milieu agressif",
+   "action_X": "utiliser un matériau polymère à la place du métal",
+   "consequence_B": "la capacité d'échange thermique du système",
+   "phrase": "Pour améliorer la résistance à la corrosion, il faudrait utiliser des polymères, mais cela détériore le transfert thermique.",
+   "probleme_generique": "Le choix d'un matériau chimiquement inerte pour résister aux fluides agressifs compromet l'efficacité des échanges de chaleur du système.",
+   "improve": {
+    "id": 30,
+    "name": "Sensibilité aux facteurs nuisibles externes",
+    "reason": "Le problème initial cherche à prémunir l'échangeur contre l'action chimique nocive de l'eau de mer (corrosion).",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Ce paramètre sert à évaluer les caractéristiques d'échange de chaleur du système, fortement dégradées lors de l'emploi de polymères classiques.",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le matériau de l'échangeur doit être conducteur thermique (caractéristique métallique) pour transférer la chaleur et non conducteur/inerte (caractéristique polymère) pour résister à la corrosion.",
+    "separation": "whole-parts"
+   },
+   "status": "VALID_MATRIX_CELL",
+   "status_reason": "Le conflit entre l'inertie chimique (résistance à la corrosion) et l'échange de chaleur se mappe directement sur les paramètres canoniques 30 et 17 sans invoquer la solution composite."
+  },
+  "https://doi.org/10.1002/aidi.202500107": {
+   "objectif_A": "garantir le respect des contraintes physiques et la précision des modèles de conception inverse",
+   "action_X": "augmenter la quantité de données d'entraînement et le nombre d'essais-erreurs pour couvrir l'espace de conception",
+   "consequence_B": "nécessiter des volumes massifs de données irréalistes à obtenir en milieu industriel où les données sont rares",
+   "phrase": "Pour améliorer la fiabilité et la conformité physique des modèles de conception, il faudrait augmenter la quantité de données d'apprentissage et d'essais, mais cela exige des volumes de données indisponibles en pratique.",
+   "probleme_generique": "Augmenter la couverture expérimentale pour garantir la fiabilité physique d'un modèle d'optimisation entraîne une exigence irréaliste en quantité de données d'apprentissage.",
+   "improve": {
+    "id": 27,
+    "name": "Fiabilité",
+    "reason": "Capacité du modèle de conception inverse à produire des résultats valides et respectant les lois physiques.",
+    "confidence": 0.7
+   },
+   "worsen": {
+    "id": null,
+    "name": "NO_MATRIX_MAPPING",
+    "reason": "La quantité de données d'apprentissage et la rareté des données industrielles ne correspondent à aucun paramètre physique canonique (la matière/énergie ne s'appliquant pas aux données virtuelles).",
+    "confidence": 0.0
+   },
+   "physical": {
+    "present": true,
+    "statement": "L'espace de données d'apprentissage doit être large pour garantir le respect des lois physiques, et restreint en raison de la rareté des données réelles disponibles.",
+    "separation": "conditions"
+   },
+   "status": "PHYSICAL_CONTRADICTION_ONLY",
+   "status_reason": "Le conflit porte sur l'apprentissage guidé par les données (volume de données vs conformité aux lois physiques), ce qui formule une contradiction physique claire (espace de recherche vaste vs restreint), mais ne se prête pas à un mapping rigoureux sur la matrice 39x39 classique sans forcer artificiellement les paramètres."
+  },
+  "https://doi.org/10.1002/mawe.202300157": {
+   "objectif_A": "la précision de la compensation du gauchissement de la pièce moulée",
+   "action_X": "exécuter de nombreuses simulations éléments finis directes et détaillées",
+   "consequence_B": "une augmentation prohibitive du temps de calcul nécessaire à l'optimisation",
+   "phrase": "Pour améliorer la précision de fabrication de la cavité, il faudrait exécuter de nombreuses simulations éléments finis directes, mais faire cela détériore la perte de temps.",
+   "probleme_generique": "Augmenter la précision de la recherche d'une forme optimale exige la répétition de calculs numériques lourds, ce qui engendre une durée d'évaluation inacceptable.",
+   "improve": {
+    "id": 29,
+    "name": "Précision de fabrication",
+    "reason": "L'objectif initial est d'obtenir une géométrie de cavité exacte pour compenser précisément le retrait et le gauchissement de la pièce finale.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 25,
+    "name": "Perte de temps",
+    "reason": "L'enchaînement de simulations éléments finis lourdes consomme un temps de calcul considérable, ce qui constitue le problème principal identifié.",
+    "confidence": 0.95
+   },
+   "physical": {
+    "present": true,
+    "statement": "L'évaluation numérique de la déformation doit être complexe et détaillée pour être exacte, et doit être simple et rapide pour permettre une optimisation efficace.",
+    "separation": "conditions"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique initiale oppose la précision recherchée de la géométrie (paramètre 29) au temps de calcul excessif qu'exige la méthode directe (paramètre 25)."
+  },
+  "https://doi.org/10.1002/pen.760351005": {
+   "objectif_A": "la stabilité dimensionnelle de la pièce moulée (réduction du retrait volumique)",
+   "action_X": "réduire la densité de réticulation ou modifier les paramètres de cuisson conventionnels",
+   "consequence_B": "la tenue mécanique du matériau polymérisé",
+   "phrase": "Pour améliorer la stabilité dimensionnelle, il faudrait réduire le niveau de réticulation ou modifier la cuisson, mais cela détériore la tenue mécanique du matériau.",
+   "probleme_generique": "Prévenir la variation de volume lors de la polymérisation d'un matériau sans dégrader ses propriétés mécaniques finales.",
+   "improve": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "Le problème initial est la déformation et le retrait géométrique affectant la forme finale de l'objet.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "La contrainte explicitée exige de ne pas altérer la tenue mécanique (résistance aux contraintes) de la résine.",
+    "confidence": 0.9
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le matériau doit présenter une réticulation dense pour assurer la tenue mécanique, tout en évitant la densification pour ne pas subir de retrait volumique.",
+    "separation": "conditions"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique initiale est nettement établie entre la préservation de la forme (paramètre 12) et le maintien de la résistance mécanique (paramètre 14)."
+  },
+  "https://doi.org/10.1007/s00170-020-06511-3": {
+   "objectif_A": "Obtenir un modèle prédictif précis des paramètres de moulage pour une nouvelle pièce",
+   "action_X": "Multiplier les essais expérimentaux réels sur la presse pour collecter un grand volume de données",
+   "consequence_B": "Engendrer des pertes importantes de temps, de matière et immobiliser la machine",
+   "phrase": "Pour améliorer la précision de la modélisation du procédé, il faudrait réaliser un grand nombre d'essais expérimentaux, mais faire cela détériore le temps disponible et consomme inutilement de la matière.",
+   "probleme_generique": "L'obtention d'un modèle prédictif fiable pour une nouvelle configuration nécessite un échantillonnage expérimental massif qui pénalise le temps d'immobilisation des équipements et la consommation de matière.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "L'objectif est de réduire l'écart entre le comportement prédit par le réseau de neurones et la réalité physique du moulage d'une nouvelle pièce.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 25,
+    "name": "Perte de temps",
+    "reason": "La collecte de nombreuses données d'essais immobilise inutilement la presse à injecter et rallonge la phase de mise au point.",
+    "confidence": 0.9
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le volume de données d'essais expérimentaux collectées sur la nouvelle pièce doit être GRAND (pour garantir la précision du modèle) et PETIT (pour minimiser le temps de réglage et le gaspillage de matière).",
+    "separation": "conditions"
+   },
+   "status": "A",
+   "status_reason": "Une contradiction d'ingénierie claire oppose la précision de la modélisation (28) aux pertes de temps d'essai (25), doublée d'une contradiction physique nette sur la quantité de données d'essai."
+  },
+  "https://doi.org/10.1007/s10163-022-01588-2": {
+   "objectif_A": "la résistance à la rupture des pièces imprimées",
+   "action_X": "augmenter le taux de recyclage du thermoplastique pur",
+   "consequence_B": "la dégradation thermique et mécanique des chaînes polymères (perte de cohérence de la matière)",
+   "phrase": "Pour améliorer la résistance à la rupture des pièces, il faudrait augmenter le taux de recyclage du thermoplastique pur, mais le recyclage répété détériore la résistance à la rupture du matériau.",
+   "probleme_generique": "L'utilisation de polymères recyclés dégrade la cohésion moléculaire et les propriétés mécaniques du matériau extrudé.",
+   "improve": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "L'objectif est d'obtenir des pièces imprimées capables de supporter des contraintes mécaniques élevées.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 13,
+    "name": "Stabilité / Intégrité",
+    "reason": "Les cycles de recyclage provoquent une scission des chaînes polymères, diminuant la cohésion et la viscosité du matériau.",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "Les chaînes polymères doivent être dégradées/raccourcies (état inhérent au recyclage thermique/mécanique) et non-dégradées/longues (pour conserver la résistance mécanique).",
+    "separation": "conditions"
+   },
+   "status": "A",
+   "status_reason": "Une contradiction d'ingénierie claire existe entre le maintien des propriétés mécaniques (14) et la dégradation de la structure moléculaire due au recyclage (13), assortie d'une contradiction physique sous-jacente."
+  },
+  "https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082": {
+   "objectif_A": "Assurer un refroidissement rapide et uniforme pour éviter le gauchissement de la pièce",
+   "action_X": "Rapprocher les canaux de perçage rectilignes au plus près des parois complexes de la cavité",
+   "consequence_B": "Fragiliser la structure mécanique du moule ou risquer de percer la cavité",
+   "phrase": "Pour améliorer la température et l'homogénéité thermique, il faudrait rapprocher les perçages de la cavité, mais faire cela détériore la résistance de la structure du moule.",
+   "probleme_generique": "Augmenter l'efficacité de l'échange thermique sur une surface complexe sans compromettre la résistance mécanique de la structure.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Le besoin fondamental est d'optimiser le transfert thermique et l'homogénéité de la température dans la pièce moulée.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance / Solidité",
+    "reason": "Rapprocher des perçages rectilignes d'une surface courbe diminue l'épaisseur de paroi par endroits, réduisant la résistance aux pressions d'injection.",
+    "confidence": 0.8
+   },
+   "physical": {
+    "present": true,
+    "statement": "Les canaux de refroidissement doivent être rectilignes (pour être usinables par perçage classique) et non-rectilignes (pour épouser les contours 3D de la cavité).",
+    "separation": "space"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique s'exprime clairement entre le contrôle thermique (17) et la résistance mécanique de la structure (14), complétée par une contradiction physique de forme résolue dans l'espace."
+  },
+  "https://doi.org/10.1016/j.ijlmm.2021.11.005": {
+   "objectif_A": "la réduction de la masse de la pièce en plastique",
+   "action_X": "introduire un agent moussant physique pour former une structure microcellulaire",
+   "consequence_B": "l'apparition de défauts de surface (traces de swirl, rugosité)",
+   "phrase": "Pour améliorer la masse de la pièce, il faudrait utiliser un moussage microcellulaire, mais faire cela détériore la qualité de surface en générant des effets nuisibles visuels.",
+   "probleme_generique": "L'allègement de la structure interne par expansion gazeuse génère des imperfections de surface inacceptables sur le produit.",
+   "improve": {
+    "id": 2,
+    "name": "Masse de l'objet stationnaire",
+    "reason": "L'objectif initial du procédé microcellulaire est de réduire le poids/masse de la pièce injectée.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles engendrés par l'objet ou le système",
+    "reason": "Le dégazage et la formation d'alvéoles créent des traces de swirl et une rugosité de surface non désirées.",
+    "confidence": 0.95
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le gaz/moussage doit être présent pour alléger la structure interne de la pièce, et doit être absent à l'interface moule/matière pour garantir une surface lisse.",
+    "separation": "space"
+   },
+   "status": "A",
+   "status_reason": "Contradiction d'ingénierie classique très nette entre l'allègement (paramètre 2) et la génération de défauts de surface (paramètre 31), avec une contradiction physique évidente séparable dans l'espace (cœur vs peau)."
+  },
+  "https://doi.org/10.1016/j.matdes.2020.109147": {
+   "objectif_A": "l'efficacité du transfert thermique et du refroidissement du moule",
+   "action_X": "augmenter le diamètre des canaux de refroidissement",
+   "consequence_B": "la stabilité géométrique des canaux qui s'effondrent lors de la fabrication",
+   "phrase": "Pour améliorer l'efficacité du transfert thermique, il faudrait augmenter le diamètre des canaux de refroidissement, mais faire cela détériore la forme et la tenue géométrique du canal lors de l'impression.",
+   "probleme_generique": "L'agrandissement de la section de passage du fluide caloporteur nuit à la tenue géométrique de la cavité lors de sa mise en forme.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Le paramètre 17 évalue les capacités d'échange thermique et le refroidissement de l'outillage.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "L'augmentation du diamètre entraîne l'effondrement de la voûte du canal, altérant la forme géométrique requise.",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le canal doit avoir un grand diamètre pour maximiser le débit thermique et un petit diamètre (ou une structure étroite) pour éviter l'effondrement structural lors de l'impression.",
+    "separation": "whole-parts"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique classique oppose la capacité thermique (17) à la déformation/forme du composant (12), ce qui correspond à une cellule valide de la matrice TRIZ."
+  },
+  "https://doi.org/10.1016/j.matdes.2021.109576": {
+   "objectif_A": "l'efficience d'utilisation des matériaux en intégrant de la matière recyclée",
+   "action_X": "utiliser du polypropylène recyclé issu de déchets ménagers",
+   "consequence_B": "la résistance mécanique et la tenue aux impacts de la structure",
+   "phrase": "Pour améliorer la quantité de matière recyclée utilisée, il faudrait utiliser du polypropylène recyclé, mais faire cela détériore la résistance mécanique.",
+   "probleme_generique": "L'incorporation de matériaux recyclés économiquement avantageux altère la résistance mécanique et la qualité globale de la pièce moulée.",
+   "improve": {
+    "id": 26,
+    "name": "Quantité de substance/matière",
+    "reason": "L'objectif est de maximiser la proportion de matière recyclée intégrée dans le produit pour réduire la consommation de matière vierge.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "L'introduction de contaminants via le plastique recyclé dégrade fortement la résistance mécanique globale et la tenue à l'impact.",
+    "confidence": 0.95
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le matériau constitutif doit être du plastique recyclé pour économiser les ressources, et ne doit pas être du plastique recyclé (doit être du plastique vierge) pour maintenir la résistance et l'aspect.",
+    "separation": "space"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique entre l'incorporation de matière recyclée (26) et la perte de résistance mécanique (14) s'aligne parfaitement sur la matrice d'Altshuller."
+  },
+  "https://doi.org/10.1016/j.promfg.2017.07.020": {
+   "objectif_A": "Améliorer la rapidité et l'homogénéité du refroidissement de la pièce injectée",
+   "action_X": "Rapprocher les canaux de refroidissement de la surface de la cavité",
+   "consequence_B": "Compromettre la résistance mécanique et l'intégrité de la structure du moule soumise aux pressions d'injection",
+   "phrase": "Pour améliorer le transfert thermique et réduire le temps de refroidissement, il faudrait rapprocher les canaux de la cavité, mais faire cela détériore la résistance mécanique de l'outillage.",
+   "probleme_generique": "L'approche des fluides de refroidissement au plus près des zones épaisses améliore l'évacuation calorifique mais fragilise la tenue mécanique de l'outillage sous pression.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Le problème initial concerne l'efficacité et la vitesse de transfert thermique (refroidissement) de la matière injectée.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "Mettre des perçages trop proches de la cavité d'injection sous forte pression diminue la tenue mécanique du moule.",
+    "confidence": 0.8
+   },
+   "physical": {
+    "present": true,
+    "statement": "Les canaux de refroidissement doivent être proches de la cavité pour évacuer la chaleur rapidement, et doivent être éloignés de la cavité pour préserver la résistance mécanique du moule.",
+    "separation": "space"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique s'exprime clairement entre le transfert thermique (17) et la résistance mécanique (14), résoluble par séparation spatiale via la géométrie conforme."
+  },
+  "https://doi.org/10.1016/j.promfg.2018.10.128": {
+   "objectif_A": "réduire la masse de la pièce et la quantité de matière nécessaire",
+   "action_X": "réduire la quantité de polymère injecté ou diminuer la pression de maintien",
+   "consequence_B": "l'apparition de défauts géométriques et dimensionnels (retassures, gauchissement)",
+   "phrase": "Pour améliorer la quantité de matière consommée, il faudrait réduire la quantité de polymère injecté, mais cela détériore la précision dimensionnelle de la pièce moulée.",
+   "probleme_generique": "La diminution de la quantité de matière injectée pour alléger la structure provoque des déformations géométriques et des retassures lors du refroidissement.",
+   "improve": {
+    "id": 26,
+    "name": "Quantité de substance/matière",
+    "reason": "L'objectif initial est de réduire la quantité de matière plastique consommée pour fabriquer la palette.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 29,
+    "name": "Précision de fabrication",
+    "reason": "La réduction de matière/pression crée des écarts géométriques inacceptables par rapport aux spécifications (gauchissement et retassures).",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "La quantité de matière dans la cavité doit être faible pour alléger la pièce, et élevée pour maintenir la pression et éviter le retrait/gauchissement.",
+    "separation": "conditions"
+   },
+   "status": "A",
+   "status_reason": "Contradiction d'ingénierie clairement identifiable et transposable sans ambiguïté sur la matrice TRIZ (26 vs 29)."
+  },
+  "https://doi.org/10.1029/95wr00171": {
+   "objectif_A": "la précision de l'observation et de la mesure de la distribution des fluides en fracture",
+   "action_X": "utiliser des échantillons de roche naturelle réelle pour préserver les caractéristiques du milieu",
+   "consequence_B": "l'accès visuel aux données de l'écoulement interne est impossible en raison de l'opacité du matériau",
+   "phrase": "Pour améliorer la précision de la mesure de la distribution des fluides, il faudrait utiliser des échantillons de roche naturelle réelle, mais utiliser de la roche naturelle détériore l'accès aux données d'observation en raison de son opacité.",
+   "probleme_generique": "Conserver le matériau naturel réel pour représenter fidèlement le milieu rend impossible l'acquisition d'informations visuelles sur l'état interne du système.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "L'objectif est d'observer et mesurer précisément la distribution et l'occupation des pores par les fluides.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 24,
+    "name": "Perte d'information",
+    "reason": "L'opacité de la roche naturelle masque l'intérieur du système et empêche la collecte des données visuelles d'écoulement.",
+    "confidence": 0.9
+   },
+   "physical": {
+    "present": true,
+    "statement": "La paroi de la fracture doit être opaque (pour conserver la nature minérale réelle de la roche) et transparente (pour laisser passer la lumière et permettre la visualisation optique).",
+    "separation": "conditions"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique s'exprime clairement entre le besoin de mesure précise en milieu réel (28) et la perte d'informations optiques due à l'opacité (24), doublée d'une contradiction physique nette sur la transparence de la paroi."
+  },
+  "https://doi.org/10.1063/1.5084861": {
+   "objectif_A": "l'homogénéité du refroidissement pour éliminer les défauts géométriques et réduire le temps de cycle",
+   "action_X": "approcher et multiplier les canaux de perçage droit à proximité des zones complexes de la cavité",
+   "consequence_B": "la résistance mécanique et la tenue de la structure du moule",
+   "phrase": "Pour améliorer l'état thermique de l'outillage, il faudrait multiplier et rapprocher les perçages de refroidissement des parois complexes, mais faire cela détériore la résistance mécanique de la structure.",
+   "probleme_generique": "L'intensification de l'évacuation thermique par perçage mécanique direct fragilise la structure de l'outillage à proximité des géométries complexes.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Le besoin principal est d'harmoniser l'état thermique et le transfert de chaleur autour de la cavité.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance / Solide",
+    "reason": "La multiplication de perçages rectilignes proches des surfaces de moulage fragilise la structure du moule sous pression d'injection.",
+    "confidence": 0.8
+   },
+   "physical": {
+    "present": true,
+    "statement": "Les canaux de refroidissement doivent être rectilignes (pour être usinables par perçage traditionnel) et non-rectilignes (pour suivre la géométrie tridimensionnelle complexe de la pièce).",
+    "separation": "space"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique initiale s'exprime clairement par un compromis entre l'optimisation thermique (17) et la tenue mécanique du moule (14)."
+  },
+  "https://doi.org/10.1080/00207540110091875": {
+   "objectif_A": "éviter la rupture du noyau du moule lors de l'éjection",
+   "action_X": "augmenter l'angle de dépouille des surfaces du moule",
+   "consequence_B": "altérer la fidélité géométrique et la précision dimensionnelle de la pièce à produire",
+   "phrase": "Pour améliorer la résistance à la rupture du noyau, il faudrait augmenter l'angle de dépouille, mais faire X détériore la précision dimensionnelle.",
+   "probleme_generique": "Augmenter l'inclinaison des parois pour réduire l'effort de démoulage dégrade la conformité géométrique de la pièce finale.",
+   "improve": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "Capacité du noyau en résine à résister aux contraintes de traction exercées lors de l'éjection sans se rompre.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 29,
+    "name": "Précision de fabrication",
+    "reason": "L'augmentation excessive de la dépouille pour faciliter le démoulage crée un écart par rapport à la forme et aux tolérances géométriques initialement requises pour la pièce.",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "L'angle de dépouille doit être grand pour minimiser les forces de frottement lors de l'éjection, et petit pour respecter la géométrie cible de la pièce.",
+    "separation": "conditions"
+   },
+   "status": "A",
+   "status_reason": "La contradiction d'ingénierie classique entre la démoulabilité (résistance du noyau) et le respect des spécifications géométriques (précision) correspond bien au modèle TRIZ."
+  },
+  "https://doi.org/10.1080/03602559708000661": {
+   "objectif_A": "réduire le gauchissement et la sensibilité aux fluctuations du procédé d'injection",
+   "action_X": "maintenir une épaisseur de paroi strictement uniforme",
+   "consequence_B": "l'impossibilité de compenser localement les écarts de refroidissement et de retrait, générant des déformations géométriques",
+   "phrase": "Pour améliorer la stabilité géométrique face aux variations de procédé, il faudrait maintenir une épaisseur de paroi uniforme, mais faire cela empêche la compensation des retraits locaux et détériore la forme finale de la pièce.",
+   "probleme_generique": "Le maintien d'une géométrie de paroi uniforme pour éviter le retrait inégal empêche l'adaptation aux variations de procédé, provoquant la déformation de la pièce.",
+   "improve": {
+    "id": 30,
+    "name": "Facteurs nuisibles agissant sur l'objet",
+    "reason": "Il s'agit de réduire la sensibilité de la pièce moulée aux fluctuations inévitables des conditions du procédé d'injection.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "La rigidité de la règle de conception d'épaisseur uniforme entraîne des déformations géométriques et du gauchissement hors tolérance.",
+    "confidence": 0.8
+   },
+   "physical": {
+    "present": true,
+    "statement": "L'épaisseur de la paroi doit être uniforme (selon les règles de l'art pour éviter les retraits différentiels) et non-uniforme (modulée localement pour compenser les variations de procédé).",
+    "separation": "space"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique s'exprime clairement entre la sensibilité aux facteurs nuisibles de procédé (30) et la dégradation de la forme/stabilité géométrique (12), assortie d'une contradiction physique d'espace nette."
+  },
+  "https://doi.org/10.1088/0960-1317/17/6/r02": {
+   "objectif_A": "garantir le remplissage complet des micro-empreintes sans figeage prématuré du polymère",
+   "action_X": "maintenir la température des parois du moule à une valeur élevée (proche ou supérieure à la température de transition vitreuse)",
+   "consequence_B": "allonger la phase de refroidissement et solidifier trop lentement le polymère, augmentant la durée globale du cycle",
+   "phrase": "Pour améliorer la fidélité de remplissage des micro-détails, il faudrait maintenir la cavité du moule à haute température, mais faire cela détériore le temps de cycle global par un refroidissement excessif.",
+   "probleme_generique": "L'augmentation de la température de la cavité nécessaire au maintien de la fluidité à l'échelle micrométrique compromet la vitesse de solidification de la pièce.",
+   "improve": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "Le problème fondamental est l'incapacité du fluide figeant à épouser la forme géométrique exacte des micro-détails de la cavité.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Maintenir un niveau thermique élevé pour la fluidité empêche l'abaissement thermique nécessaire à la solidification rapide.",
+    "confidence": 0.8
+   },
+   "physical": {
+    "present": true,
+    "statement": "La paroi de la cavité du moule doit être chaude (au-dessus de Tg) pendant la phase d'injection pour empêcher le figeage, et froide (sous Tg) pendant la phase de solidification pour permettre le démoulage.",
+    "separation": "time"
+   },
+   "status": "VALID_MATRIX_CELL",
+   "status_reason": "Le conflit s'exprime clairement sous forme d'une contradiction technique (température/maintien en forme vs gestion thermique/temps) et d'une contradiction physique marquée, résoluble par séparation dans le temps."
+  },
+  "https://doi.org/10.1115/cie1995-0804": {
+   "objectif_A": "Automatiser l'analyse de moulabilité et l'intégration des fonctionnalités de moule (dépouilles, seuils, évents)",
+   "action_X": "Saisir et vérifier manuellement et indépendamment l'ensemble des lignes de plan de joint et directions de démoulage sur le modèle géométrique",
+   "consequence_B": "Accroissement des itérations lentes et laborieuses lors de la conception",
+   "phrase": "Pour améliorer le degré d'automatisation de l'analyse de moulabilité, il faudrait définir manuellement toutes les lignes de plan de joint sur le modèle, mais cela entraîne une importante perte de temps en itérations laborieuses.",
+   "probleme_generique": "L'automatisation du contrôle de fabricabilité requiert la saisie d'informations topologiques spécifiques, ce qui alourdit le processus de conception par des étapes manuelles répétitives.",
+   "improve": {
+    "id": 38,
+    "name": "Degré d'automatisation",
+    "reason": "Le problème explicite le besoin d'automatiser l'analyse de moulabilité et l'association des entités géométriques de moulage sans intervention humaine.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 25,
+    "name": "Perte de temps",
+    "reason": "La méthode conventionnelle exige des itérations manuelle lentes et répétitives qui retardent le processus de conception.",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "L'information sur le plan de joint doit être présente dans le modèle géométrique (pour permettre l'analyse automatique) et absente/indépendante (pour ne pas alourdir la création géométrique initiale de la maquette B-rep).",
+    "separation": "conditions"
+   },
+   "status": "A",
+   "status_reason": "Contradiction technique valide et causalement établie entre le besoin d'automatisation (paramètre 38) et la perte de temps due aux itérations manuelles (paramètre 25)."
+  },
+  "https://doi.org/10.1155/2014/968484": {
+   "objectif_A": "l'uniformité du refroidissement et la stabilité dimensionnelle de la pièce moulée",
+   "action_X": "rapprocher et multiplier les canaux de refroidissement rectilignes le long de la cavité",
+   "consequence_B": "des variations locales de température dues à l'incapacité des lignes droites à suivre les contours complexes, générant du gauchissement",
+   "phrase": "Pour améliorer l'état thermique et limiter le gauchissement de la pièce, il faudrait multiplier les perçages rectilignes au plus près des parois, mais la géométrie rigide des canaux droits détériore l'uniformité du refroidissement sur les formes complexes.",
+   "probleme_generique": "Améliorer l'évacuation thermique d'un composant aux formes tridimensionnelles complexes sans provoquer de déformations dues à la rigidité géométrique des circuits de refroidissement traditionnels.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Recherche d'une évacuation uniforme de la chaleur sur toute la surface de la cavité.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "La trajectoire exclusivement rectiligne imposée par le perçage conventionnel limite l'adaptation à la géométrie complexe de la cavité.",
+    "confidence": 0.8
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le canal de refroidissement doit être droit (pour être facilement percé de manière conventionnelle) et non-droit / conforme (pour suivre les contours 3D de la cavité).",
+    "separation": "space"
+   },
+   "status": "A",
+   "status_reason": "Contradiction technique bien établie entre la gestion thermique (17) et la limitation de forme/géométrie du canal (12), doublée d'une contradiction physique nette sur la forme du canal."
+  },
+  "https://doi.org/10.1155/2019/3720127": {
+   "objectif_A": "mesurer avec précision et en temps réel l'état du procédé de moulage",
+   "action_X": "installer des capteurs de pression directement à l'intérieur des cavités du moule",
+   "consequence_B": "exposer le moule à des risques d'endommagement, de fragilisation et à des contraintes de maintenance accrues",
+   "phrase": "Pour améliorer la précision de la mesure de la qualité en temps réel, il faudrait installer des capteurs directement dans la cavité du moule, mais cela engendre des effets secondaires nuisibles sur la durabilité et l'intégrité du moule.",
+   "probleme_generique": "L'acquisition directe de données physiques au cœur de la zone opérationnelle augmente les risques de dégradation et d'effets nuisibles sur la structure.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "L'objectif est d'obtenir des données précises et immédiates sur la pression en cavité pour surveiller la qualité des pièces.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles",
+    "reason": "L'insertion d'éléments de mesure intrusifs génère des risques d'endommagement, de panne et de complexité de maintenance pour le moule.",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le capteur doit être présent dans la cavité pour mesurer la pression au plus près du procédé, et doit être absent de la cavité pour éviter de fragiliser et d'endommager le moule.",
+    "separation": "space"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique s'exprime clairement entre la précision de mesure (28) et l'apparition d'effets secondaires nuisibles (31), avec une contradiction physique associée résoluble par séparation dans l'espace."
+  },
+  "https://doi.org/10.1590/0104-1428.2047": {
+   "objectif_A": "l'homogénéité du refroidissement pour éviter les déformations thermiques (gauchissement) de la pièce",
+   "action_X": "approcher les canaux de refroidissement au plus près des parois de la cavité complexe",
+   "consequence_B": "la dégradation de la tenue mécanique du moule ou l'impossibilité géométrique liée au perçage droit",
+   "phrase": "Pour améliorer la distribution de température et limiter le gauchissement, il faudrait approcher les canaux de refroidissement au plus près des contours complexes, mais faire cela fragilise la structure du moule avec les méthodes de perçage conventionnelles.",
+   "probleme_generique": "Le transfert thermique uniforme exige des canaux épousant les contours complexes de la pièce, mais la contrainte de perçage mécanique impose des géométries droites situées à distance de la cavité.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "On cherche à contrôler l'état thermique et à évacuer la chaleur de manière uniforme pour éviter le gauchissement.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "La configuration géométrique rectiligne des canaux imposée par perçage mécanique limite l'aptitude à suivre la forme complexe de l'empreinte.",
+    "confidence": 0.8
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le canal de refroidissement doit être droit (pour permettre le perçage mécanique usuel) et non droit / tridimensionnel (pour épouser les contours complexes de la cavité).",
+    "separation": "space"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique initiale est clairement établie entre le transfert thermique uniforme (17 Température) et la contrainte géométrique d'usinage rectiligne des canaux (12 Forme)."
+  },
+  "https://doi.org/10.18494/sam.2019.2357": {
+   "objectif_A": "la précision de la mesure des forces de démoulage des lentilles optiques",
+   "action_X": "intégrer des instruments de mesure au plus près de la zone d'éjection",
+   "consequence_B": "la complexité d'agencement et de surveillance de la zone d'éjection",
+   "phrase": "Pour améliorer la précision de mesure des efforts de démoulage, il faudrait placer des dispositifs de mesure directement au niveau de la cavité d'éjection, mais cela perturbe la structure et le contrôle du moule.",
+   "probleme_generique": "L'absence de mesure directe et précise des efforts mécaniques lors du démoulage empêche l'optimisation du procédé sans risquer d'endommager la pièce.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "Le besoin initial est d'obtenir une valeur exacte et localisée de la force de démoulage réelle.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": null,
+    "name": "NO_MATRIX_MAPPING",
+    "reason": "Le texte 'AVANT/PROBLEME' décrit un manque de capacité de mesure sans expliciter quel paramètre physique ou technique se détériore dans une solution conventionnelle.",
+    "confidence": 0.0
+   },
+   "physical": {
+    "present": false,
+    "statement": "Aucune contradiction physique claire ('être A et non-A') n'est formulée explicitement dans le problème initial.",
+    "separation": "none"
+   },
+   "status": "C",
+   "status_reason": "Le problème initial exprime un besoin de mesure/caractérisation non satisfait, mais ne présente pas de compromis de construction ou de conflit causal entre deux paramètres techniques formulé avant l'invention."
+  },
+  "https://doi.org/10.18725/oparu-2603": {
+   "objectif_A": "l'efficacité de conversion du glycérol en 1,3-propanediol sans perte de matière première et de cofacteurs",
+   "action_X": "augmenter l'activité métabolique et le traitement du glycérol par la souche",
+   "consequence_B": "la formation de sous-produits indésirables (butyrate, lactate, hydrogène) issus des voies métaboliques concurrentes",
+   "phrase": "Pour améliorer la conversion efficace du substrat, il faudrait augmenter l'activité métabolique du glycérol, mais faire cela détériore la sélectivité en générant des effets secondaires nuisibles sous forme de sous-produits.",
+   "probleme_generique": "L'augmentation du traitement de la matière première entraîne une dissipation indésirable de cette ressource et des cofacteurs dans des réactions secondaires parasites.",
+   "improve": {
+    "id": 23,
+    "name": "Perte de substance",
+    "reason": "Il s'agit de réduire le gaspillage et le détournement du substrat (glycérol) et des cofacteurs (NADH) vers des voies métaboliques non souhaitées.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles engendrés par l'objet",
+    "reason": "L'activité métabolique génère simultanément des métabolites secondaires indésirables (hydrogène, butyrate, lactate) qui polluent le milieu.",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "Les voies métaboliques secondaires doivent être présentes pour le fonctionnement biologique naturel de la souche, et doivent être absentes pour consacrer l'intégralité des ressources au produit ciblé.",
+    "separation": "whole-parts"
+   },
+   "status": "A",
+   "status_reason": "Le conflit entre l'efficacité d'utilisation de la substance (23) et la génération de produits secondaires nuisibles (31) s'inscrit directement dans une matrice de contradiction classique."
+  },
+  "https://doi.org/10.21203/rs.3.rs-3081027/v1": {
+   "objectif_A": "l'efficacité et l'homogénéité du refroidissement thermique du moule",
+   "action_X": "adapter manuellement le tracé des canaux aux zones de forte chaleur",
+   "consequence_B": "l'incapacité à ajuster précisément la température locale en tout point en raison de la complexité géométrique de la pièce",
+   "phrase": "Pour ameliorer l'efficacité et l'homogénéité du refroidissement thermique du moule, il faudrait adapter manuellement le tracé des canaux aux zones de forte chaleur, mais faire cela deteriore la précision du contrôle de la température locale.",
+   "probleme_generique": "La recherche d'une répartition thermique homogène par ajustement des canaux de refroidissement se heurte aux limites de précision de la conception géométrique manuelle.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "L'objectif premier est d'optimiser et d'homogénéiser le transfert thermique au sein de l'outillage.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 28,
+    "name": "Précision de la mesure / du contrôle",
+    "reason": "La conception conventionnelle ne permet pas d'ajuster avec précision le flux thermique aux variations spatiales locales de la pièce.",
+    "confidence": 0.75
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le réseau de canaux de refroidissement doit avoir une géométrie simple (droite) pour être concevable manuellement, et une géométrie complexe (conforme) pour épouser les variations thermiques locales.",
+    "separation": "whole-parts"
+   },
+   "status": "A",
+   "status_reason": "Une contradiction d'ingénierie classique est identifiée entre la maîtrise de l'état thermique (17) et la précision du contrôle local de la géométrie thermique (28) avant l'apport du design génératif."
+  },
+  "https://doi.org/10.21741/9781644903131-294": {
+   "objectif_A": "Prévenir la déformation et l'endommagement des composants micrométriques fragiles lors de l'éjection",
+   "action_X": "Augmenter l'angle de dépouille ou modifier la géométrie de la cavité du moule",
+   "consequence_B": "Altérer la forme géométrique exacte et les spécifications de la micro-pièce",
+   "phrase": "Pour améliorer l'intégrité des micro-pièces lors du démoulage, il faudrait augmenter l'angle de dépouille de la cavité, mais faire cela détériore la forme géométrique requise du composant.",
+   "probleme_generique": "L'augmentation de la dépouille pour réduire les forces d'éjection destructrices altère la fidélité de la forme du composant micrométrique.",
+   "improve": {
+    "id": 13,
+    "name": "Intégrité",
+    "reason": "Prévenir la rupture, la déformation ou la dégradation physique de la micro-pièce fragile lors du démoulage.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "L'augmentation des angles de dépouille modifie la configuration géométrique extérieure stricte de la pièce.",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "L'angle de dépouille de la cavité doit être grand pour minimiser les forces d'éjection et nul ou très faible pour conserver la forme exacte de la micro-pièce.",
+    "separation": "conditions"
+   },
+   "status": "A_VALID_MATRIX_CELL",
+   "status_reason": "Contradiction technique d'ingénierie classique basée sur le compromis géométrie/démoulage, parfaitement traduisible par les paramètres canoniques 13 (Intégrité) et 12 (Forme)."
+  },
+  "https://doi.org/10.31390/gradschool_dissertations.2083": {
+   "objectif_A": "L'entraînement efficace du fluide par force de Lorentz dans la micropompe",
+   "action_X": "Appliquer un courant continu (DC) de forte intensité",
+   "consequence_B": "La création de bulles de gaz par électrolyse du fluide, ce qui perturbe l'écoulement",
+   "phrase": "Pour améliorer la force (10) d'entraînement du fluide, il faudrait appliquer un courant continu puissant, mais faire cela détériore les effets secondaires nuisibles (31) générés par l'électrolyse.",
+   "probleme_generique": "L'augmentation de l'intensité d'actionnement électromagnétique d'un fluide conducteur provoque une réaction chimique indésirable générant des bulles qui bloquent le canal.",
+   "improve": {
+    "id": 10,
+    "name": "Force",
+    "reason": "On cherche à maximiser la force de Lorentz exercée sur le fluide pour assurer son déplacement.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles engendrés par l'objet",
+    "reason": "L'application du courant continu produit une électrolyse indésirable et la formation de bulles de gaz qui perturbent le fonctionnement.",
+    "confidence": 0.95
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le courant électrique doit être continu (DC) pour générer une force de Lorentz unidirectionnelle constante, et ne doit pas être continu (AC) pour éviter la polarisation électrochimique et l'électrolyse.",
+    "separation": "time"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique associe clairement l'amélioration de la force d'actionnement (10) à la dégradation via des effets secondaires nuisibles (31), avec une contradiction physique résoluble par séparation dans le temps."
+  },
+  "https://doi.org/10.3389/fmats.2020.00027": {
+   "objectif_A": "prédire avec précision la tenue mécanique de l'interface pour des polymères semi-cristallins",
+   "action_X": "appliquer la théorie classique de la reptation développée pour les polymères amorphes",
+   "consequence_B": "l'exactitude de la prédiction est compromise car le modèle néglige les phénomènes de fusion et de recristallisation locale",
+   "phrase": "Pour améliorer la précision de mesure (28), il faudrait appliquer la théorie classique de la reptation, mais cela détériore la fiabilité (27) des prédictions pour les polymères semi-cristallins.",
+   "probleme_generique": "Le problème concerne l'incohérence d'un modèle théorique de prédiction et ne décrit pas un conflit entre deux paramètres physiques d'un système technique.",
+   "improve": null,
+   "worsen": null,
+   "physical": {
+    "present": false,
+    "statement": "Aucune contradiction physique sur l'état d'un paramètre (ex: chaud/froid, grand/petit) n'est exprimée dans la situation initiale.",
+    "separation": "none"
+   },
+   "status": "C",
+   "status_reason": "Le problème décrit une insuffisance théorique/modèle de calcul pour prédire un comportement matériau, et non une contradiction d'ingénierie où la modification d'un paramètre physique détériore un autre paramètre du procédé/produit."
+  },
+  "https://doi.org/10.3390/app13137437": {
+   "objectif_A": "l'efficacité et l'homogénéité du transfert thermique pour réduire le temps de cycle et le gauchissement",
+   "action_X": "rapprocher et multiplier les perçages rectilignes de refroidissement près de la surface de l'empreinte",
+   "consequence_B": "la résistance mécanique du moule et le risque de rupture de la paroi de la cavité",
+   "phrase": "Pour améliorer la température, il faudrait rapprocher et multiplier les perçages rectilignes de refroidissement près de la surface de l'empreinte, mais cela détériore la résistance.",
+   "probleme_generique": "L'intensification de l'extraction thermique par des conduits droits à proximité des zones complexes compromet la tenue structurelle du outillage.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Il s'agit d'optimiser l'état thermique et la dissipation uniforme de la chaleur dans le moule.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "La proximité excessive de perçages rectilignes par rapport aux surfaces complexes de la cavité fragilise la structure mécanique du moule.",
+    "confidence": 0.8
+   },
+   "physical": {
+    "present": true,
+    "statement": "La trajectoire du canal de refroidissement doit être rectiligne (pour permettre le perçage mécanique traditionnel) et non-rectiligne (pour suivre la géométrie complexe de la cavité).",
+    "separation": "space"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique entre l'échange thermique (17) et la résistance du moule (14) s'inscrit clairement dans le tableau 39x39, doublée d'une contradiction physique nette de forme/trajectoire."
+  },
+  "https://doi.org/10.3390/app8122567": {
+   "objectif_A": "l'uniformité du refroidissement et la précision géométrique de la pièce moulée sans déformation thermique",
+   "action_X": "rapprocher et multiplier les usinages de perçage droit au plus près des cavités complexes",
+   "consequence_B": "la résistance mécanique et la tenue structurelle du moule d'injection",
+   "phrase": "Pour améliorer l'uniformité du refroidissement et la précision géométrique de la pièce moulée, il faudrait rapprocher et multiplier les usinages de perçage droit au plus près des cavités complexes, mais faire cela détériore la résistance mécanique et la tenue structurelle du moule.",
+   "probleme_generique": "Un refroidissement homogène de surfaces complexes exige une géométrie de canaux proche des cavités, ce qui fragilise la structure mécanique du moule si l'on utilise des perçages rigides.",
+   "improve": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles engendrés par l'objet",
+    "reason": "Le problème initial cherche à éliminer les déformations thermiques, retraits et contraintes induites sur la pièce moulée.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance / Solidité",
+    "reason": "Multiplier les perçages droits à proximité des contours concentre les contraintes et fragilise la structure du moule sous pression.",
+    "confidence": 0.8
+   },
+   "physical": {
+    "present": true,
+    "statement": "La trajectoire des canaux de refroidissement doit être droite (pour permettre le perçage mécanique) et non-droite / courbe (pour suivre la géométrie 3D de la cavité).",
+    "separation": "space"
+   },
+   "status": "A",
+   "status_reason": "Une contradiction d'ingénierie classique est clairement identifiée entre la qualité thermique/géométrique de la pièce (31) et la tenue mécanique de l'outillage (14)."
+  },
+  "https://doi.org/10.3390/designs7030068": {
+   "objectif_A": "la capacité à fabriquer des géométries internes complexes",
+   "action_X": "recourir à la fabrication additive (SLM) pour l'ensemble du composant",
+   "consequence_B": "la précision de fabrication et l'état de surface global",
+   "phrase": "Pour améliorer la capacité à fabriquer des géométries internes complexes, il faudrait recourir à la fabrication additive (SLM) pour l'ensemble du composant, mais faire cela détériore la précision de fabrication et l'état de surface global.",
+   "probleme_generique": "L'obtention de formes géométriques internes complexes par impression additive nuit à la précision dimensionnelle et à la qualité de surface globales de la pièce.",
+   "improve": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "Capacité à obtenir des configurations et géométries intérieures complexes sans restriction géométrique.",
+    "confidence": 0.8
+   },
+   "worsen": {
+    "id": 29,
+    "name": "Précision de fabrication",
+    "reason": "Dégradation de l'état de surface et des tolérances dimensionnelles inhérente au procédé SLM global.",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "L'insert doit être fabriqué de manière additive pour intégrer des formes complexes et de manière soustractive pour garantir une haute précision dimensionnelle.",
+    "separation": "whole-parts"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique classique entre la complexité de forme accessible (12) et la précision de fabrication (29) est clairement identifiée et transposable dans la matrice d'Altshuller."
+  },
+  "https://doi.org/10.3390/ma15207079": {
+   "objectif_A": "réduire la masse de la pièce et la consommation de matière",
+   "action_X": "réduire la quantité de polymère injectée dans le moule",
+   "consequence_B": "l'apparition de retassures de surface dues au retrait volumique lors de la cristallisation",
+   "phrase": "Pour améliorer la masse de l'objet, il faudrait réduire la quantité de polymère injectée, mais faire cela détériore la forme et l'état de surface de la pièce.",
+   "probleme_generique": "L'allègement d'une pièce moulée par réduction de matière provoque des déformations géométriques de surface à la solidification.",
+   "improve": {
+    "id": 2,
+    "name": "Masse de l'objet stationnaire",
+    "reason": "L'objectif initial est de réduire le poids total de la pièce moulée en polypropylène.",
+    "confidence": 0.95
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "La réduction de matière entraîne la formation de retassures de surface qui altèrent la configuration géométrique de la pièce.",
+    "confidence": 0.9
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le matériau doit être dense pour éviter le retrait volumique et préserver la surface, et non-dense (poreux) pour être léger et économe en matière.",
+    "separation": "whole-parts"
+   },
+   "status": "A",
+   "status_reason": "La contradiction d'ingénierie classique entre la masse (2) et la forme/surface (12) est clairement établie avant l'invention et se mappe parfaitement sur la matrice 39x39."
+  },
+  "https://doi.org/10.3390/mi9120653": {
+   "objectif_A": "la précision de réplication des micro-structures de la lentille",
+   "action_X": "augmenter la pression de maintien dans le moule fermé",
+   "consequence_B": "la qualité géométrique et optique de la pièce (apparition de contraintes résiduelles, biréfringence et gauchissement)",
+   "phrase": "Pour améliorer la précision de réplication des micro-structures, il faudrait augmenter la pression de maintien, mais faire cela détériore la qualité géométrique et optique de la pièce en engendrant des contraintes et déformations.",
+   "probleme_generique": "L'augmentation de la pression d'empreinte indispensable au remplissage des micro-détails engendre des déformations et des contraintes internes inacceptables dans le matériau synthétique.",
+   "improve": {
+    "id": 29,
+    "name": "Précision de fabrication",
+    "reason": "Il s'agit de réduire l'écart entre les dimensions/formes des micro-structures fabriquées et le profil théorique requis pour la lentille.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles",
+    "reason": "La forte pression génère des effets indésirables internes et parasites (contraintes résiduelles, biréfringence optique, gauchissement).",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "La pression appliquée au polymère doit être forte pour empreindre les micro-structures et faible (ou uniforme) pour ne pas créer de contraintes internes et de gauchissement.",
+    "separation": "conditions"
+   },
+   "status": "A",
+   "status_reason": "Contradiction d'ingénierie classique entre l'augmentation de la pression pour la précision de moulage et l'apparition d'effets nuisibles structurels/optiques."
+  },
+  "https://doi.org/10.3390/polym15132841": {
+   "objectif_A": "la précision de la localisation et de l'amplitude des retassures dans la simulation numérique",
+   "action_X": "modéliser finement le comportement mécanique réel du cœur en transition de phase",
+   "consequence_B": "la complexité des calculs et la difficulté de suivi/surveillance des variables d'état locales du matériau",
+   "phrase": "Pour améliorer la précision de la mesure (précision du modèle), il faudrait modéliser finement le comportement mécanique local du cœur, mais cela augmente la complexité du contrôle et du calcul.",
+   "probleme_generique": "Augmenter la fidélité de la prédiction des déformations locales sans rendre la modélisation mathématique du comportement de la matière trop complexe à calculer.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "Capacité du modèle numérique à prédire sans écart les retassures réelles et leur localisation.",
+    "confidence": 0.8
+   },
+   "worsen": {
+    "id": 37,
+    "name": "Complexité du contrôle",
+    "reason": "Difficulté d'évaluer et de calculer la distribution spatio-temporelle des contraintes et déformations locales.",
+    "confidence": 0.6
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le cœur de la pièce dans la simulation doit être traité comme un fluide parfait (pour simplifier le comportement hydrostatique) et non comme un fluide parfait (état caoutchoutique) pour conserver la mémoire des déformations locales.",
+    "separation": "conditions"
+   },
+   "status": "B",
+   "status_reason": "La contradiction repose principalement sur le comportement dual (fluide vs caoutchoutique) attribué au cœur fondu dans le modèle. Le mapping sur la matrice 39x39 appliquée à un modèle de simulation numérique reste artificiel."
+  },
+  "https://doi.org/10.3390/polym9020077": {
+   "objectif_A": "l'efficacité d'évacuation de la chaleur durant la phase de refroidissement",
+   "action_X": "augmenter l'intensité du flux de refroidissement à travers les canaux droits",
+   "consequence_B": "l'apparition de gradients thermiques provoquant la déformation de la pièce",
+   "phrase": "Pour améliorer l'évacuation de la chaleur, il faudrait augmenter le flux de refroidissement, mais cela détériore la forme de la pièce en la déformant.",
+   "probleme_generique": "L'accélération du transfert thermique pour réduire le temps de cycle génère un refroidissement asymétrique qui altère la géométrie de la pièce moulée.",
+   "improve": {
+    "id": 17,
+    "name": "Température",
+    "reason": "Concerne la capacité à gérer l'état thermique et les échanges de chaleur du système pour refroidir la pièce.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "Le refroidissement non uniforme entraîne des déformations géométriques de la pièce moulée.",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le refroidissement doit être rapide pour minimiser le temps de cycle et lent/modéré pour éviter les contraintes thermiques et déformations.",
+    "separation": "conditions"
+   },
+   "status": "A",
+   "status_reason": "Contradiction d'ingénierie clairement identifiable entre l'échange thermique (17) et la stabilité géométrique/forme de la pièce (12)."
+  },
+  "https://doi.org/10.3390/s22072704": {
+   "objectif_A": "la précision de la prédiction de qualité des pièces injectées",
+   "action_X": "analyser un grand nombre de paramètres machine et collecter de grands volumes de données",
+   "consequence_B": "le temps de calcul nécessaire et la complexité du traitement des données",
+   "phrase": "Pour améliorer la précision de mesure, il faudrait analyser un grand volume de paramètres machine, mais faire cela détériore la perte de temps.",
+   "probleme_generique": "L'augmentation du nombre de paramètres analysés pour garantir la précision de la détection de qualité entraîne un temps de traitement des données trop important.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de mesure",
+    "reason": "L'objectif initial est d'évaluer et prédire correctement la qualité/conformité des pièces fabriquées.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 25,
+    "name": "Perte de temps",
+    "reason": "L'augmentation du volume de données et de paramètres à traiter nécessite un temps de calcul élevé.",
+    "confidence": 0.85
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le nombre de données/paramètres de réglage à analyser doit être grand pour assurer une prédiction précise, et petit pour limiter le temps de calcul.",
+    "separation": "whole-parts"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique s'exprime clairement entre la précision de mesure (28) et la perte de temps de calcul (25), couplée à une contradiction physique nette sur la quantité de paramètres analysés."
+  },
+  "https://doi.org/10.4995/jarte.2023.18810": {
+   "objectif_A": "la facilité de fabrication et le réglage individuel des différentes fonctions mécaniques",
+   "action_X": "diviser la tondeuse en un grand nombre de pièces distinctes et spécialisées",
+   "consequence_B": "le temps nécessaire à l'assemblage complet du dispositif",
+   "phrase": "Pour améliorer la facilité de fabrication de chaque fonction, il faudrait diviser la tondeuse en un grand nombre de pièces distinctes et spécialisées, mais faire cela détériore le temps nécessaire à l'assemblage.",
+   "probleme_generique": "Le découpage d'un mécanisme en pièces élémentaires simples à fabriquer individuellement augmente le temps et la complexité de son assemblage final.",
+   "improve": {
+    "id": 32,
+    "name": "Facilité de fabrication",
+    "reason": "La conception initiale cherche à simplifier l'usinage/moulage de chaque fonction en créant des sous-composants dédiés et simples.",
+    "confidence": 0.85
+   },
+   "worsen": {
+    "id": 25,
+    "name": "Perte de temps",
+    "reason": "La multiplication des pièces indépendantes augmente directement le temps requis pour manipuler et assembler le produit.",
+    "confidence": 0.9
+   },
+   "physical": {
+    "present": true,
+    "statement": "Le système mécanique doit contenir plusieurs pièces distinctes (pour séparer les fonctions et faciliter leur fabrication) et ne doit contenir qu'une seule pièce intégrée (pour annuler le temps d'assemblage).",
+    "separation": "whole-parts"
+   },
+   "status": "A",
+   "status_reason": "Le conflit initial s'exprime clairement entre la simplicité de fabrication des pièces séparées (32) et le temps perdu lors de l'assemblage (25)."
+  },
+  "https://dspace.lboro.ac.uk/2134/10338": {
+   "objectif_A": "l'évaluation précoce et précise de la moulabilité lors de la conception d'une pièce injectée",
+   "action_X": "consulter et vérifier manuellement l'ensemble des règles de procédé et contraintes d'outillage dispersées à chaque étape de conception",
+   "consequence_B": "la complexité de suivi et le risque d'omission d'informations clés augmentent fortement, ralentissant le processus de conception",
+   "phrase": "Pour améliorer la prise en compte des contraintes de moulabilité dès la conception, il faudrait vérifier manuellement toutes les contraintes du procédé à chaque étape, mais cela détériore la complexité de contrôle du processus de conception.",
+   "probleme_generique": "L'accès à une évaluation précise du procédé au cours de la conception nécessite des vérifications exhaustives complexes qui alourdissent et ralentissent le processus de contrôle.",
+   "improve": {
+    "id": 28,
+    "name": "Précision de la mesure",
+    "reason": "Capacité à évaluer correctement et précisément la moulabilité d'une pièce dès la phase de conception.",
+    "confidence": 0.6
+   },
+   "worsen": {
+    "id": 37,
+    "name": "Complexité du contrôle",
+    "reason": "La recherche et la vérification manuelle d'informations dispersées rendent le suivi du processus de conception difficile et sujet aux erreurs.",
+    "confidence": 0.6
+   },
+   "physical": {
+    "present": false,
+    "statement": "Aucune contradiction physique sur un élément matériel unique n'est directement formulée.",
+    "separation": "none"
+   },
+   "status": "C",
+   "status_reason": "Le problème décrit relève de la gestion de l'information et de l'ingénierie logicielle (DFM) plutôt d'un conflit physique/technique irréductible entre deux grandeurs physiques mesurables."
+  },
+  "https://scholar.uwindsor.ca/etd/5355": {
+   "objectif_A": "Réduire la masse de la structure de siège pour diminuer la consommation de carburant",
+   "action_X": "Réduire la quantité de matière ou l'épaisseur de l'armature métallique",
+   "consequence_B": "Diminuer la résistance mécanique et la rigidité de la structure du siège",
+   "phrase": "Pour améliorer la masse de l'objet stationnaire, il faudrait réduire l'épaisseur de la structure, mais cela détériore la résistance.",
+   "probleme_generique": "Alléger une structure porteuse en réduisant sa section détériore sa tenue mécanique sous charge.",
+   "improve": {
+    "id": 2,
+    "name": "Masse de l'objet stationnaire",
+    "reason": "L'objectif initial est de réduire le poids d'un composant fixe du véhicule (dossier de siège) pour abaisser la consommation.",
+    "confidence": 0.95
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "Une réduction conventionnelle de matière sur l'armature affaiblit sa capacité à résister aux contraintes mécaniques et aux chocs.",
+    "confidence": 0.95
+   },
+   "physical": {
+    "present": true,
+    "statement": "L'armature du siège doit être dense/épaisse pour assurer la rigidité mécanique, et non dense/fine pour être légère.",
+    "separation": "whole-parts"
+   },
+   "status": "A",
+   "status_reason": "La contradiction technique classique entre masse (paramètre 2) et résistance (paramètre 14) s'applique directement sans ambiguïté."
+  }
+ },
+ "SINGLETONS": [
+  {
+   "article_id": "http://hdl.handle.net/1807/43608",
+   "why_unique": "Problématique unique d'isolation acoustique nécessitant de la masse/épaisseur supplémentaire au détriment de la masse globale [30, 2]."
+  },
+  {
+   "article_id": "https://doi.org/10.1002/pen.760351005",
+   "why_unique": "Conflit spécifique lié à la réticulation et la variation volumique (retrait) en polymérisation opposée à la tenue mécanique [12, 14]."
+  },
+  {
+   "article_id": "https://doi.org/10.1029/95wr00171",
+   "why_unique": "Problème d'opacité physique d'un matériau naturel réel empêchant la mesure par visualisation [28, 24]."
+  },
+  {
+   "article_id": "https://doi.org/10.1080/00207540110091875",
+   "why_unique": "Compromis d'angle de dépouille spécifique à la stéréolithographie impactant la démoulabilité vs précision dimensionnelle [14, 29]."
+  },
+  {
+   "article_id": "https://doi.org/10.1080/03602559708000661",
+   "why_unique": "Gestion des variations d'épaisseur de paroi pour compense le gauchissement/retrait local [30, 12]."
+  },
+  {
+   "article_id": "https://doi.org/10.18725/oparu-2603",
+   "why_unique": "Ingénierie métabolique biologique opposant le rendement de conversion aux réactions parasites [23, 31]."
+  },
+  {
+   "article_id": "https://doi.org/10.31390/gradschool_dissertations.2083",
+   "why_unique": "Actionnement électro-hydrodynamique/magnétique d'un microfluide générant de l'électrolyse indésirable [10, 31]."
+  },
+  {
+   "article_id": "https://doi.org/10.3390/designs7030068",
+   "why_unique": "Compromis spécifique à la fabrication additive SLM entre la complexité géométrique interne et l'état de surface/précision [12, 29]."
+  },
+  {
+   "article_id": "https://doi.org/10.3390/mi9120653",
+   "why_unique": "Conflit de micro-moulage par injection où la surpression de réplication génère des contraintes optiques et déformations [29, 31]."
+  }
+ ]
+}
