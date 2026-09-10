@@ -59,6 +59,14 @@ def main():
             except Exception:
                 pass
     todo = [p for p in papers if (p.get("doi") or p.get("title") or "").lower().strip() not in deja]
+    # --exclude ecremage_{disc}.json : les articles ecartes par l'ecremage (revues,
+    # etudes parametriques, hors discipline) ne passent pas par l'analyse payante
+    excl = _arg("--exclude", None)
+    if excl:
+        ec = json.load(io.open(ROOT / "scripts" / excl, encoding="utf-8"))
+        avant = len(todo)
+        todo = [p for p in todo if (ec.get((p.get("doi") or p.get("title") or "").lower().strip()) or {}).get("keep", True)]
+        print(f"ecremage : {avant - len(todo)} articles ecartes avant analyse", flush=True)
     if LIMIT:
         todo = todo[:LIMIT]
     print(f"{DISC} : {len(papers)} articles, {len(deja)} déjà analysés, {len(todo)} à traiter "

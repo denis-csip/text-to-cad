@@ -68,6 +68,13 @@ porte reellement sur cette grandeur : 25 perte de temps, 32 fabricabilite,
 36 complexite du dispositif, 37 complexite du controle, 39 productivite.
 INTERDIT : « solution plus complexe » -> 36 ; « difficile a fabriquer » -> 32 ;
 « plus de calcul » -> 37 ; « plus rapide » -> 39.
+NUANCE (calibree) : 25 est LEGITIME quand le temps EST l'activite requise du
+conflit initial (duree de refroidissement, temps d'assemblage, temps de cycle
+d'un procede physique) ; il est ILLEGITIME pour du temps de calcul, de
+simulation ou de collecte de donnees.
+AMBIGUITE : quand la distance semantique d'un parametre est MEDIUM, donne aussi
+le MEILLEUR AUTRE CANDIDAT dans "improve_alt" / "worsen_alt" ({id, name,
+reason}) — l'expert tranchera ; ne choisis pas au hasard.
 
 Contradiction PHYSIQUE (separee) : « un meme element doit etre A et non-A »
 (ex. moule CHAUD au remplissage ET FROID a la solidification = separation dans
@@ -113,8 +120,10 @@ Reponds UNIQUEMENT en JSON :
 {"objectif_A": "...", "action_X": "...", "consequence_B": "...",
  "phrase": "Pour ameliorer ..., il faudrait ..., mais ... deteriore ...",
  "probleme_generique": "1 phrase decrivant le conflit d'ingenierie, SANS nommer la technologie de solution",
- "improve": {"id": n|null, "name": "...", "reason": "...", "confidence": 0-1},
- "worsen":  {"id": n|null, "name": "...", "reason": "...", "confidence": 0-1},
+ "improve": {"id": n|null, "name": "...", "reason": "...", "confidence": 0-1, "semantic_distance": "LOW|MEDIUM|HIGH"},
+ "worsen":  {"id": n|null, "name": "...", "reason": "...", "confidence": 0-1, "semantic_distance": "LOW|MEDIUM|HIGH"},
+ "improve_alt": {"id": n, "name": "...", "reason": "..."} | null,
+ "worsen_alt":  {"id": n, "name": "...", "reason": "..."} | null,
  "physical": {"present": bool, "statement": "...", "separation": "time|space|conditions|whole-parts|none"},
  "status": "A|B|C|D", "status_reason": "..."}"""
 
@@ -172,11 +181,18 @@ def main():
         r = json.loads(l)
         p = r.get("paper") or {}
         recs[r.get("article_id") or p.get("doi") or p.get("url") or p.get("title")] = r
-    old = json.load(io.open(ROOT / "scripts" / f"matrice_empirique_{DISC}.json", encoding="utf-8"))
-    old_ass = old["MATRIX_ASSIGNMENTS"]
-    ids = sorted({e["article_id"] for e in old_ass})
-    old_cells = {e["article_id"]: (e["improve_parameter"]["id"], e["worsening_parameter"]["id"])
-                 for e in old_ass if e["assignment_status"] == "validated"}
+    # --all : TOUTES les analyses exploitables (mode corpus) ; sinon les articles
+    # affectes par la matrice deterministe du pilote (mode historique).
+    if "--all" in sys.argv:
+        ids = sorted(a for a, r in recs.items() if (r.get("analyse") or {}).get("exploitable"))
+        old_cells = {}
+    else:
+        old = json.load(io.open(ROOT / "scripts" / f"matrice_empirique_{DISC}.json", encoding="utf-8"))
+        old_ass = old["MATRIX_ASSIGNMENTS"]
+        ids = sorted({e["article_id"] for e in old_ass})
+        old_cells = {e["article_id"]: (e["improve_parameter"]["id"], e["worsening_parameter"]["id"])
+                     for e in old_ass if e["assignment_status"] == "validated"}
+    OUT_SUFFIX = (sys.argv[sys.argv.index("--out") + 1] if "--out" in sys.argv else "")
     print(f"{DISC} : {len(ids)} articles affectes a reconstruire | plafond {CAP:.2f} $", flush=True)
     etat = {"cout": 0.0, "stop": False, "n": 0}
     lock = threading.Lock()
@@ -290,12 +306,25 @@ def main():
                          "OVERLAP_ANY": sorted({k for k in list(dom) + list(sec) if k in hist}),
                          "CONFIDENCE": ("HIGH" if status in ("STRONG_EMPIRICAL_CELL", "SUPPORTED") else "MEDIUM" if status == "EMERGING" else "LOW"),
                          "STATUS": status})
+    # GARDE ANTI-INVERSION : si une meme paire apparait dans les deux sens
+    # [i,j] et [j,i], on force l'orientation MAJORITAIRE (et on le journalise).
+    inversions = []
+    for (i, j) in list(cells.keys()):
+        if (j, i) in cells and i < j:
+            a, b = cells[(i, j)], cells[(j, i)]
+            keep, drop = ((i, j), (j, i)) if len(a) >= len(b) else ((j, i), (i, j))
+            for aid in cells[drop]:
+                final[aid]["cell"] = keep; final[aid]["inversion_corrigee"] = True
+            cells[keep] = cells[keep] + cells[drop]; del cells[drop]
+            inversions.append({"garde": list(keep), "ecarte": list(drop), "articles_deplaces": len(cells[keep]) - len(a if keep == (i, j) else b)})
     statuts = Counter(v["status"] for v in final.values())
     summary = {"ancien_articles_affectes": len(old_cells), "anciennes_cellules": len(set(old_cells.values())),
                "nouveaux_articles_affectes": sum(1 for v in final.values() if v["status"] == "A" and v["cell"]),
                "nouvelles_cellules": len(cells),
                "physical_contradiction_only": statuts.get("B", 0), "no_technical_contradiction": statuts.get("C", 0),
-               "not_enough_evidence": statuts.get("D", 0), "articles_sans_reponse_llm": len(ids) - len(stage1),
+               "not_enough_evidence": statuts.get("D", 0),
+               "valid_problem_no_altshuller_cell": statuts.get("E", 0), "excluded_out_of_discipline": statuts.get("F", 0),
+               "inversions_corrigees": inversions, "articles_sans_reponse_llm": len(ids) - len(stage1),
                "familles": len(families), "fusions": sum(len(f.get("merged_from_cells") or []) for f in families),
                "cout_reel": round(etat["cout"], 4), "duree_s": round(time.time() - t0)}
     fam_out = [{"FAMILY_ID": f.get("family_id"), "GENERIC_PROBLEM": f.get("generic_problem"),
@@ -309,7 +338,7 @@ def main():
     out = {"RECLASSIFICATION_SUMMARY": summary, "NORMALIZED_CONTRADICTION_FAMILIES": fam_out,
            "COHERENCE_WARNINGS": stage2.get("coherence_warnings") or [], "KEPT_DISTINCT": stage2.get("kept_distinct") or [],
            "PROPOSED_EMPIRICAL_CELLS": proposed, "PER_ARTICLE": final, "STAGE1": stage1}
-    (ROOT / "scripts" / f"reconstruction_{DISC}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    (ROOT / "scripts" / f"reconstruction_{DISC}{OUT_SUFFIX}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False, indent=1))
 
 

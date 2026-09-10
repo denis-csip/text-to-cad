@@ -1,0 +1,802 @@
+{
+ "SUMMARY": {
+  "articles_compares": 42,
+  "stables": 4,
+  "instables": 38,
+  "taux_stabilite": 10,
+  "statuts_stables": {
+   "A": 4
+  },
+  "cellules_stables": 3,
+  "cellules_par_statut": {
+   "EMERGING": 1,
+   "ANECDOTAL": 2
+  },
+  "questions_expert": 0
+ },
+ "STABLE_CELLS": [
+  {
+   "CELL": [
+    2,
+    12
+   ],
+   "improve": "Poids de l'objet stationnaire",
+   "worsening": "Forme",
+   "N_ARTICLES": 2,
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY"
+   ],
+   "ARTICLE_IDS": [
+    "https://doi.org/10.1016/j.promfg.2018.10.128",
+    "https://doi.org/10.3390/ma15207079"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P31 Matériaux poreux": 2
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P35 Modification des paramètres physiques/chimiques": 2
+   },
+   "HISTORICAL_PRINCIPLES": [
+    13,
+    10,
+    29,
+    14
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "STATUS": "EMERGING"
+  },
+  {
+   "CELL": [
+    29,
+    31
+   ],
+   "improve": "Précision de la fabrication",
+   "worsening": "Effets secondaires nuisibles",
+   "N_ARTICLES": 1,
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "ART:https://doi.org/10.3390/mi9120653"
+   ],
+   "ARTICLE_IDS": [
+    "https://doi.org/10.3390/mi9120653"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P15 Dynamisme": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {
+    "P35 Modification des paramètres physiques/chimiques": 1
+   },
+   "HISTORICAL_PRINCIPLES": [
+    4,
+    17,
+    34,
+    26
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "STATUS": "ANECDOTAL"
+  },
+  {
+   "CELL": [
+    2,
+    14
+   ],
+   "improve": "Poids de l'objet stationnaire",
+   "worsening": "Résistance",
+   "N_ARTICLES": 1,
+   "N_PROBLEM_FAMILIES": 1,
+   "families": [
+    "FAMILY_LIGHTWEIGHT_STRUCTURE_STRENGTH"
+   ],
+   "ARTICLE_IDS": [
+    "https://scholar.uwindsor.ca/etd/5355"
+   ],
+   "DOMINANT_EMPIRICAL_PRINCIPLES": {
+    "P40 Matériaux composites": 1
+   },
+   "SECONDARY_EMPIRICAL_DISTRIBUTION": {},
+   "HISTORICAL_PRINCIPLES": [
+    28,
+    2,
+    10,
+    27
+   ],
+   "OVERLAP_DOMINANT": [],
+   "OVERLAP_ANY": [],
+   "STATUS": "ANECDOTAL"
+  }
+ ],
+ "QUESTIONS_EXPERT": [],
+ "UNSTABLE_ARTICLES": {
+  "http://etheses.bham.ac.uk/3184/2/collins_11_PhD.pdf": {
+   "passe_1": [
+    "A",
+    [
+     2,
+     14
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     14,
+     12
+    ]
+   ],
+   "titre": "Construction of novel tissue engineering scaffolds using supercritical fluid gas foaming"
+  },
+  "http://hdl.handle.net/10106/11909": {
+   "passe_1": [
+    "A",
+    [
+     32,
+     25
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     29,
+     25
+    ]
+   ],
+   "titre": "Design And Analysis Of A Compression Molded Carbon Composite Wheel Center"
+  },
+  "http://hdl.handle.net/1807/43608": {
+   "passe_1": [
+    "A",
+    [
+     30,
+     2
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     31,
+     2
+    ]
+   ],
+   "titre": "Development of Innovative Gas-assisted Foam Injection Molding Technology"
+  },
+  "http://hdl.handle.net/1822/173": {
+   "passe_1": [
+    "A",
+    [
+     28,
+     37
+    ]
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "Shrinkage and ejection forces in injection moulded products"
+  },
+  "http://hdl.handle.net/1903/15172": {
+   "passe_1": [
+    "VALID_MATRIX_CELL",
+    null
+   ],
+   "passe_2": [
+    "A",
+    [
+     17,
+     30
+    ]
+   ],
+   "titre": "Thermal and Manufacturing Design of Polymer Composite Heat Exchangers"
+  },
+  "https://doi.org/10.1002/aidi.202500107": {
+   "passe_1": [
+    "PHYSICAL_CONTRADICTION_ONLY",
+    null
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "Toward Knowledge‐Guided AI for Inverse Design in Manufacturing: A Perspective on Domain, P"
+  },
+  "https://doi.org/10.1002/mawe.202300157": {
+   "passe_1": [
+    "A",
+    [
+     28,
+     25
+    ]
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "Using Bayesian optimization for warpage compensation in injection molding"
+  },
+  "https://doi.org/10.1002/pen.760351005": {
+   "passe_1": [
+    "A",
+    [
+     12,
+     14
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     8,
+     14
+    ]
+   ],
+   "titre": "Dilatometric study of low profile unsaturated polyester resins"
+  },
+  "https://doi.org/10.1007/s00170-020-06511-3": {
+   "passe_1": [
+    "A",
+    [
+     28,
+     25
+    ]
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "Induced network-based transfer learning in injection molding for process modelling and opt"
+  },
+  "https://doi.org/10.1007/s10163-022-01588-2": {
+   "passe_1": [
+    "A",
+    [
+     26,
+     14
+    ]
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "FDM-based additive manufacturing of recycled thermoplastics and associated composites"
+  },
+  "https://doi.org/10.1016/j.ijheatmasstransfer.2021.121082": {
+   "passe_1": [
+    "A",
+    [
+     17,
+     14
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     25,
+     14
+    ]
+   ],
+   "titre": "Design and fabrication of conformal cooling channels in molds: Review and progress updates"
+  },
+  "https://doi.org/10.1016/j.ijlmm.2021.11.005": {
+   "passe_1": [
+    "A",
+    [
+     2,
+     12
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     2,
+     31
+    ]
+   ],
+   "titre": "Production of microcellular lightweight components with improved surface finish by technol"
+  },
+  "https://doi.org/10.1016/j.matdes.2020.109147": {
+   "passe_1": [
+    "A",
+    [
+     17,
+     12
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     25,
+     14
+    ]
+   ],
+   "titre": "Design and additive manufacturing of novel conformal cooling molds"
+  },
+  "https://doi.org/10.1016/j.matdes.2021.109576": {
+   "passe_1": [
+    "A",
+    [
+     26,
+     14
+    ]
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "Learnings about design from recycling by using post-consumer polypropylene as a core layer"
+  },
+  "https://doi.org/10.1016/j.promfg.2017.07.020": {
+   "passe_1": [
+    "A",
+    [
+     17,
+     14
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     25,
+     14
+    ]
+   ],
+   "titre": "Development of a Smart Plastic Injection Mold with Conformal Cooling Channels"
+  },
+  "https://doi.org/10.1029/95wr00171": {
+   "passe_1": [
+    "A",
+    [
+     28,
+     24
+    ]
+   ],
+   "passe_2": [
+    "PHYSICAL_CONTRADICTION_ONLY",
+    null
+   ],
+   "titre": "Two‐Phase Flow Visualization and Relative Permeability Measurement in Natural Rough‐Walled"
+  },
+  "https://doi.org/10.1063/1.5084861": {
+   "passe_1": [
+    "A",
+    [
+     17,
+     14
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     25,
+     14
+    ]
+   ],
+   "titre": "Experimental analysis of conformal cooling in SLM produced injection moulds: Effects on pr"
+  },
+  "https://doi.org/10.1080/00207540110091875": {
+   "passe_1": [
+    "A",
+    [
+     14,
+     29
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     14,
+     12
+    ]
+   ],
+   "titre": "Layer thickness and draft angle selection for stereolithography injection mould tooling"
+  },
+  "https://doi.org/10.1080/03602559708000661": {
+   "passe_1": [
+    "A",
+    [
+     30,
+     12
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     12,
+     30
+    ]
+   ],
+   "titre": "Variation of Part Wall Thicknesses to Reduce Warpage of Injection-Molded Part: Robust Desi"
+  },
+  "https://doi.org/10.1088/0960-1317/17/6/r02": {
+   "passe_1": [
+    "VALID_MATRIX_CELL",
+    null
+   ],
+   "passe_2": [
+    "A",
+    [
+     29,
+     25
+    ]
+   ],
+   "titre": "Microinjection molding of thermoplastic polymers: a review"
+  },
+  "https://doi.org/10.1115/cie1995-0804": {
+   "passe_1": [
+    "A",
+    [
+     32,
+     25
+    ]
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "A Systematic Approach to Support Design for Manufacturability in Injection Molding and Die"
+  },
+  "https://doi.org/10.1155/2014/968484": {
+   "passe_1": [
+    "A",
+    [
+     17,
+     12
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     25,
+     14
+    ]
+   ],
+   "titre": "Cycle Time Reduction in Injection Molding Process by Selection of Robust Cooling Channel D"
+  },
+  "https://doi.org/10.1155/2019/3720127": {
+   "passe_1": [
+    "A",
+    [
+     28,
+     37
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     28,
+     14
+    ]
+   ],
+   "titre": "Quality Indexes Design for Online Monitoring Polymer Injection Molding"
+  },
+  "https://doi.org/10.1590/0104-1428.2047": {
+   "passe_1": [
+    "A",
+    [
+     17,
+     12
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     25,
+     14
+    ]
+   ],
+   "titre": "Design of conformal cooling for plastic injection moulding by heat transfer simulation"
+  },
+  "https://doi.org/10.18494/sam.2019.2357": {
+   "passe_1": [
+    "C",
+    null
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "Development of Mold for Demolding Resistance Measurement in Polymer Injection Molding"
+  },
+  "https://doi.org/10.18725/oparu-2603": {
+   "passe_1": [
+    "A",
+    [
+     23,
+     31
+    ]
+   ],
+   "passe_2": [
+    "F",
+    null
+   ],
+   "titre": "Metabolic engineering of the Colombian strain Clostridium sp. IBUN 158B in order to improv"
+  },
+  "https://doi.org/10.21203/rs.3.rs-3081027/v1": {
+   "passe_1": [
+    "A",
+    [
+     17,
+     12
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     25,
+     14
+    ]
+   ],
+   "titre": "Generative design of conformal cooling channels for hybrid-manufactured injection moulding"
+  },
+  "https://doi.org/10.21741/9781644903131-294": {
+   "passe_1": [
+    "A_VALID_MATRIX_CELL",
+    null
+   ],
+   "passe_2": [
+    "A",
+    [
+     14,
+     12
+    ]
+   ],
+   "titre": "Analysis of the effect of draft angle and surface roughness on ejection forces in micro in"
+  },
+  "https://doi.org/10.31390/gradschool_dissertations.2083": {
+   "passe_1": [
+    "A",
+    [
+     10,
+     31
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     9,
+     31
+    ]
+   ],
+   "titre": "Development of micropump for microfluidic applications"
+  },
+  "https://doi.org/10.3389/fmats.2020.00027": {
+   "passe_1": [
+    "C",
+    null
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "Analysis of the Thermoplastic Composite Overmolding Process: Interface Strength"
+  },
+  "https://doi.org/10.3390/app13137437": {
+   "passe_1": [
+    "A",
+    [
+     17,
+     14
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     25,
+     14
+    ]
+   ],
+   "titre": "Design and Optimization of Conformal Cooling Channels for Increasing Cooling Efficiency in"
+  },
+  "https://doi.org/10.3390/app8122567": {
+   "passe_1": [
+    "A",
+    [
+     17,
+     14
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     25,
+     14
+    ]
+   ],
+   "titre": "A Thermomechanical Analysis of Conformal Cooling Channels in 3D Printed Plastic Injection "
+  },
+  "https://doi.org/10.3390/designs7030068": {
+   "passe_1": [
+    "A",
+    [
+     12,
+     29
+    ]
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "A Novel Feature-Based Manufacturability Assessment System for Evaluating Selective Laser M"
+  },
+  "https://doi.org/10.3390/polym15132841": {
+   "passe_1": [
+    "B",
+    null
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "Thermoelasticity of Injection-Molded Parts"
+  },
+  "https://doi.org/10.3390/polym9020077": {
+   "passe_1": [
+    "A",
+    [
+     17,
+     12
+    ]
+   ],
+   "passe_2": [
+    "A",
+    [
+     25,
+     14
+    ]
+   ],
+   "titre": "Enhanced Injection Molding Simulation of Advanced Injection Molds"
+  },
+  "https://doi.org/10.3390/s22072704": {
+   "passe_1": [
+    "A",
+    [
+     28,
+     25
+    ]
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "Machine Learning in Injection Molding: An Industry 4.0 Method of Quality Prediction"
+  },
+  "https://doi.org/10.4995/jarte.2023.18810": {
+   "passe_1": [
+    "A",
+    [
+     32,
+     25
+    ]
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "Re-designing of hair clipper using design for manufacturing and assembly"
+  },
+  "https://dspace.lboro.ac.uk/2134/10338": {
+   "passe_1": [
+    "C",
+    null
+   ],
+   "passe_2": [
+    "E",
+    null
+   ],
+   "titre": "A manufacturing model to capture injection moulding process capabilities to support design"
+  }
+ },
+ "PER_ARTICLE": {
+  "https://doi.org/10.1016/j.promfg.2018.10.128": {
+   "status": "A",
+   "cell": [
+    2,
+    12
+   ],
+   "family": "FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY",
+   "phrase": "Pour améliorer la quantité de matière consommée, il faudrait réduire la quantité de polymère injecté, mais cela détériore la précision dimensionnelle de la pièce moulée.",
+   "probleme_generique": "La diminution de la quantité de matière injectée pour alléger la structure provoque des déformations géométriques et des retassures lors du refroidissement.",
+   "physical": {
+    "present": true,
+    "statement": "La quantité de matière dans la cavité doit être faible pour alléger la pièce, et élevée pour maintenir la pression et éviter le retrait/gauchissement.",
+    "separation": "conditions"
+   },
+   "status_reason": "Contradiction d'ingénierie clairement identifiable et transposable sans ambiguïté sur la matrice TRIZ (26 vs 29).",
+   "improve": {
+    "id": 26,
+    "name": "Quantité de substance/matière",
+    "reason": "L'objectif initial est de réduire la quantité de matière plastique consommée pour fabriquer la palette.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 29,
+    "name": "Précision de fabrication",
+    "reason": "La réduction de matière/pression crée des écarts géométriques inacceptables par rapport aux spécifications (gauchissement et retassures).",
+    "confidence": 0.85
+   }
+  },
+  "https://doi.org/10.3390/ma15207079": {
+   "status": "A",
+   "cell": [
+    2,
+    12
+   ],
+   "family": "FAMILY_LIGHTWEIGHTING_SURFACE_QUALITY",
+   "phrase": "Pour améliorer la masse de l'objet, il faudrait réduire la quantité de polymère injectée, mais faire cela détériore la forme et l'état de surface de la pièce.",
+   "probleme_generique": "L'allègement d'une pièce moulée par réduction de matière provoque des déformations géométriques de surface à la solidification.",
+   "physical": {
+    "present": true,
+    "statement": "Le matériau doit être dense pour éviter le retrait volumique et préserver la surface, et non-dense (poreux) pour être léger et économe en matière.",
+    "separation": "whole-parts"
+   },
+   "status_reason": "La contradiction d'ingénierie classique entre la masse (2) et la forme/surface (12) est clairement établie avant l'invention et se mappe parfaitement sur la matrice 39x39.",
+   "improve": {
+    "id": 2,
+    "name": "Masse de l'objet stationnaire",
+    "reason": "L'objectif initial est de réduire le poids total de la pièce moulée en polypropylène.",
+    "confidence": 0.95
+   },
+   "worsen": {
+    "id": 12,
+    "name": "Forme",
+    "reason": "La réduction de matière entraîne la formation de retassures de surface qui altèrent la configuration géométrique de la pièce.",
+    "confidence": 0.9
+   }
+  },
+  "https://doi.org/10.3390/mi9120653": {
+   "status": "A",
+   "cell": [
+    29,
+    31
+   ],
+   "family": null,
+   "phrase": "Pour améliorer la précision de réplication des micro-structures, il faudrait augmenter la pression de maintien, mais faire cela détériore la qualité géométrique et optique de la pièce en engendrant des contraintes et déformations.",
+   "probleme_generique": "L'augmentation de la pression d'empreinte indispensable au remplissage des micro-détails engendre des déformations et des contraintes internes inacceptables dans le matériau synthétique.",
+   "physical": {
+    "present": true,
+    "statement": "La pression appliquée au polymère doit être forte pour empreindre les micro-structures et faible (ou uniforme) pour ne pas créer de contraintes internes et de gauchissement.",
+    "separation": "conditions"
+   },
+   "status_reason": "Contradiction d'ingénierie classique entre l'augmentation de la pression pour la précision de moulage et l'apparition d'effets nuisibles structurels/optiques.",
+   "improve": {
+    "id": 29,
+    "name": "Précision de fabrication",
+    "reason": "Il s'agit de réduire l'écart entre les dimensions/formes des micro-structures fabriquées et le profil théorique requis pour la lentille.",
+    "confidence": 0.9
+   },
+   "worsen": {
+    "id": 31,
+    "name": "Effets secondaires nuisibles",
+    "reason": "La forte pression génère des effets indésirables internes et parasites (contraintes résiduelles, biréfringence optique, gauchissement).",
+    "confidence": 0.85
+   }
+  },
+  "https://scholar.uwindsor.ca/etd/5355": {
+   "status": "A",
+   "cell": [
+    2,
+    14
+   ],
+   "family": "FAMILY_LIGHTWEIGHT_STRUCTURE_STRENGTH",
+   "phrase": "Pour améliorer la masse de l'objet stationnaire, il faudrait réduire l'épaisseur de la structure, mais cela détériore la résistance.",
+   "probleme_generique": "Alléger une structure porteuse en réduisant sa section détériore sa tenue mécanique sous charge.",
+   "physical": {
+    "present": true,
+    "statement": "L'armature du siège doit être dense/épaisse pour assurer la rigidité mécanique, et non dense/fine pour être légère.",
+    "separation": "whole-parts"
+   },
+   "status_reason": "La contradiction technique classique entre masse (paramètre 2) et résistance (paramètre 14) s'applique directement sans ambiguïté.",
+   "improve": {
+    "id": 2,
+    "name": "Masse de l'objet stationnaire",
+    "reason": "L'objectif initial est de réduire le poids d'un composant fixe du véhicule (dossier de siège) pour abaisser la consommation.",
+    "confidence": 0.95
+   },
+   "worsen": {
+    "id": 14,
+    "name": "Résistance",
+    "reason": "Une réduction conventionnelle de matière sur l'armature affaiblit sa capacité à résister aux contraintes mécaniques et aux chocs.",
+    "confidence": 0.95
+   }
+  }
+ }
+}
